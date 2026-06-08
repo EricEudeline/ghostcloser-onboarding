@@ -61,10 +61,11 @@ body {
   font-size: 13px;
   font-weight: 500;
   color: var(--success);
-  margin-bottom: 2rem;
+  margin: 0 auto 2rem;
 }
 .ghost-icon {
-  margin: 0 auto 1.5rem;
+  display: block;
+  margin: 0 auto 1.25rem;
   width: 80px;
   height: 80px;
 }
@@ -175,28 +176,11 @@ h1 em { font-style: italic; color: var(--violet-light); }
 <body>
 <div class="card">
 
+  <img src="https://raw.githubusercontent.com/EricEudeline/ghostcloser-onboarding/main/icon.png" class="ghost-icon" alt="GhostCloser" />
+
   <div class="success-badge">
     ✓ Paiement confirmé
   </div>
-
-  <svg class="ghost-icon" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="80" height="80" rx="20" fill="#1a1828"/>
-    <rect width="80" height="80" rx="20" fill="none" stroke="#7c6dfa" stroke-width="1" stroke-opacity="0.3"/>
-    <defs>
-      <radialGradient id="gg" cx="50%" cy="40%" r="55%">
-        <stop offset="0%" stop-color="#ffffff"/>
-        <stop offset="100%" stop-color="#ddd8ff"/>
-      </radialGradient>
-    </defs>
-    <path d="M40 12C28 12 19 21 19 33L19 62L25 57L31 62L37 57L40 62L43 57L49 62L55 57L61 62L61 33C61 21 52 12 40 12Z" fill="url(#gg)"/>
-    <circle cx="33" cy="31" r="3.5" fill="#1a1628"/>
-    <circle cx="47" cy="31" r="3.5" fill="#1a1628"/>
-    <rect x="27" y="41" width="3.5" height="9" rx="1.75" fill="#7c6dfa"/>
-    <rect x="33" y="37" width="3.5" height="17" rx="1.75" fill="#8b7dff"/>
-    <rect x="39" y="43" width="3.5" height="6" rx="1.75" fill="#7c6dfa"/>
-    <rect x="45" y="37" width="3.5" height="17" rx="1.75" fill="#8b7dff"/>
-    <rect x="51" y="41" width="3.5" height="9" rx="1.75" fill="#7c6dfa"/>
-  </svg>
 
   <h1>Bienvenue dans<br><em>GhostCloser.</em></h1>
   <p class="subtitle">Ton abonnement est actif. Suis les 3 étapes ci-dessous pour être opérationnel en 15 minutes.</p>
