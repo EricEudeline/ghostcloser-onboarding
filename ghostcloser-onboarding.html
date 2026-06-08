@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GhostCloser — Guide d'installation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #16161f;
+    --violet: #7c6dfa;
+    --violet-dim: rgba(124,109,250,0.15);
+    --violet-glow: rgba(124,109,250,0.08);
+    --white: #f4f3ff;
+    --muted: #8887a0;
+    --border: rgba(124,109,250,0.2);
+    --border-subtle: rgba(255,255,255,0.07);
+    --success: #34d399;
+    --warning: #fbbf24;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── LAYOUT ── */
+  .wrapper {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 5rem 0 4rem;
+    border-bottom: 1px solid var(--border-subtle);
+    margin-bottom: 4rem;
+  }
+
+  .ghost-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--violet-dim);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #b8b0ff;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .ghost-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--white);
+    margin-bottom: 1.25rem;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: #b8b0ff;
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 540px;
+    line-height: 1.65;
+  }
+
+  .hero-duration {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 2rem;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); display: inline-block; }
+
+  /* ── PROGRESS NAV ── */
+  .steps-nav {
+    display: flex;
+    gap: 0;
+    background: var(--bg2);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+    padding: 6px;
+    margin-bottom: 3.5rem;
+    overflow-x: auto;
+  }
+
+  .step-pill {
+    flex: 1;
+    min-width: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 8px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-align: center;
+    border: none;
+    background: transparent;
+  }
+
+  .step-pill:hover { background: var(--bg3); color: var(--white); }
+
+  .step-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--bg3);
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 4rem;
+    scroll-margin-top: 2rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .section-num {
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--violet-dim);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--violet);
+    margin-top: 4px;
+  }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.2;
+  }
+
+  .section-subtitle {
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* ── STEPS ── */
+  .steps { display: flex; flex-direction: column; gap: 1rem; }
+
+  .step {
+    background: var(--bg2);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    transition: border-color 0.2s;
+  }
+
+  .step:hover { border-color: var(--border); }
+
+  .step-circle {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--violet);
+    margin-top: 2px;
+  }
+
+  .step-body { flex: 1; }
+
+  .step-label {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .step-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── CALLOUTS ── */
+  .callout {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 1rem 0;
+  }
+
+  .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+  .callout.info {
+    background: rgba(124,109,250,0.08);
+    border: 1px solid rgba(124,109,250,0.2);
+    color: #c4beff;
+  }
+
+  .callout.warning {
+    background: rgba(251,191,36,0.08);
+    border: 1px solid rgba(251,191,36,0.2);
+    color: #fde68a;
+  }
+
+  .callout.success {
+    background: rgba(52,211,153,0.08);
+    border: 1px solid rgba(52,211,153,0.2);
+    color: #6ee7b7;
+  }
+
+  /* ── CODE / TECHNICAL ── */
+  .code-block {
+    background: #0d0d15;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: #b8b0ff;
+    margin: 0.75rem 0;
+    position: relative;
+    overflow-x: auto;
+  }
+
+  /* ── VISUAL DIAGRAM ── */
+  .audio-diagram {
+    background: var(--bg2);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+    padding: 2rem;
+    margin: 1.5rem 0;
+  }
+
+  .diag-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .diag-box {
+    background: var(--bg3);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--white);
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .diag-box.violet {
+    background: var(--violet-dim);
+    border-color: var(--border);
+    color: #c4beff;
+  }
+
+  .diag-arrow {
+    color: var(--muted);
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .diag-label {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 1rem;
+    font-style: italic;
+  }
+
+  /* ── SETTINGS GRID ── */
+  .settings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    margin: 1.5rem 0;
+  }
+
+  .setting-card {
+    background: var(--bg2);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.1rem;
+    transition: border-color 0.2s;
+  }
+
+  .setting-card:hover { border-color: var(--border); }
+
+  .setting-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--violet);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 4px;
+  }
+
+  .setting-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ── CHECKLIST ── */
+  .checklist { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 1rem 0; }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .check-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(52,211,153,0.15);
+    border: 1px solid rgba(52,211,153,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-size: 10px;
+    color: var(--success);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 3rem;
+    text-align: center;
+  }
+
+  .footer-ghost {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 1rem;
+    opacity: 0.5;
+  }
+
+  .footer p {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .footer a {
+    color: var(--violet);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .footer a:hover { text-decoration: underline; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .wrapper { padding: 0 1.25rem 4rem; }
+    .hero { padding: 3rem 0 2.5rem; }
+    .steps-nav { gap: 4px; }
+    .step-pill { min-width: 80px; font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="ghost-badge">
+      <svg class="ghost-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C8.13 2 5 5.13 5 9v10l2-2 2 2 2-2 2 2 2-2 2 2V9c0-3.87-3.13-7-7-7z" fill="#7c6dfa" opacity="0.9"/>
+        <circle cx="9.5" cy="9.5" r="1" fill="white"/>
+        <circle cx="14.5" cy="9.5" r="1" fill="white"/>
+      </svg>
+      Guide d'installation · GhostCloser
+    </div>
+
+    <h1>Prêt en <em>15 minutes</em>,<br>opérationnel dès le premier appel.</h1>
+
+    <p class="hero-sub">Suis ce guide étape par étape pour installer GhostCloser sur ton Mac et le configurer pour ton offre. Aucune compétence technique requise.</p>
+
+    <div class="hero-duration">
+      <span class="dot"></span>
+      Durée estimée : 15 à 20 minutes · macOS uniquement
+    </div>
+  </header>
+
+  <!-- NAV PILLS -->
+  <nav class="steps-nav" aria-label="Étapes d'installation">
+    <a href="#step1" class="step-pill">
+      <span class="step-num">1</span>
+      BlackHole
+    </a>
+    <a href="#step2" class="step-pill">
+      <span class="step-num">2</span>
+      Audio
+    </a>
+    <a href="#step3" class="step-pill">
+      <span class="step-num">3</span>
+      App
+    </a>
+    <a href="#step4" class="step-pill">
+      <span class="step-num">4</span>
+      Réglages
+    </a>
+    <a href="#step5" class="step-pill">
+      <span class="step-num">5</span>
+      Premier appel
+    </a>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════
+       ÉTAPE 1 — BLACKHOLE
+  ═══════════════════════════════════════════ -->
+  <section class="section" id="step1">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <div>
+        <h2 class="section-title">Installer BlackHole</h2>
+        <p class="section-subtitle">Un pilote audio gratuit qui permet à GhostCloser d'entendre ta réunion</p>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <span class="callout-icon">💡</span>
+      <div>Sur Mac, les applications n'ont pas le droit d'écouter le son du système par défaut. BlackHole est un pilote audio open-source qui crée un canal interne pour contourner cette limite — c'est la seule installation technique du processus.</div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-circle">1</div>
+        <div class="step-body">
+          <div class="step-label">Télécharger BlackHole 2ch</div>
+          <div class="step-desc">Clique sur ce lien pour télécharger directement l'installateur : <a href="https://existential.audio/downloads/BlackHole2ch-0.6.0.pkg" style="color:#b8b0ff;font-weight:600;">Télécharger BlackHole 2ch</a>. Le fichier s'appelle <strong style="color:#b8b0ff">BlackHole2ch-0.6.0.pkg</strong> — c'est la bonne version.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-circle">2</div>
+        <div class="step-body">
+          <div class="step-label">Ouvrir le fichier .pkg téléchargé</div>
+          <div class="step-desc">Double-clique sur le fichier téléchargé et suis l'assistant d'installation (suivant → suivant → installer). Ton mot de passe Mac te sera demandé — c'est normal.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-circle">3</div>
+        <div class="step-body">
+          <div class="step-label">Vérifier l'installation</div>
+          <div class="step-desc">Ouvre les <strong style="color:#b8b0ff">Réglages Système</strong> → <strong style="color:#b8b0ff">Son</strong>. Dans l'onglet Entrée, tu dois voir apparaître <strong style="color:#b8b0ff">"BlackHole 2ch"</strong> dans la liste. Si oui, c'est bon.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout warning">
+      <span class="callout-icon">⚠️</span>
+      <div>Si macOS affiche un message "logiciel bloqué", va dans <strong>Réglages Système → Confidentialité et sécurité</strong> et clique sur "Autoriser quand même".</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       ÉTAPE 2 — AGGREGATE DEVICE
+  ═══════════════════════════════════════════ -->
+  <section class="section" id="step2">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <div>
+        <h2 class="section-title">Créer le périphérique audio</h2>
+        <p class="section-subtitle">Combiner ta sortie audio et BlackHole en un seul périphérique</p>
+      </div>
+    </div>
+
+    <p style="font-size:14px;color:var(--muted);margin-bottom:1.5rem;">GhostCloser a besoin d'entendre ce qui se passe dans ton appel Zoom ou Meet. Pour ça, on crée un "périphérique agrégé" qui envoie le son à tes haut-parleurs <em>et</em> à GhostCloser en même temps.</p>
+
+    <!-- Schéma visuel -->
+    <div class="audio-diagram">
+      <div class="diag-row">
+        <div class="diag-box">🎙 Zoom / Meet</div>
+        <span class="diag-arrow">→</span>
+        <div class="diag-box violet">GhostCloser Audio<br><span style="font-size:11px;opacity:.7">(Périphérique agrégé)</span></div>
+        <span class="diag-arrow">→</span>
+        <div class="diag-box">🔊 Tes enceintes</div>
+      </div>
+      <div class="diag-row" style="margin-top:8px;">
+        <div style="width:200px"></div>
+        <span class="diag-arrow" style="transform:rotate(90deg)">→</span>
+        <div style="width:200px"></div>
+      </div>
+      <div class="diag-row">
+        <div style="width:200px"></div>
+        <div class="diag-box violet">GhostCloser<br><span style="font-size:11px;opacity:.7">(écoute + transcrit)</span></div>
+        <div style="width:200px"></div>
+      </div>
+      <p class="diag-label">Le son va à tes oreilles et à GhostCloser simultanément — tu n'entends aucune différence.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-circle">1</div>
+        <div class="step-body">
+          <div class="step-label">Ouvrir la Configuration Audio MIDI</div>
+          <div class="step-desc">Appuie sur <strong style="color:#b8b0ff">⌘ + Espace</strong>, tape <strong style="color:#b8b0ff">"Configuration Audio MIDI"</strong> et appuie sur Entrée pour ouvrir l'application.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-circle">2</div>
+        <div class="step-body">
+          <div class="step-label">Créer un nouveau périphérique agrégé</div>
+          <div class="step-desc">En bas à gauche, clique sur le <strong style="color:#b8b0ff">+</strong> puis sélectionne <strong style="color:#b8b0ff">"Créer un périphérique agrégé"</strong>. Un nouvel élément apparaît dans la liste à gauche.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-circle">3</div>
+        <div class="step-body">
+          <div class="step-label">Le renommer "GhostCloser Audio"</div>
+          <div class="step-desc">Double-clique sur le nom du nouveau périphérique et tape exactement : <strong style="color:#b8b0ff">GhostCloser Audio</strong> (respecte les majuscules et l'espace).</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-circle">4</div>
+        <div class="step-body">
+          <div class="step-label">Cocher BlackHole 2ch et tes haut-parleurs</div>
+          <div class="step-desc">Dans la zone de droite, coche <strong style="color:#b8b0ff">BlackHole 2ch</strong> et ta sortie habituelle (ex: <em>"Haut-parleurs internes"</em> ou le nom de tes écouteurs). Les deux doivent être cochés.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-circle">5</div>
+        <div class="step-body">
+          <div class="step-label">Définir comme sortie par défaut du Mac</div>
+          <div class="step-desc">Va dans <strong style="color:#b8b0ff">Réglages Système → Son → Sortie</strong> et sélectionne <strong style="color:#b8b0ff">GhostCloser Audio</strong> comme sortie par défaut.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout success">
+      <span class="callout-icon">✅</span>
+      <div>Pour tester : joue une vidéo YouTube. Tu dois toujours l'entendre normalement — si oui, le périphérique fonctionne parfaitement.</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       ÉTAPE 3 — INSTALLER L'APP
+  ═══════════════════════════════════════════ -->
+  <section class="section" id="step3">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <div>
+        <h2 class="section-title">Installer GhostCloser</h2>
+        <p class="section-subtitle">L'app elle-même — rapide et sans surprise</p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-circle">1</div>
+        <div class="step-body">
+          <div class="step-label">Ouvrir le fichier .dmg reçu</div>
+          <div class="step-desc">Double-clique sur le fichier <strong style="color:#b8b0ff">GhostCloser.dmg</strong> que tu as reçu. Une fenêtre s'ouvre avec l'icône de l'application.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-circle">2</div>
+        <div class="step-body">
+          <div class="step-label">Glisser l'app dans Applications</div>
+          <div class="step-desc">Fais glisser l'icône <strong style="color:#b8b0ff">GhostCloser</strong> vers le dossier <strong style="color:#b8b0ff">Applications</strong> dans la même fenêtre. Attends que la copie se termine.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-circle">3</div>
+        <div class="step-body">
+          <div class="step-label">Premier lancement</div>
+          <div class="step-desc">Va dans ton dossier <strong style="color:#b8b0ff">Applications</strong> et double-clique sur GhostCloser. Si macOS affiche "impossible de vérifier le développeur", fais <strong style="color:#b8b0ff">clic droit → Ouvrir → Ouvrir quand même</strong>.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-circle">4</div>
+        <div class="step-body">
+          <div class="step-label">Autoriser les permissions micro</div>
+          <div class="step-desc">Au premier lancement, macOS demande l'accès au microphone. Clique sur <strong style="color:#b8b0ff">Autoriser</strong>. Sans ça, GhostCloser ne peut pas transcrire les voix.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <span class="callout-icon">👻</span>
+      <div>L'overlay GhostCloser apparaît sous forme d'un petit panneau translucide en haut de ton écran. Il reste discret et ne gêne pas tes autres applications.</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       ÉTAPE 4 — RÉGLAGES
+  ═══════════════════════════════════════════ -->
+  <section class="section" id="step4">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <div>
+        <h2 class="section-title">Configurer tes réglages</h2>
+        <p class="section-subtitle">Personnaliser GhostCloser pour ton offre et ton style — c'est ici que la magie opère</p>
+      </div>
+    </div>
+
+    <p style="font-size:14px;color:var(--muted);margin-bottom:1.5rem;">Clique sur l'icône <strong style="color:#b8b0ff">⚙</strong> dans l'overlay GhostCloser pour ouvrir tes réglages. Ces informations sont injectées dans toutes les suggestions IA — plus tu les remplis précisément, plus les suggestions seront précises et adaptées à ton contexte.</p>
+
+    <div class="settings-grid">
+      <div class="setting-card">
+        <div class="setting-name">Ton prénom</div>
+        <div class="setting-desc">Ton prénom de closer, pour que les debriefs te soient adressés directement.</div>
+      </div>
+      <div class="setting-card">
+        <div class="setting-name">Offre + prix</div>
+        <div class="setting-desc">Ex : "Formation coaching 12 semaines · 5 000€". Sois précis — l'IA doit connaître ton prix pour t'aider à l'annoncer sans trembler.</div>
+      </div>
+      <div class="setting-card">
+        <div class="setting-name">Description de l'offre</div>
+        <div class="setting-desc">Les 2–3 bénéfices clés de ton offre. Ce que le client gagne concrètement.</div>
+      </div>
+      <div class="setting-card">
+        <div class="setting-name">Avatar client</div>
+        <div class="setting-desc">Qui est ton prospect idéal ? Son profil, ses problèmes, ses aspirations. Plus c'est précis, mieux c'est.</div>
+      </div>
+      <div class="setting-card">
+        <div class="setting-name">Différenciation <span style="font-weight:400;color:var(--muted)">(optionnel)</span></div>
+        <div class="setting-desc">Ce qui te distingue de la concurrence. Pourquoi toi plutôt qu'un autre ?</div>
+      </div>
+      <div class="setting-card">
+        <div class="setting-name">Style de closing <span style="font-weight:400;color:var(--muted)">(optionnel)</span></div>
+        <div class="setting-desc">Ton approche : directif, empathique, challenger... L'IA adapte son ton en conséquence.</div>
+      </div>
+    </div>
+
+    <p style="font-size:14px;color:var(--muted);margin:1.5rem 0 1rem;">Tu peux aussi renseigner jusqu'à <strong style="color:#b8b0ff">3 objections courantes</strong> et les meilleures réponses que tu as testées. GhostCloser les utilisera en priorité quand l'objection est détectée pendant l'appel.</p>
+
+    <div class="callout success">
+      <span class="callout-icon">💾</span>
+      <div>Clique sur <strong>Sauvegarder</strong> pour enregistrer tes réglages. Ils sont stockés localement sur ton Mac et injectés automatiquement dans toutes tes sessions.</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       ÉTAPE 5 — PREMIER APPEL
+  ═══════════════════════════════════════════ -->
+  <section class="section" id="step5">
+    <div class="section-header">
+      <div class="section-num">05</div>
+      <div>
+        <h2 class="section-title">Ton premier appel</h2>
+        <p class="section-subtitle">Mode d'emploi pour utiliser GhostCloser en conditions réelles</p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-circle">1</div>
+        <div class="step-body">
+          <div class="step-label">Lancer GhostCloser avant l'appel</div>
+          <div class="step-desc">Ouvre GhostCloser quelques minutes avant de rejoindre Zoom ou Meet. L'overlay apparaît. Assure-toi que la sortie audio de ton Mac est bien sur <strong style="color:#b8b0ff">GhostCloser Audio</strong>.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-circle">2</div>
+        <div class="step-body">
+          <div class="step-label">Sélectionner la phase de vente</div>
+          <div class="step-desc">En haut de l'overlay, 5 phases sont disponibles : <strong style="color:#b8b0ff">Cadrage · Découverte · Reformulation · Pitch · Prix / Objections</strong>. Sélectionne manuellement la phase où tu te trouves — GhostCloser adapte ses suggestions en conséquence.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-circle">3</div>
+        <div class="step-body">
+          <div class="step-label">Cliquer sur "Démarrer"</div>
+          <div class="step-desc">Rejoins ton appel, puis clique sur <strong style="color:#b8b0ff">Démarrer</strong> dans GhostCloser. La transcription commence. Les suggestions apparaissent automatiquement selon ce qui est dit dans l'appel.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-circle">4</div>
+        <div class="step-body">
+          <div class="step-label">Changer de phase pendant l'appel</div>
+          <div class="step-desc">Tu peux changer de phase à tout moment d'un simple clic. GhostCloser recalibre immédiatement le type de suggestions qu'il génère.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-circle">5</div>
+        <div class="step-body">
+          <div class="step-label">Après l'appel : module Aftercall</div>
+          <div class="step-desc">Clique sur le bouton violet à la fin de l'appel. GhostCloser génère : un débrief du prospect, un plan de relance personnalisé, 2 templates d'email prêts à envoyer, et un Débrief Closer honnête pour progresser.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout warning">
+      <span class="callout-icon">⚠️</span>
+      <div>Si tu n'entends plus le son pendant l'appel, vérifie que la sortie de ton Mac est bien sur <strong>GhostCloser Audio</strong> dans Réglages Système → Son → Sortie.</div>
+    </div>
+
+    <!-- Checklist finale -->
+    <h3 style="font-size:15px;font-weight:600;color:var(--white);margin:2rem 0 1rem;">Checklist avant chaque appel</h3>
+
+    <ul class="checklist">
+      <li>
+        <span class="check-icon">✓</span>
+        Sortie audio Mac = GhostCloser Audio
+      </li>
+      <li>
+        <span class="check-icon">✓</span>
+        GhostCloser lancé et overlay visible à l'écran
+      </li>
+      <li>
+        <span class="check-icon">✓</span>
+        Réglages ⚙ remplis et sauvegardés
+      </li>
+      <li>
+        <span class="check-icon">✓</span>
+        Phase sélectionnée avant de rejoindre l'appel
+      </li>
+      <li>
+        <span class="check-icon">✓</span>
+        Cliquer "Démarrer" une fois dans la réunion
+      </li>
+    </ul>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer class="footer">
+    <svg class="footer-ghost" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M24 4C15.16 4 8 11.16 8 20v22l5-5 5 5 5-5 5 5 5-5 5 5V20c0-8.84-7.16-16-16-16z" fill="#7c6dfa"/>
+      <circle cx="19" cy="19" r="2.5" fill="white"/>
+      <circle cx="29" cy="19" r="2.5" fill="white"/>
+    </svg>
+    <p>Une question ? Un problème à l'installation ?</p>
+    <p>Contacte-moi directement — je réponds dans la journée.</p>
+    <p style="margin-top:1rem;font-size:13px;opacity:0.5;">GhostCloser · Invisible pour le prospect. Décisif pour toi. · v1.0</p>
+  </footer>
+
+</div>
+
+<script>
+  // Smooth scroll active state
+  const pills = document.querySelectorAll('.step-pill');
+  const sections = document.querySelectorAll('.section');
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        pills.forEach(p => {
+          p.style.background = '';
+          p.style.color = '';
+          p.querySelector('.step-num').style.background = '';
+          p.querySelector('.step-num').style.color = '';
+          p.querySelector('.step-num').style.borderColor = '';
+        });
+        const active = document.querySelector(`.step-pill[href="#${id}"]`);
+        if (active) {
+          active.style.background = 'rgba(124,109,250,0.12)';
+          active.style.color = '#c4beff';
+          const num = active.querySelector('.step-num');
+          num.style.background = 'rgba(124,109,250,0.25)';
+          num.style.color = '#7c6dfa';
+          num.style.borderColor = 'rgba(124,109,250,0.4)';
+        }
+      }
+    });
+  }, { threshold: 0.3 });
+
+  sections.forEach(s => obs.observe(s));
+</script>
+
+</body>
+</html>
