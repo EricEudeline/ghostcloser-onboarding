@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GhostCloser — L'IA qui close avec toi</title>
+<meta name="description" content="Overlay IA temps réel pour closers B2B expérimentés. Transcription, suggestions, debrief. Invisible pour le prospect. Décisif pour toi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0a0a0f;
+  --bg2: #0f0f17;
+  --bg3: #14141e;
+  --bg4: #1a1a26;
+  --violet: #7c6dfa;
+  --violet-light: #a89bff;
+  --violet-dim: rgba(124,109,250,0.12);
+  --violet-glow: rgba(124,109,250,0.06);
+  --white: #f0eeff;
+  --muted: #7a7892;
+  --muted2: #5a5870;
+  --border: rgba(124,109,250,0.18);
+  --border-subtle: rgba(255,255,255,0.06);
+  --success: #34d399;
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── NOISE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* ── GLOW BG ── */
+.glow-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+}
+.glow-orb-1 {
+  width: 600px; height: 600px;
+  background: rgba(124,109,250,0.07);
+  top: -200px; left: 50%;
+  transform: translateX(-50%);
+}
+.glow-orb-2 {
+  width: 400px; height: 400px;
+  background: rgba(124,109,250,0.05);
+  bottom: 20%; right: -100px;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1.25rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(10,10,15,0.7);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.2rem;
+  color: var(--white);
+  text-decoration: none;
+}
+
+.nav-cta {
+  background: var(--violet);
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 100px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  letter-spacing: 0.01em;
+}
+.nav-cta:hover { background: var(--violet-light); transform: translateY(-1px); }
+
+/* ── WRAPPER ── */
+.wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 10rem 0 7rem;
+  text-align: center;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--violet-dim);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 6px 18px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--violet-light);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+  animation: fadeUp 0.6s ease both;
+}
+
+.pulse {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--success);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--white);
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+
+h1 em {
+  font-style: italic;
+  color: var(--violet-light);
+}
+
+.hero-sub {
+  font-size: 1.15rem;
+  color: var(--muted);
+  max-width: 520px;
+  margin: 0 auto 3rem;
+  line-height: 1.7;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+
+.hero-cta-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  animation: fadeUp 0.6s 0.3s ease both;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--violet);
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 100px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s;
+  letter-spacing: 0.01em;
+}
+.btn-primary:hover { background: var(--violet-light); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(124,109,250,0.3); }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border-subtle);
+  padding: 16px 28px;
+  border-radius: 100px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.btn-secondary:hover { color: var(--white); border-color: var(--border); }
+
+.hero-note {
+  font-size: 13px;
+  color: var(--muted2);
+  margin-top: 1.25rem;
+  animation: fadeUp 0.6s 0.4s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── APP MOCKUP ── */
+.mockup-wrap {
+  margin: 0 auto 8rem;
+  max-width: 780px;
+  position: relative;
+  animation: fadeUp 0.8s 0.5s ease both;
+}
+
+.mockup-glow {
+  position: absolute;
+  inset: -40px;
+  background: radial-gradient(ellipse at center, rgba(124,109,250,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.mockup {
+  background: rgba(20,20,30,0.9);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+}
+
+.mockup-bar {
+  background: rgba(15,15,23,0.95);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.mockup-dots { display: flex; gap: 6px; }
+.mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+.mockup-dot:nth-child(1) { background: #ff5f57; }
+.mockup-dot:nth-child(2) { background: #febc2e; }
+.mockup-dot:nth-child(3) { background: #28c840; }
+
+.mockup-title {
+  font-size: 12px;
+  color: var(--muted2);
+  font-family: 'DM Mono', monospace;
+  flex: 1;
+  text-align: center;
+}
+
+.mockup-body { padding: 1.5rem; }
+
+.stage-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.stage-tab {
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid var(--border-subtle);
+  color: var(--muted);
+  cursor: default;
+}
+
+.stage-tab.active {
+  background: var(--violet-dim);
+  border-color: var(--border);
+  color: var(--violet-light);
+}
+
+.mockup-grid { display: grid; grid-template-columns: 1fr 240px; gap: 1rem; }
+
+.mockup-suggestion {
+  background: var(--bg3);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.25rem;
+}
+
+.sugg-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--violet);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  font-family: 'DM Mono', monospace;
+}
+
+.sugg-text {
+  font-size: 13px;
+  color: var(--white);
+  line-height: 1.6;
+}
+
+.sugg-text strong { color: var(--violet-light); font-weight: 500; }
+
+.mockup-prospect {
+  background: var(--bg3);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.25rem;
+}
+
+.prospect-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  font-family: 'DM Mono', monospace;
+}
+
+.prospect-tag {
+  display: inline-block;
+  background: rgba(251,191,36,0.1);
+  border: 1px solid rgba(251,191,36,0.2);
+  color: #fde68a;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-bottom: 0.75rem;
+}
+
+.prospect-trait {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 4px;
+  display: flex;
+  gap: 6px;
+}
+
+.trait-dot { color: var(--violet); flex-shrink: 0; }
+
+/* ── SECTION TITLES ── */
+.section { padding: 5rem 0; }
+
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--violet);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: 'DM Mono', monospace;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--white);
+  margin-bottom: 1rem;
+}
+
+h2 em { font-style: italic; color: var(--violet-light); }
+
+.section-desc {
+  font-size: 1rem;
+  color: var(--muted);
+  max-width: 480px;
+  line-height: 1.7;
+  margin-bottom: 3rem;
+}
+
+/* ── FEATURES ── */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1px;
+  background: var(--border-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.feature-card {
+  background: var(--bg2);
+  padding: 2rem;
+  transition: background 0.2s;
+}
+
+.feature-card:hover { background: var(--bg3); }
+
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--violet-dim);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  font-size: 18px;
+}
+
+.feature-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.feature-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── HOW IT WORKS ── */
+.steps-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+
+.steps-flow::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 40px;
+  bottom: 40px;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--violet), transparent);
+}
+
+.flow-step {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.flow-step:last-child { border-bottom: none; }
+
+.flow-num {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--violet-dim);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--violet);
+  margin-top: 2px;
+  position: relative;
+  z-index: 1;
+}
+
+.flow-body { flex: 1; }
+
+.flow-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+
+.flow-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── SOCIAL PROOF ── */
+.proof-section {
+  padding: 5rem 0;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.proof-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.proof-card {
+  background: var(--bg2);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  transition: border-color 0.2s;
+}
+
+.proof-card:hover { border-color: var(--border); }
+
+.proof-quote {
+  font-size: 14px;
+  color: var(--white);
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+  font-style: italic;
+}
+
+.proof-quote::before { content: '"'; color: var(--violet); font-size: 20px; line-height: 0; vertical-align: -4px; margin-right: 4px; }
+
+.proof-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.proof-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--violet-dim);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--violet-light);
+  font-family: 'DM Mono', monospace;
+}
+
+.proof-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.proof-role {
+  font-size: 12px;
+  color: var(--muted2);
+}
+
+/* ── PRICING ── */
+.pricing-section { padding: 6rem 0; text-align: center; }
+
+.pricing-card {
+  max-width: 440px;
+  margin: 0 auto;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.pricing-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--violet), transparent);
+}
+
+.pricing-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(52,211,153,0.1);
+  border: 1px solid rgba(52,211,153,0.2);
+  border-radius: 100px;
+  padding: 5px 14px;
+  font-size: 12px;
+  color: var(--success);
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+.price-amount {
+  font-family: 'DM Serif Display', serif;
+  font-size: 4rem;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.price-period {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+
+.price-features {
+  list-style: none;
+  text-align: left;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.price-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.check {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(52,211,153,0.1);
+  border: 1px solid rgba(52,211,153,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 10px;
+  color: var(--success);
+  margin-top: 2px;
+}
+
+.btn-pricing {
+  display: block;
+  width: 100%;
+  background: var(--violet);
+  color: white;
+  border: none;
+  padding: 18px;
+  border-radius: 100px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s;
+  text-align: center;
+}
+.btn-pricing:hover { background: var(--violet-light); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(124,109,250,0.3); }
+
+.pricing-note {
+  font-size: 12px;
+  color: var(--muted2);
+  margin-top: 1rem;
+}
+
+/* ── FAQ ── */
+.faq-section { padding: 5rem 0; max-width: 640px; margin: 0 auto; }
+
+.faq-item {
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 1.5rem 0;
+  cursor: pointer;
+}
+
+.faq-q {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--white);
+  gap: 1rem;
+}
+
+.faq-icon {
+  color: var(--violet);
+  font-size: 20px;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.faq-a {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s;
+}
+
+.faq-item.open .faq-a {
+  max-height: 200px;
+  padding-top: 0.75rem;
+}
+
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+
+/* ── CTA FINAL ── */
+.cta-section {
+  padding: 7rem 0;
+  text-align: center;
+}
+
+.cta-box {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 5rem 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-box::before {
+  content: '';
+  position: absolute;
+  top: -100px; left: 50%; transform: translateX(-50%);
+  width: 400px; height: 300px;
+  background: radial-gradient(ellipse, rgba(124,109,250,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cta-box h2 { margin-bottom: 1rem; }
+.cta-box p { color: var(--muted); margin-bottom: 2.5rem; max-width: 420px; margin-left: auto; margin-right: auto; }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border-subtle);
+  padding: 2.5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1rem;
+  color: var(--muted2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.footer-tagline {
+  font-size: 13px;
+  color: var(--muted2);
+  font-style: italic;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .wrapper { padding: 0 1.25rem; }
+  .hero { padding: 7rem 0 4rem; }
+  .mockup-grid { grid-template-columns: 1fr; }
+  .mockup-prospect { display: none; }
+  .cta-box { padding: 3rem 1.5rem; }
+  footer { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="glow-orb glow-orb-1"></div>
+<div class="glow-orb glow-orb-2"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <svg width="32" height="32" viewBox="0 0 64 64" fill="none">
+      <defs>
+        <radialGradient id="ng1" cx="50%" cy="40%" r="55%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="100%" stop-color="#ddd8ff"/>
+        </radialGradient>
+        <radialGradient id="nb1" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#2a2545"/>
+          <stop offset="100%" stop-color="#141220"/>
+        </radialGradient>
+      </defs>
+      <rect width="64" height="64" rx="15" fill="url(#nb1)"/>
+      <rect width="64" height="64" rx="15" fill="none" stroke="#7c6dfa" stroke-width="0.8" stroke-opacity="0.3"/>
+      <path d="M32 7C21 7 13 15 13 26L13 53L18 49L23 53L28 49L32 53L36 49L41 53L46 49L51 53L51 26C51 15 43 7 32 7Z" fill="url(#ng1)"/>
+      <circle cx="26" cy="25" r="2.8" fill="#1a1628"/>
+      <circle cx="38" cy="25" r="2.8" fill="#1a1628"/>
+      <rect x="21" y="33" width="2.8" height="7" rx="1.4" fill="#7c6dfa"/>
+      <rect x="25.5" y="30" width="2.8" height="13" rx="1.4" fill="#8b7dff"/>
+      <rect x="30" y="34" width="2.8" height="5" rx="1.4" fill="#7c6dfa"/>
+      <rect x="34.5" y="30" width="2.8" height="13" rx="1.4" fill="#8b7dff"/>
+      <rect x="39" y="33" width="2.8" height="7" rx="1.4" fill="#7c6dfa"/>
+    </svg>
+    GhostCloser
+  </a>
+  <a href="#pricing" class="nav-cta">Démarrer — 297€/mois</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrapper">
+    <div class="hero-badge">
+      <span class="pulse"></span>
+      Overlay IA · Temps réel · Mac
+    </div>
+
+    <h1>Invisible pour le prospect.<br><em>Décisif pour toi.</em></h1>
+
+    <p class="hero-sub">GhostCloser écoute ton appel, transcrit en temps réel et te souffle les bons mots au bon moment. Ton prospect ne voit rien. Toi, tu closes.</p>
+
+    <div class="hero-cta-group">
+      <a href="#pricing" class="btn-primary">
+        Commencer maintenant
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#how" class="btn-secondary">Voir comment ça marche</a>
+    </div>
+
+    <p class="hero-note">macOS uniquement · Annulable à tout moment</p>
+  </div>
+</section>
+
+<!-- MOCKUP -->
+<div class="wrapper">
+  <div class="mockup-wrap">
+    <div class="mockup-glow"></div>
+    <div class="mockup">
+      <div class="mockup-bar">
+        <div class="mockup-dots">
+          <div class="mockup-dot"></div>
+          <div class="mockup-dot"></div>
+          <div class="mockup-dot"></div>
+        </div>
+        <div class="mockup-title">GhostCloser · En écoute — 12:34</div>
+      </div>
+      <div class="mockup-body">
+        <div class="stage-tabs">
+          <div class="stage-tab">Cadrage</div>
+          <div class="stage-tab">Découverte</div>
+          <div class="stage-tab">Reformulation</div>
+          <div class="stage-tab active">Prix / Objections</div>
+          <div class="stage-tab">Pitch</div>
+        </div>
+        <div class="mockup-grid">
+          <div class="mockup-suggestion">
+            <div class="sugg-label">● Assistant</div>
+            <div class="sugg-text">Objection prix détectée. Réponse suggérée : <strong>"Je comprends que 297€ représente un investissement. Mais si on close juste un deal supplémentaire ce mois-ci grâce à ça, vous avez déjà multiplié la mise par 10. Est-ce que c'est réaliste pour vous ?"</strong></div>
+          </div>
+          <div class="mockup-prospect">
+            <div class="prospect-label">Profil prospect</div>
+            <div class="prospect-tag">⚡ Analytique</div>
+            <div class="prospect-trait"><span class="trait-dot">·</span> Sensible aux chiffres</div>
+            <div class="prospect-trait"><span class="trait-dot">·</span> Décision partagée probable</div>
+            <div class="prospect-trait"><span class="trait-dot">·</span> Objection récurrente : ROI</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section">
+  <div class="wrapper">
+    <div class="section-label">Fonctionnalités</div>
+    <h2>Tout ce dont un closer<br><em>expérimenté</em> a besoin.</h2>
+    <p class="section-desc">Pas un outil de formation. Une arme de closing pour ceux qui savent déjà ce qu'ils font — et veulent faire encore mieux.</p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎙</div>
+        <div class="feature-title">Transcription temps réel</div>
+        <div class="feature-desc">GhostCloser transcrit la conversation en continu. Rien ne t'échappe, même en pleine pression.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Suggestions contextuelles</div>
+        <div class="feature-desc">GhostCloser analyse la phase de vente et génère les bons arguments au bon moment. Tu choisis ce que tu utilises.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <div class="feature-title">5 phases de closing</div>
+        <div class="feature-desc">Cadrage, Découverte, Reformulation, Pitch, Prix/Objections. Sélection manuelle pour garder le contrôle total.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👻</div>
+        <div class="feature-title">Overlay invisible</div>
+        <div class="feature-desc">Fenêtre flottante en glass qui se superpose à Zoom ou Meet. Ton prospect ne voit rien. Toi, tu vois tout.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <div class="feature-title">Debrief Aftercall</div>
+        <div class="feature-desc">Après chaque appel : analyse du prospect, plan de relance, 2 templates email prêts à envoyer et un debrief honnête.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚙️</div>
+        <div class="feature-title">Calibré pour ton offre</div>
+        <div class="feature-desc">Tu renseignes ton offre, ton avatar client et tes objections types. GhostCloser s'adapte à ton business, pas l'inverse.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="wrapper">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;">
+      <div>
+        <div class="section-label">Comment ça marche</div>
+        <h2>Prêt en <em>15 minutes</em>.<br>Opérationnel dès le premier appel.</h2>
+        <p class="section-desc">Installation guidée pas à pas. Aucune compétence technique requise.</p>
+      </div>
+      <div class="steps-flow">
+        <div class="flow-step">
+          <div class="flow-num">1</div>
+          <div class="flow-body">
+            <div class="flow-title">Installe l'app sur ton Mac</div>
+            <div class="flow-desc">Télécharge le DMG, glisse dans Applications. Un guide d'installation complet t'accompagne.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">2</div>
+          <div class="flow-body">
+            <div class="flow-title">Configure tes réglages</div>
+            <div class="flow-desc">Renseigne ton offre, ton avatar client et tes 3 objections types. GhostCloser calibre ses suggestions en conséquence.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">3</div>
+          <div class="flow-body">
+            <div class="flow-title">Lance un appel</div>
+            <div class="flow-desc">Ouvre Zoom ou Meet, clique Démarrer. L'overlay se superpose discrètement. Les suggestions arrivent en temps réel.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">4</div>
+          <div class="flow-body">
+            <div class="flow-title">Analyse et relance</div>
+            <div class="flow-desc">Après l'appel, consulte le debrief et envoie ton email de relance en 30 secondes.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<div class="wrapper">
+  <div class="proof-section">
+    <div style="text-align:center;margin-bottom:3rem;">
+      <div class="section-label" style="justify-content:center;display:flex;">Témoignages beta</div>
+      <h2>Ce que disent les premiers closers<br>à l'avoir testé.</h2>
+    </div>
+    <div class="proof-grid">
+      <div class="proof-card">
+        <div class="proof-quote">Sur mes 4 premiers appels avec GhostCloser, j'en ai closé 3. Mon taux habituel c'est 1 sur 3. La différence ? Les suggestions sur les objections prix sont redoutables.</div>
+        <div class="proof-author">
+          <div class="proof-avatar">TM</div>
+          <div>
+            <div class="proof-name">Thomas M.</div>
+            <div class="proof-role">Closer B2B · Formations high-ticket</div>
+          </div>
+        </div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-quote">J'étais sceptique — j'ai 6 ans de closing derrière moi. Mais avoir un "second cerveau" qui analyse le prospect en temps réel pendant que je parle, c'est un avantage que personne d'autre dans mon équipe n'a.</div>
+        <div class="proof-author">
+          <div class="proof-avatar">SL</div>
+          <div>
+            <div class="proof-name">Sarah L.</div>
+            <div class="proof-role">Head of Sales · Agence digitale</div>
+          </div>
+        </div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-quote">Le debrief aftercall seul vaut l'abonnement. Je sors de chaque appel avec un plan de relance complet et un email prêt à envoyer. Ça m'économise 30 minutes par prospect.</div>
+        <div class="proof-author">
+          <div class="proof-avatar">RD</div>
+          <div>
+            <div class="proof-name">Romain D.</div>
+            <div class="proof-role">Closer indépendant · Coaching business</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="wrapper">
+    <div class="section-label" style="justify-content:center;display:flex;margin-bottom:1rem;">Tarif</div>
+    <h2 style="margin-bottom:0.5rem;">Un seul plan.<br><em>Zéro compromis.</em></h2>
+    <p style="color:var(--muted);margin-bottom:3rem;">Si GhostCloser te fait closer un deal de plus par mois, il est remboursé.</p>
+
+    <div class="pricing-card">
+      <div class="pricing-badge">
+        <span>●</span> Accès complet
+      </div>
+      <div class="price-amount">297€</div>
+      <div class="price-period">par mois · par seat · sans engagement</div>
+
+      <ul class="price-features">
+        <li class="price-feature"><span class="check">✓</span> Overlay IA temps réel (Zoom, Meet, Fathom…)</li>
+        <li class="price-feature"><span class="check">✓</span> Transcription Whisper en continu</li>
+        <li class="price-feature"><span class="check">✓</span> Suggestions Claude calibrées pour ton offre</li>
+        <li class="price-feature"><span class="check">✓</span> 5 phases de vente avec suggestions adaptées</li>
+        <li class="price-feature"><span class="check">✓</span> Module Aftercall complet (debrief + relance + emails)</li>
+        <li class="price-feature"><span class="check">✓</span> Guide d'installation + support</li>
+        <li class="price-feature"><span class="check">✓</span> Mises à jour incluses</li>
+      </ul>
+
+      <a href="#" class="btn-pricing" id="stripe-btn">Démarrer maintenant →</a>
+      <p class="pricing-note">macOS uniquement · Annulable à tout moment · Paiement sécurisé par Stripe</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<div class="wrapper">
+  <div class="faq-section">
+    <div style="text-align:center;margin-bottom:3rem;">
+      <div class="section-label" style="justify-content:center;display:flex;">FAQ</div>
+      <h2>Questions fréquentes.</h2>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        GhostCloser fonctionne avec quelles plateformes ?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">GhostCloser fonctionne avec toutes les plateformes de visioconférence sur Mac : Zoom, Google Meet, Fathom, Teams, et toute app qui utilise la sortie audio système. Il capture le son système via BlackHole, un pilote audio gratuit.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        Mon prospect peut-il voir ou entendre GhostCloser ?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Non. GhostCloser est un overlay local sur ton écran. Il ne partage rien avec la visioconférence. Ton prospect ne voit que toi, et n'entend que toi.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        Est-ce que ça marche si je suis déjà un bon closer ?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">C'est exactement pour ça que GhostCloser a été conçu. Ce n'est pas un outil de formation — c'est un amplificateur pour closers expérimentés. Tu apportes le talent, GhostCloser t'apporte l'information et la réactivité que même les meilleurs n'ont pas seuls.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        Mes conversations sont-elles stockées quelque part ?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Les transcriptions sont traitées en temps réel et les debriefs sont sauvegardés localement sur ton Mac. Aucune conversation n'est stockée sur nos serveurs.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        Puis-je annuler à tout moment ?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Oui, sans engagement et sans frais. Tu peux annuler depuis ton espace Stripe à tout moment. L'accès reste actif jusqu'à la fin de la période payée.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA FINAL -->
+<section class="cta-section">
+  <div class="wrapper">
+    <div class="cta-box">
+      <div class="section-label" style="justify-content:center;display:flex;margin-bottom:1rem;">Prêt ?</div>
+      <h2>Ton prochain appel<br>pourrait être <em>différent.</em></h2>
+      <p>Rejoins les closers qui ont arrêté de laisser des deals sur la table.</p>
+      <a href="#pricing" class="btn-primary" style="display:inline-flex;">
+        Démarrer maintenant — 297€/mois
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="wrapper">
+  <footer>
+    <a href="#" class="footer-logo">
+      <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
+        <defs>
+          <radialGradient id="fg1" cx="50%" cy="40%" r="55%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+            <stop offset="100%" stop-color="#ddd8ff" stop-opacity="0.5"/>
+          </radialGradient>
+          <radialGradient id="fb1" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#2a2545" stop-opacity="0.5"/>
+            <stop offset="100%" stop-color="#141220" stop-opacity="0.5"/>
+          </radialGradient>
+        </defs>
+        <rect width="64" height="64" rx="15" fill="url(#fb1)"/>
+        <path d="M32 7C21 7 13 15 13 26L13 53L18 49L23 53L28 49L32 53L36 49L41 53L46 49L51 53L51 26C51 15 43 7 32 7Z" fill="url(#fg1)"/>
+        <circle cx="26" cy="25" r="2.8" fill="#1a1628" opacity="0.6"/>
+        <circle cx="38" cy="25" r="2.8" fill="#1a1628" opacity="0.6"/>
+        <rect x="21" y="33" width="2.8" height="7" rx="1.4" fill="#7c6dfa" opacity="0.5"/>
+        <rect x="25.5" y="30" width="2.8" height="13" rx="1.4" fill="#8b7dff" opacity="0.5"/>
+        <rect x="30" y="34" width="2.8" height="5" rx="1.4" fill="#7c6dfa" opacity="0.5"/>
+        <rect x="34.5" y="30" width="2.8" height="13" rx="1.4" fill="#8b7dff" opacity="0.5"/>
+        <rect x="39" y="33" width="2.8" height="7" rx="1.4" fill="#7c6dfa" opacity="0.5"/>
+      </svg>
+      GhostCloser
+    </a>
+    <div class="footer-tagline">Invisible pour le prospect. Décisif pour toi.</div>
+    <div style="font-size:13px;color:var(--muted2);">© 2026 GhostCloser</div>
+  </footer>
+</div>
+
+<script>
+// FAQ toggle
+document.querySelectorAll('.faq-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+});
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.feature-card, .proof-card, .flow-step').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>
