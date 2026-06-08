@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bienvenue chez GhostCloser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0a0a0f;
+  --bg2: #0f0f17;
+  --bg3: #14141e;
+  --violet: #7c6dfa;
+  --violet-light: #a89bff;
+  --violet-dim: rgba(124,109,250,0.12);
+  --border: rgba(124,109,250,0.18);
+  --border-subtle: rgba(255,255,255,0.06);
+  --white: #f0eeff;
+  --muted: #7a7892;
+  --success: #34d399;
+}
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.card {
+  max-width: 560px;
+  width: 100%;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 3.5rem 3rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--success), transparent);
+}
+.success-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(52,211,153,0.1);
+  border: 1px solid rgba(52,211,153,0.25);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--success);
+  margin-bottom: 2rem;
+}
+.ghost-icon {
+  margin: 0 auto 1.5rem;
+  width: 80px;
+  height: 80px;
+}
+h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 0.75rem;
+  line-height: 1.2;
+}
+h1 em { font-style: italic; color: var(--violet-light); }
+.subtitle {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+}
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 2.5rem;
+  text-align: left;
+}
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: var(--bg3);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+}
+.step-num {
+  flex-shrink: 0;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--violet);
+  margin-top: 3px;
+  min-width: 20px;
+}
+.step-text {
+  font-size: 14px;
+  color: var(--white);
+  line-height: 1.5;
+}
+.step-text span {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.btn-download {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  background: var(--violet);
+  color: white;
+  border: none;
+  padding: 18px;
+  border-radius: 100px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s;
+  margin-bottom: 12px;
+}
+.btn-download:hover {
+  background: var(--violet-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(124,109,250,0.3);
+}
+.btn-guide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border-subtle);
+  padding: 14px;
+  border-radius: 100px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s;
+  margin-bottom: 2rem;
+}
+.btn-guide:hover { color: var(--white); border-color: var(--border); }
+.note {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.note a { color: var(--violet-light); text-decoration: none; }
+.note a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="success-badge">
+    ✓ Paiement confirmé
+  </div>
+
+  <svg class="ghost-icon" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="80" height="80" rx="20" fill="#1a1828"/>
+    <rect width="80" height="80" rx="20" fill="none" stroke="#7c6dfa" stroke-width="1" stroke-opacity="0.3"/>
+    <defs>
+      <radialGradient id="gg" cx="50%" cy="40%" r="55%">
+        <stop offset="0%" stop-color="#ffffff"/>
+        <stop offset="100%" stop-color="#ddd8ff"/>
+      </radialGradient>
+    </defs>
+    <path d="M40 12C28 12 19 21 19 33L19 62L25 57L31 62L37 57L40 62L43 57L49 62L55 57L61 62L61 33C61 21 52 12 40 12Z" fill="url(#gg)"/>
+    <circle cx="33" cy="31" r="3.5" fill="#1a1628"/>
+    <circle cx="47" cy="31" r="3.5" fill="#1a1628"/>
+    <rect x="27" y="41" width="3.5" height="9" rx="1.75" fill="#7c6dfa"/>
+    <rect x="33" y="37" width="3.5" height="17" rx="1.75" fill="#8b7dff"/>
+    <rect x="39" y="43" width="3.5" height="6" rx="1.75" fill="#7c6dfa"/>
+    <rect x="45" y="37" width="3.5" height="17" rx="1.75" fill="#8b7dff"/>
+    <rect x="51" y="41" width="3.5" height="9" rx="1.75" fill="#7c6dfa"/>
+  </svg>
+
+  <h1>Bienvenue dans<br><em>GhostCloser.</em></h1>
+  <p class="subtitle">Ton abonnement est actif. Suis les 3 étapes ci-dessous pour être opérationnel en 15 minutes.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01 —</div>
+      <div class="step-text">
+        Télécharge GhostCloser
+        <span>Clique sur le bouton ci-dessous · macOS arm64 uniquement</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02 —</div>
+      <div class="step-text">
+        Suis le guide d'installation
+        <span>BlackHole, périphérique audio, configuration — tout est expliqué pas à pas</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03 —</div>
+      <div class="step-text">
+        Configure tes réglages ⚙
+        <span>Renseigne ton offre, avatar client et objections — l'app s'ouvre avec le guide au premier lancement</span>
+      </div>
+    </div>
+  </div>
+
+  <a href="https://github.com/EricEudeline/ghostcloser-onboarding/releases/download/v1.0.0/GhostCloser-1.0.0-arm64.dmg" class="btn-download">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+    Télécharger GhostCloser v1.0.0
+  </a>
+
+  <a href="https://ghostcloser.tech/ghostcloser-onboarding.html" class="btn-guide" target="_blank">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+    Ouvrir le guide d'installation
+  </a>
+
+  <p class="note">
+    Une question ? Un problème à l'installation ?<br>
+    Réponds directement à l'email de confirmation Stripe — je réponds dans la journée.
+  </p>
+
+</div>
+</body>
+</html>
