@@ -492,8 +492,7 @@
 
   <!-- ═══════════════════════════════════════════
        ÉTAPE 1 — BLACKHOLE
-  ═══════════════════════════════════════════ -->
- <section style="padding: 3rem 2.5rem; background: #0a0a0f; text-align: center;">
+<section style="padding: 3rem 2.5rem; background: #0a0a0f; text-align: center;">
   <h2 style="color: white; font-size: 1.5rem; margin-bottom: 0.5rem; font-weight: 700;">Vois GhostCloser en action</h2>
   <p style="color: #888; margin-bottom: 1.5rem;">Une vraie objection prix. En temps réel.</p>
   <div style="padding:56.25% 0 0 0;position:relative;max-width:900px;margin:0 auto;border-radius:12px;overflow:hidden;">
@@ -501,6 +500,7 @@
   </div>
   <script src="https://player.vimeo.com/api/player.js"></script>
 </section>
+  ═══════════════════════════════════════════ -->
   <section class="section" id="step1">
     <div class="section-header">
       <div class="section-num">01</div>
@@ -520,20 +520,28 @@
         <div class="step-circle">1</div>
         <div class="step-body">
           <div class="step-label">Télécharger BlackHole 2ch</div>
-          <div class="step-desc">Clique sur ce lien pour télécharger directement l'installateur : <a href="https://existential.audio/downloads/BlackHole2ch-0.6.0.pkg" style="color:#b8b0ff;font-weight:600;">Télécharger BlackHole 2ch</a>. Le fichier s'appelle <strong style="color:#b8b0ff">BlackHole2ch-0.6.0.pkg</strong> — c'est la bonne version.</div>
+          <div class="step-desc">Va sur <a href="https://existential.audio/blackhole/" target="_blank" style="color:#b8b0ff;font-weight:600;">existential.audio/blackhole</a>, entre ton email et clique sur <strong style="color:#b8b0ff">Download BlackHole 2ch</strong>. Tu reçois le lien de téléchargement immédiatement.</div>
         </div>
       </div>
 
       <div class="step">
         <div class="step-circle">2</div>
         <div class="step-body">
-          <div class="step-label">Ouvrir le fichier .pkg téléchargé</div>
-          <div class="step-desc">Double-clique sur le fichier téléchargé et suis l'assistant d'installation (suivant → suivant → installer). Ton mot de passe Mac te sera demandé — c'est normal.</div>
+          <div class="step-label">Installer le fichier .pkg</div>
+          <div class="step-desc">Double-clique sur le fichier téléchargé et suis l'assistant (Continuer → Installer). Ton mot de passe Mac te sera demandé — c'est normal.</div>
         </div>
       </div>
 
       <div class="step">
         <div class="step-circle">3</div>
+        <div class="step-body">
+          <div class="step-label">Redémarrer ton Mac</div>
+          <div class="step-desc">L'installeur va demander un <strong style="color:#b8b0ff">redémarrage complet</strong> — c'est obligatoire pour que le pilote audio soit activé. Redémarre, puis reviens sur ce guide pour la suite.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-circle">4</div>
         <div class="step-body">
           <div class="step-label">Vérifier l'installation</div>
           <div class="step-desc">Ouvre les <strong style="color:#b8b0ff">Réglages Système</strong> → <strong style="color:#b8b0ff">Son</strong>. Dans l'onglet Entrée, tu dois voir apparaître <strong style="color:#b8b0ff">"BlackHole 2ch"</strong> dans la liste. Si oui, c'est bon.</div>
@@ -611,8 +619,8 @@
       <div class="step">
         <div class="step-circle">4</div>
         <div class="step-body">
-          <div class="step-label">Cocher BlackHole 2ch, tes haut-parleurs et ton micro</div>
-          <div class="step-desc">Dans la zone de droite, coche <strong style="color:#b8b0ff">BlackHole 2ch</strong>, <strong style="color:#b8b0ff">Haut-parleurs MacBook Air</strong> et <strong style="color:#b8b0ff">Micro MacBook Air</strong>. Les trois doivent être cochés. Le micro est indispensable pour que ton prospect t'entende pendant l'appel.</div>
+          <div class="step-label">Cocher BlackHole 2ch et tes haut-parleurs</div>
+          <div class="step-desc">Dans la zone de droite, coche <strong style="color:#b8b0ff">BlackHole 2ch</strong> et ta sortie habituelle (ex: <em>"Haut-parleurs internes"</em> ou le nom de tes écouteurs). Les deux doivent être cochés.</div>
         </div>
       </div>
 
@@ -663,11 +671,28 @@
       <div class="step">
         <div class="step-circle">3</div>
         <div class="step-body">
-          <div class="step-label">Premier lancement</div>
-          <div class="step-desc">Va dans ton dossier <strong style="color:#b8b0ff">Applications</strong> et double-clique sur GhostCloser. Si macOS affiche "impossible de vérifier le développeur", fais <strong style="color:#b8b0ff">clic droit → Ouvrir → Ouvrir quand même</strong>.</div>
+          <div class="step-label">Premier lancement — contournement macOS</div>
+          <div class="step-desc">GhostCloser n'est pas encore signé par Apple, donc macOS va bloquer le premier lancement. C'est normal et sans danger. Voici la procédure exacte, à faire <strong style="color:#b8b0ff">une seule fois</strong> :</div>
         </div>
       </div>
+    </div>
 
+    <div class="callout warning" style="margin-top:0;">
+      <span class="callout-icon">🔒</span>
+      <div>
+        <strong style="color:#fde68a;display:block;margin-bottom:8px;">Procédure d'ouverture (une seule fois)</strong>
+        <ol style="padding-left:1.2rem;display:flex;flex-direction:column;gap:8px;font-size:13px;color:#fde68a;">
+          <li>Double-clique sur <strong>GhostCloser</strong> dans Applications. macOS affiche un message d'erreur et bloque l'ouverture — c'est attendu, clique sur <strong>OK</strong>.</li>
+          <li>Ouvre <strong>Réglages Système</strong> → <strong>Confidentialité et sécurité</strong>.</li>
+          <li>Fais défiler vers le bas jusqu'à la section <strong>Sécurité</strong>. Tu vois : <em>"GhostCloser a été bloqué..."</em></li>
+          <li>Clique sur <strong>Ouvrir quand même</strong>. Entre ton mot de passe Mac si demandé.</li>
+          <li>Dans la boîte de dialogue qui s'ouvre, clique à nouveau sur <strong>Ouvrir</strong>.</li>
+        </ol>
+        <p style="font-size:12px;margin-top:10px;opacity:0.7;">Après ça, macOS fait confiance à GhostCloser de façon permanente. Les prochains lancements se font normalement en double-cliquant.</p>
+      </div>
+    </div>
+
+    <div class="steps" style="margin-top:1rem;">
       <div class="step">
         <div class="step-circle">4</div>
         <div class="step-body">
@@ -756,21 +781,13 @@
       <div class="step">
         <div class="step-circle">2</div>
         <div class="step-body">
-          <div class="step-label">Configurer l'audio dans ton outil de visio</div>
-          <div class="step-desc">Dans Google Meet ou Zoom → <strong style="color:#b8b0ff">Paramètres → Audio</strong> :<br>· <strong style="color:#b8b0ff">Micro</strong> → Micro MacBook Air<br>· <strong style="color:#b8b0ff">Haut-parleur</strong> → Haut-parleurs MacBook Air<br>La sortie système du Mac reste sur <strong style="color:#b8b0ff">GhostCloser Audio</strong> — c'est ce qui permet à GhostCloser de capter la voix du prospect.</div>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-circle">3</div>
-        <div class="step-body">
           <div class="step-label">Sélectionner la phase de vente</div>
           <div class="step-desc">En haut de l'overlay, 5 phases sont disponibles : <strong style="color:#b8b0ff">Cadrage · Découverte · Reformulation · Pitch · Prix / Objections</strong>. Sélectionne manuellement la phase où tu te trouves — GhostCloser adapte ses suggestions en conséquence.</div>
         </div>
       </div>
 
       <div class="step">
-        <div class="step-circle">4</div>
+        <div class="step-circle">3</div>
         <div class="step-body">
           <div class="step-label">Cliquer sur "Démarrer"</div>
           <div class="step-desc">Rejoins ton appel, puis clique sur <strong style="color:#b8b0ff">Démarrer</strong> dans GhostCloser. La transcription commence. Les suggestions apparaissent automatiquement selon ce qui est dit dans l'appel.</div>
@@ -778,7 +795,7 @@
       </div>
 
       <div class="step">
-        <div class="step-circle">5</div>
+        <div class="step-circle">4</div>
         <div class="step-body">
           <div class="step-label">Changer de phase pendant l'appel</div>
           <div class="step-desc">Tu peux changer de phase à tout moment d'un simple clic. GhostCloser recalibre immédiatement le type de suggestions qu'il génère.</div>
@@ -786,7 +803,7 @@
       </div>
 
       <div class="step">
-        <div class="step-circle">6</div>
+        <div class="step-circle">5</div>
         <div class="step-body">
           <div class="step-label">Après l'appel : module Aftercall</div>
           <div class="step-desc">Clique sur le bouton violet à la fin de l'appel. GhostCloser génère : un débrief du prospect, un plan de relance personnalisé, 2 templates d'email prêts à envoyer, et un Débrief Closer honnête pour progresser.</div>
@@ -806,10 +823,6 @@
       <li>
         <span class="check-icon">✓</span>
         Sortie audio Mac = GhostCloser Audio
-      </li>
-      <li>
-        <span class="check-icon">✓</span>
-        Micro visio = Micro MacBook Air · Haut-parleur visio = Haut-parleurs MacBook Air
       </li>
       <li>
         <span class="check-icon">✓</span>
@@ -841,7 +854,7 @@
     </svg>
     <p>Une question ? Un problème à l'installation ?</p>
     <p>Contacte-moi directement — je réponds dans la journée.</p>
-    <p style="margin-top:1rem;font-size:13px;opacity:0.5;">GhostCloser · Invisible pour le prospect. Décisif pour toi. · v1.0</p>
+    <p style="margin-top:1rem;font-size:13px;opacity:0.5;">GhostCloser · Invisible pour le prospect. Décisif pour toi. · v1.1.0</p>
   </footer>
 
 </div>
