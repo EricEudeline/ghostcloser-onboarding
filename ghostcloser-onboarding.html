@@ -632,6 +632,40 @@
       <span class="callout-icon">✅</span>
       <div>Pour tester : joue une vidéo YouTube. Tu dois toujours l'entendre normalement — si oui, le périphérique fonctionne parfaitement.</div>
     </div>
+
+    <!-- ── VARIANTE CASQUE ── -->
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-top:2rem;">
+      <h3 style="font-size:16px;font-weight:600;color:var(--white);margin-bottom:0.5rem;">🎧 Tu closes au casque ou avec des écouteurs ?</h3>
+      <p style="font-size:14px;color:var(--muted);margin-bottom:1.25rem;">Alors crée aussi cette deuxième sortie — 1 minute, même manip. Tu basculeras de l'une à l'autre selon que tu es au casque ou sur enceintes.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-circle">1</div>
+          <div class="step-body">
+            <div class="step-label">Créer un deuxième périphérique</div>
+            <div class="step-desc">Toujours dans <strong style="color:#b8b0ff">Configuration Audio MIDI</strong> : clique sur le <strong style="color:#b8b0ff">+</strong> en bas à gauche, sélectionne <strong style="color:#b8b0ff">"Créer un appareil à sorties multiples"</strong>, et nomme-le <strong style="color:#b8b0ff">GhostCloser Casque</strong>.</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-circle">2</div>
+          <div class="step-body">
+            <div class="step-label">Cocher BlackHole 2ch et ton casque</div>
+            <div class="step-desc">Branche ou connecte ton casque, puis coche <strong style="color:#b8b0ff">BlackHole 2ch</strong> et <strong style="color:#b8b0ff">ton casque</strong> (ex: <em>"AirPods de Sarah"</em>, <em>"Écouteurs externes"</em>). C'est tout.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout info" style="margin-bottom:0;">
+        <span class="callout-icon">✨</span>
+        <div><strong>Bonus casque :</strong> quand tu closes au casque, GhostCloser distingue automatiquement ta voix de celle du prospect. Tes débriefs de fin d'appel gagnent nettement en précision. Rien à activer — il le détecte tout seul.</div>
+      </div>
+    </div>
+
+    <div class="callout warning" style="margin-top:1rem;">
+      <span class="callout-icon">🎧</span>
+      <div>Casques Bluetooth : si tu alternes entre plusieurs casques (AirPods un jour, filaire le lendemain), crée une sortie "GhostCloser Casque" pour chacun — macOS ne les fusionne pas.</div>
+    </div>
   </section>
 
   <!-- ═══════════════════════════════════════════
@@ -751,8 +785,8 @@
       <div class="step">
         <div class="step-circle">1</div>
         <div class="step-body">
-          <div class="step-label">Lancer GhostCloser avant l'appel</div>
-          <div class="step-desc">Ouvre GhostCloser quelques minutes avant de rejoindre Zoom ou Meet. L'overlay apparaît. Assure-toi que la sortie audio de ton Mac est bien sur <strong style="color:#b8b0ff">GhostCloser Audio</strong>.</div>
+          <div class="step-label">Lancer GhostCloser et choisir ta sortie audio</div>
+          <div class="step-desc">Ouvre GhostCloser quelques minutes avant de rejoindre Zoom ou Meet. L'overlay apparaît. Puis règle la sortie audio du Mac (icône son dans la barre de menus) selon ton setup du jour : <strong style="color:#b8b0ff">enceintes → GhostCloser Audio</strong> · <strong style="color:#b8b0ff">casque → GhostCloser Casque</strong>. C'est le seul réglage à vérifier avant chaque appel.</div>
         </div>
       </div>
 
@@ -791,7 +825,7 @@
 
     <div class="callout warning">
       <span class="callout-icon">⚠️</span>
-      <div>Si tu n'entends plus le son pendant l'appel, vérifie que la sortie de ton Mac est bien sur <strong>GhostCloser Audio</strong> dans Réglages Système → Son → Sortie.</div>
+      <div>Si tu n'entends plus le son pendant l'appel, vérifie la sortie du Mac dans Réglages Système → Son → Sortie : <strong>GhostCloser Audio</strong> si tu es sur enceintes, <strong>GhostCloser Casque</strong> si tu es au casque. (Cas classique : le casque Bluetooth s'est déconnecté et macOS a changé de sortie tout seul.)</div>
     </div>
 
     <!-- Checklist finale -->
@@ -800,7 +834,7 @@
     <ul class="checklist">
       <li>
         <span class="check-icon">✓</span>
-        Sortie audio Mac = GhostCloser Audio
+        Sortie audio Mac = GhostCloser Audio (enceintes) ou GhostCloser Casque (casque)
       </li>
       <li>
         <span class="check-icon">✓</span>
@@ -832,7 +866,7 @@
     </svg>
     <p>Une question ? Un problème à l'installation ?</p>
     <p>Contacte-moi directement — je réponds dans la journée.</p>
-    <p style="margin-top:1rem;font-size:13px;opacity:0.5;">GhostCloser · Invisible pour le prospect. Décisif pour toi. · v1.1.0</p>
+    <p style="margin-top:1rem;font-size:13px;opacity:0.5;">GhostCloser · Invisible pour le prospect. Décisif pour toi. · v1.4.0</p>
   </footer>
 
 </div>
