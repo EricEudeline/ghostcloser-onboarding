@@ -782,6 +782,14 @@ footer {
   font-style: italic;
 }
 
+.footer-links a {
+  color: var(--muted2);
+  text-decoration: none;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+.footer-links a:hover { opacity: 1; }
+
 /* ── RESPONSIVE ── */
 @media (max-width: 640px) {
   .wrapper { padding: 0 1.25rem; }
@@ -1029,7 +1037,7 @@ footer {
         <li class="price-feature"><span class="check">✓</span> 5 phases de vente avec suggestions adaptées</li>
         <li class="price-feature"><span class="check">✓</span> Module Aftercall complet (debrief + relance + emails)</li>
         <li class="price-feature"><span class="check">✓</span> Guide d'installation + support</li>
-        <li class="price-feature"><span class="check">✓</span> Mises à jour incluses</li>
+        <li class="price-feature"><span class="check">✓</span> Mises à jour automatiques incluses</li>
       </ul>
 
       <div style="background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.2);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;gap:12px;align-items:flex-start;">
@@ -1066,7 +1074,7 @@ footer {
         Mon prospect peut-il voir ou entendre GhostCloser ?
         <span class="faq-icon">+</span>
       </div>
-      <div class="faq-a">Non. GhostCloser est un overlay local sur ton écran. Il ne partage rien avec la visioconférence. Ton prospect ne voit que toi, et n'entend que toi.</div>
+      <div class="faq-a">Non. GhostCloser est un overlay local sur ton écran, exclu du partage d'écran : même si tu partages ton écran en visio, ton prospect ne voit que toi, et n'entend que toi.</div>
     </div>
 
     <div class="faq-item">
@@ -1082,7 +1090,7 @@ footer {
         Mes conversations sont-elles stockées quelque part ?
         <span class="faq-icon">+</span>
       </div>
-      <div class="faq-a">Les transcriptions sont traitées en temps réel et les debriefs sont sauvegardés localement sur ton Mac. Aucune conversation n'est stockée sur nos serveurs.</div>
+      <div class="faq-a">Les transcriptions sont traitées en temps réel et les debriefs sont sauvegardés localement sur ton Mac. Aucune conversation n'est stockée sur nos serveurs. Voir la <a href="/politique-confidentialite.html" style="color:var(--violet-light);text-decoration:none;" target="_blank">politique de confidentialité</a> pour le détail.</div>
     </div>
 
     <div class="faq-item">
@@ -1118,7 +1126,7 @@ footer {
       GhostCloser
     </a>
     <div class="footer-tagline">Invisible pour le prospect. Décisif pour toi.</div>
-    <div style="font-size:13px;color:var(--muted2);">© 2026 GhostCloser · <a href="/cgv.html" style="color:var(--muted2);text-decoration:none;opacity:0.6;" target="_blank">CGV</a></div>
+    <div class="footer-links" style="font-size:13px;color:var(--muted2);">© 2026 GhostCloser · <a href="/cgv.html" target="_blank">CGV</a> · <a href="/mentions-legales.html" target="_blank">Mentions légales</a> · <a href="/politique-confidentialite.html" target="_blank">Confidentialité</a></div>
   </footer>
 </div>
 
