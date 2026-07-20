@@ -554,14 +554,14 @@
       </div>
     </div>
 
-    <p style="font-size:14px;color:var(--muted);margin-bottom:1.5rem;">GhostCloser a besoin d'entendre ce qui se passe dans ton appel Zoom ou Meet. Pour ça, on crée un "périphérique agrégé" qui envoie le son à tes haut-parleurs <em>et</em> à GhostCloser en même temps.</p>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:1.5rem;">GhostCloser a besoin d'entendre ce qui se passe dans ton appel Zoom ou Meet, pendant que toi tu l'entends dans tes enceintes. Pour ça, on crée deux périphériques : un <strong style="color:#b8b0ff">agrégé</strong> ("GhostCloser Audio"), qui est l'oreille de l'application, et un <strong style="color:#b8b0ff">appareil à sorties multiples</strong> ("GhostCloser Sortie Hauts parleurs"), qui duplique le son de l'appel vers tes enceintes ET vers GhostCloser. C'est ce deuxième que tu choisiras comme sortie son.</p>
 
     <!-- Schéma visuel -->
     <div class="audio-diagram">
       <div class="diag-row">
         <div class="diag-box">🎙 Zoom / Meet</div>
         <span class="diag-arrow">→</span>
-        <div class="diag-box violet">GhostCloser Audio<br><span style="font-size:11px;opacity:.7">(Périphérique agrégé)</span></div>
+        <div class="diag-box violet">GhostCloser Sortie Hauts parleurs<br><span style="font-size:11px;opacity:.7">(Appareil à sorties multiples)</span></div>
         <span class="diag-arrow">→</span>
         <div class="diag-box">🔊 Tes enceintes</div>
       </div>
@@ -590,8 +590,8 @@
       <div class="step">
         <div class="step-circle">2</div>
         <div class="step-body">
-          <div class="step-label">Créer un nouveau périphérique agrégé</div>
-          <div class="step-desc">En bas à gauche, clique sur le <strong style="color:#b8b0ff">+</strong> puis sélectionne <strong style="color:#b8b0ff">"Créer un périphérique agrégé"</strong>. Un nouvel élément apparaît dans la liste à gauche.</div>
+          <div class="step-label">Créer le périphérique agrégé : l'oreille de GhostCloser</div>
+          <div class="step-desc">En bas à gauche, clique sur le <strong style="color:#b8b0ff">+</strong> puis sélectionne <strong style="color:#b8b0ff">"Créer un périphérique agrégé"</strong>. Coche uniquement <strong style="color:#b8b0ff">BlackHole 2ch</strong> (pas ton micro, pas tes haut-parleurs). Ce périphérique sert à l'application pour écouter l'appel : tu ne le choisiras jamais comme sortie son.</div>
         </div>
       </div>
 
@@ -606,8 +606,8 @@
       <div class="step">
         <div class="step-circle">4</div>
         <div class="step-body">
-          <div class="step-label">Cocher BlackHole 2ch et tes haut-parleurs</div>
-          <div class="step-desc">Dans la zone de droite, coche <strong style="color:#b8b0ff">BlackHole 2ch</strong> et ta sortie habituelle (ex: <em>"Haut-parleurs internes"</em> ou le nom de tes écouteurs). Les deux doivent être cochés, et uniquement les deux : ne coche pas ton micro, GhostCloser le capte séparément.</div>
+          <div class="step-label">Créer la sortie enceintes : tes oreilles + GhostCloser</div>
+          <div class="step-desc">Clique à nouveau sur le <strong style="color:#b8b0ff">+</strong> puis <strong style="color:#b8b0ff">"Créer un appareil à sorties multiples"</strong>. Coche <strong style="color:#b8b0ff">BlackHole 2ch</strong> et <strong style="color:#b8b0ff">tes haut-parleurs</strong> (ex: <em>"Haut-parleurs MacBook"</em>). Renomme-le <strong style="color:#b8b0ff">GhostCloser Sortie Hauts parleurs</strong> (deux clics lents sur le nom). C'est lui qui duplique le son de l'appel vers tes enceintes et vers GhostCloser en même temps.</div>
         </div>
       </div>
 
@@ -615,7 +615,7 @@
         <div class="step-circle">5</div>
         <div class="step-body">
           <div class="step-label">Définir comme sortie par défaut du Mac</div>
-          <div class="step-desc">Va dans <strong style="color:#b8b0ff">Réglages Système → Son → Sortie</strong> et sélectionne <strong style="color:#b8b0ff">GhostCloser Audio</strong> comme sortie par défaut.</div>
+          <div class="step-desc">Va dans <strong style="color:#b8b0ff">Réglages Système → Son → Sortie</strong> et sélectionne <strong style="color:#b8b0ff">GhostCloser Sortie Hauts parleurs</strong>. Attention au piège : ne choisis jamais "GhostCloser Audio" comme sortie, tu n'entendrais rien (c'est un périphérique de capture, pas d'écoute).</div>
         </div>
       </div>
     </div>
@@ -626,6 +626,11 @@
     </div>
 
     <div class="callout warning" style="margin-top:1rem;">
+      <span class="callout-icon">🔇</span>
+      <div><strong>Les barres bougent mais tu n'entends rien ?</strong> Ta sortie son est sur « GhostCloser Audio » (le périphérique de capture) au lieu de « GhostCloser Sortie Hauts parleurs ». Bascule sur la sortie multiple dans le menu Son et le son revient. Et surtout, ne repasse pas sur tes haut-parleurs tout seuls pour « entendre » : tu entendrais, mais GhostCloser deviendrait sourd pendant tes appels. La règle : en call, la sortie est toujours une « GhostCloser Sortie… ».</div>
+    </div>
+
+    <div class="callout warning" style="margin-top:1rem;">
       <span class="callout-icon">🔊</span>
       <div><strong>Règle ton volume avant de basculer :</strong> sur une sortie GhostCloser, les touches volume du Mac sont inactives (limitation macOS des périphériques combinés). Ajuste ton volume pendant que la sortie est encore sur tes haut-parleurs ou ton casque, puis bascule : le niveau est conservé. En plein appel, passe par le réglage de volume de Zoom (Réglages → Audio).</div>
     </div>
@@ -633,14 +638,14 @@
     <!-- ── VARIANTE CASQUE ── -->
     <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-top:2rem;">
       <h3 style="font-size:16px;font-weight:600;color:var(--white);margin-bottom:0.5rem;">🎧 Tu closes au casque ou avec des écouteurs ?</h3>
-      <p style="font-size:14px;color:var(--muted);margin-bottom:1.25rem;">Alors crée aussi cette deuxième sortie — 1 minute, même manip. Tu basculeras de l'une à l'autre selon que tu es au casque ou sur enceintes.</p>
+      <p style="font-size:14px;color:var(--muted);margin-bottom:1.25rem;">Alors crée une deuxième sortie multiple — 1 minute, même manip que l'étape 4. Tu basculeras entre « GhostCloser Sortie Hauts parleurs » et « GhostCloser Sortie Casque » selon ton setup du jour.</p>
 
       <div class="steps">
         <div class="step">
           <div class="step-circle">1</div>
           <div class="step-body">
             <div class="step-label">Créer un deuxième périphérique</div>
-            <div class="step-desc">Toujours dans <strong style="color:#b8b0ff">Configuration Audio MIDI</strong> : clique sur le <strong style="color:#b8b0ff">+</strong> en bas à gauche, sélectionne <strong style="color:#b8b0ff">"Créer un appareil à sorties multiples"</strong>, et nomme-le <strong style="color:#b8b0ff">GhostCloser Casque</strong>.</div>
+            <div class="step-desc">Toujours dans <strong style="color:#b8b0ff">Configuration Audio MIDI</strong> : clique sur le <strong style="color:#b8b0ff">+</strong> en bas à gauche, sélectionne <strong style="color:#b8b0ff">"Créer un appareil à sorties multiples"</strong>, et nomme-le <strong style="color:#b8b0ff">GhostCloser Sortie Casque</strong>.</div>
           </div>
         </div>
 
@@ -783,7 +788,7 @@
         <div class="step-circle">1</div>
         <div class="step-body">
           <div class="step-label">Lancer GhostCloser et choisir ta sortie audio</div>
-          <div class="step-desc">Ouvre GhostCloser quelques minutes avant de rejoindre Zoom ou Meet. L'overlay apparaît. Puis règle la sortie audio du Mac (icône son dans la barre de menus) selon ton setup du jour : <strong style="color:#b8b0ff">enceintes → GhostCloser Audio</strong> · <strong style="color:#b8b0ff">casque → GhostCloser Casque</strong>. C'est le seul réglage à vérifier avant chaque appel. Côté Zoom ou Meet (réglages audio) : micro → ton micro habituel, haut-parleur → <strong style="color:#b8b0ff">« Identique au système »</strong> ou GhostCloser Audio, jamais directement tes enceintes ou ton casque, sinon GhostCloser n'entend pas le prospect. Premier appel ou nouveau matériel ? Clique sur <strong style="color:#b8b0ff">🎧</strong> dans l'overlay : en 10 secondes tu vérifies que GhostCloser entend bien l'appel et ton micro.</div>
+          <div class="step-desc">Ouvre GhostCloser quelques minutes avant de rejoindre Zoom ou Meet. L'overlay apparaît. Puis règle la sortie audio du Mac (icône son dans la barre de menus) selon ton setup du jour : <strong style="color:#b8b0ff">enceintes → GhostCloser Sortie Hauts parleurs</strong> · <strong style="color:#b8b0ff">casque → GhostCloser Sortie Casque</strong>. C'est le seul réglage à vérifier avant chaque appel. Côté Zoom ou Meet (réglages audio) : micro → ton micro habituel, haut-parleur → <strong style="color:#b8b0ff">« Identique au système »</strong> ou GhostCloser Audio, jamais directement tes enceintes ou ton casque, sinon GhostCloser n'entend pas le prospect. Premier appel ou nouveau matériel ? Clique sur <strong style="color:#b8b0ff">🎧</strong> dans l'overlay : en 10 secondes tu vérifies que GhostCloser entend bien l'appel et ton micro.</div>
         </div>
       </div>
 
@@ -822,7 +827,7 @@
 
     <div class="callout warning">
       <span class="callout-icon">⚠️</span>
-      <div>Si tu n'entends plus le son pendant l'appel, vérifie la sortie du Mac dans Réglages Système → Son → Sortie : <strong>GhostCloser Audio</strong> si tu es sur enceintes, <strong>GhostCloser Casque</strong> si tu es au casque. (Cas classique : le casque Bluetooth s'est déconnecté et macOS a changé de sortie tout seul.)</div>
+      <div>Si tu n'entends plus le son pendant l'appel, vérifie la sortie du Mac dans Réglages Système → Son → Sortie : <strong>GhostCloser Sortie Hauts parleurs</strong> si tu es sur enceintes, <strong>GhostCloser Sortie Casque</strong> si tu es au casque. (Cas classique : le casque Bluetooth s'est déconnecté et macOS a changé de sortie tout seul.)</div>
     </div>
 
     <!-- Checklist finale -->
@@ -831,7 +836,7 @@
     <ul class="checklist">
       <li>
         <span class="check-icon">✓</span>
-        Sortie audio Mac = GhostCloser Audio (enceintes) ou GhostCloser Casque (casque)
+        Sortie audio Mac = GhostCloser Sortie Hauts parleurs (enceintes) ou GhostCloser Sortie Casque (casque). Jamais « GhostCloser Audio » en sortie.
       </li>
       <li>
         <span class="check-icon">✓</span>
