@@ -81,6 +81,28 @@ a:hover { text-decoration: underline; }
   background: var(--border-subtle);
   margin: 3rem 0;
 }
+table.offres {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.25rem 0 1.5rem;
+  font-size: 14px;
+}
+table.offres th, table.offres td {
+  padding: 0.7rem 0.85rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--muted);
+}
+table.offres th {
+  color: var(--violet-light);
+  font-weight: 600;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+table.offres td:first-child { color: var(--white); font-weight: 500; }
+ul.legal { margin: 0 0 1rem 1.1rem; color: var(--muted); }
+ul.legal li { margin-bottom: 0.35rem; }
 </style>
 </head>
 <body>
@@ -96,7 +118,7 @@ a:hover { text-decoration: underline; }
 <div class="wrapper">
 
   <h1>Conditions Générales de Vente</h1>
-  <p class="date">Dernière mise à jour : 26 juillet 2026</p>
+  <p class="date">Dernière mise à jour : 19 août 2026</p>
 
   <h2>1. Identification du vendeur</h2>
   <p>
@@ -109,53 +131,92 @@ a:hover { text-decoration: underline; }
   <p>Dans les présentes conditions, « <strong>GhostCloser</strong> » désigne le logiciel et le service commercialisés par le vendeur ; « le <strong>Vendeur</strong> » désigne Eric Eudeline, entrepreneur individuel exerçant sous le nom commercial EverLine Partners. Les paiements apparaissent sous le libellé <strong>GHOSTCLOSER</strong> sur les relevés bancaires des abonnés.</p>
 
   <h2>2. Description du service</h2>
-  <p>GhostCloser est une application logicielle pour macOS (format DMG) fonctionnant comme un overlay d'assistance en temps réel lors d'appels de vente. L'application intègre des fonctionnalités de transcription audio et de génération de suggestions contextuelles destinées aux closers professionnels.</p>
-  <p>L'accès au service est fourni sous forme d'abonnement mensuel avec une licence d'utilisation personnelle et non-transférable.</p>
+  <p>GhostCloser est une application logicielle pour <strong>macOS et Windows</strong> fonctionnant comme un overlay d'assistance en temps réel lors d'appels de vente. L'application intègre des fonctionnalités de transcription audio, de génération de suggestions contextuelles pendant l'appel, de debrief de fin d'appel (« aftercall ») et de mémorisation des enseignements tirés des appels précédents, destinées aux closers professionnels.</p>
+  <p>L'accès au service est fourni sous forme d'<strong>abonnement mensuel</strong> assorti d'une licence d'utilisation personnelle et non transférable. Le service est proposé en trois formules qui se distinguent <strong>uniquement par le nombre d'appels assistés inclus chaque mois</strong> : les trois formules donnent accès à l'intégralité des fonctionnalités de l'application, sans restriction.</p>
+  <p>GhostCloser est un service en ligne : la transcription et la génération des suggestions et des debriefs s'exécutent sur des serveurs distants. L'application ne fonctionne pas hors connexion.</p>
 
   <h2>3. Configuration requise</h2>
-  <p>L'application fonctionne exclusivement sur la configuration suivante :</p>
-  <p>
-    Mac équipé d'une puce Apple (M1 ou ultérieure) ; les Mac à processeur Intel ne sont pas compatibles.<br>
-    macOS 12 (Monterey) ou version ultérieure.<br>
-    Connexion internet stable pendant toute la durée des appels (la transcription et les suggestions s'exécutent en ligne).<br>
-    Installation du pilote audio virtuel fourni (BlackHole) lors de la configuration initiale guidée, nécessitant les droits administrateur sur la machine.<br>
-    Microphone fonctionnel ; l'utilisation d'un casque est recommandée pour une qualité d'analyse optimale.
-  </p>
-  <p>Ces prérequis sont portés à la connaissance de l'acheteur avant toute souscription. <strong>Il appartient à l'acheteur de vérifier, avant l'achat, que son matériel les respecte</strong> (menu Apple, « À propos de ce Mac » : la mention Puce Apple M1, M2, M3 ou M4 doit apparaître). L'incompatibilité du matériel de l'acheteur avec la configuration requise annoncée ne constitue pas un défaut de conformité du service et ne peut fonder une demande de remboursement au-delà des garanties prévues à l'article 6.</p>
+  <p>L'application fonctionne sur les configurations suivantes :</p>
+  <p><strong>Sur Mac :</strong></p>
+  <ul class="legal">
+    <li>Mac équipé d'une puce Apple (M1 ou ultérieure) ; <strong>les Mac à processeur Intel ne sont pas compatibles</strong> ;</li>
+    <li>macOS 12 (Monterey) ou version ultérieure ;</li>
+    <li>installation du pilote audio virtuel fourni (BlackHole) lors de la configuration initiale guidée, nécessitant les droits administrateur sur la machine.</li>
+  </ul>
+  <p><strong>Sur Windows :</strong></p>
+  <ul class="legal">
+    <li>Windows 10 (version 64 bits) ou Windows 11 ;</li>
+    <li>processeur 64 bits, 8 Go de mémoire vive recommandés ;</li>
+    <li>capture du son du système via le périphérique de mixage stéréo ou le pilote audio fourni lors de la configuration initiale guidée, nécessitant les droits administrateur sur la machine.</li>
+  </ul>
+  <p><strong>Dans les deux cas :</strong> une connexion internet stable pendant toute la durée des appels, et un microphone fonctionnel ; l'utilisation d'un casque est recommandée pour une qualité d'analyse optimale.</p>
+  <p>Ces prérequis sont portés à la connaissance de l'acheteur avant toute souscription. <strong>Il appartient à l'acheteur de vérifier, avant l'achat, que son matériel les respecte</strong> — sur Mac via le menu Apple, « À propos de ce Mac » (la mention Puce Apple M1, M2, M3 ou M4 doit apparaître) ; sur Windows via Paramètres &gt; Système &gt; Informations système. L'essai gratuit prévu à l'article 4 permet par ailleurs de vérifier concrètement, avant tout paiement, que l'application fonctionne sur la machine de l'acheteur. L'incompatibilité du matériel de l'acheteur avec la configuration requise annoncée ne constitue pas un défaut de conformité du service.</p>
 
-  <h2>4. Prix et facturation</h2>
-  <p>Le prix de l'abonnement est de <strong>297 € TTC par mois et par utilisateur</strong>. La facturation est effectuée mensuellement, à date anniversaire de la souscription, via la plateforme Stripe.</p>
-  <p>Les prix sont indiqués en euros toutes taxes comprises. En tant qu'entrepreneur individuel non assujetti à la TVA (franchise en base de TVA, article 293 B du CGI), aucune TVA n'est applicable.</p>
+  <h2>4. Essai gratuit</h2>
+  <p>Avant toute souscription, GhostCloser peut être testé gratuitement sur <strong>un appel réel complet</strong>, assistance en direct et debrief de fin d'appel compris.</p>
+  <ul class="legal">
+    <li>L'essai ne requiert <strong>aucun moyen de paiement</strong> et n'entraîne aucun engagement : à son terme, aucune souscription n'est créée et rien n'est facturé. Il ne se transforme pas automatiquement en abonnement payant.</li>
+    <li>L'essai est limité à <strong>un appel par poste de travail</strong>. Cette limite est appliquée au moyen d'une empreinte technique pseudonymisée de la machine, décrite dans la <a href="/politique-confidentialite.html">Politique de confidentialité</a>. Toute tentative de contournement (réinstallation, modification de l'empreinte matérielle, multiplication des postes dans le but d'obtenir plusieurs essais) constitue un usage frauduleux au sens de l'article 10.</li>
+    <li>Le debrief généré à l'issue de l'appel d'essai est enregistré localement sur la machine de l'utilisateur et lui reste acquis, qu'il souscrive ou non.</li>
+    <li>L'essai gratuit donne accès à l'intégralité des fonctionnalités de l'application. Il constitue le moyen mis à disposition de l'acheteur pour évaluer le service avant de payer. Le vendeur ne propose pas, en complément, de garantie contractuelle de remboursement après souscription ; les droits légaux de l'acheteur, notamment le droit de rétractation prévu à l'article 8 et les garanties légales de conformité, demeurent entiers.</li>
+  </ul>
 
-  <h2>5. Modalités de souscription</h2>
-  <p>La souscription s'effectue en ligne via le lien de paiement Stripe disponible sur <a href="https://ghostcloser.tech">ghostcloser.tech</a>. Le contrat est conclu à la validation du paiement. L'acheteur reçoit alors accès à la page de téléchargement de l'application et au guide d'installation.</p>
+  <h2>5. Formules et prix</h2>
+  <p>Le service est proposé selon les trois formules suivantes, par utilisateur et par mois :</p>
+  <table class="offres">
+    <tr><th>Formule</th><th>Prix mensuel</th><th>Appels assistés inclus</th></tr>
+    <tr><td>Occasionnel</td><td>97 €</td><td>30 appels par mois</td></tr>
+    <tr><td>Régulier</td><td>197 €</td><td>70 appels par mois</td></tr>
+    <tr><td>Intensif</td><td>297 €</td><td>140 appels par mois</td></tr>
+  </table>
+  <p>Les prix s'entendent en euros, toutes taxes comprises. Le vendeur relevant du régime de la <strong>franchise en base de TVA (article 293 B du CGI)</strong>, aucune TVA n'est facturée : la mention « TVA non applicable, article 293 B du CGI » figure sur les factures.</p>
+  <p>La facturation est effectuée mensuellement, à date anniversaire de la souscription, via la plateforme Stripe. Les factures sont accessibles depuis l'espace client Stripe. Les paiements apparaissent sous le libellé <strong>GHOSTCLOSER</strong> sur les relevés bancaires.</p>
+  <p><strong>Évolution des prix.</strong> Le vendeur peut faire évoluer ses tarifs, la composition des formules ou le nombre d'appels inclus. Toute modification est notifiée à l'abonné par courrier électronique <strong>au moins 30 jours avant</strong> son entrée en vigueur et ne s'applique qu'aux échéances postérieures à ce délai. L'abonné qui n'accepte pas la modification peut résilier sans frais avant sa prise d'effet, dans les conditions de l'article 9 ; à défaut de résiliation, la modification est réputée acceptée. Il en va de même en cas de changement de régime fiscal du vendeur ayant une incidence sur le prix.</p>
 
-  <h2>6. Droit de rétractation et garantie satisfaction</h2>
-  <p>L'abonné consommateur dispose du droit de rétractation légal de 14 jours prévu aux articles L.221-18 et suivants du Code de la consommation. GhostCloser va plus loin et l'étend contractuellement à <strong>30 jours pour tous ses abonnés</strong> : si l'abonné n'est pas satisfait du service dans les 30 jours suivant sa souscription, il peut demander un remboursement intégral en écrivant à <a href="mailto:eric.eudeline@ghostcloser.tech">eric.eudeline@ghostcloser.tech</a>, sans avoir à justifier sa décision ni remplir aucun formulaire.</p>
+  <h2>6. Appels inclus, décompte et dépassement</h2>
+  <p><strong>Décompte.</strong> Un « appel assisté » est décompté lorsqu'une session d'assistance en direct est démarrée dans l'application et que l'analyse de la conversation s'engage. Le compteur est remis à zéro à chaque échéance mensuelle de l'abonnement ; les appels non consommés <strong>ne sont pas reportés</strong> sur le mois suivant. Le nombre d'appels consommés et restants est consultable dans l'application.</p>
+  <p><strong>Dépassement.</strong> Les formules ne comportent aucune facturation à l'usage : <strong>aucun montant supplémentaire n'est prélevé en cas d'atteinte du quota.</strong> L'application avertit l'utilisateur à l'approche de sa limite. Une fois le nombre d'appels inclus atteint, <strong>l'assistance en direct est suspendue</strong> jusqu'au renouvellement mensuel de l'abonnement ou jusqu'au passage à une formule supérieure. Cette suspension est une caractéristique contractuelle de la formule souscrite et ne constitue ni une interruption de service ni un défaut de conformité. L'accès aux données locales de l'utilisateur (historique, debriefs, mémoire) demeure durant cette période.</p>
+  <p><strong>Changement de formule.</strong> L'abonné peut changer de formule à tout moment depuis son espace client. Le passage à une formule supérieure prend effet immédiatement, le prix étant ajusté au prorata de la période en cours par Stripe ; le nombre d'appels inclus est relevé en conséquence. Le passage à une formule inférieure prend effet à l'échéance mensuelle suivante. Aucun historique ni aucune donnée n'est perdu lors d'un changement de formule.</p>
 
-  <h2>7. Résiliation et annulation</h2>
-  <p>L'abonnement est sans engagement et peut être résilié à tout moment depuis l'espace client Stripe ou en contactant <a href="mailto:eric.eudeline@ghostcloser.tech">eric.eudeline@ghostcloser.tech</a>. La résiliation prend effet à la fin de la période mensuelle en cours. Aucun remboursement partiel n'est effectué pour les jours restants après la période de garantie de 30 jours.</p>
+  <h2>7. Modalités de souscription</h2>
+  <p>La souscription s'effectue en ligne via le lien de paiement Stripe correspondant à la formule choisie, disponible sur <a href="https://ghostcloser.tech">ghostcloser.tech</a>. Le contrat est conclu à la validation du paiement. L'acheteur reçoit alors sa clé de licence, l'accès à la page de téléchargement de l'application et le guide d'installation. En validant sa commande, l'acheteur reconnaît avoir pris connaissance des présentes conditions et les accepter.</p>
 
-  <h2>8. Conditions d'utilisation</h2>
-  <p>La licence d'utilisation est personnelle, non-exclusive et non-transférable. L'application ne peut être partagée, revendue ou utilisée par plusieurs personnes sous un même abonnement. Toute utilisation frauduleuse entraînera la résiliation immédiate de l'abonnement sans remboursement.</p>
-  <p>L'application est compatible exclusivement avec la configuration décrite à l'article 3 des présentes conditions.</p>
+  <h2>8. Droit de rétractation</h2>
+  <p><strong>Abonnés consommateurs.</strong> L'abonné qui contracte en qualité de consommateur dispose du droit de rétractation légal de <strong>14 jours</strong> prévu aux articles L.221-18 et suivants du Code de la consommation, sans avoir à motiver sa décision. Il l'exerce par simple courrier électronique à <a href="mailto:eric.eudeline@ghostcloser.tech">eric.eudeline@ghostcloser.tech</a>, sans formulaire imposé. Lorsque l'exécution du service a commencé, à sa demande expresse, avant la fin du délai de rétractation, l'abonné qui se rétracte reste redevable d'un montant proportionnel au service effectivement fourni jusqu'à sa rétractation, conformément à l'article L.221-25 du même code ; le solde lui est remboursé sous 14 jours par le même moyen de paiement.</p>
+  <p><strong>Abonnés professionnels.</strong> Le droit de rétractation est un droit reconnu au consommateur. GhostCloser étant un outil professionnel souscrit par un acheteur pour les besoins de son activité de vente, l'abonné qui contracte en qualité de professionnel n'en bénéficie pas. C'est précisément pour lui permettre d'évaluer le service avant tout paiement que l'essai gratuit prévu à l'article 4 est proposé.</p>
+  <p><strong>Garanties légales.</strong> Indépendamment de ce qui précède, l'abonné consommateur bénéficie de la garantie légale de conformité (articles L.217-1 et suivants du Code de la consommation) et de la garantie des vices cachés (articles 1641 et suivants du Code civil).</p>
+
+  <h2>9. Résiliation et annulation</h2>
+  <p>L'abonnement est <strong>sans engagement de durée</strong> et peut être résilié à tout moment depuis l'espace client Stripe ou en écrivant à <a href="mailto:eric.eudeline@ghostcloser.tech">eric.eudeline@ghostcloser.tech</a>. La résiliation prend effet à la fin de la période mensuelle en cours : l'accès reste actif jusqu'à cette date, et aucune échéance ultérieure n'est prélevée. Aucun remboursement au prorata n'est effectué pour les jours restants de la période déjà réglée, hors exercice du droit de rétractation prévu à l'article 8.</p>
+  <p>Le vendeur peut résilier l'abonnement en cas de manquement de l'abonné aux présentes conditions, dans les cas prévus à l'article 10, ou en cas d'arrêt du service — auquel cas l'abonné en est informé au moins 30 jours à l'avance et les sommes correspondant à la période non exécutée lui sont remboursées.</p>
+
+  <h2>10. Conditions d'utilisation</h2>
+  <p>La licence d'utilisation est <strong>personnelle, non exclusive et non transférable</strong>. Un abonnement correspond à un utilisateur. L'application ne peut être partagée, revendue, louée, ni utilisée simultanément par plusieurs personnes sous un même abonnement. Pour permettre à l'abonné de travailler indistinctement sur son poste principal et sur un poste secondaire, l'activation est possible sur un <strong>nombre limité de machines rattachées à la même licence</strong> ; ce nombre est indiqué au moment de la souscription et l'abonné peut demander la libération d'une machine par courrier électronique.</p>
+  <p>Toute utilisation frauduleuse — partage de licence, contournement du décompte d'appels ou de la limite d'essai gratuit, rétro-ingénierie, contournement des mesures techniques de protection — entraîne la suspension puis la résiliation de l'abonnement sans remboursement, sans préjudice des poursuites que le vendeur serait fondé à engager.</p>
+  <p>L'application est compatible exclusivement avec les configurations décrites à l'article 3 des présentes conditions.</p>
   <p>L'application capte, transcrit et analyse des conversations auxquelles participent des tiers (prospects et autres interlocuteurs de l'acheteur). L'acheteur, en sa qualité de responsable de traitement de ces conversations, s'engage à respecter les obligations légales applicables à leur captation, à leur transcription et à leur analyse — notamment l'information préalable de ses interlocuteurs et, le cas échéant, le recueil de leur consentement, conformément au RGPD et à l'article 226-1 du Code pénal. <strong>L'acheteur garantit le vendeur contre toute réclamation, action ou recours de tiers résultant d'un manquement à ces obligations.</strong></p>
 
-  <h2>9. Responsabilité</h2>
-  <p>GhostCloser est un outil d'assistance et ne garantit pas de résultats commerciaux spécifiques. La performance commerciale de l'utilisateur reste de sa seule responsabilité. Le vendeur ne saurait être tenu responsable des pertes de revenus, manques à gagner ou tout autre dommage indirect lié à l'utilisation ou à la non-utilisation de l'application.</p>
-  <p>Le vendeur s'engage à maintenir le service accessible et fonctionnel dans des conditions normales d'utilisation, mais ne peut garantir une disponibilité ininterrompue du service, notamment en cas de maintenance ou de défaillance de services tiers (OpenAI, Anthropic, Railway).</p>
+  <h2>11. Responsabilité</h2>
+  <p>GhostCloser est un <strong>outil d'assistance</strong> et ne garantit aucun résultat commercial. Les suggestions générées par l'application sont produites par des systèmes d'intelligence artificielle : elles constituent des propositions, dont l'abonné conserve l'entière appréciation. La conduite de l'entretien de vente, les engagements pris envers les prospects et la performance commerciale relèvent de la seule responsabilité de l'abonné. Aucune formulation commerciale employée par le vendeur, sur son site ou dans ses communications, ne peut être interprétée comme une promesse de gain, de chiffre d'affaires ou de taux de conversion.</p>
+  <p>Le vendeur s'engage à maintenir le service accessible et fonctionnel dans des conditions normales d'utilisation, mais ne peut garantir une disponibilité ininterrompue, notamment en cas de maintenance ou de défaillance de services tiers (OpenAI, Anthropic, Stripe, Railway, GitHub). En cas d'indisponibilité prolongée et imputable au vendeur, l'abonné peut demander un avoir au prorata de la durée d'indisponibilité.</p>
+  <p>La responsabilité du vendeur ne saurait être engagée au titre des pertes de revenus, manques à gagner, pertes de chance ou de tout autre dommage indirect lié à l'utilisation ou à l'impossibilité d'utiliser l'application. Ces limitations ne s'appliquent pas en cas de faute lourde ou dolosive, ni aux dommages corporels, ni aux garanties légales dues au consommateur.</p>
 
-  <h2>10. Données personnelles et confidentialité</h2>
-  <p>Les données collectées lors de la souscription (nom, email, informations de paiement) sont traitées par Stripe conformément à sa propre politique de confidentialité. GhostCloser ne conserve pas ces données sur ses propres serveurs.</p>
-  <p>Les transcriptions audio générées pendant les appels sont traitées en temps réel et ne sont jamais stockées sur les serveurs de GhostCloser. Les debriefs aftercall — qui peuvent inclure, selon les fonctionnalités utilisées, la transcription de l'appel — sont sauvegardés localement sur le Mac de l'utilisateur uniquement et restent sous son contrôle exclusif : il peut les supprimer à tout moment.</p>
-  <p>Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données personnelles. Pour exercer ces droits, contactez : <a href="mailto:eric.eudeline@ghostcloser.tech">eric.eudeline@ghostcloser.tech</a>.</p>
+  <h2>12. Données personnelles et confidentialité</h2>
+  <p>Le traitement des données personnelles est décrit en détail dans la <a href="/politique-confidentialite.html">Politique de confidentialité</a>, qui fait partie intégrante des présentes conditions.</p>
+  <p>En synthèse : les données de souscription (nom, email, informations de paiement) sont traitées par Stripe ; les flux audio et les transcriptions sont traités à la volée par les prestataires d'intelligence artificielle et <strong>ne sont jamais stockés sur les serveurs de GhostCloser</strong> ; les debriefs de fin d'appel — qui peuvent inclure, selon les fonctionnalités utilisées, la transcription de l'appel — sont enregistrés <strong>localement sur la machine de l'abonné uniquement</strong> et restent sous son contrôle exclusif : il peut les supprimer à tout moment.</p>
+  <p>Conformément au RGPD, l'abonné dispose d'un droit d'accès, de rectification, d'effacement, de limitation, de portabilité et d'opposition. Pour exercer ces droits : <a href="mailto:eric.eudeline@ghostcloser.tech">eric.eudeline@ghostcloser.tech</a>.</p>
 
-  <h2>11. Propriété intellectuelle</h2>
-  <p>L'application GhostCloser, son code source, son design et ses contenus sont la propriété exclusive d'Eric Eudeline. Toute reproduction, modification ou distribution sans autorisation écrite préalable est strictement interdite.</p>
+  <h2>13. Propriété intellectuelle</h2>
+  <p>L'application GhostCloser, son code source, son design, ses contenus et ses marques sont la propriété exclusive d'Eric Eudeline. La souscription confère un droit d'usage du service pendant la durée de l'abonnement, à l'exclusion de tout transfert de propriété. Toute reproduction, modification, décompilation ou distribution sans autorisation écrite préalable est strictement interdite.</p>
+  <p>Les contenus produits par l'application à partir des appels de l'abonné (debriefs, résumés, propositions de relance) sont à l'usage de l'abonné, qui peut les exploiter librement dans le cadre de son activité.</p>
 
-  <h2>12. Droit applicable et litiges</h2>
-  <p>Les présentes CGV sont soumises au droit français. En cas de litige, une solution amiable sera recherchée en priorité. À défaut, les tribunaux français seront seuls compétents.</p>
-  <p>Conformément à l'article L.612-1 du Code de la consommation, le consommateur peut recourir gratuitement à un médiateur de la consommation. Les coordonnées du médiateur compétent seront communiquées sur demande à <a href="mailto:eric.eudeline@ghostcloser.tech">eric.eudeline@ghostcloser.tech</a>.</p>
+  <h2>14. Modification des présentes conditions</h2>
+  <p>Le vendeur peut modifier les présentes conditions. Les abonnés en cours sont informés par courrier électronique au moins 30 jours avant l'entrée en vigueur des nouvelles conditions, qui ne s'appliquent qu'aux échéances postérieures à ce délai. L'abonné qui refuse les nouvelles conditions peut résilier sans frais avant leur prise d'effet. La version applicable à une commande est celle en ligne au jour de la commande.</p>
+
+  <h2>15. Droit applicable et litiges</h2>
+  <p>Les présentes CGV sont soumises au droit français. En cas de litige, une solution amiable sera recherchée en priorité auprès de <a href="mailto:eric.eudeline@ghostcloser.tech">eric.eudeline@ghostcloser.tech</a>.</p>
+  <p>Conformément à l'article L.612-1 du Code de la consommation, le consommateur peut recourir gratuitement à un médiateur de la consommation. Les coordonnées du médiateur compétent seront communiquées sur demande à <a href="mailto:eric.eudeline@ghostcloser.tech">eric.eudeline@ghostcloser.tech</a>. La plateforme européenne de règlement en ligne des litiges est par ailleurs accessible à l'adresse <a href="https://ec.europa.eu/consumers/odr" target="_blank">ec.europa.eu/consumers/odr</a>.</p>
+  <p>À défaut de solution amiable, les tribunaux français sont seuls compétents. Pour les litiges avec un abonné professionnel, compétence est attribuée au tribunal du ressort du siège du vendeur.</p>
 
   <div class="divider"></div>
 

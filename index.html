@@ -580,7 +580,39 @@ h2 em { font-style: italic; color: var(--violet-light); }
 }
 
 /* ── PRICING ── */
-.pricing-section { padding: 6rem 0; text-align: center; }
+.pricing-section { padding: 6rem 0; text-align: center; scroll-margin-top: 92px; }
+
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;max-width:1030px;margin:0 auto 2.5rem;align-items:stretch}
+.plan{background:var(--bg2);border:1px solid var(--border-subtle);border-radius:20px;padding:2.3rem 1.7rem;display:flex;flex-direction:column;text-align:left;position:relative;transition:transform .3s ease,border-color .3s ease}
+.plan:hover{border-color:var(--border);transform:translateY(-3px)}
+.plan.featured{border-color:var(--violet);background:linear-gradient(180deg,rgba(124,109,250,0.08),var(--bg2));box-shadow:0 0 60px rgba(124,109,250,0.13)}
+.plan-tag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--violet);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.09em;padding:5px 15px;border-radius:100px;text-transform:uppercase;white-space:nowrap}
+.plan-name{font-size:12.5px;font-weight:700;color:var(--violet-light);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.5rem}
+.plan-for{font-size:13px;color:var(--muted);margin-bottom:1.5rem;min-height:54px;line-height:1.55}
+.plan-price{font-family:'DM Serif Display',serif;font-size:3rem;color:var(--white);line-height:1}
+.plan-price span{font-size:.95rem;font-family:'DM Sans',sans-serif;color:var(--muted)}
+.plan-quota{font-size:12.5px;color:var(--white);margin:.85rem 0 1.5rem;padding:.5rem .85rem;background:var(--violet-dim);border:1px solid var(--border);border-radius:8px;display:inline-block;font-weight:500}
+.plan-feats{list-style:none;margin-bottom:1.8rem;flex-grow:1}
+.plan-feats li{font-size:13.5px;color:var(--muted);padding:.4rem 0 .4rem 1.5rem;position:relative;line-height:1.5}
+.plan-feats li::before{content:'\2713';position:absolute;left:0;color:var(--success);font-weight:700}
+.plan-cta{display:block;width:100%;padding:14px;border-radius:100px;text-align:center;font-weight:600;font-size:14px;text-decoration:none;transition:.25s;border:1px solid var(--violet);color:var(--violet-light);background:transparent;cursor:pointer}
+.plan-cta:hover{background:var(--violet-dim)}
+.plan.featured .plan-cta{background:var(--violet);color:#fff}
+.plan.featured .plan-cta:hover{background:#6b5ce8}
+.plan-soon{font-size:12px;color:var(--violet-light);text-align:center;margin-top:.7rem;opacity:0;transition:opacity .3s ease;height:0}
+.plan-soon.show{opacity:1;height:auto}
+.plan-allin{font-size:13.5px;color:var(--muted);max-width:640px;margin:0 auto 3rem;line-height:1.7}
+.plan-allin strong{color:var(--white);font-weight:600}
+
+.guarantee{max-width:760px;margin:0 auto;background:linear-gradient(160deg,rgba(124,109,250,0.11),rgba(15,15,23,0.6));border:1px solid var(--violet);border-radius:18px;padding:2.4rem 2.4rem 2rem;text-align:center;position:relative;overflow:hidden}
+.guarantee::before{content:'';position:absolute;top:-60%;right:-15%;width:340px;height:340px;background:radial-gradient(circle,rgba(124,109,250,0.18),transparent 70%);pointer-events:none}
+.guarantee-tag{font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--violet-light);margin-bottom:1rem;position:relative}
+.guarantee-line{font-family:'DM Serif Display',serif;font-size:1.75rem;color:var(--white);line-height:1.35;margin-bottom:1.1rem;position:relative}
+.guarantee-line em{font-style:italic;color:var(--violet-light)}
+.guarantee-punch{font-size:15.5px;color:var(--white);line-height:1.8;margin-bottom:1.2rem;position:relative}
+.guarantee-punch b{color:var(--violet-light);font-weight:600}
+.guarantee-sub{font-size:13px;color:var(--muted);line-height:1.7;position:relative;padding-top:1.1rem;border-top:1px solid var(--border-subtle)}
+@media(max-width:900px){.pricing-grid{grid-template-columns:1fr;max-width:420px}.guarantee-line{font-size:1.4rem}}
 
 .pricing-card {
   max-width: 440px;
@@ -804,7 +836,7 @@ footer {
     <img src="https://raw.githubusercontent.com/EricEudeline/ghostcloser-onboarding/main/icon.png" width="32" height="32" style="border-radius:8px;" alt="GhostCloser" />
     GhostCloser
   </a>
-  <a href="https://buy.stripe.com/bJe7sKgOR9gH3Kt3eo0RG0b" class="nav-cta" target="_blank">Démarrer · 297€/mois</a>
+  <a href="#pricing" class="nav-cta">Tester gratuitement</a>
 </nav>
 
 <!-- HERO -->
@@ -812,7 +844,7 @@ footer {
   <div class="wrapper">
     <div class="hero-badge">
       <span class="pulse"></span>
-      Overlay IA · Temps réel · Mac
+      Overlay IA · Temps réel · Mac &amp; Windows
     </div>
 
     <h1>Invisible pour le prospect.<br><em>Décisif pour toi.</em></h1>
@@ -820,14 +852,14 @@ footer {
     <p class="hero-sub">GhostCloser écoute ton appel, transcrit en temps réel et te souffle les bons mots au bon moment. Ton prospect ne voit rien. Toi, tu closes.</p>
 
     <div class="hero-cta-group">
-      <a href="https://buy.stripe.com/bJe7sKgOR9gH3Kt3eo0RG0b" class="btn-primary" target="_blank">
-        Commencer maintenant
+      <a href="#pricing" class="btn-primary">
+        Tester sur mon prochain call
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
       <a href="#how" class="btn-secondary">Voir comment ça marche</a>
     </div>
 
-    <p class="hero-note">macOS uniquement · Annulable à tout moment</p>
+    <p class="hero-note">Mac et Windows · Sans engagement</p>
   </div>
 </section>
 
@@ -854,7 +886,7 @@ footer {
         <div class="mockup-grid">
           <div class="mockup-suggestion">
             <div class="sugg-label">● Assistant</div>
-            <div class="sugg-text">Objection prix détectée. Réponse suggérée : <strong>"Je comprends que 297€ représente un investissement. Mais si on close juste un deal supplémentaire ce mois-ci grâce à ça, vous avez déjà multiplié la mise par 10. Est-ce que c'est réaliste pour vous ?"</strong></div>
+            <div class="sugg-text">Objection prix détectée. Réponse suggérée : <strong>"Je comprends que 4 500 € représente un vrai budget. Mais si sur six mois ça vous fait signer ne serait-ce que deux clients de plus, c'est déjà remboursé. Est-ce que c'est réaliste pour vous ?"</strong></div>
           </div>
           <div class="mockup-prospect">
             <div class="prospect-label">Profil prospect</div>
@@ -1025,37 +1057,72 @@ footer {
 
 <section class="pricing-section" id="pricing">
   <div class="wrapper">
-    <div class="section-label" style="justify-content:center;display:flex;margin-bottom:1rem;">Tarif</div>
-    <h2 style="margin-bottom:0.5rem;">Un seul plan.<br><em>Zéro compromis.</em></h2>
-    <p style="color:var(--muted);margin-bottom:3rem;">Si GhostCloser te fait closer un deal de plus par mois, il est rentabilisé.</p>
+    <div class="section-label" style="justify-content:center;display:flex;margin-bottom:1rem;">Tarifs</div>
+    <h2 style="margin-bottom:0.5rem;">Trois formules.<br><em>Zéro compromis.</em></h2>
+    <p style="color:var(--muted);margin-bottom:3rem;">Tu paies pour ton volume d'appels, pas pour des fonctionnalités qu'on te retire.</p>
 
-    <div class="pricing-card">
-      <div class="pricing-badge">
-        <span>●</span> Accès complet
-      </div>
-      <div class="price-amount">297€</div>
-      <div class="price-period">par mois · par seat · sans engagement</div>
-
-      <ul class="price-features">
-        <li class="price-feature"><span class="check">✓</span> Overlay IA temps réel (Zoom, Meet, Fathom…)</li>
-        <li class="price-feature"><span class="check">✓</span> Transcription en continu</li>
-        <li class="price-feature"><span class="check">✓</span> Suggestions IA calibrées pour ton offre</li>
-        <li class="price-feature"><span class="check">✓</span> 4 phases de vente avec suggestions adaptées</li>
-        <li class="price-feature"><span class="check">✓</span> Module Aftercall complet (debrief + relance + emails)</li>
-        <li class="price-feature"><span class="check">✓</span> Guide d'installation + support</li>
-        <li class="price-feature"><span class="check">✓</span> Mises à jour incluses</li>
+    <div class="pricing-grid">
+  <div class="plan">
+    <div class="plan-name">Occasionnel</div>
+    <div class="plan-for">Tu closes ponctuellement : coach, consultant, indépendant qui vend sa propre offre.</div>
+    <div class="plan-price">97€<span> /mois</span></div>
+    <div class="plan-quota">30 appels par mois</div>
+      <ul class="plan-feats">
+        <li>Overlay IA temps réel</li>
+        <li>Transcription en continu</li>
+        <li>Suggestions calibrées sur ton offre</li>
+        <li>Aftercall complet : debrief, scores, relances</li>
+        <li>Mémoire qui apprend tes patterns</li>
       </ul>
-
-      <div style="background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.2);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;gap:12px;align-items:flex-start;">
-        <span style="font-size:22px;flex-shrink:0;">🛡️</span>
-        <div>
-          <div style="font-size:13px;font-weight:600;color:#34d399;margin-bottom:4px;">Garantie 30 jours</div>
-          <div style="font-size:13px;color:#6ee7b7;line-height:1.6;">Si dans les 30 premiers jours tu n'es pas convaincu, on te rembourse intégralement, et on analyse un call de ton choix pour comprendre ce qui a bloqué.</div>
-        </div>
-      </div>
-      <a href="https://buy.stripe.com/bJe7sKgOR9gH3Kt3eo0RG0b" class="btn-pricing" id="stripe-btn" target="_blank">Démarrer maintenant →</a>
-      <p class="pricing-note">macOS uniquement · Annulable à tout moment · Paiement sécurisé par Stripe · Remboursé si non convaincu</p>
+    <a href="#" class="plan-cta">Tester gratuitement</a>
+    <div class="plan-soon">Ouverture des inscriptions imminente.</div>
+  </div>
+  <div class="plan featured">
+    <div class="plan-tag">Le plus choisi</div>
+    <div class="plan-name">Régulier</div>
+    <div class="plan-for">Tu as un vrai rythme de vente, sans que le closing soit ton métier à temps plein.</div>
+    <div class="plan-price">197€<span> /mois</span></div>
+    <div class="plan-quota">70 appels par mois <span style="color:var(--muted)">· 3 à 4 par jour</span></div>
+      <ul class="plan-feats">
+        <li>Overlay IA temps réel</li>
+        <li>Transcription en continu</li>
+        <li>Suggestions calibrées sur ton offre</li>
+        <li>Aftercall complet : debrief, scores, relances</li>
+        <li>Mémoire qui apprend tes patterns</li>
+      </ul>
+    <a href="#" class="plan-cta">Tester gratuitement</a>
+    <div class="plan-soon">Ouverture des inscriptions imminente.</div>
+  </div>
+  <div class="plan">
+    <div class="plan-name">Intensif</div>
+    <div class="plan-for">Le closing est ton métier. 7 appels par jour ouvré, tous les jours du mois : tu ne toucheras jamais le plafond.</div>
+    <div class="plan-price">297€<span> /mois</span></div>
+    <div class="plan-quota">140 appels par mois <span style="color:var(--muted)">· 7 par jour ouvré</span></div>
+      <ul class="plan-feats">
+        <li>Overlay IA temps réel</li>
+        <li>Transcription en continu</li>
+        <li>Suggestions calibrées sur ton offre</li>
+        <li>Aftercall complet : debrief, scores, relances</li>
+        <li>Mémoire qui apprend tes patterns</li>
+      </ul>
+    <a href="#" class="plan-cta">Tester gratuitement</a>
+    <div class="plan-soon">Ouverture des inscriptions imminente.</div>
+  </div>
     </div>
+
+    <p class="plan-allin"><strong>Les trois formules donnent accès à l'intégralité de l'application.</strong> Aucune fonctionnalité n'est réservée aux formules supérieures : seul le nombre d'appels change. Sans engagement, annulable à tout moment.</p>
+
+    <div class="guarantee">
+      <div class="guarantee-tag">La garantie</div>
+      <div class="guarantee-line">Teste gratuitement GhostCloser<br><em>sur ton prochain call.</em></div>
+      <div class="guarantee-punch">
+        Satisfait ? <b>On t'aide à faire du cash.</b><br>
+        Pas convaincu ? Dommage, tu t'assois sur un paquet de fric…
+      </div>
+      <div class="guarantee-sub">Un appel complet, assistant en direct et debrief compris. Sans carte bancaire, sans engagement, un essai par poste. Tu gardes ton debrief même si tu ne continues pas.</div>
+    </div>
+
+    <p class="pricing-note" style="margin-top:2rem;">Mac et Windows · Paiement sécurisé par Stripe · Annulable en un clic</p>
   </div>
 </section>
 
@@ -1072,7 +1139,7 @@ footer {
         GhostCloser fonctionne avec quelles plateformes ?
         <span class="faq-icon">+</span>
       </div>
-      <div class="faq-a">GhostCloser fonctionne avec toutes les plateformes de visioconférence sur Mac : Zoom, Google Meet, Fathom, Teams, et toute app qui utilise la sortie audio système. Il capture le son système via BlackHole, un pilote audio gratuit.</div>
+      <div class="faq-a">GhostCloser fonctionne avec toutes les plateformes de visioconférence : Zoom, Google Meet, Fathom, Teams, et toute application dont le son passe par la sortie audio du système. Il capture ce son via BlackHole, un pilote audio gratuit installé une fois. L'application est disponible sur Mac (puce Apple Silicon) et sur Windows.</div>
     </div>
 
     <div class="faq-item">
@@ -1101,6 +1168,30 @@ footer {
 
     <div class="faq-item">
       <div class="faq-q">
+        Comment marche le test gratuit ?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Tu installes l'application et tu la lances sur ton prochain appel réel, sans rien payer et sans carte bancaire. Tu as l'assistant en direct pendant tout l'appel, puis le debrief complet à la fin. Si tu continues, tu choisis ta formule ; sinon tu ne fais rien, et tu gardes quand même le debrief de cet appel. Un essai par poste.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        Quelle formule choisir ?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Compte simplement tes appels de vente sur un mois normal. En dessous de 30, la formule Occasionnel suffit. Entre 30 et 70, c'est Régulier — c'est le cas de la plupart des utilisateurs. Au-delà, Intensif, qui couvre jusqu'à 7 appels par jour ouvré : en pratique, aucun closer à temps plein n'atteint ce volume. Tu peux changer de formule à tout moment depuis ton espace client, le changement prend effet immédiatement.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        Que se passe-t-il si je dépasse mon nombre d'appels ?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">L'application te prévient quand tu approches de ta limite. Une fois le quota atteint, l'assistance en direct se met en pause jusqu'au renouvellement de ton abonnement, ou jusqu'à ce que tu passes à la formule supérieure — en un clic, sans perdre ton historique ni ta mémoire. Rien n'est facturé en plus sans que tu l'aies décidé.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
         Puis-je annuler à tout moment ?
         <span class="faq-icon">+</span>
       </div>
@@ -1115,9 +1206,9 @@ footer {
     <div class="cta-box">
       <div class="section-label" style="justify-content:center;display:flex;margin-bottom:1rem;">Prêt ?</div>
       <h2>Ton prochain appel<br>pourrait être <em>différent.</em></h2>
-      <p>Rejoins les closers qui ont arrêté de laisser des deals sur la table.</p>
-      <a href="https://buy.stripe.com/bJe7sKgOR9gH3Kt3eo0RG0b" class="btn-primary" style="display:inline-flex;" target="_blank">
-        Démarrer maintenant · 297€/mois
+      <p>Rejoins les closers qui ont arrêté de laisser des deals sur la table. Le premier appel est offert — tu ne risques que de voir ce que tu rates.</p>
+      <a href="#pricing" class="btn-primary" style="display:inline-flex;">
+        Tester gratuitement sur mon prochain call
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
     </div>
@@ -1143,6 +1234,15 @@ document.querySelectorAll('.faq-item').forEach(item => {
     const wasOpen = item.classList.contains('open');
     document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
     if (!wasOpen) item.classList.add('open');
+  });
+});
+
+// Boutons d'offre : Stripe pas encore branché
+document.querySelectorAll('.plan-cta').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const msg = btn.parentElement.querySelector('.plan-soon');
+    if (msg) msg.classList.add('show');
   });
 });
 
