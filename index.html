@@ -611,8 +611,9 @@ h2 em { font-style: italic; color: var(--violet-light); }
 .guarantee-line{font-family:'DM Serif Display',serif;font-size:1.75rem;color:var(--white);line-height:1.35;margin-bottom:1.1rem;position:relative}
 .guarantee-line em{font-style:italic;color:var(--violet-light)}
 .guarantee-punch{font-size:15.5px;color:var(--white);line-height:1.8;margin-bottom:1.2rem;position:relative}
+.guarantee-punch .q{color:var(--muted);font-weight:400}
 .guarantee-punch b{color:var(--violet-light);font-weight:600}
-.guarantee-punch mark{background:rgba(124,109,250,.16);color:var(--white);font-weight:600;padding:3px 10px;border-radius:7px;box-shadow:inset 0 -2px 0 rgba(124,109,250,.55);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.guarantee-punch i{color:var(--white);font-weight:600;font-style:normal}
 .guarantee-sub{font-size:13px;color:var(--muted);line-height:1.7;position:relative;padding-top:1.1rem;border-top:1px solid var(--border-subtle)}
 @media(max-width:900px){.pricing-grid{grid-template-columns:1fr;max-width:420px}.guarantee-line{font-size:1.4rem}}
 
@@ -1118,8 +1119,8 @@ footer {
       <div class="guarantee-tag">La garantie</div>
       <div class="guarantee-line">Teste gratuitement GhostCloser<br><em>sur ton prochain call.</em></div>
       <div class="guarantee-punch">
-        Satisfait ? <b>On t'aide à faire du cash.</b><br>
-        Pas convaincu ? <mark>Dommage, tu t'assois sur un paquet de fric…</mark>
+        <span class="q">Satisfait ?</span> <b>On t'aide à faire du cash.</b><br>
+        <span class="q">Pas convaincu ?</span> <i>Dommage, tu t'assois sur un paquet de fric…</i>
       </div>
       <div class="guarantee-sub">Un appel complet, assistant en direct et debrief compris. Sans carte bancaire, sans engagement, un essai par poste. Tu gardes ton debrief même si tu ne continues pas.</div>
     </div>
