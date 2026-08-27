@@ -456,13 +456,13 @@
       Guide d'installation · GhostCloser
     </div>
 
-    <h1>Prêt en <em>15 minutes</em>,<br>opérationnel dès le premier appel.</h1>
+    <h1>Prêt en <em>5 minutes</em>,<br>opérationnel dès le premier appel.</h1>
 
-    <p class="hero-sub">Suis ce guide étape par étape pour installer GhostCloser sur ton Mac et le configurer pour ton offre. Aucune compétence technique requise.</p>
+    <p class="hero-sub">Suis ce guide étape par étape pour installer GhostCloser sur ton Mac et le configurer pour ton offre. GhostCloser configure son audio tout seul — la seule étape technique restante est l'installation d'un pilote audio gratuit. Aucune compétence technique requise.</p>
 
     <div class="hero-duration">
       <span class="dot"></span>
-      Durée estimée : 15 à 20 minutes · macOS uniquement
+      Durée estimée : 5 à 10 minutes, dont un redémarrage du Mac · macOS uniquement
     </div>
   </header>
 
@@ -549,12 +549,17 @@
     <div class="section-header">
       <div class="section-num">02</div>
       <div>
-        <h2 class="section-title">Créer le périphérique audio</h2>
-        <p class="section-subtitle">Combiner ta sortie audio et BlackHole en un seul périphérique</p>
+        <h2 class="section-title">Laisser GhostCloser créer son audio</h2>
+        <p class="section-subtitle">Un clic — l'app crée et règle ses périphériques toute seule</p>
       </div>
     </div>
 
-    <p style="font-size:14px;color:var(--muted);margin-bottom:1.5rem;">GhostCloser a besoin d'entendre ce qui se passe dans ton appel Zoom ou Meet, pendant que toi tu l'entends dans tes enceintes. Pour ça, on crée deux périphériques : un <strong style="color:#b8b0ff">agrégé</strong> ("GhostCloser Audio"), qui est l'oreille de l'application, et un <strong style="color:#b8b0ff">appareil à sorties multiples</strong> ("GhostCloser Sortie Hauts parleurs"), qui duplique le son de l'appel vers tes enceintes ET vers GhostCloser. C'est ce deuxième que tu choisiras comme sortie son.</p>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:1.5rem;">GhostCloser a besoin d'entendre ce qui se passe dans ton appel Zoom ou Meet, pendant que toi tu l'entends dans tes enceintes. Pour ça il utilise deux périphériques : un <strong style="color:#b8b0ff">agrégé</strong> ("GhostCloser Audio"), qui est l'oreille de l'application, et un <strong style="color:#b8b0ff">appareil à sorties multiples</strong> ("GhostCloser Sortie Hauts parleurs"), qui duplique le son de l'appel vers tes enceintes ET vers GhostCloser.</p>
+
+    <div class="callout success">
+      <span class="callout-icon">⚡</span>
+      <div><strong>Bonne nouvelle : GhostCloser fait tout ça tout seul.</strong> Une fois BlackHole installé (section 01), la fenêtre de configuration de l'app te propose <strong>« ⚡ Configurer automatiquement »</strong> : un clic, et GhostCloser crée « GhostCloser Audio », « GhostCloser Sortie Hauts parleurs » et sélectionne la bonne sortie du Mac. Tu closes au casque ou avec des écouteurs ? Connecte-les et clique sur <strong>Basculer</strong> (bouton 🎧 de l'overlay → Test audio) : « GhostCloser Sortie Casque » se crée au premier clic. Plus rien à faire dans Configuration Audio MIDI — tu peux passer directement à la section 03.</div>
+    </div>
 
     <!-- Schéma visuel -->
     <div class="audio-diagram">
@@ -577,6 +582,15 @@
       </div>
       <p class="diag-label">Le son va à tes oreilles et à GhostCloser simultanément — tu n'entends aucune différence.</p>
     </div>
+
+    <div class="callout warning" style="margin-top:1rem;">
+      <span class="callout-icon">🔊</span>
+      <div><strong>Règle ton volume avant de basculer :</strong> sur une sortie GhostCloser, les touches volume du Mac sont inactives (limitation macOS des périphériques combinés). Ajuste ton volume pendant que la sortie est encore sur tes haut-parleurs ou ton casque, puis bascule : le niveau est conservé. En plein appel, passe par le réglage de volume de Zoom (Réglages → Audio).</div>
+    </div>
+
+    <details style="margin-top:2rem;border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.5rem;background:var(--bg2);">
+      <summary style="cursor:pointer;font-size:14px;font-weight:600;color:var(--white);">🛠 Méthode manuelle — uniquement si « ⚡ Configurer automatiquement » n'apparaît pas ou échoue</summary>
+      <p style="font-size:13px;color:var(--muted);margin:1rem 0 1.25rem;">C'est l'ancienne méthode, via Configuration Audio MIDI. Tu n'en as normalement plus besoin : garde-la sous le coude en cas de pépin (l'app te le dira si la configuration automatique n'est pas disponible).</p>
 
     <div class="steps">
       <div class="step">
@@ -630,12 +644,7 @@
       <div><strong>Les barres bougent mais tu n'entends rien ?</strong> Ta sortie son est sur « GhostCloser Audio » (le périphérique de capture) au lieu de « GhostCloser Sortie Hauts parleurs ». Bascule sur la sortie multiple dans le menu Son et le son revient. Et surtout, ne repasse pas sur tes haut-parleurs tout seuls pour « entendre » : tu entendrais, mais GhostCloser deviendrait sourd pendant tes appels. La règle : en call, la sortie est toujours une « GhostCloser Sortie… ».</div>
     </div>
 
-    <div class="callout warning" style="margin-top:1rem;">
-      <span class="callout-icon">🔊</span>
-      <div><strong>Règle ton volume avant de basculer :</strong> sur une sortie GhostCloser, les touches volume du Mac sont inactives (limitation macOS des périphériques combinés). Ajuste ton volume pendant que la sortie est encore sur tes haut-parleurs ou ton casque, puis bascule : le niveau est conservé. En plein appel, passe par le réglage de volume de Zoom (Réglages → Audio).</div>
-    </div>
-
-    <!-- ── VARIANTE CASQUE ── -->
+    <!-- ── VARIANTE CASQUE (manuelle) ── -->
     <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-top:2rem;">
       <h3 style="font-size:16px;font-weight:600;color:var(--white);margin-bottom:0.5rem;">🎧 Tu closes au casque ou avec des écouteurs ?</h3>
       <p style="font-size:14px;color:var(--muted);margin-bottom:1.25rem;">Alors crée une deuxième sortie multiple — 1 minute, même manip que l'étape 4. Tu basculeras entre « GhostCloser Sortie Hauts parleurs » et « GhostCloser Sortie Casque » selon ton setup du jour.</p>
@@ -666,8 +675,9 @@
 
     <div class="callout warning" style="margin-top:1rem;">
       <span class="callout-icon">🎧</span>
-      <div>Casques Bluetooth : si tu alternes entre plusieurs casques (AirPods un jour, filaire le lendemain), crée une sortie "GhostCloser Casque" pour chacun — macOS ne les fusionne pas.</div>
+      <div>Casques Bluetooth : si tu alternes entre plusieurs casques (AirPods un jour, filaire le lendemain), crée une sortie "GhostCloser Casque" pour chacun — macOS ne les fusionne pas. (Avec la configuration automatique, le bouton <strong>Basculer</strong> reconstruit la sortie Casque avec le casque du jour : rien à créer.)</div>
     </div>
+    </details>
   </section>
 
   <!-- ═══════════════════════════════════════════
@@ -765,9 +775,21 @@
         <div class="setting-name">Style de closing <span style="font-weight:400;color:var(--muted)">(optionnel)</span></div>
         <div class="setting-desc">Ton approche : directif, empathique, challenger... L'IA adapte son ton en conséquence.</div>
       </div>
+      <div class="setting-card">
+        <div class="setting-name">Ta trame d'appel <span style="font-weight:400;color:#b8b0ff">(nouveau)</span> <span style="font-weight:400;color:var(--muted)">(optionnel)</span></div>
+        <div class="setting-desc">Colle ta structure d'appel telle quelle — même en vrac, même très longue. GhostCloser la distille en jalons et t'affiche ce qu'il en a compris. En Découverte, les questions proposées deviennent <strong style="color:#b8b0ff">les tiennes</strong>, reformulées avec les mots du prospect ; quand ta méthode dit d'écouter, il se tait (👂). Chaque offre a sa propre trame.</div>
+      </div>
+      <div class="setting-card">
+        <div class="setting-name">Rythme des suggestions</div>
+        <div class="setting-desc"><strong style="color:#b8b0ff">Confort ~30 s</strong> (défaut : l'assistant respire, toi aussi) · Réactif (cadence rapprochée) · Zen ~45 s. Seules les suggestions automatiques ralentissent : réponses aux objections ⚡, Souffle 👻 et moments forts restent instantanés.</div>
+      </div>
+      <div class="setting-card">
+        <div class="setting-name">Apparence de l'overlay</div>
+        <div class="setting-desc">Opacité du panneau et texte noir ou blanc — pour rester lisible et discret sur n'importe quel fond d'écran.</div>
+      </div>
     </div>
 
-    <p style="font-size:14px;color:var(--muted);margin:1.5rem 0 1rem;">Tu peux aussi renseigner jusqu'à <strong style="color:#b8b0ff">3 objections courantes</strong> et les meilleures réponses que tu as testées. GhostCloser les utilisera en priorité quand l'objection est détectée pendant l'appel.</p>
+    <p style="font-size:14px;color:var(--muted);margin:1.5rem 0 1rem;">Tu peux aussi renseigner jusqu'à <strong style="color:#b8b0ff">6 objections courantes</strong> et les meilleures réponses que tu as testées. GhostCloser les utilisera en priorité quand l'objection est détectée pendant l'appel.</p>
 
     <div class="callout success">
       <span class="callout-icon">💾</span>
@@ -792,7 +814,7 @@
         <div class="step-circle">1</div>
         <div class="step-body">
           <div class="step-label">Lancer GhostCloser et choisir ta sortie audio</div>
-          <div class="step-desc">Ouvre GhostCloser quelques minutes avant de rejoindre Zoom ou Meet. L'overlay apparaît. Puis règle la sortie audio du Mac (icône son dans la barre de menus) selon ton setup du jour : <strong style="color:#b8b0ff">enceintes → GhostCloser Sortie Hauts parleurs</strong> · <strong style="color:#b8b0ff">casque → GhostCloser Sortie Casque</strong>. C'est le seul réglage à vérifier avant chaque appel. Côté Zoom ou Meet (réglages audio) : micro → <strong style="color:#b8b0ff">ton micro intégré (MacBook)</strong> — jamais BlackHole ni GhostCloser —, haut-parleur → <strong style="color:#b8b0ff">« Identique au système »</strong> (ou « GhostCloser Sortie Hauts parleurs / Casque »). Jamais « GhostCloser Audio » (tu n'entendrais rien), jamais directement tes enceintes ou ton casque (GhostCloser n'entendrait pas le prospect). Ces réglages Meet ne bougent plus ensuite, même quand tu changes d'écouteurs. Premier appel ou nouveau matériel ? Clique sur <strong style="color:#b8b0ff">🎧</strong> dans l'overlay : en 10 secondes tu vérifies que GhostCloser entend bien l'appel et ton micro.</div>
+          <div class="step-desc">Ouvre GhostCloser quelques minutes avant de rejoindre Zoom ou Meet. L'overlay apparaît. Enceintes ou casque ? Le plus simple : clique sur <strong style="color:#b8b0ff">🎧</strong> dans l'overlay → bouton <strong style="color:#b8b0ff">Basculer</strong> — GhostCloser règle la sortie du Mac pour toi (et te prévient au démarrage du call s'il détecte un décalage, avec le bouton pour corriger en un clic). Tu peux aussi le faire à la main : icône son de la barre de menus → <strong style="color:#b8b0ff">enceintes → GhostCloser Sortie Hauts parleurs</strong> · <strong style="color:#b8b0ff">casque → GhostCloser Sortie Casque</strong>. Côté Zoom ou Meet (réglages audio) : micro → <strong style="color:#b8b0ff">ton micro intégré (MacBook)</strong> — jamais BlackHole ni GhostCloser —, haut-parleur → <strong style="color:#b8b0ff">« Identique au système »</strong> (ou « GhostCloser Sortie Hauts parleurs / Casque »). Jamais « GhostCloser Audio » (tu n'entendrais rien), jamais directement tes enceintes ou ton casque (GhostCloser n'entendrait pas le prospect). Ces réglages Meet ne bougent plus ensuite, même quand tu changes d'écouteurs. Premier appel ou nouveau matériel ? Le même <strong style="color:#b8b0ff">🎧</strong> te fait vérifier en 10 secondes que GhostCloser entend bien l'appel et ton micro.</div>
         </div>
       </div>
 
@@ -840,7 +862,7 @@
     <ul class="checklist">
       <li>
         <span class="check-icon">✓</span>
-        Sortie audio Mac = GhostCloser Sortie Hauts parleurs (enceintes) ou GhostCloser Sortie Casque (casque). Jamais « GhostCloser Audio » en sortie.
+        Sortie audio Mac = GhostCloser Sortie Hauts parleurs (enceintes) ou GhostCloser Sortie Casque (casque) — un clic sur Basculer (🎧) suffit, et GhostCloser te prévient au démarrage du call si ça ne colle pas. Jamais « GhostCloser Audio » en sortie.
       </li>
       <li>
         <span class="check-icon">✓</span>
