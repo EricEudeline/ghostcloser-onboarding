@@ -211,19 +211,19 @@ h1 em { font-style: italic; color: var(--violet-light); }
   </div>
 
   <h1>Bienvenue dans<br><em>GhostCloser.</em></h1>
-  <p class="subtitle">Ton abonnement est actif. Suis les 4 étapes ci-dessous pour être opérationnel en 15 minutes.</p>
+  <p class="subtitle" id="gc-subtitle">Ton abonnement est actif. Suis les 4 étapes ci-dessous pour être opérationnel en 15 minutes.</p>
 
   <div class="steps">
     <div class="step">
       <div class="step-num">01 —</div>
-      <div class="step-text">
+      <div class="step-text" id="gc-st1">
         Télécharge GhostCloser
         <span>Clique sur le bouton ci-dessous · macOS arm64 uniquement</span>
       </div>
     </div>
     <div class="step">
       <div class="step-num">02 —</div>
-      <div class="step-text">
+      <div class="step-text" id="gc-st2">
         Suis le guide d'installation
         <span>BlackHole, périphérique audio, configuration — tout est expliqué pas à pas</span>
       </div>
@@ -244,20 +244,24 @@ h1 em { font-style: italic; color: var(--violet-light); }
     </div>
   </div>
 
-  <a href="https://github.com/EricEudeline/ghostcloser-onboarding/releases/latest/download/GhostCloser-arm64.dmg" class="btn-download">
+  <a id="gc-download" href="https://github.com/EricEudeline/ghostcloser-onboarding/releases/latest/download/GhostCloser-arm64.dmg" class="btn-download">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-    Télécharger GhostCloser
+    <span id="gc-dl-label">Télécharger GhostCloser</span>
   </a>
+
+  <a href="#" id="gc-switch" style="display:block;font-size:13px;color:var(--muted);text-decoration:underline;text-underline-offset:3px;margin:2px 0 10px;">Tu es sur Windows ? → Passer à la version Windows</a>
 
   <a href="#" id="btn-activate" class="btn-activate">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
     Activer ma licence
   </a>
 
-  <a href="https://ghostcloser.tech/ghostcloser-onboarding.html" class="btn-guide" target="_blank">
+  <a id="gc-guide" href="https://ghostcloser.tech/ghostcloser-onboarding.html" class="btn-guide" target="_blank">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
     Ouvrir le guide d'installation
   </a>
+
+  <p class="note" style="margin-bottom:12px;">Ta licence couvre <strong style="color:var(--white);font-weight:500;">2 appareils</strong> — Mac et Windows confondus.</p>
 
   <p class="note">
     Une question ? Un problème à l'installation ?<br>
@@ -265,6 +269,54 @@ h1 em { font-style: italic; color: var(--violet-light); }
   </p>
 
 </div>
+<script>
+  // Parcours double plateforme (2.0, 30/08) : detection de l'OS + bascule
+  // manuelle. Le lien de telechargement "latest/download/<nom>" suit
+  // automatiquement chaque nouvelle release publiee.
+  (function () {
+    var CONTENT = {
+      mac: {
+        subtitle: "Ton abonnement est actif. Suis les 4 étapes ci-dessous pour être opérationnel en 5 minutes.",
+        st1: ["Télécharge GhostCloser", "Clique sur le bouton ci-dessous · macOS (puce Apple Silicon)"],
+        st2: ["Suis le guide d'installation", "BlackHole + le reste de l'audio se configure automatiquement — tout est guidé pas à pas"],
+        dl: "https://github.com/EricEudeline/ghostcloser-onboarding/releases/latest/download/GhostCloser-arm64.dmg",
+        dlLabel: "Télécharger GhostCloser pour Mac",
+        guide: true,
+        sw: "Tu es sur Windows ? → Passer à la version Windows"
+      },
+      win: {
+        subtitle: "Ton abonnement est actif. Suis les 4 étapes ci-dessous — sur Windows, tu es opérationnel en 2 minutes.",
+        st1: ["Télécharge GhostCloser", "Clique sur le bouton ci-dessous · Windows 10 / 11 (64 bits)"],
+        st2: ["Installe l'application", "Double-clique sur le fichier téléchargé — aucune configuration audio, tout est natif. Si Windows affiche « Windows a protégé votre ordinateur » : clique <strong>Informations complémentaires</strong> puis <strong>Exécuter quand même</strong> (avertissement fréquent les premières semaines d'une version — l'éditeur vérifié est bien Eric Florent Denis EUDELINE)."],
+        dl: "https://github.com/EricEudeline/ghostcloser-onboarding/releases/latest/download/GhostCloser-Setup-x64.exe",
+        dlLabel: "Télécharger GhostCloser pour Windows",
+        guide: false,
+        sw: "Tu es sur Mac ? → Passer à la version Mac"
+      }
+    }
+    var current = /Windows/i.test(navigator.userAgent) ? 'win' : 'mac'
+    function setStep(el, pair) {
+      el.childNodes[0].nodeValue = '\n        ' + pair[0] + '\n        '
+      el.querySelector('span').innerHTML = pair[1]
+    }
+    function apply(p) {
+      current = p
+      var c = CONTENT[p]
+      document.getElementById('gc-subtitle').textContent = c.subtitle
+      setStep(document.getElementById('gc-st1'), c.st1)
+      setStep(document.getElementById('gc-st2'), c.st2)
+      document.getElementById('gc-download').href = c.dl
+      document.getElementById('gc-dl-label').textContent = c.dlLabel
+      document.getElementById('gc-guide').style.display = c.guide ? '' : 'none'
+      document.getElementById('gc-switch').textContent = c.sw
+    }
+    document.getElementById('gc-switch').addEventListener('click', function (e) {
+      e.preventDefault()
+      apply(current === 'mac' ? 'win' : 'mac')
+    })
+    apply(current)
+  })()
+</script>
 <script>
   (function() {
     const PROXY = 'https://ghostcloser-server-production.up.railway.app'
