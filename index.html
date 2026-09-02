@@ -471,6 +471,23 @@ h2 em { font-style: italic; color: var(--violet-light); }
   line-height: 1.6;
 }
 
+/* Bande pleine largeur en bas de la grille : la mise en avant du cockpit */
+.feature-wide {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  text-decoration: none;
+  color: inherit;
+}
+.feature-wide .feature-icon { margin-bottom: 0; flex: none; width: 52px; height: 52px; font-size: 22px; }
+.feature-wide .feature-title { font-size: 17px; }
+.feature-wide .feature-desc { font-size: 14px; }
+.feature-more { color: var(--violet-light, #a89bff); font-weight: 600; white-space: nowrap; margin-left: 6px; }
+@media (max-width: 640px) {
+  .feature-wide { flex-direction: column; align-items: flex-start; gap: 1rem; }
+}
+
 /* ── HOW IT WORKS ── */
 .steps-flow {
   display: flex;
@@ -974,11 +991,6 @@ footer {
         <div class="feature-desc">Zoom, Meet, téléphone : glisse un ancien call dans l'app, il devient une fiche complète et nourrit ta Mémoire. Tes calls d'avant GhostCloser comptent aussi.</div>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">🧭</div>
-        <div class="feature-title">Cockpit du closer</div>
-        <div class="feature-desc">Registre de rendez-vous, End of Day en une minute, taux de show et de close, commissions mois par mois, objectifs et projection. Ton business, sans tableur.</div>
-      </div>
-      <div class="feature-card">
         <div class="feature-icon">✉️</div>
         <div class="feature-title">Relances en un clic</div>
         <div class="feature-desc">Chaque relance et chaque recontact de ghost arrive au bon jour avec le message écrit. WhatsApp, SMS ou mail : tu relis, tu envoies, c'est marqué fait.</div>
@@ -993,6 +1005,13 @@ footer {
         <div class="feature-title">Mémoire qui apprend de toi</div>
         <div class="feature-desc">À chaque aftercall, GhostCloser distille tes calls : ton style, tes personas, les objections qui reviennent et les réponses qui marchent vraiment. Ses suggestions se calibrent sur ta façon de closer, 100 % en local.</div>
       </div>
+      <a class="feature-card feature-wide" href="#cockpit">
+        <div class="feature-icon">🧭</div>
+        <div>
+          <div class="feature-title">Cockpit du closer</div>
+          <div class="feature-desc">Registre de rendez-vous, End of Day en une minute, taux de show et de close, commissions mois par mois, objectifs et projection. Ton business, sans tableur. <span class="feature-more">Voir le cockpit ↓</span></div>
+        </div>
+      </a>
     </div>
   </div>
 </section>
