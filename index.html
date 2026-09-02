@@ -969,6 +969,11 @@ footer {
         <div class="feature-desc">Après chaque appel : analyse du prospect, score sur 4 axes, plan de relance, messages prêts à envoyer et un debrief honnête. Tu valides l'issue du call en un clic.</div>
       </div>
       <div class="feature-card">
+        <div class="feature-icon">📥</div>
+        <div class="feature-title">Import d'enregistrements</div>
+        <div class="feature-desc">Zoom, Meet, téléphone : glisse un ancien call dans l'app, il devient une fiche complète et nourrit ta Mémoire. Tes calls d'avant GhostCloser comptent aussi.</div>
+      </div>
+      <div class="feature-card">
         <div class="feature-icon">🧭</div>
         <div class="feature-title">Cockpit du closer</div>
         <div class="feature-desc">Registre de rendez-vous, End of Day en une minute, taux de show et de close, commissions mois par mois, objectifs et projection. Ton business, sans tableur.</div>
@@ -1141,7 +1146,7 @@ footer {
         <li>Cockpit : rendez-vous, commissions, relances en un clic</li>
         <li>Mémoire qui apprend tes patterns</li>
       </ul>
-    <a href="#" class="plan-cta">Tester gratuitement</a>
+    <a href="#" class="plan-cta" data-plan="occasionnel">Tester gratuitement</a>
     <div class="plan-soon">Ouverture des inscriptions imminente.</div>
   </div>
   <div class="plan featured">
@@ -1158,7 +1163,7 @@ footer {
         <li>Cockpit : rendez-vous, commissions, relances en un clic</li>
         <li>Mémoire qui apprend tes patterns</li>
       </ul>
-    <a href="#" class="plan-cta">Tester gratuitement</a>
+    <a href="#" class="plan-cta" data-plan="regulier">Tester gratuitement</a>
     <div class="plan-soon">Ouverture des inscriptions imminente.</div>
   </div>
   <div class="plan">
@@ -1174,21 +1179,25 @@ footer {
         <li>Cockpit : rendez-vous, commissions, relances en un clic</li>
         <li>Mémoire qui apprend tes patterns</li>
       </ul>
-    <a href="#" class="plan-cta">Tester gratuitement</a>
+    <a href="#" class="plan-cta" data-plan="intensif">Tester gratuitement</a>
     <div class="plan-soon">Ouverture des inscriptions imminente.</div>
   </div>
     </div>
 
     <p class="plan-allin"><strong>Les trois formules donnent accès à l'intégralité de l'application.</strong> Aucune fonctionnalité n'est réservée aux formules supérieures : seul le nombre d'appels change. Sans engagement, annulable à tout moment.</p>
 
-    <div class="guarantee">
+    <div class="guarantee" id="essai" style="scroll-margin-top:92px;">
       <div class="guarantee-tag">La garantie</div>
       <div class="guarantee-line">Teste gratuitement GhostCloser<br><em>sur ton prochain call.</em></div>
       <div class="guarantee-punch">
         <span class="q">Satisfait ?</span> <b>On t'aide à faire du cash.</b><br>
         <span class="q">Pas convaincu ?</span> <i>Dommage, tu t'assois sur un paquet de fric…</i>
       </div>
-      <div class="guarantee-sub">Un appel complet, assistant en direct et debrief compris. Sans carte bancaire, sans engagement, un essai par poste. Tu gardes ton debrief même si tu ne continues pas.</div>
+      <div class="guarantee-sub">Un appel complet, assistant en direct et debrief compris, plus l'import d'un ancien enregistrement. Sans carte bancaire, sans engagement, un essai par poste. Tu gardes tes debriefs même si tu ne continues pas.</div>
+      <div id="essai-dl" hidden style="margin-top:1.6rem;">
+        <a id="essai-dl-btn" href="#" class="btn-primary" style="display:inline-flex;">Télécharger GhostCloser pour Mac</a>
+        <a href="#" id="essai-dl-switch" style="display:block;font-size:13px;color:var(--muted);text-decoration:underline;text-underline-offset:3px;margin-top:12px;">Tu es sur Windows ? → Passer à la version Windows</a>
+      </div>
     </div>
 
     <p class="pricing-note" style="margin-top:2rem;">Mac et Windows · Paiement sécurisé par Stripe · Annulable en un clic</p>
@@ -1308,7 +1317,7 @@ footer {
       GhostCloser
     </a>
     <div class="footer-tagline">Invisible pour le prospect. Décisif pour toi.</div>
-    <div style="font-size:13px;color:var(--muted2);">© 2026 GhostCloser · <a href="/cgv.html" style="color:var(--muted2);text-decoration:none;opacity:0.6;" target="_blank">CGV</a> · <a href="/mentions-legales.html" style="color:var(--muted2);text-decoration:none;opacity:0.6;" target="_blank">Mentions légales</a> · <a href="/politique-confidentialite.html" style="color:var(--muted2);text-decoration:none;opacity:0.6;" target="_blank">Confidentialité</a></div>
+    <div style="font-size:13px;color:var(--muted2);">© 2026 GhostCloser · <a href="/cgv.html" style="color:var(--muted2);text-decoration:none;opacity:0.6;" target="_blank">CGV</a> · <a href="/mentions-legales.html" style="color:var(--muted2);text-decoration:none;opacity:0.6;" target="_blank">Mentions légales</a> · <a href="/politique-confidentialite.html" style="color:var(--muted2);text-decoration:none;opacity:0.6;" target="_blank">Confidentialité</a><span id="footer-espace" hidden> · <a href="#" id="footer-espace-lien" style="color:var(--muted2);text-decoration:none;opacity:0.6;" target="_blank">Espace client</a></span></div>
   </footer>
 </div>
 
@@ -1322,14 +1331,68 @@ document.querySelectorAll('.faq-item').forEach(item => {
   });
 });
 
-// Boutons d'offre : Stripe pas encore branché
-document.querySelectorAll('.plan-cta').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
+// ─── OUVERTURE DES VENTES (étape 7) ──────────────────────────────────────────
+// UN interrupteur. false = page identique au comportement historique (boutons
+// neutralisés + « ouverture imminente »). true = liens de paiement actifs,
+// téléchargement d'essai visible, espace client au footer.
+// Le go d'Eric = passer GC_OUVERTURE à true et publier.
+const GC_OUVERTURE = false;
+const GC_LIENS = {
+  occasionnel: 'https://buy.stripe.com/aFabJ09mp9gH4OxdT20RG0c',
+  regulier: 'https://buy.stripe.com/9B68wOdCFeB180JaGQ0RG0d',
+  intensif: 'https://buy.stripe.com/eVqdR84258cDftb4is0RG0e',
+  espaceClient: 'https://billing.stripe.com/p/login/14AaEW6ad3Wn1Cl2ak0RG00',
+  dlMac: 'https://github.com/EricEudeline/ghostcloser-onboarding/releases/latest/download/GhostCloser-arm64.dmg',
+  dlWin: 'https://github.com/EricEudeline/ghostcloser-onboarding/releases/latest/download/GhostCloser-Setup-x64.exe'
+};
+
+if (GC_OUVERTURE) {
+  // Cartes tarifs → paiement Stripe (redirection merci.html déjà configurée côté Stripe).
+  document.querySelectorAll('.plan-cta').forEach(btn => {
+    const lien = GC_LIENS[btn.dataset.plan];
+    if (!lien) return;
+    btn.href = lien;
+    btn.textContent = 'Choisir cette formule';
     const msg = btn.parentElement.querySelector('.plan-soon');
-    if (msg) msg.classList.add('show');
+    if (msg) msg.remove();
   });
-});
+  // Les CTA « Tester… » (nav, héros, bas de page) mènent droit au bloc
+  // d'essai avec son bouton de téléchargement, plus au haut des cartes.
+  document.querySelectorAll('a[href="#pricing"]').forEach(a => {
+    if (/tester/i.test(a.textContent)) a.setAttribute('href', '#essai');
+  });
+  // Essai gratuit → téléchargement de l'app (détection OS, même logique que merci.html).
+  const dl = document.getElementById('essai-dl');
+  const dlBtn = document.getElementById('essai-dl-btn');
+  const dlSwitch = document.getElementById('essai-dl-switch');
+  if (dl && dlBtn && dlSwitch) {
+    let os = /Windows/i.test(navigator.userAgent) ? 'win' : 'mac';
+    const applyOs = () => {
+      dlBtn.href = os === 'win' ? GC_LIENS.dlWin : GC_LIENS.dlMac;
+      dlBtn.textContent = os === 'win' ? 'Télécharger GhostCloser pour Windows' : 'Télécharger GhostCloser pour Mac';
+      dlSwitch.textContent = os === 'win' ? 'Tu es sur Mac ? → Passer à la version Mac' : 'Tu es sur Windows ? → Passer à la version Windows';
+    };
+    applyOs();
+    dlSwitch.addEventListener('click', (e) => { e.preventDefault(); os = (os === 'win' ? 'mac' : 'win'); applyOs(); });
+    dl.hidden = false;
+  }
+  // Espace client (portail de facturation Stripe) au footer.
+  const esp = document.getElementById('footer-espace');
+  const espLien = document.getElementById('footer-espace-lien');
+  if (esp && espLien && GC_LIENS.espaceClient.indexOf('https://') === 0) {
+    espLien.href = GC_LIENS.espaceClient;
+    esp.hidden = false;
+  }
+} else {
+  // Comportement historique : Stripe pas encore branché.
+  document.querySelectorAll('.plan-cta').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const msg = btn.parentElement.querySelector('.plan-soon');
+      if (msg) msg.classList.add('show');
+    });
+  });
+}
 
 // Scroll reveal
 const observer = new IntersectionObserver((entries) => {
