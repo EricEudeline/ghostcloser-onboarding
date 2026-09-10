@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<title>Espace compagnon</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Tiro+Bangla:ital@0;1&display=swap">
+<style>
+:root{
+  --bg:#111113; --grid:rgba(255,255,255,.032);
+  --surface:#17171a; --surface-2:#1c1c20; --surface-3:#232328;
+  --line:rgba(255,255,255,.08); --line-strong:rgba(255,255,255,.16);
+  --text:#ffffff; --text-2:rgba(255,255,255,.74); --text-3:#9b9fa7; --text-4:#6d717a;
+  --accent:#fcf707; --accent-deep:#e3df00; --accent-ink:#111113; --accent-soft:rgba(252,247,7,.12); --accent-line:rgba(252,247,7,.38);
+  --blue:#6f83ee; --blue-soft:rgba(111,131,238,.18);
+  --teal:#4fd1c5; --teal-soft:rgba(79,209,197,.18);
+  --good:#5ee29a; --good-soft:rgba(94,226,154,.14);
+  --warn:#ffa14a; --warn-soft:rgba(255,161,74,.14);
+  --crit:#ff7b6b; --crit-soft:rgba(255,123,107,.14);
+  --radius:18px; --radius-sm:12px; --pill:999px;
+  --font:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --serif:'Tiro Bangla',Georgia,'Times New Roman',serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--text);font-family:var(--font);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;background:linear-gradient(var(--grid) 1px,transparent 1px) 0 0/72px 72px,linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/72px 72px,var(--bg)}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+input{font:inherit;color:inherit}
+::selection{background:var(--accent-deep);color:var(--accent-ink)}
+.num{font-variant-numeric:tabular-nums}
+[hidden]{display:none!important}
+.topbar{position:sticky;top:0;z-index:30;background:rgba(17,17,19,.84);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1360px;margin:0 auto;padding:0 28px;height:64px;display:flex;align-items:center;gap:22px}
+.brand{display:flex;align-items:center;gap:12px;flex:0 0 auto}
+.brand-mark{width:30px;height:30px;border-radius:8px;background:var(--accent);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;letter-spacing:.05em}
+.brand-name{font-weight:500;letter-spacing:.26em;font-size:13px}
+.brand-sub{font-family:var(--serif);font-style:italic;color:var(--text-3);font-size:15px;padding-left:12px;border-left:1px solid var(--line-strong)}
+.tabs{display:flex;gap:2px;margin-left:8px;flex:1 1 auto;min-width:0;overflow-x:auto;scrollbar-width:none}
+.tab{padding:8px 14px;border-radius:var(--pill);color:var(--text-3);font-weight:500;white-space:nowrap;font-size:13.5px}
+.tab:hover{color:var(--text);background:var(--surface-2)}
+.tab.on{background:var(--accent);color:var(--accent-ink)}
+.who{display:flex;align-items:center;gap:10px;color:var(--text-3);font-size:13px;white-space:nowrap}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--blue-soft);color:#c9d1ff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:12px}
+.wrap{max-width:1360px;margin:0 auto;padding:26px 28px 80px}
+.page{display:none}.page.on{display:block}
+h1{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.15;margin:0 0 4px}
+h1 i{color:var(--accent)}
+.sub{color:var(--text-3);margin:0 0 22px;font-size:14px}
+h2{font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);margin:0 0 12px}
+.grid{display:grid;gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px}
+.card.soft{background:var(--surface-2)}
+.card h3{margin:0 0 10px;font-size:15px;font-weight:600}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:var(--pill);font-size:12px;font-weight:500;border:1px solid var(--line-strong);color:var(--text-2);white-space:nowrap}
+.pill.acc{background:var(--accent-soft);border-color:var(--accent-line);color:var(--accent)}
+.pill.good{background:var(--good-soft);border-color:transparent;color:var(--good)}
+.pill.warn{background:var(--warn-soft);border-color:transparent;color:var(--warn)}
+.pill.crit{background:var(--crit-soft);border-color:transparent;color:var(--crit)}
+.pill.blue{background:var(--blue-soft);border-color:transparent;color:#c9d1ff}
+.pill.teal{background:var(--teal-soft);border-color:transparent;color:var(--teal)}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:var(--pill);font-weight:500;font-size:13px;border:1px solid var(--line-strong);color:var(--text)}
+.btn:hover{background:var(--surface-3)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.primary:hover{background:var(--accent-deep)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.kpi .lab{font-size:12px;color:var(--text-3);margin-bottom:6px}
+.kpi .val{font-size:26px;font-weight:500;line-height:1.1}
+.kpi .val small{font-size:13px;color:var(--text-3);font-weight:400;margin-left:6px}
+.kpi .note{font-size:12px;color:var(--text-4);margin-top:6px}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-4);font-weight:500;padding:8px 10px;border-bottom:1px solid var(--line)}
+td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:middle;font-size:13.5px}
+tr:last-child td{border-bottom:0}
+tr.row{cursor:pointer}tr.row:hover td{background:var(--surface-2)}
+.name{font-weight:500}
+.meta{color:var(--text-3);font-size:12.5px}
+.bar{height:6px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px;background:var(--accent)}
+.bar.blue i{background:var(--blue)}.bar.teal i{background:var(--teal)}.bar.good i{background:var(--good)}
+.obj{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr 2fr;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.obj:last-child{border-bottom:0}
+.obj .lab{font-weight:500}
+.obj .lab small{display:block;color:var(--text-4);font-weight:400;font-size:12px}
+.obj .v{font-size:15px}.obj .v small{color:var(--text-4);font-size:11px;display:block}
+.obj .v.acc{color:var(--accent)}
+.twocol{display:grid;grid-template-columns:1.25fr 1fr;gap:14px}
+.threecol{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.timeline{list-style:none;margin:0;padding:0}
+.timeline li{display:grid;grid-template-columns:78px 1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.timeline li:last-child{border-bottom:0}
+.timeline .d{color:var(--text-3);font-size:12.5px}
+.timeline .t{font-weight:500}.timeline .t small{display:block;color:var(--text-3);font-weight:400;font-size:12.5px}
+.timeline li.next .t{color:var(--accent)}
+.summ p{margin:0 0 8px;color:var(--text-2);font-size:13.5px}
+.summ ul{margin:6px 0 0;padding-left:18px;color:var(--text-2);font-size:13.5px}
+.summ li{margin-bottom:4px}
+.summ b{color:var(--text);font-weight:500}
+.src{font-size:12px;color:var(--text-4);margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.src span{border:1px solid var(--line);border-radius:var(--pill);padding:2px 9px}
+.qbox{display:flex;gap:10px;margin-bottom:12px}
+.qbox input{flex:1;background:var(--surface-2);border:1px solid var(--line-strong);border-radius:var(--pill);padding:10px 16px;color:var(--text)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.chip{border:1px solid var(--line-strong);border-radius:var(--pill);padding:6px 12px;font-size:12.5px;color:var(--text-2)}
+.chip:hover,.chip.on{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent)}
+.answer{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px 16px;min-height:88px;font-size:13.5px;color:var(--text-2)}
+.answer b{color:var(--text);font-weight:500}
+.answer ul{margin:8px 0 0;padding-left:18px}.answer li{margin-bottom:5px}
+.answer .empty{color:var(--text-4);font-style:italic;font-family:var(--serif);font-size:15px}
+.actions td .st{font-size:12px}
+.prep{border-left:2px solid var(--accent);padding-left:14px}
+.prep h4{margin:0 0 6px;font-size:13px;font-weight:600}
+.prep p,.prep li{color:var(--text-2);font-size:13.5px;margin:0 0 6px}
+.prep ul{margin:0;padding-left:18px}
+.ing{display:flex;align-items:center;gap:12px;background:var(--surface-2);border:1px dashed var(--line-strong);border-radius:var(--radius-sm);padding:10px 14px;font-size:12.5px;color:var(--text-3);margin-bottom:14px}
+.ing b{color:var(--text);font-weight:500}
+.ing .cost{margin-left:auto;color:var(--good);font-weight:500}
+.vert{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.vert button{border:1px solid var(--line-strong);border-radius:var(--pill);padding:6px 13px;font-size:12.5px;color:var(--text-2)}
+.vert button.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.lever{display:grid;grid-template-columns:1fr 130px 70px;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.lever:last-child{border-bottom:0}
+.lever .n{font-weight:500}.lever .n small{display:block;color:var(--text-4);font-weight:400;font-size:12px}
+.audit{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ratio{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px;align-items:center}
+.ratio:last-child{border-bottom:0}
+.ratio .h{color:var(--text-4);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.ratio .bad{color:var(--crit)}.ratio .ok{color:var(--good)}
+.score{font-size:44px;font-weight:500;line-height:1;color:var(--accent)}
+.score small{font-size:14px;color:var(--text-3);font-weight:400}
+.plan{counter-reset:ph}
+.plan>div{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.plan>div:last-child{border-bottom:0}
+.plan>div::before{counter-increment:ph;content:counter(ph);width:26px;height:26px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;margin-top:2px}
+.plan .t{font-weight:500}.plan .t small{display:block;color:var(--text-3);font-weight:400;font-size:12.5px}
+.foot{margin-top:28px;color:var(--text-4);font-size:12px;text-align:center;font-family:var(--serif);font-style:italic}
+@media (max-width:900px){.kpis{grid-template-columns:1fr 1fr}.twocol,.threecol,.audit{grid-template-columns:1fr}.obj{grid-template-columns:1fr 1fr 1fr}.obj .lab{grid-column:1/-1}.obj .barc{grid-column:1/-1}.brand-sub{display:none}}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-in">
+  <div class="brand"><div class="brand-mark">L</div><span class="brand-name">LIBRAE</span><span class="brand-sub">Espace compagnon</span></div>
+  <nav class="tabs" aria-label="Sections">
+    <button class="tab on" data-page="clients">Mes clients</button>
+    <button class="tab" data-page="client">Étude Lambert</button>
+    <button class="tab" data-page="restitution">Restitution et plan</button>
+    <button class="tab" data-page="base">Base de connaissance</button>
+  </nav>
+  <div class="who"><span>Camille Roussel · compagnon</span><div class="avatar">CR</div></div>
+</div></div>
+
+<div class="wrap">
+
+<!-- ============ MES CLIENTS ============ -->
+<section class="page on" id="page-clients">
+  <h1>Bonjour Camille, <i>voilà ta journée.</i></h1>
+  <p class="sub">Mercredi 9 septembre 2026 · 8 accompagnements en cours, 2 audits à restituer, 1 session aujourd'hui.</p>
+  <div class="ing"><span class="dot" style="background:var(--good);width:8px;height:8px;border-radius:50%"></span><span><b>Session Pharmacie du Parc du 08/09</b> : enregistrement de 1 h 52 traité cette nuit, synthèse et actions prêtes, à valider en 2 minutes.</span><span class="cost">Coût de traitement : 0,58 €</span></div>
+  <div class="kpis">
+    <div class="kpi"><div class="lab">Accompagnements en cours</div><div class="val num">8</div><div class="note">6 Transformation, 2 Ascension</div></div>
+    <div class="kpi"><div class="lab">Sessions cette semaine</div><div class="val num">4</div><div class="note">dont 1 aujourd'hui à 14 h</div></div>
+    <div class="kpi"><div class="lab">Actions en retard</div><div class="val num" style="color:var(--warn)">3</div><div class="note">2 côté clients, 1 côté compagnon</div></div>
+    <div class="kpi"><div class="lab">Objectifs atteints ce mois</div><div class="val num">5<small>sur 17 suivis</small></div><div class="note">2 objectifs à risque, voir Étude Lambert</div></div>
+  </div>
+  <div class="grid" style="grid-template-columns:1.6fr 1fr">
+    <div class="card">
+      <h2>Portefeuille</h2>
+      <table>
+        <tr><th>Client</th><th>Formule</th><th>Avancement</th><th>Prochaine session</th><th>État</th></tr>
+        <tr class="row" data-open="client"><td><div class="name">Étude Lambert</div><div class="meta">Notaire · Lyon 3e</div></td><td>Transformation</td><td><div class="meta num">Session 4 sur 10</div><div class="bar" style="width:120px"><i style="width:35%"></i></div></td><td class="num">Mar. 15/09, 10 h</td><td><span class="pill warn"><span class="dot"></span>Tréso à risque</span></td></tr>
+        <tr class="row"><td><div class="name">Pharmacie du Parc</div><div class="meta">Pharmacien · Nantes</div></td><td>Transformation</td><td><div class="meta num">Session 8 sur 10</div><div class="bar" style="width:120px"><i style="width:80%"></i></div></td><td class="num">Jeu. 17/09, 9 h</td><td><span class="pill acc"><span class="dot"></span>Synthèse à valider</span></td></tr>
+        <tr class="row"><td><div class="name">Cabinet Morel</div><div class="meta">Avocat · Bordeaux</div></td><td>Audit Stratégique</td><td><div class="meta">Restitué le 05/09</div><div class="bar blue" style="width:120px"><i style="width:15%"></i></div></td><td class="num">À planifier</td><td><span class="pill blue"><span class="dot"></span>Plan à construire</span></td></tr>
+        <tr class="row"><td><div class="name">Dr Nguyen</div><div class="meta">Chirurgien-dentiste · Rennes</div></td><td>Ascension</td><td><div class="meta num">Mois 2 sur 6</div><div class="bar teal" style="width:120px"><i style="width:30%"></i></div></td><td class="num">Auj. 14 h</td><td><span class="pill good"><span class="dot"></span>Dans les clous</span></td></tr>
+        <tr class="row"><td><div class="name">Clinique des Tilleuls</div><div class="meta">Vétérinaire · Angers</div></td><td>Transformation</td><td><div class="meta num">Session 1 sur 10</div><div class="bar" style="width:120px"><i style="width:8%"></i></div></td><td class="num">Ven. 18/09, 11 h</td><td><span class="pill good"><span class="dot"></span>Démarrage</span></td></tr>
+        <tr class="row"><td><div class="name">Cabinet Ferrand</div><div class="meta">Architecte · Tours</div></td><td>Audit Stratégique</td><td><div class="meta">Données reçues à 80 %</div><div class="bar blue" style="width:120px"><i style="width:5%"></i></div></td><td class="num">Restitution 18/09</td><td><span class="pill"><span class="dot"></span>Audit en cours</span></td></tr>
+      </table>
+    </div>
+    <div class="grid" style="grid-template-columns:1fr;align-content:start">
+      <div class="card">
+        <h2>À faire aujourd'hui</h2>
+        <ul class="timeline">
+          <li><span class="d">9 h</span><span class="t">Valider la synthèse Pharmacie du Parc<small>2 décisions, 3 actions détectées dans l'enregistrement</small></span></li>
+          <li><span class="d">11 h</span><span class="t">Relancer Étude Lambert sur le relevé de tréso<small>Action client en retard de 8 jours, message prêt</small></span></li>
+          <li><span class="d">14 h</span><span class="t">Session Dr Nguyen, mois 2<small>Préparation générée : 3 points, 2 questions</small></span></li>
+          <li><span class="d">16 h</span><span class="t">Construire le plan Cabinet Morel<small>Proposition de plan 6 mois prête à partir de l'audit</small></span></li>
+        </ul>
+      </div>
+      <div class="card soft">
+        <h2>Ce que la base a appris cette semaine</h2>
+        <p style="margin:0;color:var(--text-2);font-size:13.5px">7 sessions synthétisées sur 3 verticales. Nouveau levier documenté chez les <b style="color:var(--text);font-weight:500">pharmaciens</b> : la renégociation des conditions grossiste, gain moyen de 2,1 points de marge sur 4 accompagnements.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ============ CLIENT ============ -->
+<section class="page" id="page-client">
+  <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:6px">
+    <div style="flex:1 1 auto">
+      <h1>Étude Lambert, <i>notaire à Lyon.</i></h1>
+      <p class="sub" style="margin-bottom:10px">Transformation 6 mois, démarrée le 12 juin 2026 · Session 4 sur 10 · Prochaine session mardi 15 septembre, 10 h · Compagnon : Camille Roussel</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><span class="pill acc"><span class="dot"></span>Score Librae 41 → 58</span><span class="pill warn"><span class="dot"></span>Trésorerie à risque</span><span class="pill good"><span class="dot"></span>Marge en avance</span><span class="pill">Audit restitué le 04/06</span></div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="btnPrep">Préparer la session 4</button><button class="btn primary">Ouvrir la restitution</button></div>
+  </div>
+  <div class="ing" style="margin-top:14px"><span class="dot" style="background:var(--good);width:8px;height:8px;border-radius:50%"></span><span><b>Session 3 du 25/08</b> : enregistrement de 2 h 04 traité automatiquement, synthèse validée par Camille le 26/08.</span><span class="cost">0,61 €</span></div>
+
+  <div class="card" style="margin-bottom:14px">
+    <h2>Objectifs de l'accompagnement</h2>
+    <div class="obj" style="color:var(--text-4);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding-bottom:6px"><span>Objectif</span><span>À l'audit</span><span>Aujourd'hui</span><span>Cible à 6 mois</span><span>Progression</span></div>
+    <div class="obj"><div class="lab">Marge nette<small>levier n°1 de l'audit</small></div><div class="v num">18 %<small>juin</small></div><div class="v num acc">21 %<small>août</small></div><div class="v num">26 %</div><div class="barc"><div class="bar good"><i style="width:38%"></i></div><div class="meta" style="margin-top:4px">En avance sur la trajectoire</div></div></div>
+    <div class="obj"><div class="lab">Chiffre d'affaires mensuel<small>honoraires HT</small></div><div class="v num">48 k€</div><div class="v num acc">51 k€</div><div class="v num">56 k€</div><div class="barc"><div class="bar"><i style="width:37%"></i></div><div class="meta" style="margin-top:4px">Sur la trajectoire</div></div></div>
+    <div class="obj"><div class="lab">Temps du notaire sur les actes simples<small>heures par semaine</small></div><div class="v num">14 h</div><div class="v num acc">9 h</div><div class="v num">6 h</div><div class="barc"><div class="bar teal"><i style="width:62%"></i></div><div class="meta" style="margin-top:4px">Délégation en place depuis la session 3</div></div></div>
+    <div class="obj"><div class="lab">Trésorerie disponible<small>en mois de charges</small></div><div class="v num">1,2 mois</div><div class="v num" style="color:var(--warn)">1,4 mois</div><div class="v num">3 mois</div><div class="barc"><div class="bar" style="background:var(--warn-soft)"><i style="width:11%;background:var(--warn)"></i></div><div class="meta" style="margin-top:4px;color:var(--warn)">À risque : relevé hebdomadaire non tenu depuis 3 semaines</div></div></div>
+  </div>
+
+  <div class="twocol">
+    <div class="grid" style="grid-template-columns:1fr">
+      <div class="card">
+        <h2>La dernière fois, session 3 du 25 août</h2>
+        <div class="summ">
+          <p>Session centrée sur la délégation des actes simples. Me Lambert a validé le principe de confier les successions sans difficulté et les procurations à sa clerc principale, avec relecture le vendredi. Il a exprimé une inquiétude sur la qualité perçue par les clients historiques, levée par l'exemple de l'Étude R. à Villeurbanne. Le relevé de trésorerie hebdomadaire, décidé en session 2, n'a pas été tenu : le sujet a été reporté, il devient prioritaire.</p>
+          <p><b>Décisions</b></p>
+          <ul><li>Délégation des successions simples et des procurations à la clerc principale, relecture hebdomadaire.</li><li>Recrutement d'un clerc en alternance pour la rentrée, fiche de poste à écrire.</li><li>Politique tarifaire des actes courants à traiter en session 4.</li></ul>
+          <p><b>Engagements</b></p>
+          <ul><li>Me Lambert : fiche de poste alternance avant le 5 septembre, relevé de tréso chaque lundi.</li><li>Camille : grille tarifaire de référence des actes courants, avec le benchmark notaires.</li></ul>
+        </div>
+        <div class="src"><span>Synthèse générée depuis l'enregistrement</span><span>Validée par Camille le 26/08</span><span>Transcript intégral disponible</span></div>
+      </div>
+      <div class="card">
+        <h2>Actions en cours</h2>
+        <table class="actions">
+          <tr><th>Action</th><th>Qui</th><th>Échéance</th><th>État</th></tr>
+          <tr><td>Relevé de trésorerie hebdomadaire</td><td>Client</td><td class="num">Chaque lundi</td><td><span class="pill crit st"><span class="dot"></span>En retard, 3 semaines</span></td></tr>
+          <tr><td>Fiche de poste clerc en alternance</td><td>Client</td><td class="num">05/09</td><td><span class="pill warn st"><span class="dot"></span>En retard, 4 jours</span></td></tr>
+          <tr><td>Grille tarifaire des actes courants</td><td>Camille</td><td class="num">14/09</td><td><span class="pill acc st"><span class="dot"></span>En cours</span></td></tr>
+          <tr><td>Procédure de relecture du vendredi</td><td>Client</td><td class="num">01/09</td><td><span class="pill good st"><span class="dot"></span>Fait</span></td></tr>
+          <tr><td>Présentation de la délégation à l'équipe</td><td>Client</td><td class="num">28/08</td><td><span class="pill good st"><span class="dot"></span>Fait</span></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="grid" style="grid-template-columns:1fr;align-content:start">
+      <div class="card" id="prepCard">
+        <h2>Préparation de la session 4, mardi 15/09</h2>
+        <div class="prep">
+          <h4>Sujet du jour : politique tarifaire des actes courants</h4>
+          <p>Décidé en session 3. Matériel prêt : grille de référence tirée du benchmark notaires (honoraires moyens par acte, fourchettes basse et haute) et deux exemples d'études ayant revalorisé sans perte de clientèle.</p>
+          <h4>À traiter en ouverture</h4>
+          <ul><li>Le relevé de trésorerie : 3 semaines sans données, objectif à risque. Comprendre ce qui bloque avant de proposer autre chose.</li><li>La fiche de poste alternance, en retard de 4 jours.</li></ul>
+          <h4>Questions suggérées</h4>
+          <ul><li>« Qu'est-ce qui a empêché le relevé du lundi ces trois dernières semaines ? »</li><li>« Sur les actes courants, lesquels vous semblent sous-facturés aujourd'hui, et pourquoi ? »</li><li>« Comment la délégation est-elle perçue par vos deux clientes historiques citées la dernière fois ? »</li></ul>
+        </div>
+        <div class="src"><span>Généré depuis les objectifs, les actions et la session 3</span><span>Modifiable</span></div>
+      </div>
+      <div class="card">
+        <h2>Parcours</h2>
+        <ul class="timeline">
+          <li><span class="d">04/06</span><span class="t">Restitution de l'audit<small>Score Librae 41, manque à gagner estimé 96 k€ par an</small></span></li>
+          <li><span class="d">12/06</span><span class="t">Session 1 · Cadrage et objectifs<small>Quatre objectifs chiffrés, plan 6 mois validé</small></span></li>
+          <li><span class="d">07/07</span><span class="t">Session 2 · Organisation de l'étude<small>Cartographie des actes, relevé de tréso décidé</small></span></li>
+          <li><span class="d">25/08</span><span class="t">Session 3 · Délégation des actes simples<small>Synthèse validée, 2 engagements client</small></span></li>
+          <li class="next"><span class="d">15/09</span><span class="t">Session 4 · Politique tarifaire<small>Préparation générée</small></span></li>
+          <li><span class="d">oct.</span><span class="t">Sessions 5 à 7 · Développement et recrutement<small>Planifiées</small></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <h2>Demander à la base Libra, verticale notaires</h2>
+    <div class="qbox"><input type="text" id="qInput" placeholder="Pose ta question, la réponse s'appuie sur les accompagnements passés et les benchmarks de la verticale" aria-label="Question à la base de connaissance"><button class="btn primary" id="qAsk">Demander</button></div>
+    <div class="chips">
+      <button class="chip" data-q="marge">Quels leviers de marge ont marché chez les autres notaires ?</button>
+      <button class="chip" data-q="delegation">Comment les autres études ont géré la délégation des actes simples ?</button>
+      <button class="chip" data-q="honoraires">Quelles objections à une revalorisation des honoraires, et comment y répondre ?</button>
+    </div>
+    <div class="answer" id="answer"><span class="empty">Choisis une question ou pose la tienne. Les réponses citent leurs sources, toujours anonymisées.</span></div>
+  </div>
+</section>
+<!-- ============ RESTITUTION ET PLAN ============ -->
+<section class="page" id="page-restitution">
+  <h1>Cabinet Morel, <i>de l'audit au plan.</i></h1>
+  <p class="sub">Avocat en droit des affaires, Bordeaux · Audit Stratégique restitué le 5 septembre · Accompagnement Transformation à construire</p>
+  <div class="audit">
+    <div class="card">
+      <h2>L'audit, tel que restitué</h2>
+      <div style="display:flex;align-items:flex-end;gap:22px;margin-bottom:16px">
+        <div><div class="score num">37<small> / 100</small></div><div class="meta">Score Librae</div></div>
+        <div><div style="font-size:26px;font-weight:500" class="num">84 k€</div><div class="meta">manque à gagner estimé par an</div></div>
+        <div><div style="font-size:26px;font-weight:500" class="num">3</div><div class="meta">leviers prioritaires identifiés</div></div>
+      </div>
+      <div class="ratio"><span class="h">Indicateur</span><span class="h">Cabinet</span><span class="h">Benchmark</span><span class="h">Écart</span></div>
+      <div class="ratio"><span>Chiffre d'affaires annuel</span><span class="num">312 k€</span><span class="num">340 k€</span><span class="num bad">- 8 %</span></div>
+      <div class="ratio"><span>Taux de marge nette</span><span class="num">22 %</span><span class="num">34 %</span><span class="num bad">- 12 pts</span></div>
+      <div class="ratio"><span>Charges personnelles</span><span class="num">31 %</span><span class="num">24 %</span><span class="num bad">+ 7 pts</span></div>
+      <div class="ratio"><span>EBE</span><span class="num">89 k€</span><span class="num">128 k€</span><span class="num bad">- 30 %</span></div>
+      <div class="ratio"><span>Trésorerie en mois de charges</span><span class="num">2,8</span><span class="num">2,5</span><span class="num ok">+ 0,3</span></div>
+      <div class="ratio"><span>Taux horaire facturé</span><span class="num">165 €</span><span class="num">215 €</span><span class="num bad">- 23 %</span></div>
+      <div class="src"><span>Données du benchmark avocats, août 2026</span><span>Saisie par le closer avant le call</span><span>Restitution du 05/09 archivée</span></div>
+    </div>
+    <div class="card">
+      <h2>Le plan proposé, à ajuster</h2>
+      <p style="margin:0 0 12px;color:var(--text-2);font-size:13.5px">Construit à partir des trois leviers de l'audit et de ce qui a fonctionné sur 23 accompagnements d'avocats. Camille réordonne, supprime, ajoute, puis valide : le plan devient le parcours du client.</p>
+      <div class="plan">
+        <div><div><div class="t">Sessions 1 et 2 · Cadrage et taux horaire<small>Objectifs chiffrés, revalorisation du taux horaire vers 195 € sur les nouveaux dossiers</small></div></div></div>
+        <div><div><div class="t">Sessions 3 et 4 · Charges personnelles<small>Passage de 31 % à 26 % : audit des abonnements, renégociation des loyers, arbitrage véhicule</small></div></div></div>
+        <div><div><div class="t">Sessions 5 à 7 · Organisation et délégation<small>Cartographie des tâches, délégation au juriste, temps du dirigeant sur le développement</small></div></div></div>
+        <div><div><div class="t">Sessions 8 à 10 · Développement et ancrage<small>Offre récurrente pour les clients entreprises, tableau de bord mensuel, autonomie</small></div></div></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap"><button class="btn primary">Valider ce plan</button><button class="btn">Réordonner</button><button class="btn">Voir les 23 cas similaires</button></div>
+      <div class="src"><span>Chaque session validée crée ses objectifs et ses actions</span><span>Le client voit son plan dans son espace, jamais les notes du compagnon</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BASE DE CONNAISSANCE ============ -->
+<section class="page" id="page-base">
+  <h1>Ce que Libra sait, <i>verticale par verticale.</i></h1>
+  <p class="sub">Tout ce que les accompagnements ont appris, rangé par profession, anonymisé, et interrogeable depuis chaque fiche client.</p>
+  <div class="vert"><button class="on">Notaires</button><button>Pharmaciens</button><button>Avocats</button><button>Dentistes</button><button>Vétérinaires</button><button>Architectes</button><button>Médecins généralistes</button><button>Anesthésistes</button></div>
+  <div class="kpis">
+    <div class="kpi"><div class="lab">Accompagnements notaires</div><div class="val num">41</div><div class="note">depuis 2024, 9 en cours</div></div>
+    <div class="kpi"><div class="lab">Sessions synthétisées</div><div class="val num">312</div><div class="note">dont 7 cette semaine</div></div>
+    <div class="kpi"><div class="lab">Leviers documentés</div><div class="val num">27</div><div class="note">avec taux de réussite mesuré</div></div>
+    <div class="kpi"><div class="lab">Objections et réponses</div><div class="val num">58</div><div class="note">issues des restitutions et des sessions</div></div>
+  </div>
+  <div class="twocol">
+    <div class="card">
+      <h2>Leviers qui marchent chez les notaires</h2>
+      <div class="lever" style="color:var(--text-4);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding-bottom:6px"><span>Levier</span><span>Gain moyen</span><span>Réussite</span></div>
+      <div class="lever"><div class="n">Délégation des actes simples aux clercs<small>18 accompagnements, gain de temps dirigeant</small></div><span class="num">6 h par semaine</span><span class="num" style="color:var(--good)">83 %</span></div>
+      <div class="lever"><div class="n">Revalorisation des honoraires d'actes courants<small>14 accompagnements</small></div><span class="num">+ 3,4 pts de marge</span><span class="num" style="color:var(--good)">79 %</span></div>
+      <div class="lever"><div class="n">Relevé de trésorerie hebdomadaire<small>26 accompagnements, prérequis des autres leviers</small></div><span class="num">+ 0,9 mois de tréso</span><span class="num" style="color:var(--good)">71 %</span></div>
+      <div class="lever"><div class="n">Offre de conseil patrimonial récurrente<small>9 accompagnements</small></div><span class="num">+ 4 k€ par mois</span><span class="num" style="color:var(--warn)">56 %</span></div>
+      <div class="lever"><div class="n">Recrutement en alternance<small>11 accompagnements</small></div><span class="num">Charge - 12 %</span><span class="num" style="color:var(--good)">73 %</span></div>
+    </div>
+    <div class="grid" style="grid-template-columns:1fr;align-content:start">
+      <div class="card">
+        <h2>D'où vient la connaissance</h2>
+        <ul class="timeline">
+          <li><span class="d">Sessions</span><span class="t">Chaque enregistrement est synthétisé<small>Décisions, leviers, objections, résultats observés, sans les données nominatives</small></span></li>
+          <li><span class="d">Audits</span><span class="t">Chaque restitution alimente le benchmark<small>Ratios par profession, mis à jour en continu</small></span></li>
+          <li><span class="d">Compagnons</span><span class="t">Ce que vous validez compte double<small>Un levier « marqué comme efficace » remonte dans les réponses</small></span></li>
+          <li><span class="d">Cadre</span><span class="t">Les fichiers de référence Libra<small>Proposition de valeur, offres, méthode : la base cite le cadre, elle ne l'invente pas</small></span></li>
+        </ul>
+      </div>
+      <div class="card soft">
+        <h2>Règles</h2>
+        <p style="margin:0;color:var(--text-2);font-size:13.5px">Toute réponse cite ses sources. Aucune donnée nominative d'un client ne sort de sa fiche. Les compagnons voient leur verticale et les leviers transverses ; la direction voit tout ; le client final ne voit que son propre parcours.</p>
+      </div>
+    </div>
+  </div>
+  <p class="foot">Maquette de travail, données fictives. Ce que l'outil pourrait être, pas ce qu'il est.</p>
+</section>
+
+<script>
+const pages={clients:document.getElementById('page-clients'),client:document.getElementById('page-client'),restitution:document.getElementById('page-restitution'),base:document.getElementById('page-base')};
+const tabs=[...document.querySelectorAll('.tab')];
+function go(name){Object.keys(pages).forEach(k=>pages[k].classList.toggle('on',k===name));tabs.forEach(t=>t.classList.toggle('on',t.dataset.page===name));window.scrollTo({top:0});}
+tabs.forEach(t=>t.addEventListener('click',()=>go(t.dataset.page)));
+document.querySelectorAll('tr.row').forEach(r=>r.addEventListener('click',()=>go(r.dataset.open||'client')));
+const answers={
+  marge:'<b>Trois leviers reviennent sur 41 accompagnements de notaires.</b><ul><li><b>Revalorisation des honoraires d\'actes courants</b> : 14 études, gain moyen de 3,4 points de marge, sans perte de clientèle mesurable quand la hausse est annoncée avec une grille claire.</li><li><b>Délégation des actes simples aux clercs</b> : 18 études, 6 heures par semaine rendues au notaire, réinvesties dans le conseil et les dossiers à forte valeur.</li><li><b>Renégociation des charges de structure</b> : loyers et abonnements, effet plus modeste (1 à 2 points) mais rapide.</li></ul><div class="src"><span>Accompagnement Étude R., Villeurbanne, 2025</span><span>Accompagnement Étude B., Lille, 2026</span><span>Benchmark notaires, août 2026</span></div>',
+  delegation:'<b>Le schéma qui a le mieux tenu : déléguer par type d\'acte, pas par client.</b><ul><li>Successions sans difficulté et procurations en premier, relecture hebdomadaire du notaire pendant deux mois, puis relecture par exception.</li><li>Le point de friction habituel est la perception des clients historiques : les études qui l\'ont annoncé comme une montée en gamme du service (le notaire se consacre au conseil) n\'ont pas eu de retour négatif.</li><li>Sur 18 études, 15 ont tenu la délégation à six mois ; les 3 retours en arrière viennent d\'un clerc parti ou non formé.</li></ul><div class="src"><span>18 accompagnements notaires, 2024 à 2026</span><span>Session 3 Étude Lambert</span></div>',
+  honoraires:'<b>Trois objections dominent, et elles ont chacune une réponse éprouvée.</b><ul><li><b>« Mes clients vont partir »</b> : sur 14 revalorisations accompagnées, aucune perte nette mesurée à six mois ; la clé est la grille écrite et l\'annonce en amont.</li><li><b>« Je ne suis pas légitime à ce prix »</b> : le benchmark montre un taux horaire moyen supérieur de 23 % à celui du cabinet ; la restitution sert de preuve externe.</li><li><b>« Ce n\'est pas le moment »</b> : la revalorisation sur les nouveaux dossiers seulement lève l\'objection dans 9 cas sur 10.</li></ul><div class="src"><span>58 objections documentées, verticale notaires</span><span>Restitutions 2025 et 2026</span></div>'
+};
+const ans=document.getElementById('answer');
+document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');document.getElementById('qInput').value=c.textContent;ans.innerHTML=answers[c.dataset.q];}));
+document.getElementById('qAsk').addEventListener('click',()=>{const v=document.getElementById('qInput').value.trim();if(!v)return;ans.innerHTML='<b>Réponse préparée pour la démonstration.</b> Dans l\'outil réel, cette question interroge les sessions synthétisées, les restitutions et le cadre Libra de la verticale, et la réponse cite ses sources.<div class="src"><span>Verticale notaires</span><span>Sources anonymisées</span></div>';});
+document.getElementById('btnPrep').addEventListener('click',()=>{document.getElementById('prepCard').scrollIntoView({behavior:'smooth',block:'start'});});
+const h0=location.hash.replace('#','');if(pages[h0])go(h0);
+</script>
+</div>
+</body>
+</html>
