@@ -1355,7 +1355,7 @@ document.querySelectorAll('.faq-item').forEach(item => {
 // neutralisés + « ouverture imminente »). true = liens de paiement actifs,
 // téléchargement d'essai visible, espace client au footer.
 // Le go d'Eric = passer GC_OUVERTURE à true et publier.
-const GC_OUVERTURE = true;
+const GC_OUVERTURE = false;
 const GC_LIENS = {
   occasionnel: 'https://buy.stripe.com/aFabJ09mp9gH4OxdT20RG0c',
   regulier: 'https://buy.stripe.com/9B68wOdCFeB180JaGQ0RG0d',
@@ -1365,12 +1365,42 @@ const GC_LIENS = {
   dlWin: 'https://github.com/EricEudeline/ghostcloser-onboarding/releases/latest/download/GhostCloser-Setup-x64.exe'
 };
 
+// ─── LIEN D'AFFILIATION (17/09/2026) ─────────────────────────────────────────
+// ghostcloser.tech/?ref=victor : la référence est gardée 90 jours dans ce
+// navigateur et ajoutée en client_reference_id aux liens de paiement Stripe.
+// Le serveur la recopie sur la fiche client à l'activation (metadata.gc_ref).
+// Un closer qui paie depuis un autre navigateur perd la référence :
+// rattachement à la main. Rien ne change à l'écran.
+const GC_REF_RE = /^[a-z0-9][a-z0-9_-]{1,39}$/i;
+const GC_REF_JOURS = 90;
+function gcRefLire() {
+  let ref = '';
+  try {
+    const p = new URLSearchParams(location.search).get('ref');
+    if (p && GC_REF_RE.test(p)) {
+      ref = p.toLowerCase();
+      localStorage.setItem('gc_ref', JSON.stringify({ ref: ref, t: Date.now() }));
+    } else {
+      const m = JSON.parse(localStorage.getItem('gc_ref') || 'null');
+      if (m && GC_REF_RE.test(String(m.ref || '')) && Date.now() - Number(m.t || 0) < GC_REF_JOURS * 864e5) {
+        ref = String(m.ref).toLowerCase();
+      }
+    }
+  } catch (e) { ref = ''; }
+  return ref;
+}
+const GC_REF = gcRefLire();
+function gcLienPaiement(lien) {
+  if (!GC_REF) return lien;
+  return lien + (lien.indexOf('?') === -1 ? '?' : '&') + 'client_reference_id=' + encodeURIComponent(GC_REF);
+}
+
 if (GC_OUVERTURE) {
   // Cartes tarifs → paiement Stripe (redirection merci.html déjà configurée côté Stripe).
   document.querySelectorAll('.plan-cta').forEach(btn => {
     const lien = GC_LIENS[btn.dataset.plan];
     if (!lien) return;
-    btn.href = lien;
+    btn.href = gcLienPaiement(lien);
     btn.textContent = 'Choisir cette formule';
     const msg = btn.parentElement.querySelector('.plan-soon');
     if (msg) msg.remove();
