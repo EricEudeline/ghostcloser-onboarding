@@ -15,6 +15,7 @@
   --line:rgba(255,255,255,.08); --line-strong:rgba(255,255,255,.16);
   --text:#ffffff; --text-2:rgba(255,255,255,.74); --text-3:#9b9fa7; --text-4:#6d717a;
   --accent:#fcf707; --accent-deep:#e3df00; --accent-ink:#111113; --accent-soft:rgba(252,247,7,.12); --accent-line:rgba(252,247,7,.38);
+  --mild:#e6e28a; --mild-soft:rgba(252,247,7,.07); --mild-line:rgba(252,247,7,.24); --mild-fill:rgba(230,226,138,.9);
   --blue:#6f83ee; --blue-soft:rgba(111,131,238,.18);
   --teal:#4fd1c5; --teal-soft:rgba(79,209,197,.18);
   --good:#5ee29a; --good-soft:rgba(94,226,154,.14);
@@ -138,15 +139,16 @@ td.r,th.r{text-align:right}
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
 @media (max-width:1300px){.kpis{grid-template-columns:repeat(2,1fr)}}
 .kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;min-height:112px}
-.kpi.acc{border-color:var(--accent-line);background:linear-gradient(180deg,rgba(252,247,7,.07),transparent 70%),var(--surface)}
+.kpi.acc{border-color:var(--mild-line);background:linear-gradient(180deg,rgba(252,247,7,.05),transparent 70%),var(--surface)}
 .kpi .lab{font-size:12px;color:var(--text-3);margin-bottom:6px}
 .kpi .val{font-size:28px;font-weight:500;line-height:1.1;letter-spacing:-.01em}
 .kpi .val small{font-size:13px;color:var(--text-3);font-weight:400;margin-left:6px;letter-spacing:0}
 .kpi .cmp{font-size:12.5px;color:var(--text-3);margin-top:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.kpi .cmp b.strong{color:var(--text);font-weight:600}
 .delta{display:inline-block;padding:2px 8px;border-radius:var(--pill);font-size:12px;font-weight:600}
 .delta.neg{background:var(--crit-soft);color:var(--crit)}
 .delta.pos{background:var(--good-soft);color:var(--good)}
-.delta.up{background:var(--accent-soft);color:var(--accent)}
+.delta.up{background:var(--mild-soft);color:var(--mild)}
 .delta.zero{background:var(--surface-3);color:var(--text-2)}
 .bars{display:grid;gap:12px;margin:6px 0 4px}
 .bar{display:grid;grid-template-columns:230px 1fr 64px;align-items:center;gap:14px}
@@ -161,6 +163,19 @@ td.r,th.r{text-align:right}
 .bar .v{font-size:14px;font-weight:600;text-align:right}
 .punch{font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.4;color:var(--text);margin:14px 0 0;padding:14px 18px;border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 var(--radius-sm) var(--radius-sm) 0}
 .punch.calm{background:var(--surface-2);border-left-color:var(--line-strong);color:var(--text-2);font-size:16px}
+.scen-top{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:12px}
+@media (max-width:640px){.scen-top{grid-template-columns:1fr}}
+.scen-top>div{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px 16px}
+.scen-top>div.hi{border-color:var(--mild-line);background:var(--mild-soft)}
+.scen-top .lab{font-size:12px;color:var(--text-3);margin-bottom:6px}
+.scen-top .val{font-size:26px;font-weight:500;line-height:1.1}
+.scen-top .val small{font-size:12.5px;color:var(--text-3);font-weight:400;margin-left:6px}
+.scen-top .cmp{font-size:12.5px;color:var(--text-3);margin-top:6px}
+.scen-alt{margin:12px 0 0;font-size:13px;color:var(--text-2)}
+.scen-alt b{color:var(--text);font-weight:600}
+.pres-step .scen-top .val{font-size:44px}
+.pres-step .scen-top .lab,.pres-step .scen-top .cmp{font-size:14px}
+.pres-step .scen-alt{font-size:19px;margin-top:22px}
 .callout{padding:12px 16px;border:1px dashed var(--line-strong);border-radius:var(--radius-sm);color:var(--text-3);font-size:13px}
 
 /* constats */
@@ -168,8 +183,8 @@ td.r,th.r{text-align:right}
 .constat{display:flex;align-items:center;gap:12px;padding:11px 14px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--surface-2);cursor:pointer;text-align:left;width:100%;transition:border-color .15s,background .15s}
 .constat:hover{border-color:var(--line-strong)}
 .constat .box{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--line-strong);flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--accent-ink)}
-.constat.on{border-color:var(--accent-line);background:var(--accent-soft)}
-.constat.on .box{background:var(--accent);border-color:var(--accent)}
+.constat.on{border-color:var(--mild-line);background:var(--mild-soft)}
+.constat.on .box{background:var(--mild-fill);border-color:var(--mild-fill)}
 .constat .t{flex:1 1 auto;font-size:13.5px;line-height:1.35}
 .constat .sugg{font-size:11px;color:var(--teal);border:1px solid var(--teal-soft);background:var(--teal-soft);padding:2px 8px;border-radius:var(--pill);white-space:nowrap}
 .constat:disabled{opacity:.45;cursor:not-allowed}
@@ -184,8 +199,8 @@ td.r,th.r{text-align:right}
 .week{border:1px solid var(--line);background:var(--surface-2);border-radius:var(--radius-sm);padding:10px 12px;min-height:74px;transition:all .2s}
 .week .wn{font-size:11px;color:var(--text-4);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
 .week .wt{font-size:12.5px;line-height:1.3;color:var(--text-2)}
-.week.lit{border-color:var(--accent-line);background:var(--accent-soft)}
-.week.lit .wn{color:var(--accent)}
+.week.lit{border-color:var(--mild-line);background:var(--mild-soft)}
+.week.lit .wn{color:var(--mild)}
 .week.lit .wt{color:var(--text)}
 .week.masked{border-style:dashed;opacity:.45}
 .week.masked .wt{text-decoration:line-through}
@@ -194,7 +209,7 @@ td.r,th.r{text-align:right}
 .key .kt{font-weight:600;font-size:13.5px;margin-bottom:6px}
 .key ul{margin:0;padding-left:0;list-style:none;display:grid;gap:5px}
 .key li{font-size:13px;color:var(--text-2)}
-.key li b{color:var(--accent);font-weight:600}
+.key li b{color:var(--mild);font-weight:600}
 
 /* summary */
 pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px 16px;margin:0;color:var(--text-2)}
@@ -215,7 +230,7 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
 .wtoggles{display:flex;flex-wrap:wrap;gap:5px}
 .wtoggles button{width:30px;height:26px;border-radius:7px;border:1px solid var(--line-strong);font-size:12px;color:var(--text-3);font-variant-numeric:tabular-nums}
 .wtoggles button:hover{border-color:var(--accent-line);color:var(--text)}
-.wtoggles button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.wtoggles button.on{background:var(--mild-fill);border-color:var(--mild-fill);color:var(--accent-ink);font-weight:600}
 .sedit{display:grid;grid-template-columns:96px 1fr;gap:8px 12px;align-items:start;padding:9px 0;border-bottom:1px solid var(--line)}
 .sedit:last-child{border-bottom:0}
 .sedit .sn{font-size:11.5px;color:var(--text-4);letter-spacing:.06em;text-transform:uppercase;padding-top:9px;line-height:1.3}
@@ -265,7 +280,7 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
 .line .l{color:var(--text-3)}
 .line .r{font-weight:500;text-align:right}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.chip{padding:8px 14px;border-radius:var(--pill);background:var(--accent-soft);border:1px solid var(--accent-line);color:var(--accent);font-size:14px;font-weight:500}
+.chip{padding:8px 14px;border-radius:var(--pill);background:var(--mild-soft);border:1px solid var(--mild-line);color:var(--mild);font-size:14px;font-weight:500}
 .mix{display:flex;height:26px;border-radius:13px;overflow:hidden;margin-top:26px;background:var(--surface-3)}
 .mix div{height:100%}
 .mix .a{background:rgba(255,255,255,.55)}
@@ -298,7 +313,8 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
   #print .kpi .val small{font-size:9pt;color:#666;font-weight:400;margin-left:4px}
   #print .kpi .cmp{font-size:9pt;color:#555;margin-top:4px}
   #print .kpi .tiny{color:#777}
-  #print .kpi.hi,#print .kpi.acc{background:#fffce0;border-color:#e3df00}
+  #print .kpi .cmp b.strong{color:#111}
+  #print .kpi.hi,#print .kpi.acc{background:#fffdf0;border-color:#e6e28a}
   #print .delta{font-size:9pt;padding:1px 6px}
   #print .delta.neg{background:#ffe1dc;color:#b3261e}
   #print .delta.pos{background:#dff7e8;color:#1b7a44}
@@ -322,7 +338,7 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
   #print .week{background:#fafafa;border-color:#ddd;min-height:52px;padding:6px 8px;border-radius:7px}
   #print .week .wn{color:#777;font-size:8pt}
   #print .week .wt{color:#333;font-size:9pt}
-  #print .week.lit{background:#fff8a6;border-color:#e3df00}
+  #print .week.lit{background:#fffad6;border-color:#e6e28a}
   #print .week.lit .wn{color:#7a7600}
   #print .week.lit .wt{color:#111;font-weight:500}
   #print .week.masked{opacity:.4}
@@ -334,6 +350,13 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
   #print .pf{margin-top:18px;padding-top:8px;border-top:1px solid #ddd;font-size:8.5pt;color:#777}
   #print .suite{margin-top:14px;padding:10px 12px;border:1px solid #e3df00;background:#fffce0;border-radius:8px;font-size:10.5pt;white-space:pre-wrap}
   #print .sec{break-inside:avoid}
+  #print .scen-top>div{background:#fff;border-color:#ddd;color:#111;border-radius:8px;padding:9px 11px}
+  #print .scen-top>div.hi{background:#fffdf0;border-color:#e6e28a}
+  #print .scen-top .lab,#print .scen-top .cmp{color:#666;font-size:9pt}
+  #print .scen-top .val{font-size:19pt;color:#111}
+  #print .scen-top .val small{color:#666;font-size:9pt}
+  #print .scen-alt{color:#333;font-size:10pt}
+  #print .scen-alt b{color:#111}
 }
 </style>
 </head>
@@ -447,6 +470,13 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
             <div class="field"><label>Semaines de congés visées</label><div class="in"><input type="number" id="f-tConges" class="yellow" placeholder="5" min="0" max="52" step="1"><span class="unit">par an</span></div></div>
           </div>
           <p class="hint">Temps et congés visés : laisser vide pour garder la situation actuelle.</p>
+
+          <div class="subhead" style="margin-top:14px">Demain</div>
+          <div class="row2">
+            <div class="field"><label id="l-recup">Part du temps hors soin récupérée</label><div class="in"><input type="number" id="f-recup" class="yellow" placeholder="30" min="0" max="100" step="5"><span class="unit">%</span></div></div>
+            <div class="field"><label>Taux net horaire visé demain</label><div class="in"><input type="number" id="f-tauxDemain" class="yellow" placeholder="30" min="0" step="1"><span class="unit">€ par heure</span></div></div>
+          </div>
+          <p class="hint">Vide : la part par défaut des réglages, et le taux nécessaire à l'objectif.</p>
         </div>
 
         <div class="card">
@@ -484,8 +514,12 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
             <div class="bars" id="bars"></div>
             <div id="punch"></div>
           </div>
+          <div class="card" id="scen-card">
+            <div class="actions" style="margin-bottom:10px"><h2 style="margin:0"><span class="n">5</span>Demain</h2><span class="muted small">Récupérer une part du temps <span id="scen-hors">hors soin</span>, et le payer au taux visé.</span></div>
+            <div id="scenario"></div>
+          </div>
           <div class="card">
-            <div class="actions" style="margin-bottom:10px"><h2 style="margin:0"><span class="n">5</span>Le parcours</h2><span class="muted small" id="p-note"></span></div>
+            <div class="actions" style="margin-bottom:10px"><h2 style="margin:0"><span class="n">6</span>Le parcours</h2><span class="muted small" id="p-note"></span></div>
             <div class="parcours" id="parcours"></div>
             <div class="keys" id="keys"></div>
             <p class="note" style="margin:14px 0 0">Quinze semaines et une semaine de bilan, une heure par semaine : des vidéos courtes et un exercice appliqué à l'activité réelle.</p>
@@ -510,12 +544,13 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
           <div class="field"><label>Prénom affiché et proposé comme auteur des diagnostics</label><div class="in"><input type="text" id="s-auteur" placeholder="Mael"></div></div>
         </div>
         <div class="card">
-          <h3>Seuils des constats suggérés</h3>
-          <p class="note" style="margin:0 0 12px">Valeurs par défaut à valider par LIBRAE. Elles ne décident rien, elles signalent.</p>
+          <h3>Seuils et scénario</h3>
+          <p class="note" style="margin:0 0 12px">Valeurs par défaut à valider par LIBRAE. Les seuils ne décident rien, ils signalent.</p>
           <div class="row2">
             <div class="field"><label>Trop d'heures hors production à partir de</label><div class="in"><input type="number" id="s-partHors" min="0" max="100" step="1"><span class="unit">% du temps</span></div></div>
             <div class="field"><label>Semaines trop longues à partir de</label><div class="in"><input type="number" id="s-heuresSemaine" min="0" step="1"><span class="unit">h / semaine</span></div></div>
           </div>
+          <div class="field" style="max-width:360px"><label>Part du temps hors production récupérée demain, par défaut</label><div class="in"><input type="number" id="s-recup" min="0" max="100" step="5"><span class="unit">%</span></div></div>
           <p class="hint">Revenu plafonné : suggéré quand la profession n'a pas d'honoraires libres. Chiffres mal connus : suggéré quand le bénéfice est estimé depuis les prélèvements. Trésorerie, tout repose sur une personne, pas de cap : jamais suggérés, à cocher à la main.</p>
         </div>
         <div class="card">
@@ -615,13 +650,13 @@ const PROFESSIONS_DEFAUT=[
   {id:'autre-soin',nom:"Autre profession de soin (tarif conventionné)",terme:'soin',honoraires:false,masque:14},
   {id:'autre',nom:"Autre profession (honoraires libres)",terme:'production',honoraires:true,masque:null}
 ];
-const SETTINGS_DEFAUT=()=>({auteur:'',seuils:{partHors:25,heuresSemaine:45},professions:clone(PROFESSIONS_DEFAUT),semaines:clone(SEMAINES_DEFAUT),constats:clone(CONSTATS_DEFAUT),suite:''});
+const SETTINGS_DEFAUT=()=>({auteur:'',seuils:{partHors:25,heuresSemaine:45,recup:30},professions:clone(PROFESSIONS_DEFAUT),semaines:clone(SEMAINES_DEFAUT),constats:clone(CONSTATS_DEFAUT),suite:''});
 
 const DEMO=()=>({
   id:'demo-'+Date.now(),demo:true,createdAt:'2026-09-21T15:30:00.000Z',updatedAt:'2026-09-21T15:30:00.000Z',
   auteur:'Mael',name:'Camille D. (exemple)',profession:'inf',
   pari:50,recettes:83979,bnc:47239,bncUnknown:false,virements:'',depenses:'',
-  hSoin:35,hAdmin:10,hDepl:5,conges:5,tRev:72000,tHours:45,tConges:5,
+  hSoin:35,hAdmin:10,hDepl:5,conges:5,tRev:72000,tHours:45,tConges:5,recup:'',tauxDemain:30,
   constats:['c1','c2','c4'],notes:'Cas de démonstration, chiffres du modèle Google Sheets.',revealed:true
 });
 
@@ -659,6 +694,7 @@ function fDec(n,d){if(n==null||!isFinite(n))return '..';return n.toLocaleString(
 function fDate(iso){const d=iso?new Date(iso):new Date();return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric'})}
 function fTime(iso){const d=new Date(iso);return d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function jours(h){if(h<=0)return '';if(h<1.5)return 'une heure par semaine';if(h<3)return 'deux heures par semaine';if(h<=5.5)return 'une demi-journée par semaine';if(h<=9.5)return 'une journée par semaine';if(h<=14)return 'un jour et demi par semaine';return fDec(h/7.5,1)+' jours par semaine'}
 function listWeeks(ws){if(!ws.length)return '';return (ws.length>1?'semaines ':'semaine ')+ws.join(', ')}
 
 /* ---------- Métier ---------- */
@@ -693,6 +729,13 @@ function compute(d){
   const pari=num(d.pari);
   const ecartPari=(pari>0&&net)?net/pari-1:null;
   const scale=Math.max(hWeek||0,tHours||0,needWeek||0,1);
+  const perdu=(net&&horsYear>0)?horsYear*Math.round(net):null;
+  const recupPct=isSet(d.recup)?num(d.recup):num(s.seuils.recup);
+  const recupH=horsYear>0?horsYear*recupPct/100:0;
+  const recupWeek=weeks>0?recupH/weeks:0;
+  const tauxDemain=isSet(d.tauxDemain)?num(d.tauxDemain):(netTarget!=null?Math.round(netTarget):null);
+  const gain=(tauxDemain&&recupH>0)?Math.round(recupH)*tauxDemain:null;
+  const hasScenario=gain!=null&&gain>0;
   const suggested={};
   s.constats.forEach(c=>{
     let v=false;
@@ -707,7 +750,7 @@ function compute(d){
   const keys=retained.map(id=>{const c=s.constats.find(x=>x.id===id);const ws=c.semaines.filter(n=>n!==masque&&semaine(n));return {c,label:constatLabel(c,t),weeks:ws}});
   const lit=new Set();keys.forEach(k=>k.weeks.forEach(n=>lit.add(n)));
   const done=ok&&pari>0;
-  return {p,t,soin,admin,depl,conges,hWeek,horsWeek,weeks,hYear,bnc,bncEst,recettes,ok,net,rec,horsYear,part,horsWeeksEq,tRev,tHours,tConges,tWeeks,hasTarget,netTarget,gap,needWeek,reached,pari,ecartPari,scale,suggested,retained,keys,lit,masque,done};
+  return {p,t,soin,admin,depl,conges,hWeek,horsWeek,weeks,hYear,bnc,bncEst,recettes,ok,net,rec,horsYear,part,horsWeeksEq,tRev,tHours,tConges,tWeeks,hasTarget,netTarget,gap,needWeek,reached,pari,ecartPari,scale,suggested,retained,keys,lit,masque,done,perdu,recupPct,recupH,recupWeek,tauxDemain,gain,hasScenario};
 }
 
 function summaryText(d,r){
@@ -719,12 +762,13 @@ function summaryText(d,r){
   L.push('Temps de travail : '+fH(r.hWeek)+' par semaine, '+r.weeks+' semaines par an');
   L.push('Revenu net par heure : '+fEur(r.net)+(r.pari>0?' (pari : '+fEur(r.pari)+', écart '+fPct(r.ecartPari,true)+')':''));
   if(r.rec!=null)L.push('Recettes par heure : '+fEur(r.rec));
-  L.push(r.t.titre+' : '+fH(r.horsYear)+' par an ('+fPct(r.part)+' du temps)');
+  L.push(r.t.titre+' : '+fH(r.horsYear)+' par an ('+fPct(r.part)+' du temps)'+(r.perdu!=null?', soit '+fEur(r.perdu)+' au taux net actuel':''));
   if(r.hasTarget){
     L.push('Objectif : '+fEur(r.tRev)+' nets, '+fH(r.tHours)+' par semaine, '+r.tConges+' semaines de congés');
     L.push('Revenu net horaire nécessaire : '+fEur(r.netTarget)+' ('+fPct(r.gap,true)+')');
     L.push('À organisation constante : '+fH(r.needWeek)+' par semaine nécessaires');
   }
+  if(r.hasScenario)L.push('Demain : '+fPct(r.recupPct/100)+' du temps '+r.t.hors+' récupéré = '+fH(r.recupH)+' par an ('+fDec(r.recupWeek,1)+' h par semaine) à '+fEur(r.tauxDemain)+'/h = +'+fEur(r.gain)+' par an');
   L.push('Constats retenus : '+r.keys.length);
   r.keys.forEach(k=>L.push('- '+k.label+(k.weeks.length?' ('+listWeeks(k.weeks)+')':'')));
   return L.join('\n');
@@ -764,7 +808,7 @@ $('#btn-new').addEventListener('click',()=>{const f=$('#new-form');f.hidden=!f.h
 $('#nf-cancel').addEventListener('click',()=>{$('#new-form').hidden=true});
 $('#nf-create').addEventListener('click',()=>{
   const now=new Date().toISOString();
-  const d={id:uid(),createdAt:now,updatedAt:now,auteur:$('#nf-auteur').value.trim(),name:$('#nf-name').value.trim(),profession:$('#nf-prof').value,pari:'',recettes:$('#nf-recettes').value,bnc:$('#nf-bnc').value,bncUnknown:false,virements:'',depenses:'',hSoin:'',hAdmin:'',hDepl:'',conges:'',tRev:'',tHours:'',tConges:'',constats:[],notes:'',revealed:false};
+  const d={id:uid(),createdAt:now,updatedAt:now,auteur:$('#nf-auteur').value.trim(),name:$('#nf-name').value.trim(),profession:$('#nf-prof').value,pari:'',recettes:$('#nf-recettes').value,bnc:$('#nf-bnc').value,bncUnknown:false,virements:'',depenses:'',hSoin:'',hAdmin:'',hDepl:'',conges:'',tRev:'',tHours:'',tConges:'',recup:'',tauxDemain:'',constats:[],notes:'',revealed:false};
   if(!d.name){$('#nf-name').focus();return}
   if(d.auteur&&!state.settings.auteur){state.settings.auteur=d.auteur;whoRender()}
   state.dossiers.push(d);save();$('#new-form').hidden=true;openDossier(d.id);
@@ -772,7 +816,7 @@ $('#nf-create').addEventListener('click',()=>{
 $('#nf-name').addEventListener('keydown',e=>{if(e.key==='Enter')$('#nf-create').click()});
 
 /* ---------- Dossier ---------- */
-const FIELDS=['pari','recettes','bnc','virements','depenses','hSoin','hAdmin','hDepl','conges','tRev','tHours','tConges','name','notes'];
+const FIELDS=['pari','recettes','bnc','virements','depenses','hSoin','hAdmin','hDepl','conges','tRev','tHours','tConges','recup','tauxDemain','name','notes'];
 function cur(){return state.dossiers.find(d=>d.id===currentId)}
 function openDossier(id){
   currentId=id;const d=cur();if(!d)return;
@@ -819,6 +863,8 @@ function renderDossier(keepBars){
   const bars=$('#bars');const prev=bars.innerHTML;bars.innerHTML=barsHtml(r);
   if(!keepBars||prev==='')animateBars(bars);else $$('.fill',bars).forEach(f=>f.style.width=f.dataset.w);
   $('#punch').innerHTML=punchHtml(r);
+  $('#scen-hors').textContent=r.t.hors;$('#l-recup').textContent='Part du temps '+r.t.hors+' récupérée';
+  $('#scenario').innerHTML=r.hasScenario?scenarioHtml(r):'<div class="callout">Le scénario se calcule dès que les heures et un taux visé (ou un objectif) sont saisis.</div>';
   $('#parcours').innerHTML=parcoursHtml(r);
   $('#keys').innerHTML=keysHtml(r);
   $('#p-note').textContent=r.keys.length?'Les semaines allumées répondent aux constats retenus.':'Retenir des constats pour allumer les semaines.';
@@ -832,7 +878,7 @@ function kpisHtml(r,print){
   const k=[];
   k.push({cls:'acc',lab:'Revenu net par heure travaillée',val:fEur(r.net),unit:'par heure',cmp:(r.pari>0?'Pari : '+fEur(r.pari)+' '+netDelta:'Pari non saisi')+'<br><span class="tiny">Bénéfice annuel divisé par toutes les heures</span>'});
   k.push({cls:'',lab:'Recettes par heure travaillée',val:r.rec!=null?fEur(r.rec):'..',unit:'par heure',cmp:r.rec!=null?'Ce qui entre, avant charges':'Recettes non renseignées'});
-  k.push({cls:'',lab:r.t.titre,val:r.horsYear>0?fH(r.horsYear):'..',unit:'par an',cmp:r.part!=null?fPct(r.part)+' du temps de travail, l\'équivalent de '+fInt(r.horsWeeksEq)+' semaines':''});
+  k.push({cls:'',lab:r.t.titre,val:r.horsYear>0?fH(r.horsYear):'..',unit:'par an',cmp:(r.part!=null?fPct(r.part)+' du temps de travail, l\'équivalent de '+fInt(r.horsWeeksEq)+' semaines':'')+(r.perdu!=null?'<br><b class="strong">'+fEur(r.perdu)+'</b> au taux net actuel : des heures travaillées qui ne rapportent rien':'')});
   k.push({cls:'',lab:'Revenu net horaire nécessaire à l\'objectif',val:r.netTarget!=null?fEur(r.netTarget):'..',unit:'par heure',cmp:r.hasTarget?fEur(r.tRev)+' pour '+fH(r.tHours)+' par semaine et '+r.tConges+' semaines de congés '+gapDelta:'Objectif non saisi'});
   return k.map(x=>'<div class="kpi '+x.cls+(print&&x.cls?' hi':'')+'"><div class="lab">'+x.lab+'</div><div class="val num">'+x.val+'<small>'+x.unit+'</small></div><div class="cmp">'+x.cmp+'</div></div>').join('');
 }
@@ -843,6 +889,11 @@ function barsHtml(r){
     {cls:'need',lab:'Nécessaire à organisation constante',sub:'Pour '+fEur(r.tRev)+' nets sans rien changer',v:r.needWeek}
   ];
   return rows.map(x=>{const w=x.v?Math.min(100,x.v/r.scale*100):0;return '<div class="bar '+x.cls+'"><div class="lab">'+x.lab+'<small>'+x.sub+'</small></div><div class="track"><div class="fill" data-w="'+w.toFixed(1)+'%" style="--w:'+w.toFixed(1)+'%"></div></div><div class="v num">'+(x.v!=null?fH(x.v):'..')+'</div></div>'}).join('');
+}
+function scenarioHtml(r,print){
+  if(!r.hasScenario)return '';
+  const moitie=r.gain/2, moitieH=r.recupH/2;
+  return '<div class="scen"><div class="scen-top"><div><div class="lab">Temps '+r.t.hors+' récupéré</div><div class="val num">'+fPct(r.recupPct/100)+'<small>soit '+fH(r.recupH)+' par an</small></div><div class="cmp">'+fDec(r.recupWeek,1)+' h par semaine'+(jours(r.recupWeek)?', '+jours(r.recupWeek):'')+'</div></div><div><div class="lab">Taux net horaire demain</div><div class="val num">'+fEur(r.tauxDemain)+'<small>par heure</small></div><div class="cmp">'+(r.net!=null?'contre '+fEur(r.net)+' aujourd\'hui':'')+'</div></div><div class="hi"><div class="lab">Gain, sans travailler plus</div><div class="val num">+'+fEur(r.gain)+'<small>par an</small></div><div class="cmp">'+fH(r.recupH)+' x '+fEur(r.tauxDemain)+'</div></div></div><p class="scen-alt">En cash, ou la moitié en cash et la moitié en temps : <b>'+fEur(moitie)+'</b> et <b>'+fH(moitieH)+'</b> de libres par an, '+fDec(moitieH/(r.weeks||1),1)+' h par semaine.</p></div>';
 }
 function punchHtml(r){
   if(!r.ok)return '<div class="callout">Le bilan se calcule dès que le bénéfice et les heures sont saisis.</div>';
@@ -874,6 +925,7 @@ function renderPrint(){
   h.push('<h1>'+esc(d.name||'Diagnostic express')+'</h1><p class="sub">'+esc(r.p?r.p.nom:'')+' · Ce que rapporte vraiment une heure de travail, et ce qu\'il faudrait changer pour atteindre l\'objectif.</p>');
   h.push('<div class="sec"><h2>Le bilan</h2><p style="margin:0 0 8px;font-size:10pt;color:#555">'+esc($('#b-basis').textContent)+'</p><div class="pk">'+kpisHtml(r,true)+'</div></div>');
   h.push('<div class="sec"><h2>Le temps de travail par semaine</h2><div class="bars">'+barsHtml(r)+'</div>'+punchHtml(r)+'</div>');
+  if(r.hasScenario)h.push('<div class="sec"><h2>Demain</h2><p style="margin:0 0 8px;font-size:10pt;color:#555">Récupérer '+fPct(r.recupPct/100)+' du temps '+r.t.hors+', et le payer au taux visé.</p>'+scenarioHtml(r,true)+'</div>');
   h.push('<div class="sec"><h2>Le parcours</h2><div class="parcours">'+parcoursHtml(r)+'</div>'+(r.keys.length?'<div class="keys">'+keysHtml(r)+'</div>':'<p style="font-size:10pt;color:#555">Aucun constat retenu.</p>')+'<p style="font-size:9.5pt;color:#555;margin:10px 0 0">Quinze semaines et une semaine de bilan, une heure par semaine : des vidéos courtes et un exercice appliqué à l\'activité réelle.</p></div>');
   if((state.settings.suite||'').trim())h.push('<div class="suite sec">'+esc(state.settings.suite.trim())+'</div>');
   h.push('<div class="pf">Calcul réalisé en direct à partir des chiffres déclarés, sans retraitement. Document remis à titre indicatif.</div>');
@@ -890,14 +942,15 @@ function buildSteps(d,r){
   S.push({h:'<h2>2. Les chiffres, à la louche</h2><div class="stack"><div class="line"><span class="l">Bénéfice annuel avant impôt sur le revenu</span><span class="r num">'+(r.bnc>0?fEur(r.bnc)+(d.bncUnknown?' <span class="muted" style="font-size:14px">estimé</span>':''):'..')+'</span></div>'+(r.recettes>0?'<div class="line"><span class="l">Recettes annuelles</span><span class="r num">'+fEur(r.recettes)+'</span></div>':'')+'<div class="line"><span class="l">Semaine de travail, tout compris</span><span class="r num">'+fH(r.hWeek)+' <span class="muted" style="font-size:15px">('+fInt(r.soin)+' h '+r.t.prod+', '+fInt(r.admin)+' h administratif, '+fInt(r.depl)+' h déplacements)</span></span></div><div class="line"><span class="l">Semaines travaillées</span><span class="r num">'+r.weeks+' <span class="muted" style="font-size:15px">('+fInt(r.conges)+' semaines de congés)</span></span></div><div class="line"><span class="l">Heures travaillées par an</span><span class="r num">'+fH(r.hYear)+'</span></div></div>'});
   S.push({h:'<h2>3. Le réel</h2><div class="duo"><div><div class="lab">Le pari</div><div class="big" style="color:var(--text-3)">'+(r.pari>0?fEur(r.pari):'..')+'</div></div><div><div class="lab">Mesuré</div><div class="big acc">'+fEur(r.net)+(r.ecartPari!=null?'<small><span class="delta '+(r.ecartPari<0?'neg':'pos')+'" style="font-size:22px;padding:6px 14px">'+fPct(r.ecartPari,true)+'</span></small>':'')+'</div></div></div><p class="lead" style="margin-top:24px">Revenu net par heure travaillée : le bénéfice annuel divisé par toutes les heures.'+(r.rec!=null?' Recettes par heure travaillée : <b style="color:var(--text)">'+fEur(r.rec)+'</b>, ce qui entre avant charges.':'')+'</p>'});
   const pa=r.hWeek>0?r.soin/r.hWeek*100:0,pb=r.hWeek>0?r.admin/r.hWeek*100:0,pc=r.hWeek>0?r.depl/r.hWeek*100:0;
-  S.push({h:'<h2>4. '+esc(r.t.titre)+'</h2><div class="big">'+fH(r.horsYear)+'<small>par an</small></div><p class="lead" style="margin-top:14px">'+fPct(r.part)+' du temps de travail, l\'équivalent de '+fInt(r.horsWeeksEq)+' semaines par an passées hors '+r.t.prod+'.</p><div class="mix"><div class="a" style="width:'+pa.toFixed(1)+'%"></div><div class="b" style="width:'+pb.toFixed(1)+'%"></div><div class="c" style="width:'+pc.toFixed(1)+'%"></div></div><div class="legend"><span class="a">'+esc(r.t.heures)+' : '+fH(r.soin)+'</span><span class="b">Administratif et gestion : '+fH(r.admin)+'</span><span class="c">Déplacements : '+fH(r.depl)+'</span></div>'});
+  S.push({h:'<h2>4. '+esc(r.t.titre)+'</h2><div class="big">'+fH(r.horsYear)+'<small>par an</small></div><p class="lead" style="margin-top:14px">'+fPct(r.part)+' du temps de travail, l\'équivalent de '+fInt(r.horsWeeksEq)+' semaines par an passées hors '+r.t.prod+'.'+(r.perdu!=null?' Au taux net actuel de '+fEur(r.net)+' par heure, ce sont <b style="color:var(--text)">'+fEur(r.perdu)+'</b> par an d\'heures travaillées qui ne rapportent rien.':'')+'</p><div class="mix"><div class="a" style="width:'+pa.toFixed(1)+'%"></div><div class="b" style="width:'+pb.toFixed(1)+'%"></div><div class="c" style="width:'+pc.toFixed(1)+'%"></div></div><div class="legend"><span class="a">'+esc(r.t.heures)+' : '+fH(r.soin)+'</span><span class="b">Administratif et gestion : '+fH(r.admin)+'</span><span class="c">Déplacements : '+fH(r.depl)+'</span></div>'});
   if(r.hasTarget){
     S.push({h:'<h2>5. L\'objectif</h2><p class="lead">'+fEur(r.tRev)+' nets par an, '+fH(r.tHours)+' par semaine, '+r.tConges+' semaines de congés.</p><div class="pres-kpis"><div class="kpi"><div class="lab">Revenu net par heure aujourd\'hui</div><div class="val num">'+fEur(r.net)+'</div></div><div class="kpi acc"><div class="lab">Revenu net par heure nécessaire</div><div class="val num">'+fEur(r.netTarget)+' <span class="delta '+(r.gap>0?'up':'zero')+'">'+fPct(r.gap,true)+'</span></div></div><div class="kpi"><div class="lab">Heures par semaine, à organisation constante</div><div class="val num">'+fH(r.needWeek)+'</div></div></div><div class="bars">'+barsHtml(r)+'</div>'+punchHtml(r)});
   }else{
     S.push({h:'<h2>5. L\'objectif</h2><p class="lead">Objectif non saisi. Renseigner le revenu net visé pour mesurer l\'écart.</p>'});
   }
-  S.push({h:'<h2>6. Le parcours</h2>'+(r.keys.length?'<div class="chips">'+r.keys.map(k=>'<span class="chip">'+esc(k.label)+'</span>').join('')+'</div>':'<p class="lead">Aucun constat retenu.</p>')+'<div class="parcours">'+parcoursHtml(r)+'</div>'+(r.keys.length?'<div class="keys">'+keysHtml(r)+'</div>':'')});
-  S.push({h:'<h2>En résumé</h2><div class="stack"><div class="line"><span class="l">Revenu net par heure travaillée</span><span class="r num">'+fEur(r.net)+(r.pari>0?' <span class="muted" style="font-size:15px">pari '+fEur(r.pari)+', écart '+fPct(r.ecartPari,true)+'</span>':'')+'</span></div><div class="line"><span class="l">'+esc(r.t.titre)+'</span><span class="r num">'+fH(r.horsYear)+' par an <span class="muted" style="font-size:15px">'+fPct(r.part)+' du temps</span></span></div>'+(r.hasTarget?'<div class="line"><span class="l">Revenu net horaire nécessaire à l\'objectif</span><span class="r num">'+fEur(r.netTarget)+' <span class="muted" style="font-size:15px">'+fPct(r.gap,true)+'</span></span></div><div class="line"><span class="l">À organisation constante</span><span class="r num">'+fH(r.needWeek)+' par semaine <span class="muted" style="font-size:15px">objectif '+fH(r.tHours)+'</span></span></div>':'')+'<div class="line"><span class="l">Constats retenus</span><span class="r">'+(r.keys.length?r.keys.map(k=>esc(k.label)).join('<br>'):'..')+'</span></div></div>'});
+  S.push({h:'<h2>6. Demain</h2>'+(r.hasScenario?'<p class="lead">Récupérer '+fPct(r.recupPct/100)+' du temps '+r.t.hors+', et le payer au taux visé.</p>'+scenarioHtml(r):'<p class="lead">Scénario non calculé : renseigner un taux visé ou un objectif.</p>')});
+  S.push({h:'<h2>7. Le parcours</h2>'+(r.keys.length?'<div class="chips">'+r.keys.map(k=>'<span class="chip">'+esc(k.label)+'</span>').join('')+'</div>':'<p class="lead">Aucun constat retenu.</p>')+'<div class="parcours">'+parcoursHtml(r)+'</div>'+(r.keys.length?'<div class="keys">'+keysHtml(r)+'</div>':'')});
+  S.push({h:'<h2>En résumé</h2><div class="stack"><div class="line"><span class="l">Revenu net par heure travaillée</span><span class="r num">'+fEur(r.net)+(r.pari>0?' <span class="muted" style="font-size:15px">pari '+fEur(r.pari)+', écart '+fPct(r.ecartPari,true)+'</span>':'')+'</span></div><div class="line"><span class="l">'+esc(r.t.titre)+'</span><span class="r num">'+fH(r.horsYear)+' par an <span class="muted" style="font-size:15px">'+fPct(r.part)+' du temps</span></span></div>'+(r.hasTarget?'<div class="line"><span class="l">Revenu net horaire nécessaire à l\'objectif</span><span class="r num">'+fEur(r.netTarget)+' <span class="muted" style="font-size:15px">'+fPct(r.gap,true)+'</span></span></div><div class="line"><span class="l">À organisation constante</span><span class="r num">'+fH(r.needWeek)+' par semaine <span class="muted" style="font-size:15px">objectif '+fH(r.tHours)+'</span></span></div>':'')+(r.hasScenario?'<div class="line"><span class="l">Demain, '+fPct(r.recupPct/100)+' du temps '+r.t.hors+' récupéré à '+fEur(r.tauxDemain)+' par heure</span><span class="r num">+'+fEur(r.gain)+' par an <span class="muted" style="font-size:15px">'+fDec(r.recupWeek,1)+' h par semaine</span></span></div>':'')+'<div class="line"><span class="l">Constats retenus</span><span class="r">'+(r.keys.length?r.keys.map(k=>esc(k.label)).join('<br>'):'..')+'</span></div></div>'});
   return S;
 }
 function presOpen(){const d=cur();if(!d)return;const r=compute(d);pres.steps=buildSteps(d,r);pres.i=0;pres.on=true;$('#pres').classList.add('on');$('#pres-who').textContent=(d.name||'')+(r.p?' · '+r.p.nom:'');presRender();if(document.documentElement.requestFullscreen)document.documentElement.requestFullscreen().catch(()=>{})}
@@ -926,7 +979,7 @@ document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement
 /* ---------- Réglages ---------- */
 function renderSettings(){
   const s=state.settings;
-  $('#s-auteur').value=s.auteur||'';$('#s-partHors').value=s.seuils.partHors;$('#s-heuresSemaine').value=s.seuils.heuresSemaine;$('#s-suite').value=s.suite||'';
+  $('#s-auteur').value=s.auteur||'';$('#s-partHors').value=s.seuils.partHors;$('#s-heuresSemaine').value=s.seuils.heuresSemaine;$('#s-recup').value=s.seuils.recup==null?30:s.seuils.recup;$('#s-suite').value=s.suite||'';
   $('#prof-body').innerHTML=s.professions.map((p,i)=>'<tr data-i="'+i+'"><td><input type="text" data-k="nom" value="'+esc(p.nom)+'"></td><td><select data-k="terme"><option value="soin"'+(p.terme!=='production'?' selected':'')+'>Soin</option><option value="production"'+(p.terme==='production'?' selected':'')+'>Production</option></select></td><td><select data-k="honoraires"><option value="1"'+(p.honoraires?' selected':'')+'>Oui</option><option value="0"'+(!p.honoraires?' selected':'')+'>Non</option></select></td><td><input type="number" data-k="masque" min="1" max="15" step="1" value="'+(p.masque||'')+'" placeholder="aucune"></td><td class="r"><button class="btn ghost sm prof-del" title="Retirer">Retirer</button></td></tr>').join('');
   const RULES={horsProduction:'Suggéré par les chiffres quand la part d\'heures hors production dépasse le seuil.',honoraires:'Suggéré par les chiffres quand la profession n\'a pas d\'honoraires libres.',beneficeEstime:'Suggéré par les chiffres quand le bénéfice est estimé depuis les prélèvements.',heures:'Suggéré par les chiffres quand la semaine dépasse le seuil d\'heures.'};
   $('#constats-edit').innerHTML=s.constats.map((c,i)=>'<div class="cedit" data-i="'+i+'"><input type="text" data-k="label" value="'+esc(c.label.replace('{hors}','hors soin'))+'"><p class="rule">'+(RULES[c.regle]||'Jamais suggéré par les chiffres, à cocher à la main.')+'</p><div class="wtoggles">'+s.semaines.map(w=>'<button type="button" data-n="'+w.n+'" class="'+(c.semaines.includes(w.n)?'on':'')+'" title="'+esc(w.titre)+'">'+w.n+'</button>').join('')+'</div></div>').join('');
@@ -935,6 +988,7 @@ function renderSettings(){
 $('#s-auteur').addEventListener('input',()=>{state.settings.auteur=$('#s-auteur').value;save();whoRender()});
 $('#s-partHors').addEventListener('input',()=>{state.settings.seuils.partHors=num($('#s-partHors').value);save()});
 $('#s-heuresSemaine').addEventListener('input',()=>{state.settings.seuils.heuresSemaine=num($('#s-heuresSemaine').value);save()});
+$('#s-recup').addEventListener('input',()=>{state.settings.seuils.recup=num($('#s-recup').value);save()});
 $('#s-suite').addEventListener('input',()=>{state.settings.suite=$('#s-suite').value;save()});
 $('#prof-body').addEventListener('input',e=>{const tr=e.target.closest('tr');if(!tr)return;const p=state.settings.professions[+tr.dataset.i];const k=e.target.dataset.k;if(k==='nom')p.nom=e.target.value;if(k==='terme')p.terme=e.target.value;if(k==='honoraires')p.honoraires=e.target.value==='1';if(k==='masque')p.masque=e.target.value?num(e.target.value):null;save()});
 $('#prof-body').addEventListener('change',e=>{const tr=e.target.closest('tr');if(!tr)return;const p=state.settings.professions[+tr.dataset.i];const k=e.target.dataset.k;if(k==='terme')p.terme=e.target.value;if(k==='honoraires')p.honoraires=e.target.value==='1';save()});
