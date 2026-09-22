@@ -202,7 +202,20 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
 .prof-table th{padding:8px 6px}
 .settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
 @media (max-width:1000px){.settings-grid{grid-template-columns:1fr}}
-textarea.json{font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;min-height:260px}
+.cedit{padding:12px 0;border-bottom:1px solid var(--line)}
+.cedit:last-child{border-bottom:0}
+.cedit input[type=text]{margin-bottom:8px}
+.cedit .rule{font-size:11.5px;color:var(--text-4);margin:0 0 8px}
+.wtoggles{display:flex;flex-wrap:wrap;gap:5px}
+.wtoggles button{width:30px;height:26px;border-radius:7px;border:1px solid var(--line-strong);font-size:12px;color:var(--text-3);font-variant-numeric:tabular-nums}
+.wtoggles button:hover{border-color:var(--accent-line);color:var(--text)}
+.wtoggles button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.sedit{display:grid;grid-template-columns:96px 1fr;gap:8px 12px;align-items:start;padding:9px 0;border-bottom:1px solid var(--line)}
+.sedit:last-child{border-bottom:0}
+.sedit .sn{font-size:11.5px;color:var(--text-4);letter-spacing:.06em;text-transform:uppercase;padding-top:9px;line-height:1.3}
+.sedit .sn b{display:block;color:var(--text-3);font-weight:500;letter-spacing:0;text-transform:none;font-size:11.5px}
+.sedit input[type=text]{margin-bottom:6px}
+.sedit textarea{min-height:44px;padding:7px 12px}
 
 /* presentation */
 #pres{position:fixed;inset:0;z-index:60;display:none;background:linear-gradient(var(--grid) 1px,transparent 1px) 0 0/72px 72px,linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/72px 72px,var(--bg);color:var(--text)}
@@ -517,10 +530,14 @@ textarea.json{font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace
           <div class="actions" style="margin-top:10px"><button class="btn sm" id="btn-add-prof">Ajouter une profession</button></div>
         </div>
         <div class="card">
-          <h3>Constats et semaines du programme</h3>
-          <p class="note" style="margin:0 0 10px">Libellés des constats, semaines clés de chacun, titres et descriptions des quinze semaines. Format JSON, à modifier avec précaution puis appliquer. Les descriptions vides ne s'affichent pas.</p>
-          <div class="field"><textarea class="json" id="s-json" spellcheck="false"></textarea></div>
-          <div class="actions"><button class="btn primary sm" id="btn-json-apply">Appliquer</button><span class="tiny" id="json-msg"></span></div>
+          <h3>Les constats et leurs semaines clés</h3>
+          <p class="note" style="margin:0 0 10px">Le libellé de chaque constat, et les semaines du programme qui s'allument quand il est retenu. Cliquer sur un numéro pour l'ajouter ou le retirer.</p>
+          <div id="constats-edit"></div>
+        </div>
+        <div class="card">
+          <h3>Les quinze semaines du programme</h3>
+          <p class="note" style="margin:0 0 10px">Titre et phrase de description de chaque semaine. La description apparaît sous les constats retenus et dans le PDF ; vide, elle n'apparaît pas.</p>
+          <div id="semaines-edit"></div>
         </div>
       </div>
     </div>
@@ -570,7 +587,7 @@ const SEMAINES_DEFAUT=[
   {n:15,titre:"Construire sa vision à 3 ans",desc:""}
 ];
 const CONSTATS_DEFAUT=[
-  {id:'c1',label:"Trop d'heures {hors} : administratif, gestion, déplacements",semaines:[4,5,11],regle:'horsProduction'},
+  {id:'c1',label:"Trop d'heures hors soin : administratif, gestion, déplacements",semaines:[4,5,11],regle:'horsProduction'},
   {id:'c2',label:"Un revenu plafonné par le tarif ou les honoraires",semaines:[13,14],regle:'honoraires'},
   {id:'c3',label:"Des chiffres mal connus : bénéfice, charges, ce qu'il reste vraiment",semaines:[7,8],regle:'beneficeEstime'},
   {id:'c4',label:"Des semaines trop longues, une énergie entamée",semaines:[5,6],regle:'heures'},
@@ -610,6 +627,7 @@ function load(){
     if(raw){const s=JSON.parse(raw); if(s&&s.settings&&Array.isArray(s.dossiers)){
       const def=SETTINGS_DEFAUT();
       s.settings=Object.assign(def,s.settings); s.settings.seuils=Object.assign(def.seuils,s.settings.seuils||{});
+      (s.settings.constats||[]).forEach(c=>{if(c.label)c.label=c.label.replace('{hors}','hors soin')});
       return s;}}
   }catch(e){}
   return {settings:SETTINGS_DEFAUT(),dossiers:[DEMO()]};
@@ -637,7 +655,7 @@ function listWeeks(ws){if(!ws.length)return '';return (ws.length>1?'semaines ':'
 function prof(id){return state.settings.professions.find(p=>p.id===id)||state.settings.professions[0]}
 function termes(p){const soin=(p&&p.terme)!=='production';return {prod:soin?'soin':'production',hors:soin?'hors soin':'hors production',heures:soin?'Heures de soin':'Heures de production',titre:soin?'Temps hors soin':'Temps hors production'}}
 function semaine(n){return state.settings.semaines.find(s=>s.n===n)}
-function constatLabel(c,t){return c.label.replace('{hors}',t.hors)}
+function constatLabel(c,t){return c.label.replace('{hors}',t.hors).replace(/hors soin/gi,t.hors)}
 
 function compute(d){
   const p=prof(d.profession), t=termes(p), s=state.settings;
@@ -892,8 +910,9 @@ function renderSettings(){
   const s=state.settings;
   $('#s-auteur').value=s.auteur||'';$('#s-partHors').value=s.seuils.partHors;$('#s-heuresSemaine').value=s.seuils.heuresSemaine;$('#s-suite').value=s.suite||'';
   $('#prof-body').innerHTML=s.professions.map((p,i)=>'<tr data-i="'+i+'"><td><input type="text" data-k="nom" value="'+esc(p.nom)+'"></td><td><select data-k="terme"><option value="soin"'+(p.terme!=='production'?' selected':'')+'>Soin</option><option value="production"'+(p.terme==='production'?' selected':'')+'>Production</option></select></td><td><select data-k="honoraires"><option value="1"'+(p.honoraires?' selected':'')+'>Oui</option><option value="0"'+(!p.honoraires?' selected':'')+'>Non</option></select></td><td><input type="number" data-k="masque" min="1" max="15" step="1" value="'+(p.masque||'')+'" placeholder="aucune"></td><td class="r"><button class="btn ghost sm prof-del" title="Retirer">Retirer</button></td></tr>').join('');
-  $('#s-json').value=JSON.stringify({constats:s.constats,semaines:s.semaines},null,2);
-  $('#json-msg').textContent='';
+  const RULES={horsProduction:'Suggéré par les chiffres quand la part d\'heures hors production dépasse le seuil.',honoraires:'Suggéré par les chiffres quand la profession n\'a pas d\'honoraires libres.',beneficeEstime:'Suggéré par les chiffres quand le bénéfice est estimé depuis les prélèvements.',heures:'Suggéré par les chiffres quand la semaine dépasse le seuil d\'heures.'};
+  $('#constats-edit').innerHTML=s.constats.map((c,i)=>'<div class="cedit" data-i="'+i+'"><input type="text" data-k="label" value="'+esc(c.label.replace('{hors}','hors soin'))+'"><p class="rule">'+(RULES[c.regle]||'Jamais suggéré par les chiffres, à cocher à la main.')+'</p><div class="wtoggles">'+s.semaines.map(w=>'<button type="button" data-n="'+w.n+'" class="'+(c.semaines.includes(w.n)?'on':'')+'" title="'+esc(w.titre)+'">'+w.n+'</button>').join('')+'</div></div>').join('');
+  $('#semaines-edit').innerHTML=s.semaines.map((w,i)=>'<div class="sedit" data-i="'+i+'"><div class="sn">Semaine '+w.n+'<b>'+esc(PILIERS[Math.floor((w.n-1)/3)]||'')+'</b></div><div><input type="text" data-k="titre" value="'+esc(w.titre)+'" placeholder="Titre de la semaine"><textarea data-k="desc" placeholder="Description, une phrase (facultatif)">'+esc(w.desc||'')+'</textarea></div></div>').join('');
 }
 $('#s-auteur').addEventListener('input',()=>{state.settings.auteur=$('#s-auteur').value;save();whoRender()});
 $('#s-partHors').addEventListener('input',()=>{state.settings.seuils.partHors=num($('#s-partHors').value);save()});
@@ -903,14 +922,9 @@ $('#prof-body').addEventListener('input',e=>{const tr=e.target.closest('tr');if(
 $('#prof-body').addEventListener('change',e=>{const tr=e.target.closest('tr');if(!tr)return;const p=state.settings.professions[+tr.dataset.i];const k=e.target.dataset.k;if(k==='terme')p.terme=e.target.value;if(k==='honoraires')p.honoraires=e.target.value==='1';save()});
 $('#prof-body').addEventListener('click',e=>{const b=e.target.closest('.prof-del');if(!b)return;const tr=b.closest('tr');const i=+tr.dataset.i;if(state.settings.professions.length<=1){toast('Garder au moins une profession');return}const used=state.dossiers.some(d=>d.profession===state.settings.professions[i].id);if(used){toast('Profession utilisée par un diagnostic, impossible de la retirer');return}state.settings.professions.splice(i,1);save();renderSettings()});
 $('#btn-add-prof').addEventListener('click',()=>{state.settings.professions.push({id:'p'+Date.now().toString(36),nom:'Nouvelle profession',terme:'soin',honoraires:false,masque:14});save();renderSettings();const rows=$$('#prof-body tr');const last=rows[rows.length-1];if(last){const inp=$('input[data-k=nom]',last);inp.focus();inp.select()}});
-$('#btn-json-apply').addEventListener('click',()=>{
-  try{const o=JSON.parse($('#s-json').value);
-    if(!Array.isArray(o.constats)||!Array.isArray(o.semaines))throw new Error('Il faut "constats" et "semaines".');
-    o.constats.forEach(c=>{if(!c.id||!c.label||!Array.isArray(c.semaines))throw new Error('Chaque constat a un id, un label et des semaines.')});
-    o.semaines.forEach(s=>{if(!s.n||!s.titre)throw new Error('Chaque semaine a un n et un titre.')});
-    state.settings.constats=o.constats;state.settings.semaines=o.semaines;save();$('#json-msg').textContent='Appliqué.';toast('Constats et semaines mis à jour');
-  }catch(e){$('#json-msg').textContent='Erreur : '+e.message}
-});
+$('#constats-edit').addEventListener('input',e=>{const box=e.target.closest('.cedit');if(!box||e.target.dataset.k!=='label')return;state.settings.constats[+box.dataset.i].label=e.target.value;save()});
+$('#constats-edit').addEventListener('click',e=>{const b=e.target.closest('.wtoggles button');if(!b)return;const box=b.closest('.cedit');const c=state.settings.constats[+box.dataset.i];const n=+b.dataset.n;if(c.semaines.includes(n))c.semaines=c.semaines.filter(x=>x!==n);else c.semaines=c.semaines.concat(n).sort((a,b)=>a-b);b.classList.toggle('on',c.semaines.includes(n));save()});
+$('#semaines-edit').addEventListener('input',e=>{const row=e.target.closest('.sedit');if(!row)return;const w=state.settings.semaines[+row.dataset.i];const k=e.target.dataset.k;if(k==='titre')w.titre=e.target.value;if(k==='desc')w.desc=e.target.value;save()});
 $('#btn-export').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='librae-diagnostic-express-'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)});
 $('#file-import').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const o=JSON.parse(rd.result);if(!o.settings||!Array.isArray(o.dossiers))throw 0;state=o;const def=SETTINGS_DEFAUT();state.settings=Object.assign(def,state.settings);save();whoRender();renderSettings();toast('Import terminé : '+state.dossiers.length+' diagnostics')}catch(err){toast('Fichier non reconnu')}};rd.readAsText(f);e.target.value=''});
 $('#btn-reset').addEventListener('click',()=>{const keepAuteur=state.settings.auteur;state.settings=SETTINGS_DEFAUT();state.settings.auteur=keepAuteur;save();renderSettings();toast('Réglages d\'origine rétablis')});
