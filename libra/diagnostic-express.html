@@ -46,6 +46,10 @@ i,em{font-family:var(--serif);font-style:italic}
 .tab:hover{color:var(--text);background:var(--surface-2)}
 .tab.on{background:var(--accent);color:var(--accent-ink)}
 body.share .internal{display:none!important}
+.share-only{display:none!important}
+body.share .share-only{display:block!important}
+body.share span.share-only{display:inline!important}
+#list-shared .btn{margin-top:12px}
 body.share #btn-share{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .who{display:flex;align-items:center;gap:10px;color:var(--text-3);font-size:13px;white-space:nowrap}
 .avatar{width:30px;height:30px;border-radius:50%;background:var(--blue-soft);color:#c9d1ff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:12px}
@@ -341,9 +345,10 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
     <nav class="tabs" id="tabs">
       <button class="tab on" data-page="list">Diagnostics</button>
       <button class="tab" data-page="dossier" id="tab-dossier" hidden>Diagnostic en cours</button>
-      <button class="tab" data-page="settings">Réglages</button>
+      <button class="tab internal" data-page="settings">Réglages</button>
     </nav>
-    <div class="who"><div class="avatar" id="who-avatar">..</div><span id="who-name">Closer</span></div>
+    <button class="btn sm" id="btn-share" title="Masque la liste des diagnostics, les notes, le résumé HubSpot, les suggestions et les réglages pendant le partage d'écran">Partage d'écran</button>
+    <div class="who internal"><div class="avatar" id="who-avatar">..</div><span id="who-name">Closer</span></div>
   </div>
 </div>
 
@@ -354,7 +359,7 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
     <div class="dossier-head">
       <div>
         <h1>Les <i>diagnostics</i></h1>
-        <p class="sub" style="margin:0">Un diagnostic par personne, jamais écrasé. Créer le dossier avant l'échange avec les deux chiffres de la 2035, le reste se remplit en direct.</p>
+        <p class="sub" style="margin:0"><span class="internal">Un diagnostic par personne, jamais écrasé. Créer le dossier avant l'échange avec les deux chiffres de la 2035, le reste se remplit en direct.</span><span class="share-only" style="display:inline">Diagnostic en direct, à partir des chiffres déclarés.</span></p>
       </div>
       <div class="spacer"></div>
       <button class="btn primary" id="btn-new">Nouveau diagnostic</button>
@@ -375,14 +380,17 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
       <div class="actions"><button class="btn primary" id="nf-create">Créer et ouvrir</button><button class="btn ghost" id="nf-cancel">Annuler</button></div>
     </div>
 
-    <div class="card" style="padding:6px 8px">
+    <div class="card internal" style="padding:6px 8px">
       <table id="list-table">
         <thead><tr><th>Prénom et nom</th><th>Profession</th><th>Date</th><th>Rempli par</th><th>Statut</th><th class="r">Net par heure</th><th class="r">Écart au pari</th><th class="r">Constats</th><th></th></tr></thead>
         <tbody id="list-body"></tbody>
       </table>
       <div class="empty" id="list-empty" hidden><b>Aucun diagnostic pour l'instant.</b>Créer le premier dossier avant le prochain call.</div>
     </div>
-    <p class="tiny" style="margin-top:12px">Les diagnostics de cette version sont enregistrés dans ce navigateur. La version d'équipe les enregistrera dans une feuille Google partagée, visible par toute la team.</p>
+    <p class="tiny internal" style="margin-top:12px">Les diagnostics de cette version sont enregistrés dans ce navigateur. La version d'équipe les enregistrera dans une feuille Google partagée, visible par toute la team.</p>
+    <div class="card share-only" id="list-shared">
+      <div class="empty"><b>Partage d'écran en cours.</b>La liste des diagnostics est masquée. <span id="list-shared-open"></span></div>
+    </div>
   </section>
 
   <!-- DOSSIER -->
@@ -392,7 +400,6 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
       <h1 id="d-title">Diagnostic</h1>
       <span class="meta" id="d-meta"></span>
       <div class="spacer"></div>
-      <button class="btn sm" id="btn-share" title="Masque les notes, le résumé HubSpot et les suggestions pendant le partage d'écran">Partage d'écran</button>
       <button class="btn sm" id="btn-pres">Mode présentation</button>
       <button class="btn sm internal" id="btn-copy">Copier le résumé HubSpot</button>
       <button class="btn sm" id="btn-print">PDF du diagnostic</button>
@@ -737,6 +744,7 @@ function whoRender(){const a=(state.settings.auteur||'').trim();$('#who-name').t
 /* ---------- Liste ---------- */
 function fillProfSelect(sel,val){sel.innerHTML=state.settings.professions.map(p=>'<option value="'+esc(p.id)+'">'+esc(p.nom)+'</option>').join('');if(val)sel.value=val}
 function renderList(){
+  if(document.body.classList.contains('share'))setShare(true,true);
   const body=$('#list-body');
   const ds=state.dossiers.slice().sort((a,b)=>(b.updatedAt||'').localeCompare(a.updatedAt||''));
   $('#list-empty').hidden=ds.length>0;
@@ -901,7 +909,13 @@ function presRender(){
   $('#pres-prev').disabled=pres.i===0;$('#pres-next').textContent=pres.i===pres.steps.length-1?'Terminer':'Suivant';
 }
 $('#btn-pres').addEventListener('click',presOpen);
-$('#btn-share').addEventListener('click',()=>{const on=document.body.classList.toggle('share');toast(on?'Partage d\'écran : notes, résumé HubSpot et suggestions masqués':'Vue complète rétablie')});
+const SHARE_KEY=STORE_KEY+'.share';
+function setShare(on,quiet){document.body.classList.toggle('share',on);try{localStorage.setItem(SHARE_KEY,on?'1':'0')}catch(e){}
+  const open=$('#list-shared-open');if(open){const d=cur();open.innerHTML=d?'<br><button class="btn sm" id="list-shared-btn">Reprendre le diagnostic de '+esc(d.name||'')+'</button>':''}
+  if(!quiet)toast(on?'Partage d\'écran : liste, notes, résumé HubSpot, suggestions et réglages masqués':'Vue complète rétablie');}
+$('#btn-share').addEventListener('click',()=>setShare(!document.body.classList.contains('share')));
+document.addEventListener('click',e=>{if(e.target.closest('#list-shared-btn')&&currentId)openDossier(currentId)});
+try{if(localStorage.getItem(SHARE_KEY)==='1')setShare(true,true)}catch(e){}
 $('#pres-quit').addEventListener('click',presClose);
 $('#pres-prev').addEventListener('click',()=>{if(pres.i>0){pres.i--;presRender()}});
 $('#pres-next').addEventListener('click',()=>{if(pres.i<pres.steps.length-1){pres.i++;presRender()}else presClose()});
