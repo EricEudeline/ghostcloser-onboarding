@@ -45,6 +45,8 @@ i,em{font-family:var(--serif);font-style:italic}
 .tab{padding:8px 14px;border-radius:var(--pill);color:var(--text-3);font-weight:500;white-space:nowrap;font-size:13.5px}
 .tab:hover{color:var(--text);background:var(--surface-2)}
 .tab.on{background:var(--accent);color:var(--accent-ink)}
+body.share .internal{display:none!important}
+body.share #btn-share{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .who{display:flex;align-items:center;gap:10px;color:var(--text-3);font-size:13px;white-space:nowrap}
 .avatar{width:30px;height:30px;border-radius:50%;background:var(--blue-soft);color:#c9d1ff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:12px}
 .wrap{max-width:1400px;margin:0 auto;padding:26px 28px 90px}
@@ -352,7 +354,7 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
     <div class="dossier-head">
       <div>
         <h1>Les <i>diagnostics</i></h1>
-        <p class="sub" style="margin:0">Un diagnostic par prospect, jamais écrasé. Créer le dossier avant le call avec les deux chiffres de la 2035, le reste se remplit en direct.</p>
+        <p class="sub" style="margin:0">Un diagnostic par personne, jamais écrasé. Créer le dossier avant l'échange avec les deux chiffres de la 2035, le reste se remplit en direct.</p>
       </div>
       <div class="spacer"></div>
       <button class="btn primary" id="btn-new">Nouveau diagnostic</button>
@@ -361,7 +363,7 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
     <div class="card" id="new-form" hidden>
       <h3>Nouveau diagnostic</h3>
       <div class="row3">
-        <div class="field"><label>Prospect</label><div class="in"><input type="text" id="nf-name" class="yellow" placeholder="Prénom Nom" autocomplete="off"></div></div>
+        <div class="field"><label>Prénom et nom</label><div class="in"><input type="text" id="nf-name" class="yellow" placeholder="Prénom Nom" autocomplete="off"></div></div>
         <div class="field"><label>Profession</label><div class="in"><select id="nf-prof" class="yellow"></select></div></div>
         <div class="field"><label>Rempli par</label><div class="in"><input type="text" id="nf-auteur" placeholder="Prénom du closer"></div></div>
       </div>
@@ -375,7 +377,7 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
 
     <div class="card" style="padding:6px 8px">
       <table id="list-table">
-        <thead><tr><th>Prospect</th><th>Profession</th><th>Date</th><th>Rempli par</th><th>Statut</th><th class="r">Net par heure</th><th class="r">Écart au pari</th><th class="r">Constats</th><th></th></tr></thead>
+        <thead><tr><th>Prénom et nom</th><th>Profession</th><th>Date</th><th>Rempli par</th><th>Statut</th><th class="r">Net par heure</th><th class="r">Écart au pari</th><th class="r">Constats</th><th></th></tr></thead>
         <tbody id="list-body"></tbody>
       </table>
       <div class="empty" id="list-empty" hidden><b>Aucun diagnostic pour l'instant.</b>Créer le premier dossier avant le prochain call.</div>
@@ -387,11 +389,12 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
   <section class="page" id="page-dossier">
     <div class="dossier-head">
       <button class="btn ghost sm" id="btn-back">Retour à la liste</button>
-      <h1 id="d-title">Prospect</h1>
+      <h1 id="d-title">Diagnostic</h1>
       <span class="meta" id="d-meta"></span>
       <div class="spacer"></div>
+      <button class="btn sm" id="btn-share" title="Masque les notes, le résumé HubSpot et les suggestions pendant le partage d'écran">Partage d'écran</button>
       <button class="btn sm" id="btn-pres">Mode présentation</button>
-      <button class="btn sm" id="btn-copy">Copier le résumé HubSpot</button>
+      <button class="btn sm internal" id="btn-copy">Copier le résumé HubSpot</button>
       <button class="btn sm" id="btn-print">PDF du diagnostic</button>
     </div>
 
@@ -403,7 +406,7 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
           <div class="field"><label>Revenu net par heure travaillée, à l'instinct, avant tout calcul</label><div class="in"><input type="number" id="f-pari" class="yellow" placeholder="50" min="0" step="1"><span class="unit">€ par heure</span></div></div>
           <div class="row2">
             <div class="field"><label>Profession</label><div class="in"><select id="f-prof" class="yellow"></select></div></div>
-            <div class="field"><label>Prospect</label><div class="in"><input type="text" id="f-name" class="yellow" placeholder="Prénom Nom"></div></div>
+            <div class="field"><label>Prénom et nom</label><div class="in"><input type="text" id="f-name" class="yellow" placeholder="Prénom Nom"></div></div>
           </div>
         </div>
 
@@ -441,12 +444,12 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
 
         <div class="card">
           <h2><span class="n">3</span>Les constats</h2>
-          <p class="note" style="margin:0 0 12px">Les constats prioritaires, trois au maximum. Ceux que les chiffres suggèrent sont signalés, le choix reste au closer.</p>
+          <p class="note" style="margin:0 0 12px">Les constats prioritaires, trois au maximum.<span class="internal"> Ceux que les chiffres suggèrent sont signalés, le choix reste au closer.</span></p>
           <div class="constats" id="constats"></div>
           <p class="counter" id="constats-count"></p>
         </div>
 
-        <div class="card">
+        <div class="card internal">
           <h2>Notes internes</h2>
           <div class="field"><textarea id="f-notes" placeholder="Contexte, verbatims, points à reprendre. Non imprimé."></textarea></div>
         </div>
@@ -457,7 +460,7 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
         <div class="veil" id="veil">
           <div class="box">
             <h3 style="margin:0 0 6px">Le bilan est masqué</h3>
-            <p>Saisir le pari et les chiffres avec le prospect, puis révéler.</p>
+            <p>Saisir le pari et les chiffres ensemble, puis révéler.</p>
             <button class="btn primary" id="btn-reveal">Révéler le bilan</button>
           </div>
         </div>
@@ -480,7 +483,7 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
             <div class="keys" id="keys"></div>
             <p class="note" style="margin:14px 0 0">Quinze semaines et une semaine de bilan, une heure par semaine : des vidéos courtes et un exercice appliqué à l'activité réelle.</p>
           </div>
-          <div class="card">
+          <div class="card internal">
             <div class="actions" style="margin-bottom:10px"><h2 style="margin:0">Résumé à copier dans HubSpot</h2><div class="spacer"></div><button class="btn sm" id="btn-copy2">Copier</button></div>
             <pre class="summary" id="summary"></pre>
           </div>
@@ -703,7 +706,7 @@ function compute(d){
 function summaryText(d,r){
   const L=[];
   L.push('DIAGNOSTIC EXPRESS LIBRAE, '+fDate(d.updatedAt||d.createdAt));
-  L.push('Prospect : '+(d.name||'..'));
+  L.push('Nom : '+(d.name||'..'));
   L.push('Profession : '+(r.p?r.p.nom:'..'));
   L.push('Bénéfice annuel : '+(r.bnc>0?fEur(r.bnc)+(d.bncUnknown?' (estimé depuis les prélèvements)':''):'non renseigné'));
   L.push('Temps de travail : '+fH(r.hWeek)+' par semaine, '+r.weeks+' semaines par an');
@@ -799,9 +802,9 @@ function renderDossier(keepBars){
   /* constats */
   $('#constats').innerHTML=state.settings.constats.map(c=>{
     const on=r.retained.includes(c.id);const dis=!on&&r.retained.length>=3;
-    return '<button class="constat'+(on?' on':'')+'" data-id="'+esc(c.id)+'"'+(dis?' disabled':'')+'><span class="box">'+(on?'x':'')+'</span><span class="t">'+esc(constatLabel(c,r.t))+'</span>'+(r.suggested[c.id]?'<span class="sugg">Suggéré par les chiffres</span>':'')+'</button>';
+    return '<button class="constat'+(on?' on':'')+'" data-id="'+esc(c.id)+'"'+(dis?' disabled':'')+'><span class="box">'+(on?'x':'')+'</span><span class="t">'+esc(constatLabel(c,r.t))+'</span>'+(r.suggested[c.id]?'<span class="sugg internal">Suggéré par les chiffres</span>':'')+'</button>';
   }).join('');
-  $('#constats-count').innerHTML='<b>'+r.retained.length+'</b> sur 3 retenus'+(Object.values(r.suggested).some(Boolean)?' · Suggérés par les chiffres : '+state.settings.constats.filter(c=>r.suggested[c.id]).length:'');
+  $('#constats-count').innerHTML='<b>'+r.retained.length+'</b> sur 3 retenus'+(Object.values(r.suggested).some(Boolean)?'<span class="internal"> · Suggérés par les chiffres : '+state.settings.constats.filter(c=>r.suggested[c.id]).length+'</span>':'');
   /* bilan */
   $('#b-basis').textContent=r.ok?'Calcul sur un bénéfice de '+fEur(r.bnc)+' par an, pour '+fInt(r.hYear)+' h travaillées sur '+r.weeks+' semaines.':'En attente du bénéfice et des heures.';
   $('#kpis').innerHTML=kpisHtml(r,false);
@@ -898,6 +901,7 @@ function presRender(){
   $('#pres-prev').disabled=pres.i===0;$('#pres-next').textContent=pres.i===pres.steps.length-1?'Terminer':'Suivant';
 }
 $('#btn-pres').addEventListener('click',presOpen);
+$('#btn-share').addEventListener('click',()=>{const on=document.body.classList.toggle('share');toast(on?'Partage d\'écran : notes, résumé HubSpot et suggestions masqués':'Vue complète rétablie')});
 $('#pres-quit').addEventListener('click',presClose);
 $('#pres-prev').addEventListener('click',()=>{if(pres.i>0){pres.i--;presRender()}});
 $('#pres-next').addEventListener('click',()=>{if(pres.i<pres.steps.length-1){pres.i++;presRender()}else presClose()});
