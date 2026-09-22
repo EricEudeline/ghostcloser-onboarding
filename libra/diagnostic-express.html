@@ -1,0 +1,924 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<title>Diagnostic express</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Tiro+Bangla:ital@0;1&display=swap">
+<style>
+:root{
+  --bg:#111113; --grid:rgba(255,255,255,.032);
+  --surface:#17171a; --surface-2:#1c1c20; --surface-3:#232328;
+  --line:rgba(255,255,255,.08); --line-strong:rgba(255,255,255,.16);
+  --text:#ffffff; --text-2:rgba(255,255,255,.74); --text-3:#9b9fa7; --text-4:#6d717a;
+  --accent:#fcf707; --accent-deep:#e3df00; --accent-ink:#111113; --accent-soft:rgba(252,247,7,.12); --accent-line:rgba(252,247,7,.38);
+  --blue:#6f83ee; --blue-soft:rgba(111,131,238,.18);
+  --teal:#4fd1c5; --teal-soft:rgba(79,209,197,.18);
+  --good:#5ee29a; --good-soft:rgba(94,226,154,.14);
+  --warn:#ffa14a; --warn-soft:rgba(255,161,74,.14);
+  --crit:#ff7b6b; --crit-soft:rgba(255,123,107,.14);
+  --radius:18px; --radius-sm:12px; --pill:999px;
+  --font:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --serif:'Tiro Bangla',Georgia,'Times New Roman',serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;color:var(--text);font-family:var(--font);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;background:linear-gradient(var(--grid) 1px,transparent 1px) 0 0/72px 72px,linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/72px 72px,var(--bg)}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+input,select,textarea{font:inherit;color:inherit}
+::selection{background:var(--accent-deep);color:var(--accent-ink)}
+.num{font-variant-numeric:tabular-nums}
+[hidden]{display:none!important}
+i,em{font-family:var(--serif);font-style:italic}
+
+.topbar{position:sticky;top:0;z-index:30;background:rgba(17,17,19,.84);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1400px;margin:0 auto;padding:0 28px;height:64px;display:flex;align-items:center;gap:22px}
+.brand{display:flex;align-items:center;gap:12px;flex:0 0 auto}
+.brand-mark{width:30px;height:30px;border-radius:8px;background:var(--accent);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;letter-spacing:.05em}
+.brand-name{font-weight:500;letter-spacing:.26em;font-size:13px}
+.brand-sub{font-family:var(--serif);font-style:italic;color:var(--text-3);font-size:15px;padding-left:12px;border-left:1px solid var(--line-strong)}
+.tabs{display:flex;gap:2px;margin-left:8px;flex:1 1 auto;min-width:0;overflow-x:auto;scrollbar-width:none}
+.tab{padding:8px 14px;border-radius:var(--pill);color:var(--text-3);font-weight:500;white-space:nowrap;font-size:13.5px}
+.tab:hover{color:var(--text);background:var(--surface-2)}
+.tab.on{background:var(--accent);color:var(--accent-ink)}
+.who{display:flex;align-items:center;gap:10px;color:var(--text-3);font-size:13px;white-space:nowrap}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--blue-soft);color:#c9d1ff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:12px}
+.wrap{max-width:1400px;margin:0 auto;padding:26px 28px 90px}
+.page{display:none}.page.on{display:block}
+h1{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.15;margin:0 0 4px}
+h1 i{color:var(--accent)}
+.sub{color:var(--text-3);margin:0 0 22px;font-size:14px;max-width:760px}
+h2{font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);margin:0 0 12px}
+h2 .n{display:inline-block;width:20px;height:20px;border-radius:6px;background:var(--surface-3);color:var(--text-2);text-align:center;line-height:20px;font-size:11px;margin-right:8px;letter-spacing:0}
+.grid{display:grid;gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px}
+.card.soft{background:var(--surface-2)}
+.card h3{margin:0 0 10px;font-size:15px;font-weight:600}
+.card + .card{margin-top:14px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:var(--pill);font-size:12px;font-weight:500;border:1px solid var(--line-strong);color:var(--text-2);white-space:nowrap}
+.pill.acc{background:var(--accent-soft);border-color:var(--accent-line);color:var(--accent)}
+.pill.good{background:var(--good-soft);border-color:transparent;color:var(--good)}
+.pill.warn{background:var(--warn-soft);border-color:transparent;color:var(--warn)}
+.pill.crit{background:var(--crit-soft);border-color:transparent;color:var(--crit)}
+.pill.blue{background:var(--blue-soft);border-color:transparent;color:#c9d1ff}
+.pill.teal{background:var(--teal-soft);border-color:transparent;color:var(--teal)}
+.pill.muted{color:var(--text-4);border-color:var(--line)}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:var(--pill);font-weight:500;font-size:13px;border:1px solid var(--line-strong);color:var(--text);white-space:nowrap}
+.btn:hover{background:var(--surface-3)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.primary:hover{background:var(--accent-deep)}
+.btn.ghost{border-color:transparent;color:var(--text-3)}
+.btn.ghost:hover{color:var(--text)}
+.btn.danger{color:var(--crit);border-color:transparent}
+.btn.danger:hover{background:var(--crit-soft)}
+.btn.sm{padding:6px 12px;font-size:12.5px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.spacer{flex:1 1 auto}
+.muted{color:var(--text-3)}
+.small{font-size:12.5px}
+.tiny{font-size:11.5px;color:var(--text-4)}
+.note{font-size:12.5px;color:var(--text-3);line-height:1.5}
+
+/* forms */
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.field label{font-size:12px;color:var(--text-3);font-weight:500}
+.field label b{color:var(--text-2);font-weight:500}
+.field .in{display:flex;align-items:center;gap:8px}
+.field .in input,.field .in select,.field textarea{flex:1 1 auto;min-width:0}
+.field .unit{font-size:12.5px;color:var(--text-4);white-space:nowrap}
+input[type=text],input[type=number],select,textarea{background:var(--surface-2);border:1px solid var(--line-strong);border-radius:10px;padding:9px 12px;color:var(--text);width:100%}
+input[type=number]{font-variant-numeric:tabular-nums}
+input::placeholder,textarea::placeholder{color:var(--text-4)}
+input.yellow,select.yellow{border-color:var(--accent-line);background:rgba(252,247,7,.06)}
+input:disabled{opacity:.5}
+select{appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--text-3) 50%),linear-gradient(135deg,var(--text-3) 50%,transparent 50%);background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;background-size:5px 5px;background-repeat:no-repeat;padding-right:34px}
+textarea{min-height:76px;resize:vertical;line-height:1.5}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 12px}
+.row3 .field label{min-height:2.7em;display:flex;align-items:flex-end}
+.check{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-2);cursor:pointer;margin:2px 0 12px}
+.check input{width:16px;height:16px;accent-color:var(--accent)}
+.hint{font-size:12px;color:var(--text-4);margin-top:-6px;margin-bottom:12px;line-height:1.45}
+.subhead{font-size:13px;font-weight:600;color:var(--text-2);margin:6px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+
+/* list */
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-4);font-weight:500;padding:8px 10px;border-bottom:1px solid var(--line)}
+td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:middle;font-size:13.5px}
+tr:last-child td{border-bottom:0}
+tr.row{cursor:pointer}tr.row:hover td{background:var(--surface-2)}
+td.r,th.r{text-align:right}
+.empty{padding:34px 20px;text-align:center;color:var(--text-3)}
+.empty b{display:block;color:var(--text);font-weight:500;margin-bottom:6px;font-size:15px}
+
+/* cockpit */
+.cockpit{display:grid;grid-template-columns:minmax(360px,440px) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:1080px){.cockpit{grid-template-columns:1fr}}
+.dossier-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-bottom:16px}
+.dossier-head h1{margin:0}
+.dossier-head .meta{color:var(--text-3);font-size:13px}
+.bilan{position:relative}
+.veil{position:absolute;inset:0;z-index:5;display:flex;align-items:flex-start;padding-top:110px;justify-content:center;border-radius:var(--radius);background:rgba(17,17,19,.55);backdrop-filter:blur(2px)}
+.veil .box{background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--radius);padding:22px 26px;text-align:center;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.veil .box p{margin:0 0 14px;color:var(--text-3);font-size:13px}
+.bilan.veiled .bilan-in{filter:blur(16px);pointer-events:none;user-select:none}
+.bilan-in{transition:filter .5s ease}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+@media (max-width:1300px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;min-height:112px}
+.kpi.acc{border-color:var(--accent-line);background:linear-gradient(180deg,rgba(252,247,7,.07),transparent 70%),var(--surface)}
+.kpi .lab{font-size:12px;color:var(--text-3);margin-bottom:6px}
+.kpi .val{font-size:28px;font-weight:500;line-height:1.1;letter-spacing:-.01em}
+.kpi .val small{font-size:13px;color:var(--text-3);font-weight:400;margin-left:6px;letter-spacing:0}
+.kpi .cmp{font-size:12.5px;color:var(--text-3);margin-top:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.delta{display:inline-block;padding:2px 8px;border-radius:var(--pill);font-size:12px;font-weight:600}
+.delta.neg{background:var(--crit-soft);color:var(--crit)}
+.delta.pos{background:var(--good-soft);color:var(--good)}
+.delta.up{background:var(--accent-soft);color:var(--accent)}
+.delta.zero{background:var(--surface-3);color:var(--text-2)}
+.bars{display:grid;gap:12px;margin:6px 0 4px}
+.bar{display:grid;grid-template-columns:230px 1fr 64px;align-items:center;gap:14px}
+@media (max-width:640px){.bar{grid-template-columns:1fr;gap:4px}}
+.bar .lab{font-size:13px;color:var(--text-2)}
+.bar .lab small{display:block;color:var(--text-4);font-size:11.5px}
+.bar .track{height:14px;background:var(--surface-3);border-radius:7px;overflow:hidden}
+.bar .fill{height:100%;border-radius:7px;width:0;transition:width .9s cubic-bezier(.2,.8,.2,1)}
+.bar.now .fill{background:rgba(255,255,255,.55)}
+.bar.target .fill{background:var(--accent)}
+.bar.need .fill{background:var(--crit)}
+.bar .v{font-size:14px;font-weight:600;text-align:right}
+.punch{font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.4;color:var(--text);margin:14px 0 0;padding:14px 18px;border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 var(--radius-sm) var(--radius-sm) 0}
+.punch.calm{background:var(--surface-2);border-left-color:var(--line-strong);color:var(--text-2);font-size:16px}
+.callout{padding:12px 16px;border:1px dashed var(--line-strong);border-radius:var(--radius-sm);color:var(--text-3);font-size:13px}
+
+/* constats */
+.constats{display:grid;gap:8px}
+.constat{display:flex;align-items:center;gap:12px;padding:11px 14px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--surface-2);cursor:pointer;text-align:left;width:100%;transition:border-color .15s,background .15s}
+.constat:hover{border-color:var(--line-strong)}
+.constat .box{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--line-strong);flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--accent-ink)}
+.constat.on{border-color:var(--accent-line);background:var(--accent-soft)}
+.constat.on .box{background:var(--accent);border-color:var(--accent)}
+.constat .t{flex:1 1 auto;font-size:13.5px;line-height:1.35}
+.constat .sugg{font-size:11px;color:var(--teal);border:1px solid var(--teal-soft);background:var(--teal-soft);padding:2px 8px;border-radius:var(--pill);white-space:nowrap}
+.constat:disabled{opacity:.45;cursor:not-allowed}
+.counter{font-size:12px;color:var(--text-3);margin:8px 0 0}
+.counter b{color:var(--text)}
+
+/* parcours */
+.parcours{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+@media (max-width:900px){.parcours{grid-template-columns:repeat(2,1fr)}}
+.pilier{display:flex;flex-direction:column;gap:8px}
+.pilier h4{margin:0 0 2px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);font-weight:600}
+.week{border:1px solid var(--line);background:var(--surface-2);border-radius:var(--radius-sm);padding:10px 12px;min-height:74px;transition:all .2s}
+.week .wn{font-size:11px;color:var(--text-4);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.week .wt{font-size:12.5px;line-height:1.3;color:var(--text-2)}
+.week.lit{border-color:var(--accent-line);background:var(--accent-soft)}
+.week.lit .wn{color:var(--accent)}
+.week.lit .wt{color:var(--text)}
+.week.masked{border-style:dashed;opacity:.45}
+.week.masked .wt{text-decoration:line-through}
+.keys{display:grid;gap:12px;margin-top:16px}
+.key{padding:12px 16px;border-radius:var(--radius-sm);background:var(--surface-2);border:1px solid var(--line)}
+.key .kt{font-weight:600;font-size:13.5px;margin-bottom:6px}
+.key ul{margin:0;padding-left:0;list-style:none;display:grid;gap:5px}
+.key li{font-size:13px;color:var(--text-2)}
+.key li b{color:var(--accent);font-weight:600}
+
+/* summary */
+pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px 16px;margin:0;color:var(--text-2)}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--accent);color:var(--accent-ink);padding:10px 18px;border-radius:var(--pill);font-weight:600;font-size:13px;opacity:0;transition:all .25s;z-index:80;pointer-events:none}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* settings */
+.prof-table td input,.prof-table td select{padding:7px 10px;border-radius:8px}
+.prof-table td select{min-width:118px}
+.prof-table td{padding:6px 6px}
+.prof-table th{padding:8px 6px}
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+@media (max-width:1000px){.settings-grid{grid-template-columns:1fr}}
+textarea.json{font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;min-height:260px}
+
+/* presentation */
+#pres{position:fixed;inset:0;z-index:60;display:none;background:linear-gradient(var(--grid) 1px,transparent 1px) 0 0/72px 72px,linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/72px 72px,var(--bg);color:var(--text)}
+#pres.on{display:flex;flex-direction:column}
+.pres-top{display:flex;align-items:center;gap:16px;padding:18px 34px;border-bottom:1px solid var(--line)}
+.pres-top .who{margin-left:auto}
+.pres-body{flex:1 1 auto;display:flex;align-items:center;justify-content:center;padding:30px 60px;overflow:auto}
+.pres-step{width:100%;max-width:1180px;animation:fade .45s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.pres-step h2{margin-bottom:16px;font-size:13px}
+.pres-step h1{font-size:44px;margin-bottom:10px}
+.pres-step .lead{font-size:19px;color:var(--text-2);max-width:820px;line-height:1.45}
+.big{font-size:140px;font-weight:500;line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.big small{font-size:26px;color:var(--text-3);font-weight:400;letter-spacing:0;margin-left:12px}
+.big.acc{color:var(--accent)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end}
+.duo .lab{font-size:14px;color:var(--text-3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
+.duo .big{font-size:120px}
+.pres-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:26px}
+.pres-kpis .kpi .val{font-size:40px}
+.pres-kpis .kpi .lab{font-size:13px}
+.pres-step .bars{margin-top:26px;gap:18px}
+.pres-step .bar{grid-template-columns:320px 1fr 90px}
+.pres-step .bar .lab{font-size:17px}
+.pres-step .bar .track{height:22px;border-radius:11px}
+.pres-step .bar .fill{border-radius:11px}
+.pres-step .bar .v{font-size:20px}
+.pres-step .punch{font-size:26px;margin-top:26px}
+.pres-step .parcours{margin-top:18px}
+.pres-step .week{min-height:84px}
+.pres-step .week .wt{font-size:13.5px}
+.pres-step .keys{grid-template-columns:repeat(3,1fr)}
+@media (max-width:1000px){.pres-step .keys{grid-template-columns:1fr}.duo{grid-template-columns:1fr}.big{font-size:96px}.duo .big{font-size:84px}.pres-kpis{grid-template-columns:1fr}}
+.pres-nav{display:flex;align-items:center;gap:14px;padding:16px 34px;border-top:1px solid var(--line)}
+.dots{display:flex;gap:6px;margin:0 auto}
+.dots span{width:8px;height:8px;border-radius:50%;background:var(--surface-3);cursor:pointer}
+.dots span.on{background:var(--accent)}
+.dots span.done{background:var(--text-4)}
+.stack{display:grid;gap:14px;margin-top:22px}
+.line{display:flex;justify-content:space-between;gap:20px;padding:12px 0;border-bottom:1px solid var(--line);font-size:19px}
+.line .l{color:var(--text-3)}
+.line .r{font-weight:500;text-align:right}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{padding:8px 14px;border-radius:var(--pill);background:var(--accent-soft);border:1px solid var(--accent-line);color:var(--accent);font-size:14px;font-weight:500}
+.mix{display:flex;height:26px;border-radius:13px;overflow:hidden;margin-top:26px;background:var(--surface-3)}
+.mix div{height:100%}
+.mix .a{background:rgba(255,255,255,.55)}
+.mix .b{background:var(--warn)}
+.mix .c{background:var(--crit)}
+.legend{display:flex;gap:22px;margin-top:12px;font-size:14px;color:var(--text-3)}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:8px;vertical-align:-1px}
+.legend .a::before{background:rgba(255,255,255,.55)}
+.legend .b::before{background:var(--warn)}
+.legend .c::before{background:var(--crit)}
+
+/* print */
+#print{display:none}
+@media print{
+  @page{size:A4;margin:14mm 14mm 16mm}
+  body{background:#fff;color:#111;font-size:11.5pt;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body > *:not(#print){display:none!important}
+  #print{display:block;color:#111}
+  #print .ph{display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid #111;padding-bottom:8px;margin-bottom:14px}
+  #print .ph .b{font-weight:600;letter-spacing:.26em;font-size:11pt}
+  #print .ph .b span{display:inline-block;background:#fcf707;padding:2px 8px;margin-right:10px;border-radius:4px}
+  #print .ph .d{font-size:10pt;color:#555}
+  #print h1{font-family:var(--serif);font-weight:400;font-size:24pt;margin:0 0 2px;color:#111}
+  #print .sub{color:#555;font-size:10.5pt;margin:0 0 14px}
+  #print h2{font-size:9.5pt;letter-spacing:.16em;color:#555;margin:16px 0 8px;border-bottom:1px solid #ddd;padding-bottom:4px}
+  #print .pk{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  #print .kpi{background:#fff;border:1px solid #ddd;border-radius:8px;padding:9px 11px;min-height:0;color:#111}
+  #print .kpi .lab{font-size:9pt;color:#666;margin-bottom:3px}
+  #print .kpi .val{font-size:19pt;font-weight:500;line-height:1.1;color:#111}
+  #print .kpi .val small{font-size:9pt;color:#666;font-weight:400;margin-left:4px}
+  #print .kpi .cmp{font-size:9pt;color:#555;margin-top:4px}
+  #print .kpi .tiny{color:#777}
+  #print .kpi.hi,#print .kpi.acc{background:#fffce0;border-color:#e3df00}
+  #print .delta{font-size:9pt;padding:1px 6px}
+  #print .delta.neg{background:#ffe1dc;color:#b3261e}
+  #print .delta.pos{background:#dff7e8;color:#1b7a44}
+  #print .delta.up{background:#fff3a3;color:#5c5900}
+  #print .delta.zero{background:#eee;color:#333}
+  #print .bars{margin:8px 0 4px}
+  #print .bar{grid-template-columns:200px 1fr 50px;gap:10px}
+  #print .bar .lab{color:#222;font-size:10pt}
+  #print .bar .lab small{color:#777}
+  #print .bar .track{height:11px;background:#eee}
+  #print .bar .fill{width:var(--w)!important;transition:none}
+  #print .bar.now .fill{background:#999}
+  #print .bar.target .fill{background:#e3df00}
+  #print .bar.need .fill{background:#111}
+  #print .bar .v{color:#111;font-size:10.5pt}
+  #print .punch{font-size:12.5pt;color:#111;border-left:3px solid #fcf707;background:#fffce0;padding:9px 12px;margin:10px 0 0;border-radius:0 8px 8px 0}
+  #print .punch.calm{background:#f6f6f6;border-left-color:#ccc;color:#333;font-size:11.5pt}
+  #print .parcours{gap:6px;margin-top:4px;grid-template-columns:repeat(5,1fr)!important}
+  #print .bar{grid-template-columns:200px 1fr 50px!important}
+  #print .pilier h4{color:#555;font-size:8.5pt}
+  #print .week{background:#fafafa;border-color:#ddd;min-height:52px;padding:6px 8px;border-radius:7px}
+  #print .week .wn{color:#777;font-size:8pt}
+  #print .week .wt{color:#333;font-size:9pt}
+  #print .week.lit{background:#fff8a6;border-color:#e3df00}
+  #print .week.lit .wn{color:#7a7600}
+  #print .week.lit .wt{color:#111;font-weight:500}
+  #print .week.masked{opacity:.4}
+  #print .keys{gap:8px;margin-top:10px}
+  #print .key{background:#fff;border-color:#ddd;padding:8px 12px;border-radius:7px;break-inside:avoid}
+  #print .key .kt{font-size:10.5pt;color:#111}
+  #print .key li{color:#333;font-size:9.5pt}
+  #print .key li b{color:#7a7600}
+  #print .pf{margin-top:18px;padding-top:8px;border-top:1px solid #ddd;font-size:8.5pt;color:#777}
+  #print .suite{margin-top:14px;padding:10px 12px;border:1px solid #e3df00;background:#fffce0;border-radius:8px;font-size:10.5pt;white-space:pre-wrap}
+  #print .sec{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="brand"><div class="brand-mark">L</div><div class="brand-name">LIBRAE</div><div class="brand-sub">Diagnostic express</div></div>
+    <nav class="tabs" id="tabs">
+      <button class="tab on" data-page="list">Diagnostics</button>
+      <button class="tab" data-page="dossier" id="tab-dossier" hidden>Diagnostic en cours</button>
+      <button class="tab" data-page="settings">Réglages</button>
+    </nav>
+    <div class="who"><div class="avatar" id="who-avatar">..</div><span id="who-name">Closer</span></div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- LISTE -->
+  <section class="page on" id="page-list">
+    <div class="dossier-head">
+      <div>
+        <h1>Les <i>diagnostics</i></h1>
+        <p class="sub" style="margin:0">Un diagnostic par prospect, jamais écrasé. Créer le dossier avant le call avec les deux chiffres de la 2035, le reste se remplit en direct.</p>
+      </div>
+      <div class="spacer"></div>
+      <button class="btn primary" id="btn-new">Nouveau diagnostic</button>
+    </div>
+
+    <div class="card" id="new-form" hidden>
+      <h3>Nouveau diagnostic</h3>
+      <div class="row3">
+        <div class="field"><label>Prospect</label><div class="in"><input type="text" id="nf-name" class="yellow" placeholder="Prénom Nom" autocomplete="off"></div></div>
+        <div class="field"><label>Profession</label><div class="in"><select id="nf-prof" class="yellow"></select></div></div>
+        <div class="field"><label>Rempli par</label><div class="in"><input type="text" id="nf-auteur" placeholder="Prénom du closer"></div></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>Recettes annuelles <b>(2035, facultatif)</b></label><div class="in"><input type="number" id="nf-recettes" class="yellow" placeholder="83 979" min="0" step="any"><span class="unit">€ par an</span></div></div>
+        <div class="field"><label>Bénéfice annuel avant impôt sur le revenu <b>(2035)</b></label><div class="in"><input type="number" id="nf-bnc" class="yellow" placeholder="47 239" min="0" step="any"><span class="unit">€ par an</span></div></div>
+      </div>
+      <p class="hint">Bénéfice : résultat de la déclaration 2035, ou rémunération nette annuelle en société. Ce qu'il reste une fois toutes les charges et cotisations payées. S'il n'est pas connu, on l'estimera en call à partir des prélèvements.</p>
+      <div class="actions"><button class="btn primary" id="nf-create">Créer et ouvrir</button><button class="btn ghost" id="nf-cancel">Annuler</button></div>
+    </div>
+
+    <div class="card" style="padding:6px 8px">
+      <table id="list-table">
+        <thead><tr><th>Prospect</th><th>Profession</th><th>Date</th><th>Rempli par</th><th>Statut</th><th class="r">Net par heure</th><th class="r">Écart au pari</th><th class="r">Constats</th><th></th></tr></thead>
+        <tbody id="list-body"></tbody>
+      </table>
+      <div class="empty" id="list-empty" hidden><b>Aucun diagnostic pour l'instant.</b>Créer le premier dossier avant le prochain call.</div>
+    </div>
+    <p class="tiny" style="margin-top:12px">Les diagnostics de cette version sont enregistrés dans ce navigateur. La version d'équipe les enregistrera dans une feuille Google partagée, visible par toute la team.</p>
+  </section>
+
+  <!-- DOSSIER -->
+  <section class="page" id="page-dossier">
+    <div class="dossier-head">
+      <button class="btn ghost sm" id="btn-back">Retour à la liste</button>
+      <h1 id="d-title">Prospect</h1>
+      <span class="meta" id="d-meta"></span>
+      <div class="spacer"></div>
+      <button class="btn sm" id="btn-pres">Mode présentation</button>
+      <button class="btn sm" id="btn-copy">Copier le résumé HubSpot</button>
+      <button class="btn sm" id="btn-print">PDF du diagnostic</button>
+    </div>
+
+    <div class="cockpit">
+      <!-- SAISIE -->
+      <div>
+        <div class="card">
+          <h2><span class="n">1</span>Le pari</h2>
+          <div class="field"><label>Revenu net par heure travaillée, à l'instinct, avant tout calcul</label><div class="in"><input type="number" id="f-pari" class="yellow" placeholder="50" min="0" step="1"><span class="unit">€ par heure</span></div></div>
+          <div class="row2">
+            <div class="field"><label>Profession</label><div class="in"><select id="f-prof" class="yellow"></select></div></div>
+            <div class="field"><label>Prospect</label><div class="in"><input type="text" id="f-name" class="yellow" placeholder="Prénom Nom"></div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2><span class="n">2</span>Les chiffres, à la louche</h2>
+          <div class="subhead">Aujourd'hui</div>
+          <div class="row2">
+            <div class="field"><label>Recettes annuelles <b>(facultatif)</b></label><div class="in"><input type="number" id="f-recettes" class="yellow" placeholder="83 979" min="0" step="any"><span class="unit">€ par an</span></div></div>
+            <div class="field"><label>Bénéfice annuel avant IR</label><div class="in"><input type="number" id="f-bnc" class="yellow" placeholder="47 239" min="0" step="any"><span class="unit">€ par an</span></div></div>
+          </div>
+          <label class="check"><input type="checkbox" id="f-bncUnknown"> Bénéfice inconnu : l'estimer à partir des prélèvements</label>
+          <div id="f-estim" hidden>
+            <div class="row2">
+              <div class="field"><label>Virements vers le compte personnel</label><div class="in"><input type="number" id="f-virements" class="yellow" placeholder="5 000" min="0" step="1"><span class="unit">€ par mois</span></div></div>
+              <div class="field"><label>Dépenses perso réglées par le compte pro</label><div class="in"><input type="number" id="f-depenses" class="yellow" placeholder="1 000" min="0" step="1"><span class="unit">€ par mois</span></div></div>
+            </div>
+            <p class="hint">Bénéfice retenu : (virements + dépenses) x 12.</p>
+          </div>
+          <div class="row3">
+            <div class="field"><label id="l-soin">Heures de soin</label><div class="in"><input type="number" id="f-hSoin" class="yellow" placeholder="35" min="0" step="0.5"><span class="unit">h</span></div></div>
+            <div class="field"><label>Administratif et gestion</label><div class="in"><input type="number" id="f-hAdmin" class="yellow" placeholder="10" min="0" step="0.5"><span class="unit">h</span></div></div>
+            <div class="field"><label>Déplacements</label><div class="in"><input type="number" id="f-hDepl" class="yellow" placeholder="5" min="0" step="0.5"><span class="unit">h</span></div></div>
+          </div>
+          <p class="hint">Heures par semaine. Toutes les heures comptent : dossiers, télétransmission, comptabilité, appels, mails, formation.</p>
+          <div class="field" style="max-width:300px"><label>Semaines de congés réellement prises</label><div class="in"><input type="number" id="f-conges" class="yellow" placeholder="5" min="0" max="52" step="1"><span class="unit">par an</span></div></div>
+
+          <div class="subhead" style="margin-top:14px">L'objectif</div>
+          <div class="field"><label>Revenu net visé, avant impôt sur le revenu</label><div class="in"><input type="number" id="f-tRev" class="yellow" placeholder="72 000" min="0" step="any"><span class="unit">€ par an</span></div></div>
+          <div class="row2">
+            <div class="field"><label>Temps de travail visé, tout compris</label><div class="in"><input type="number" id="f-tHours" class="yellow" placeholder="45" min="0" step="0.5"><span class="unit">h / sem.</span></div></div>
+            <div class="field"><label>Semaines de congés visées</label><div class="in"><input type="number" id="f-tConges" class="yellow" placeholder="5" min="0" max="52" step="1"><span class="unit">par an</span></div></div>
+          </div>
+          <p class="hint">Temps et congés visés : laisser vide pour garder la situation actuelle.</p>
+        </div>
+
+        <div class="card">
+          <h2><span class="n">3</span>Les constats</h2>
+          <p class="note" style="margin:0 0 12px">Les constats prioritaires, trois au maximum. Ceux que les chiffres suggèrent sont signalés, le choix reste au closer.</p>
+          <div class="constats" id="constats"></div>
+          <p class="counter" id="constats-count"></p>
+        </div>
+
+        <div class="card">
+          <h2>Notes internes</h2>
+          <div class="field"><textarea id="f-notes" placeholder="Contexte, verbatims, points à reprendre. Non imprimé."></textarea></div>
+        </div>
+      </div>
+
+      <!-- BILAN -->
+      <div class="bilan" id="bilan">
+        <div class="veil" id="veil">
+          <div class="box">
+            <h3 style="margin:0 0 6px">Le bilan est masqué</h3>
+            <p>Saisir le pari et les chiffres avec le prospect, puis révéler.</p>
+            <button class="btn primary" id="btn-reveal">Révéler le bilan</button>
+          </div>
+        </div>
+        <div class="bilan-in">
+          <div class="actions" style="margin-bottom:12px">
+            <h2 style="margin:0"><span class="n">4</span>Le bilan</h2>
+            <span class="muted small" id="b-basis"></span>
+            <div class="spacer"></div>
+            <button class="btn ghost sm" id="btn-hide">Masquer</button>
+          </div>
+          <div class="kpis" id="kpis"></div>
+          <div class="card">
+            <h3>Le temps de travail par semaine</h3>
+            <div class="bars" id="bars"></div>
+            <div id="punch"></div>
+          </div>
+          <div class="card">
+            <div class="actions" style="margin-bottom:10px"><h2 style="margin:0"><span class="n">5</span>Le parcours</h2><span class="muted small" id="p-note"></span></div>
+            <div class="parcours" id="parcours"></div>
+            <div class="keys" id="keys"></div>
+            <p class="note" style="margin:14px 0 0">Quinze semaines et une semaine de bilan, une heure par semaine : des vidéos courtes et un exercice appliqué à l'activité réelle.</p>
+          </div>
+          <div class="card">
+            <div class="actions" style="margin-bottom:10px"><h2 style="margin:0">Résumé à copier dans HubSpot</h2><div class="spacer"></div><button class="btn sm" id="btn-copy2">Copier</button></div>
+            <pre class="summary" id="summary"></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RÉGLAGES -->
+  <section class="page" id="page-settings">
+    <h1>Les <i>réglages</i></h1>
+    <p class="sub">Ce que Mael garde en main sans toucher au code. Dans la version d'équipe, ces réglages vivent dans la feuille Google.</p>
+    <div class="settings-grid">
+      <div>
+        <div class="card">
+          <h3>Closer</h3>
+          <div class="field"><label>Prénom affiché et proposé comme auteur des diagnostics</label><div class="in"><input type="text" id="s-auteur" placeholder="Mael"></div></div>
+        </div>
+        <div class="card">
+          <h3>Seuils des constats suggérés</h3>
+          <p class="note" style="margin:0 0 12px">Valeurs par défaut à valider par LIBRAE. Elles ne décident rien, elles signalent.</p>
+          <div class="row2">
+            <div class="field"><label>Trop d'heures hors production à partir de</label><div class="in"><input type="number" id="s-partHors" min="0" max="100" step="1"><span class="unit">% du temps</span></div></div>
+            <div class="field"><label>Semaines trop longues à partir de</label><div class="in"><input type="number" id="s-heuresSemaine" min="0" step="1"><span class="unit">h / semaine</span></div></div>
+          </div>
+          <p class="hint">Revenu plafonné : suggéré quand la profession n'a pas d'honoraires libres. Chiffres mal connus : suggéré quand le bénéfice est estimé depuis les prélèvements. Trésorerie, tout repose sur une personne, pas de cap : jamais suggérés, à cocher à la main.</p>
+        </div>
+        <div class="card">
+          <h3>Bloc "La suite" en fin de PDF</h3>
+          <p class="note" style="margin:0 0 10px">Désactivé tant que le modèle d'offre n'est pas validé. Un texte ici ajoute un bloc en fin de diagnostic imprimé. Vide : aucun bloc.</p>
+          <div class="field"><textarea id="s-suite" placeholder="Exemple : La suite se décide ensemble, sur un second échange."></textarea></div>
+        </div>
+        <div class="card">
+          <h3>Sauvegarde</h3>
+          <p class="note" style="margin:0 0 10px">Les diagnostics et réglages de ce navigateur, dans un fichier. Utile avant de changer de poste ou pour reprendre les dossiers dans la version d'équipe.</p>
+          <div class="actions"><button class="btn" id="btn-export">Exporter (JSON)</button><label class="btn" for="file-import" style="cursor:pointer">Importer (JSON)</label><input type="file" id="file-import" accept="application/json" hidden><div class="spacer"></div><button class="btn danger sm" id="btn-reset">Rétablir les réglages d'origine</button></div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <h3>Professions</h3>
+          <p class="note" style="margin:0 0 10px">Le type change les libellés (heures de soin ou de production). Une profession sans honoraires libres masque la semaine indiquée (14 : fixer ses honoraires) et déclenche le constat "revenu plafonné".</p>
+          <table class="prof-table">
+            <thead><tr><th>Nom</th><th>Type</th><th>Honoraires libres</th><th>Semaine masquée</th><th></th></tr></thead>
+            <tbody id="prof-body"></tbody>
+          </table>
+          <div class="actions" style="margin-top:10px"><button class="btn sm" id="btn-add-prof">Ajouter une profession</button></div>
+        </div>
+        <div class="card">
+          <h3>Constats et semaines du programme</h3>
+          <p class="note" style="margin:0 0 10px">Libellés des constats, semaines clés de chacun, titres et descriptions des quinze semaines. Format JSON, à modifier avec précaution puis appliquer. Les descriptions vides ne s'affichent pas.</p>
+          <div class="field"><textarea class="json" id="s-json" spellcheck="false"></textarea></div>
+          <div class="actions"><button class="btn primary sm" id="btn-json-apply">Appliquer</button><span class="tiny" id="json-msg"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- PRÉSENTATION -->
+<div id="pres" role="dialog" aria-label="Mode présentation">
+  <div class="pres-top">
+    <div class="brand"><div class="brand-mark">L</div><div class="brand-name">LIBRAE</div><div class="brand-sub">Diagnostic express</div></div>
+    <div class="who"><span id="pres-who"></span></div>
+    <button class="btn ghost sm" id="pres-quit">Quitter</button>
+  </div>
+  <div class="pres-body"><div class="pres-step" id="pres-step"></div></div>
+  <div class="pres-nav">
+    <button class="btn" id="pres-prev">Précédent</button>
+    <div class="dots" id="pres-dots"></div>
+    <button class="btn primary" id="pres-next">Suivant</button>
+  </div>
+</div>
+
+<div id="print"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+'use strict';
+const STORE_KEY='librae.diagnostic-express.v1';
+
+/* ---------- Configuration par défaut (dans la feuille Google en version d'équipe) ---------- */
+const PILIERS=['Le mindset','Le temps','Les chiffres','Structurer','Développer'];
+const SEMAINES_DEFAUT=[
+  {n:1,titre:"Passer de l'expert au dirigeant",desc:""},
+  {n:2,titre:"Savoir où tu vas",desc:""},
+  {n:3,titre:"De la boussole à la navigation",desc:""},
+  {n:4,titre:"La vraie valeur de ton temps",desc:"Ton CA horaire, ta semaine passée dans la matrice, une première tâche à déléguer."},
+  {n:5,titre:"Construire sa semaine-type",desc:"Une première semaine-type en blocs, testable dès la semaine suivante."},
+  {n:6,titre:"Gérer son énergie",desc:"Une semaine-type V2 calée sur tes cycles d'énergie, un sas de décompression et un rituel hebdomadaire."},
+  {n:7,titre:"Lire ses documents comptables",desc:""},
+  {n:8,titre:"Piloter avec les bons chiffres",desc:""},
+  {n:9,titre:"Anticiper sa trésorerie",desc:""},
+  {n:10,titre:"Mettre en place des process qui tiennent",desc:""},
+  {n:11,titre:"Déléguer vraiment",desc:"Qui porte quoi et qui décide de quoi : la répartition des tâches par personne."},
+  {n:12,titre:"Manager et recruter",desc:""},
+  {n:13,titre:"Clarifier son offre et choisir ce qui doit évoluer",desc:"Ce que chaque activité rapporte, et les décisions de périmètre qui en découlent."},
+  {n:14,titre:"Fixer ses honoraires sans culpabilité",desc:""},
+  {n:15,titre:"Construire sa vision à 3 ans",desc:""}
+];
+const CONSTATS_DEFAUT=[
+  {id:'c1',label:"Trop d'heures {hors} : administratif, gestion, déplacements",semaines:[4,5,11],regle:'horsProduction'},
+  {id:'c2',label:"Un revenu plafonné par le tarif ou les honoraires",semaines:[13,14],regle:'honoraires'},
+  {id:'c3',label:"Des chiffres mal connus : bénéfice, charges, ce qu'il reste vraiment",semaines:[7,8],regle:'beneficeEstime'},
+  {id:'c4',label:"Des semaines trop longues, une énergie entamée",semaines:[5,6],regle:'heures'},
+  {id:'c5',label:"Trésorerie, cotisations et impôts subis plutôt qu'anticipés",semaines:[9,8],regle:''},
+  {id:'c6',label:"Tout repose sur une seule personne",semaines:[10,11,12],regle:''},
+  {id:'c7',label:"Pas de cap clair pour les trois prochaines années",semaines:[2,3,15],regle:''}
+];
+const PROFESSIONS_DEFAUT=[
+  {id:'inf',nom:"Infirmier(ère) libéral(e)",terme:'soin',honoraires:false,masque:14},
+  {id:'kine',nom:"Masseur-kinésithérapeute",terme:'soin',honoraires:false,masque:14},
+  {id:'sf',nom:"Sage-femme",terme:'soin',honoraires:false,masque:14},
+  {id:'ortho',nom:"Orthophoniste",terme:'soin',honoraires:false,masque:14},
+  {id:'osteo',nom:"Ostéopathe",terme:'soin',honoraires:true,masque:null},
+  {id:'psy',nom:"Psychologue",terme:'soin',honoraires:true,masque:null},
+  {id:'autre-soin',nom:"Autre profession de soin (tarif conventionné)",terme:'soin',honoraires:false,masque:14},
+  {id:'autre',nom:"Autre profession (honoraires libres)",terme:'production',honoraires:true,masque:null}
+];
+const SETTINGS_DEFAUT=()=>({auteur:'',seuils:{partHors:25,heuresSemaine:45},professions:clone(PROFESSIONS_DEFAUT),semaines:clone(SEMAINES_DEFAUT),constats:clone(CONSTATS_DEFAUT),suite:''});
+
+const DEMO=()=>({
+  id:'demo-'+Date.now(),demo:true,createdAt:'2026-09-21T15:30:00.000Z',updatedAt:'2026-09-21T15:30:00.000Z',
+  auteur:'Mael',name:'Camille D. (exemple)',profession:'inf',
+  pari:50,recettes:83979,bnc:47239,bncUnknown:false,virements:'',depenses:'',
+  hSoin:35,hAdmin:10,hDepl:5,conges:5,tRev:72000,tHours:45,tConges:5,
+  constats:['c1','c2','c4'],notes:'Cas de démonstration, chiffres du modèle Google Sheets.',revealed:true
+});
+
+/* ---------- État ---------- */
+let state=load();
+let currentId=null;
+let pres={on:false,i:0,steps:[]};
+
+function clone(o){return JSON.parse(JSON.stringify(o))}
+function load(){
+  try{
+    const raw=localStorage.getItem(STORE_KEY);
+    if(raw){const s=JSON.parse(raw); if(s&&s.settings&&Array.isArray(s.dossiers)){
+      const def=SETTINGS_DEFAUT();
+      s.settings=Object.assign(def,s.settings); s.settings.seuils=Object.assign(def.seuils,s.settings.seuils||{});
+      return s;}}
+  }catch(e){}
+  return {settings:SETTINGS_DEFAUT(),dossiers:[DEMO()]};
+}
+function save(){try{localStorage.setItem(STORE_KEY,JSON.stringify(state,(k,v)=>k==='_saved'?undefined:v))}catch(e){}}
+function uid(){return 'd'+Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+const $=(s,el)=>(el||document).querySelector(s);
+const $$=(s,el)=>Array.from((el||document).querySelectorAll(s));
+
+/* ---------- Formats ---------- */
+const NBSP=' ';
+function num(v){const n=parseFloat(String(v==null?'':v).replace(/\s/g,'').replace(',','.'));return isFinite(n)?n:0}
+function isSet(v){return v!==''&&v!=null&&isFinite(parseFloat(v))}
+function fInt(n){if(n==null||!isFinite(n))return '..';const r=Math.round(n);return String(Math.abs(r)).replace(/\B(?=(\d{3})+(?!\d))/g,NBSP).replace(/^/,r<0?'-':'')}
+function fEur(n){return n==null?'..':fInt(n)+NBSP+'€'}
+function fH(n){return n==null?'..':fInt(n)+NBSP+'h'}
+function fPct(n,sign){if(n==null||!isFinite(n))return '..';const r=Math.round(n*100);return (sign&&r>0?'+':'')+r+NBSP+'%'}
+function fDec(n,d){if(n==null||!isFinite(n))return '..';return n.toLocaleString('fr-FR',{minimumFractionDigits:d,maximumFractionDigits:d})}
+function fDate(iso){const d=iso?new Date(iso):new Date();return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric'})}
+function fTime(iso){const d=new Date(iso);return d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function listWeeks(ws){if(!ws.length)return '';return (ws.length>1?'semaines ':'semaine ')+ws.join(', ')}
+
+/* ---------- Métier ---------- */
+function prof(id){return state.settings.professions.find(p=>p.id===id)||state.settings.professions[0]}
+function termes(p){const soin=(p&&p.terme)!=='production';return {prod:soin?'soin':'production',hors:soin?'hors soin':'hors production',heures:soin?'Heures de soin':'Heures de production',titre:soin?'Temps hors soin':'Temps hors production'}}
+function semaine(n){return state.settings.semaines.find(s=>s.n===n)}
+function constatLabel(c,t){return c.label.replace('{hors}',t.hors)}
+
+function compute(d){
+  const p=prof(d.profession), t=termes(p), s=state.settings;
+  const soin=num(d.hSoin), admin=num(d.hAdmin), depl=num(d.hDepl), conges=num(d.conges);
+  const hWeek=soin+admin+depl, horsWeek=admin+depl;
+  const weeks=Math.max(0,52-conges), hYear=hWeek*weeks;
+  const bncEst=(num(d.virements)+num(d.depenses))*12;
+  const bnc=d.bncUnknown?bncEst:num(d.bnc);
+  const recettes=num(d.recettes);
+  const ok=hYear>0&&bnc>0;
+  const net=ok?bnc/hYear:null;
+  const rec=(ok&&recettes>0)?recettes/hYear:null;
+  const horsYear=horsWeek*weeks;
+  const part=hYear>0?horsYear/hYear:null;
+  const horsWeeksEq=hWeek>0?horsYear/hWeek:null;
+  const tRev=num(d.tRev);
+  const tHours=isSet(d.tHours)?num(d.tHours):hWeek;
+  const tConges=isSet(d.tConges)?num(d.tConges):conges;
+  const tWeeks=Math.max(0,52-tConges);
+  const hasTarget=tRev>0&&tHours>0&&tWeeks>0;
+  const netTarget=hasTarget?tRev/(tHours*tWeeks):null;
+  const gap=(hasTarget&&net)?netTarget/net-1:null;
+  const needWeek=(hasTarget&&net)?tRev/net/tWeeks:null;
+  const reached=needWeek!=null?needWeek<=tHours+1e-9:null;
+  const pari=num(d.pari);
+  const ecartPari=(pari>0&&net)?net/pari-1:null;
+  const scale=Math.max(hWeek||0,tHours||0,needWeek||0,1);
+  const suggested={};
+  s.constats.forEach(c=>{
+    let v=false;
+    if(c.regle==='horsProduction')v=part!=null&&part*100>=num(s.seuils.partHors)&&hYear>0;
+    else if(c.regle==='honoraires')v=!!p&&!p.honoraires;
+    else if(c.regle==='beneficeEstime')v=!!d.bncUnknown;
+    else if(c.regle==='heures')v=hWeek>=num(s.seuils.heuresSemaine)&&hWeek>0;
+    suggested[c.id]=v;
+  });
+  const retained=(d.constats||[]).filter(id=>s.constats.some(c=>c.id===id)).slice(0,3);
+  const masque=p&&p.masque?num(p.masque):null;
+  const keys=retained.map(id=>{const c=s.constats.find(x=>x.id===id);const ws=c.semaines.filter(n=>n!==masque&&semaine(n));return {c,label:constatLabel(c,t),weeks:ws}});
+  const lit=new Set();keys.forEach(k=>k.weeks.forEach(n=>lit.add(n)));
+  const done=ok&&pari>0;
+  return {p,t,soin,admin,depl,conges,hWeek,horsWeek,weeks,hYear,bnc,bncEst,recettes,ok,net,rec,horsYear,part,horsWeeksEq,tRev,tHours,tConges,tWeeks,hasTarget,netTarget,gap,needWeek,reached,pari,ecartPari,scale,suggested,retained,keys,lit,masque,done};
+}
+
+function summaryText(d,r){
+  const L=[];
+  L.push('DIAGNOSTIC EXPRESS LIBRAE, '+fDate(d.updatedAt||d.createdAt));
+  L.push('Prospect : '+(d.name||'..'));
+  L.push('Profession : '+(r.p?r.p.nom:'..'));
+  L.push('Bénéfice annuel : '+(r.bnc>0?fEur(r.bnc)+(d.bncUnknown?' (estimé depuis les prélèvements)':''):'non renseigné'));
+  L.push('Temps de travail : '+fH(r.hWeek)+' par semaine, '+r.weeks+' semaines par an');
+  L.push('Revenu net par heure : '+fEur(r.net)+(r.pari>0?' (pari : '+fEur(r.pari)+', écart '+fPct(r.ecartPari,true)+')':''));
+  if(r.rec!=null)L.push('Recettes par heure : '+fEur(r.rec));
+  L.push(r.t.titre+' : '+fH(r.horsYear)+' par an ('+fPct(r.part)+' du temps)');
+  if(r.hasTarget){
+    L.push('Objectif : '+fEur(r.tRev)+' nets, '+fH(r.tHours)+' par semaine, '+r.tConges+' semaines de congés');
+    L.push('Revenu net horaire nécessaire : '+fEur(r.netTarget)+' ('+fPct(r.gap,true)+')');
+    L.push('À organisation constante : '+fH(r.needWeek)+' par semaine nécessaires');
+  }
+  L.push('Constats retenus : '+r.keys.length);
+  r.keys.forEach(k=>L.push('- '+k.label+(k.weeks.length?' ('+listWeeks(k.weeks)+')':'')));
+  return L.join('\n');
+}
+
+/* ---------- Navigation ---------- */
+function showPage(id){
+  $$('.page').forEach(p=>p.classList.toggle('on',p.id==='page-'+id));
+  $$('.tab').forEach(t=>t.classList.toggle('on',t.dataset.page===id));
+  window.scrollTo({top:0});
+  if(id==='list')renderList();
+  if(id==='settings')renderSettings();
+}
+$('#tabs').addEventListener('click',e=>{const b=e.target.closest('.tab');if(!b)return;if(b.dataset.page==='dossier'&&!currentId)return;showPage(b.dataset.page)});
+function whoRender(){const a=(state.settings.auteur||'').trim();$('#who-name').textContent=a||'Closer';$('#who-avatar').textContent=(a||'CL').slice(0,2).toUpperCase()}
+
+/* ---------- Liste ---------- */
+function fillProfSelect(sel,val){sel.innerHTML=state.settings.professions.map(p=>'<option value="'+esc(p.id)+'">'+esc(p.nom)+'</option>').join('');if(val)sel.value=val}
+function renderList(){
+  const body=$('#list-body');
+  const ds=state.dossiers.slice().sort((a,b)=>(b.updatedAt||'').localeCompare(a.updatedAt||''));
+  $('#list-empty').hidden=ds.length>0;
+  $('#list-table').style.display=ds.length?'':'none';
+  body.innerHTML=ds.map(d=>{
+    const r=compute(d);
+    const st=r.done?'<span class="pill good"><span class="dot"></span>Fait</span>':'<span class="pill muted">À faire en call</span>';
+    return '<tr class="row" data-id="'+esc(d.id)+'"><td><b style="font-weight:500">'+esc(d.name||'Sans nom')+'</b>'+(d.demo?' <span class="tiny">exemple</span>':'')+'</td><td class="muted">'+esc(r.p?r.p.nom:'')+'</td><td class="muted num">'+fDate(d.updatedAt||d.createdAt)+'</td><td class="muted">'+esc(d.auteur||'')+'</td><td>'+st+'</td><td class="r num">'+(r.net!=null?fEur(r.net):'')+'</td><td class="r num">'+(r.ecartPari!=null?'<span class="delta '+(r.ecartPari<0?'neg':'pos')+'">'+fPct(r.ecartPari,true)+'</span>':'')+'</td><td class="r num">'+(r.keys.length||'')+'</td><td class="r"><button class="btn ghost sm del" data-id="'+esc(d.id)+'">Supprimer</button></td></tr>';
+  }).join('');
+}
+$('#list-body').addEventListener('click',e=>{
+  const del=e.target.closest('.del');
+  if(del){e.stopPropagation();const id=del.dataset.id;if(del.dataset.arm){state.dossiers=state.dossiers.filter(d=>d.id!==id);save();renderList();toast('Diagnostic supprimé');}else{del.dataset.arm='1';del.textContent='Confirmer la suppression';del.classList.add('danger');setTimeout(()=>{if(del.isConnected){del.dataset.arm='';del.textContent='Supprimer';del.classList.remove('danger')}},3500)}return}
+  const row=e.target.closest('tr.row');if(row)openDossier(row.dataset.id);
+});
+$('#btn-new').addEventListener('click',()=>{const f=$('#new-form');f.hidden=!f.hidden;if(!f.hidden){fillProfSelect($('#nf-prof'));$('#nf-auteur').value=state.settings.auteur||'';$('#nf-name').value='';$('#nf-recettes').value='';$('#nf-bnc').value='';$('#nf-name').focus()}});
+$('#nf-cancel').addEventListener('click',()=>{$('#new-form').hidden=true});
+$('#nf-create').addEventListener('click',()=>{
+  const now=new Date().toISOString();
+  const d={id:uid(),createdAt:now,updatedAt:now,auteur:$('#nf-auteur').value.trim(),name:$('#nf-name').value.trim(),profession:$('#nf-prof').value,pari:'',recettes:$('#nf-recettes').value,bnc:$('#nf-bnc').value,bncUnknown:false,virements:'',depenses:'',hSoin:'',hAdmin:'',hDepl:'',conges:'',tRev:'',tHours:'',tConges:'',constats:[],notes:'',revealed:false};
+  if(!d.name){$('#nf-name').focus();return}
+  if(d.auteur&&!state.settings.auteur){state.settings.auteur=d.auteur;whoRender()}
+  state.dossiers.push(d);save();$('#new-form').hidden=true;openDossier(d.id);
+});
+$('#nf-name').addEventListener('keydown',e=>{if(e.key==='Enter')$('#nf-create').click()});
+
+/* ---------- Dossier ---------- */
+const FIELDS=['pari','recettes','bnc','virements','depenses','hSoin','hAdmin','hDepl','conges','tRev','tHours','tConges','name','notes'];
+function cur(){return state.dossiers.find(d=>d.id===currentId)}
+function openDossier(id){
+  currentId=id;const d=cur();if(!d)return;
+  $('#tab-dossier').hidden=false;
+  fillProfSelect($('#f-prof'),d.profession);
+  FIELDS.forEach(k=>{$('#f-'+k).value=d[k]==null?'':d[k]});
+  $('#f-bncUnknown').checked=!!d.bncUnknown;
+  showPage('dossier');
+  renderDossier();
+}
+$('#btn-back').addEventListener('click',()=>showPage('list'));
+FIELDS.forEach(k=>{$('#f-'+k).addEventListener('input',()=>{const d=cur();if(!d)return;d[k]=$('#f-'+k).value;touch(d);renderDossier(true)})});
+$('#f-prof').addEventListener('change',()=>{const d=cur();if(!d)return;d.profession=$('#f-prof').value;touch(d);renderDossier(true)});
+$('#f-bncUnknown').addEventListener('change',()=>{const d=cur();if(!d)return;d.bncUnknown=$('#f-bncUnknown').checked;touch(d);renderDossier(true)});
+function touch(d){d.updatedAt=new Date().toISOString();d._saved=fTime(d.updatedAt);save()}
+$('#btn-reveal').addEventListener('click',()=>{const d=cur();d.revealed=true;touch(d);renderDossier();animateBars($('#bars'))});
+$('#btn-hide').addEventListener('click',()=>{const d=cur();d.revealed=false;touch(d);renderDossier()});
+$('#constats').addEventListener('click',e=>{
+  const b=e.target.closest('.constat');if(!b)return;const d=cur();const id=b.dataset.id;
+  d.constats=d.constats||[];
+  if(d.constats.includes(id))d.constats=d.constats.filter(x=>x!==id);else if(d.constats.length<3)d.constats.push(id);else{toast('Trois constats au maximum');return}
+  touch(d);renderDossier(true);
+});
+
+function renderDossier(keepBars){
+  const d=cur();if(!d)return;const r=compute(d);
+  $('#d-title').innerHTML=esc(d.name||'Sans nom');
+  $('#d-meta').textContent=(r.p?r.p.nom:'')+' · '+fDate(d.updatedAt||d.createdAt)+(d.auteur?' · '+d.auteur:'')+(d._saved?' · enregistré à '+d._saved:'');
+  $('#l-soin').textContent=r.t.heures;
+  $('#f-estim').hidden=!d.bncUnknown;
+  $('#f-bnc').disabled=!!d.bncUnknown;
+  $('#tab-dossier').textContent=d.name||'Diagnostic en cours';
+  const bil=$('#bilan');bil.classList.toggle('veiled',!d.revealed);$('#veil').hidden=!!d.revealed;
+  $('#btn-reveal').disabled=false;
+  /* constats */
+  $('#constats').innerHTML=state.settings.constats.map(c=>{
+    const on=r.retained.includes(c.id);const dis=!on&&r.retained.length>=3;
+    return '<button class="constat'+(on?' on':'')+'" data-id="'+esc(c.id)+'"'+(dis?' disabled':'')+'><span class="box">'+(on?'x':'')+'</span><span class="t">'+esc(constatLabel(c,r.t))+'</span>'+(r.suggested[c.id]?'<span class="sugg">Suggéré par les chiffres</span>':'')+'</button>';
+  }).join('');
+  $('#constats-count').innerHTML='<b>'+r.retained.length+'</b> sur 3 retenus'+(Object.values(r.suggested).some(Boolean)?' · Suggérés par les chiffres : '+state.settings.constats.filter(c=>r.suggested[c.id]).length:'');
+  /* bilan */
+  $('#b-basis').textContent=r.ok?'Calcul sur un bénéfice de '+fEur(r.bnc)+' par an, pour '+fInt(r.hYear)+' h travaillées sur '+r.weeks+' semaines.':'En attente du bénéfice et des heures.';
+  $('#kpis').innerHTML=kpisHtml(r,false);
+  const bars=$('#bars');const prev=bars.innerHTML;bars.innerHTML=barsHtml(r);
+  if(!keepBars||prev==='')animateBars(bars);else $$('.fill',bars).forEach(f=>f.style.width=f.dataset.w);
+  $('#punch').innerHTML=punchHtml(r);
+  $('#parcours').innerHTML=parcoursHtml(r);
+  $('#keys').innerHTML=keysHtml(r);
+  $('#p-note').textContent=r.keys.length?'Les semaines allumées répondent aux constats retenus.':'Retenir des constats pour allumer les semaines.';
+  $('#summary').textContent=summaryText(d,r);
+}
+function animateBars(root){$$('.fill',root).forEach(f=>{f.style.width='0%';requestAnimationFrame(()=>requestAnimationFrame(()=>{f.style.width=f.dataset.w}))})}
+
+function kpisHtml(r,print){
+  const netDelta=r.ecartPari!=null?'<span class="delta '+(r.ecartPari<0?'neg':'pos')+'">'+fPct(r.ecartPari,true)+'</span>':'';
+  const gapDelta=r.gap!=null?'<span class="delta '+(r.gap>0?'up':'zero')+'">'+fPct(r.gap,true)+'</span>':'';
+  const k=[];
+  k.push({cls:'acc',lab:'Revenu net par heure travaillée',val:fEur(r.net),unit:'par heure',cmp:(r.pari>0?'Pari : '+fEur(r.pari)+' '+netDelta:'Pari non saisi')+'<br><span class="tiny">Bénéfice annuel divisé par toutes les heures</span>'});
+  k.push({cls:'',lab:'Recettes par heure travaillée',val:r.rec!=null?fEur(r.rec):'..',unit:'par heure',cmp:r.rec!=null?'Ce qui entre, avant charges':'Recettes non renseignées'});
+  k.push({cls:'',lab:r.t.titre,val:r.horsYear>0?fH(r.horsYear):'..',unit:'par an',cmp:r.part!=null?fPct(r.part)+' du temps de travail, l\'équivalent de '+fInt(r.horsWeeksEq)+' semaines':''});
+  k.push({cls:'',lab:'Revenu net horaire nécessaire à l\'objectif',val:r.netTarget!=null?fEur(r.netTarget):'..',unit:'par heure',cmp:r.hasTarget?fEur(r.tRev)+' pour '+fH(r.tHours)+' par semaine et '+r.tConges+' semaines de congés '+gapDelta:'Objectif non saisi'});
+  return k.map(x=>'<div class="kpi '+x.cls+(print&&x.cls?' hi':'')+'"><div class="lab">'+x.lab+'</div><div class="val num">'+x.val+'<small>'+x.unit+'</small></div><div class="cmp">'+x.cmp+'</div></div>').join('');
+}
+function barsHtml(r){
+  const rows=[
+    {cls:'now',lab:'Aujourd\'hui',sub:fInt(r.soin)+' h '+r.t.prod+', '+fInt(r.admin)+' h administratif, '+fInt(r.depl)+' h déplacements',v:r.hWeek},
+    {cls:'target',lab:'L\'objectif',sub:r.hasTarget?r.tConges+' semaines de congés':'Non saisi',v:r.hasTarget?r.tHours:null},
+    {cls:'need',lab:'Nécessaire à organisation constante',sub:'Pour '+fEur(r.tRev)+' nets sans rien changer',v:r.needWeek}
+  ];
+  return rows.map(x=>{const w=x.v?Math.min(100,x.v/r.scale*100):0;return '<div class="bar '+x.cls+'"><div class="lab">'+x.lab+'<small>'+x.sub+'</small></div><div class="track"><div class="fill" data-w="'+w.toFixed(1)+'%" style="--w:'+w.toFixed(1)+'%"></div></div><div class="v num">'+(x.v!=null?fH(x.v):'..')+'</div></div>'}).join('');
+}
+function punchHtml(r){
+  if(!r.ok)return '<div class="callout">Le bilan se calcule dès que le bénéfice et les heures sont saisis.</div>';
+  if(!r.hasTarget)return '<div class="callout">Saisir le revenu net visé pour mesurer l\'écart à l\'objectif.</div>';
+  if(r.reached)return '<p class="punch calm">Au rythme actuel, '+fEur(r.tRev)+' nets se tiennent en '+fH(r.needWeek)+' par semaine, dans l\'objectif de '+fH(r.tHours)+'. La question devient ce que rapporte une heure, et ce qui remplit les heures '+r.t.hors+'.</p>';
+  return '<p class="punch">Pour atteindre '+fEur(r.tRev)+' nets sans rien changer à l\'organisation, il faudrait travailler '+fH(r.needWeek)+' par semaine. L\'objectif est de '+fH(r.tHours)+'.</p><p class="punch calm">L\'écart ne se comble pas en travaillant plus. Il se comble en changeant ce que rapporte une heure et ce qui remplit les heures '+r.t.hors+'.</p>';
+}
+function parcoursHtml(r){
+  return PILIERS.map((pl,i)=>'<div class="pilier"><h4>'+esc(pl)+'</h4>'+[1,2,3].map(j=>{const n=i*3+j;const s=semaine(n)||{n,titre:''};const masked=r.masque===n;const lit=r.lit.has(n);return '<div class="week'+(lit?' lit':'')+(masked?' masked':'')+'" title="'+(masked?'Non concerné pour cette profession':'')+'"><div class="wn">Semaine '+n+'</div><div class="wt">'+esc(s.titre)+'</div></div>'}).join('')+'</div>').join('');
+}
+function keysHtml(r){
+  return r.keys.map(k=>'<div class="key"><div class="kt">'+esc(k.label)+'</div><ul>'+k.weeks.map(n=>{const s=semaine(n);return '<li><b>Semaine '+n+' : '+esc(s.titre)+'.</b>'+(s.desc?' '+esc(s.desc):'')+'</li>'}).join('')+(k.weeks.length?'':'<li class="muted">Aucune semaine associée pour cette profession.</li>')+'</ul></div>').join('');
+}
+
+/* ---------- Copier ---------- */
+function copySummary(){const d=cur();if(!d)return;const txt=summaryText(d,compute(d));
+  const done=()=>toast('Résumé copié, prêt à coller dans HubSpot');
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(done,()=>fallback());else fallback();
+  function fallback(){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done()}catch(e){toast('Copie impossible, sélectionner le texte à la main')}ta.remove()}
+}
+$('#btn-copy').addEventListener('click',copySummary);$('#btn-copy2').addEventListener('click',copySummary);
+let toastT;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),2200)}
+
+/* ---------- Impression ---------- */
+function renderPrint(){
+  const d=cur();if(!d)return;const r=compute(d);
+  const h=[];
+  h.push('<div class="ph"><div class="b"><span>L</span>LIBRAE</div><div class="d">Diagnostic express · '+fDate(d.updatedAt||d.createdAt)+'</div></div>');
+  h.push('<h1>'+esc(d.name||'Diagnostic express')+'</h1><p class="sub">'+esc(r.p?r.p.nom:'')+' · Ce que rapporte vraiment une heure de travail, et ce qu\'il faudrait changer pour atteindre l\'objectif.</p>');
+  h.push('<div class="sec"><h2>Le bilan</h2><p style="margin:0 0 8px;font-size:10pt;color:#555">'+esc($('#b-basis').textContent)+'</p><div class="pk">'+kpisHtml(r,true)+'</div></div>');
+  h.push('<div class="sec"><h2>Le temps de travail par semaine</h2><div class="bars">'+barsHtml(r)+'</div>'+punchHtml(r)+'</div>');
+  h.push('<div class="sec"><h2>Le parcours</h2><div class="parcours">'+parcoursHtml(r)+'</div>'+(r.keys.length?'<div class="keys">'+keysHtml(r)+'</div>':'<p style="font-size:10pt;color:#555">Aucun constat retenu.</p>')+'<p style="font-size:9.5pt;color:#555;margin:10px 0 0">Quinze semaines et une semaine de bilan, une heure par semaine : des vidéos courtes et un exercice appliqué à l\'activité réelle.</p></div>');
+  if((state.settings.suite||'').trim())h.push('<div class="suite sec">'+esc(state.settings.suite.trim())+'</div>');
+  h.push('<div class="pf">Calcul réalisé en direct à partir des chiffres déclarés, sans retraitement. Document remis à titre indicatif.</div>');
+  $('#print').innerHTML=h.join('');
+}
+$('#btn-print').addEventListener('click',()=>{renderPrint();setTimeout(()=>window.print(),50)});
+window.addEventListener('beforeprint',renderPrint);
+
+/* ---------- Présentation ---------- */
+function buildSteps(d,r){
+  const S=[];
+    S.push({h:'<h2>Diagnostic express</h2><h1>'+esc(d.name||'Diagnostic')+'</h1><p class="lead">'+esc(r.p?r.p.nom:'')+'. Ce que rapporte vraiment une heure de travail, et ce qu\'il faudrait changer pour atteindre l\'objectif.</p><p class="lead" style="color:var(--text-4);font-size:15px;margin-top:30px">'+fDate(d.updatedAt||d.createdAt)+(d.auteur?' · avec '+esc(d.auteur):'')+'</p>'});
+  S.push({h:'<h2>1. Le pari</h2><p class="lead">Revenu net par heure travaillée, à l\'instinct, avant tout calcul.</p><div class="big acc" style="margin-top:26px">'+(r.pari>0?fEur(r.pari):'..')+'<small>par heure</small></div>'});
+  S.push({h:'<h2>2. Les chiffres, à la louche</h2><div class="stack"><div class="line"><span class="l">Bénéfice annuel avant impôt sur le revenu</span><span class="r num">'+(r.bnc>0?fEur(r.bnc)+(d.bncUnknown?' <span class="muted" style="font-size:14px">estimé</span>':''):'..')+'</span></div>'+(r.recettes>0?'<div class="line"><span class="l">Recettes annuelles</span><span class="r num">'+fEur(r.recettes)+'</span></div>':'')+'<div class="line"><span class="l">Semaine de travail, tout compris</span><span class="r num">'+fH(r.hWeek)+' <span class="muted" style="font-size:15px">('+fInt(r.soin)+' h '+r.t.prod+', '+fInt(r.admin)+' h administratif, '+fInt(r.depl)+' h déplacements)</span></span></div><div class="line"><span class="l">Semaines travaillées</span><span class="r num">'+r.weeks+' <span class="muted" style="font-size:15px">('+fInt(r.conges)+' semaines de congés)</span></span></div><div class="line"><span class="l">Heures travaillées par an</span><span class="r num">'+fH(r.hYear)+'</span></div></div>'});
+  S.push({h:'<h2>3. Le réel</h2><div class="duo"><div><div class="lab">Le pari</div><div class="big" style="color:var(--text-3)">'+(r.pari>0?fEur(r.pari):'..')+'</div></div><div><div class="lab">Mesuré</div><div class="big acc">'+fEur(r.net)+(r.ecartPari!=null?'<small><span class="delta '+(r.ecartPari<0?'neg':'pos')+'" style="font-size:22px;padding:6px 14px">'+fPct(r.ecartPari,true)+'</span></small>':'')+'</div></div></div><p class="lead" style="margin-top:24px">Revenu net par heure travaillée : le bénéfice annuel divisé par toutes les heures.'+(r.rec!=null?' Recettes par heure travaillée : <b style="color:var(--text)">'+fEur(r.rec)+'</b>, ce qui entre avant charges.':'')+'</p>'});
+  const pa=r.hWeek>0?r.soin/r.hWeek*100:0,pb=r.hWeek>0?r.admin/r.hWeek*100:0,pc=r.hWeek>0?r.depl/r.hWeek*100:0;
+  S.push({h:'<h2>4. '+esc(r.t.titre)+'</h2><div class="big">'+fH(r.horsYear)+'<small>par an</small></div><p class="lead" style="margin-top:14px">'+fPct(r.part)+' du temps de travail, l\'équivalent de '+fInt(r.horsWeeksEq)+' semaines par an passées hors '+r.t.prod+'.</p><div class="mix"><div class="a" style="width:'+pa.toFixed(1)+'%"></div><div class="b" style="width:'+pb.toFixed(1)+'%"></div><div class="c" style="width:'+pc.toFixed(1)+'%"></div></div><div class="legend"><span class="a">'+esc(r.t.heures)+' : '+fH(r.soin)+'</span><span class="b">Administratif et gestion : '+fH(r.admin)+'</span><span class="c">Déplacements : '+fH(r.depl)+'</span></div>'});
+  if(r.hasTarget){
+    S.push({h:'<h2>5. L\'objectif</h2><p class="lead">'+fEur(r.tRev)+' nets par an, '+fH(r.tHours)+' par semaine, '+r.tConges+' semaines de congés.</p><div class="pres-kpis"><div class="kpi"><div class="lab">Revenu net par heure aujourd\'hui</div><div class="val num">'+fEur(r.net)+'</div></div><div class="kpi acc"><div class="lab">Revenu net par heure nécessaire</div><div class="val num">'+fEur(r.netTarget)+' <span class="delta '+(r.gap>0?'up':'zero')+'">'+fPct(r.gap,true)+'</span></div></div><div class="kpi"><div class="lab">Heures par semaine, à organisation constante</div><div class="val num">'+fH(r.needWeek)+'</div></div></div><div class="bars">'+barsHtml(r)+'</div>'+punchHtml(r)});
+  }else{
+    S.push({h:'<h2>5. L\'objectif</h2><p class="lead">Objectif non saisi. Renseigner le revenu net visé pour mesurer l\'écart.</p>'});
+  }
+  S.push({h:'<h2>6. Le parcours</h2>'+(r.keys.length?'<div class="chips">'+r.keys.map(k=>'<span class="chip">'+esc(k.label)+'</span>').join('')+'</div>':'<p class="lead">Aucun constat retenu.</p>')+'<div class="parcours">'+parcoursHtml(r)+'</div>'+(r.keys.length?'<div class="keys">'+keysHtml(r)+'</div>':'')});
+  S.push({h:'<h2>En résumé</h2><div class="stack"><div class="line"><span class="l">Revenu net par heure travaillée</span><span class="r num">'+fEur(r.net)+(r.pari>0?' <span class="muted" style="font-size:15px">pari '+fEur(r.pari)+', écart '+fPct(r.ecartPari,true)+'</span>':'')+'</span></div><div class="line"><span class="l">'+esc(r.t.titre)+'</span><span class="r num">'+fH(r.horsYear)+' par an <span class="muted" style="font-size:15px">'+fPct(r.part)+' du temps</span></span></div>'+(r.hasTarget?'<div class="line"><span class="l">Revenu net horaire nécessaire à l\'objectif</span><span class="r num">'+fEur(r.netTarget)+' <span class="muted" style="font-size:15px">'+fPct(r.gap,true)+'</span></span></div><div class="line"><span class="l">À organisation constante</span><span class="r num">'+fH(r.needWeek)+' par semaine <span class="muted" style="font-size:15px">objectif '+fH(r.tHours)+'</span></span></div>':'')+'<div class="line"><span class="l">Constats retenus</span><span class="r">'+(r.keys.length?r.keys.map(k=>esc(k.label)).join('<br>'):'..')+'</span></div></div>'});
+  return S;
+}
+function presOpen(){const d=cur();if(!d)return;const r=compute(d);pres.steps=buildSteps(d,r);pres.i=0;pres.on=true;$('#pres').classList.add('on');$('#pres-who').textContent=(d.name||'')+(r.p?' · '+r.p.nom:'');presRender();if(document.documentElement.requestFullscreen)document.documentElement.requestFullscreen().catch(()=>{})}
+function presClose(){pres.on=false;$('#pres').classList.remove('on');if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen().catch(()=>{})}
+function presRender(){
+  const st=$('#pres-step');st.innerHTML=pres.steps[pres.i].h;st.style.animation='none';void st.offsetWidth;st.style.animation='';
+  animateBars(st);
+  $('#pres-dots').innerHTML=pres.steps.map((s,i)=>'<span class="'+(i===pres.i?'on':i<pres.i?'done':'')+'" data-i="'+i+'"></span>').join('');
+  $('#pres-prev').disabled=pres.i===0;$('#pres-next').textContent=pres.i===pres.steps.length-1?'Terminer':'Suivant';
+}
+$('#btn-pres').addEventListener('click',presOpen);
+$('#pres-quit').addEventListener('click',presClose);
+$('#pres-prev').addEventListener('click',()=>{if(pres.i>0){pres.i--;presRender()}});
+$('#pres-next').addEventListener('click',()=>{if(pres.i<pres.steps.length-1){pres.i++;presRender()}else presClose()});
+$('#pres-dots').addEventListener('click',e=>{const s=e.target.closest('span');if(s){pres.i=+s.dataset.i;presRender()}});
+document.addEventListener('keydown',e=>{if(!pres.on)return;if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();$('#pres-next').click()}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();$('#pres-prev').click()}else if(e.key==='Escape'){presClose()}});
+document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement&&pres.on)presClose()});
+
+/* ---------- Réglages ---------- */
+function renderSettings(){
+  const s=state.settings;
+  $('#s-auteur').value=s.auteur||'';$('#s-partHors').value=s.seuils.partHors;$('#s-heuresSemaine').value=s.seuils.heuresSemaine;$('#s-suite').value=s.suite||'';
+  $('#prof-body').innerHTML=s.professions.map((p,i)=>'<tr data-i="'+i+'"><td><input type="text" data-k="nom" value="'+esc(p.nom)+'"></td><td><select data-k="terme"><option value="soin"'+(p.terme!=='production'?' selected':'')+'>Soin</option><option value="production"'+(p.terme==='production'?' selected':'')+'>Production</option></select></td><td><select data-k="honoraires"><option value="1"'+(p.honoraires?' selected':'')+'>Oui</option><option value="0"'+(!p.honoraires?' selected':'')+'>Non</option></select></td><td><input type="number" data-k="masque" min="1" max="15" step="1" value="'+(p.masque||'')+'" placeholder="aucune"></td><td class="r"><button class="btn ghost sm prof-del" title="Retirer">Retirer</button></td></tr>').join('');
+  $('#s-json').value=JSON.stringify({constats:s.constats,semaines:s.semaines},null,2);
+  $('#json-msg').textContent='';
+}
+$('#s-auteur').addEventListener('input',()=>{state.settings.auteur=$('#s-auteur').value;save();whoRender()});
+$('#s-partHors').addEventListener('input',()=>{state.settings.seuils.partHors=num($('#s-partHors').value);save()});
+$('#s-heuresSemaine').addEventListener('input',()=>{state.settings.seuils.heuresSemaine=num($('#s-heuresSemaine').value);save()});
+$('#s-suite').addEventListener('input',()=>{state.settings.suite=$('#s-suite').value;save()});
+$('#prof-body').addEventListener('input',e=>{const tr=e.target.closest('tr');if(!tr)return;const p=state.settings.professions[+tr.dataset.i];const k=e.target.dataset.k;if(k==='nom')p.nom=e.target.value;if(k==='terme')p.terme=e.target.value;if(k==='honoraires')p.honoraires=e.target.value==='1';if(k==='masque')p.masque=e.target.value?num(e.target.value):null;save()});
+$('#prof-body').addEventListener('change',e=>{const tr=e.target.closest('tr');if(!tr)return;const p=state.settings.professions[+tr.dataset.i];const k=e.target.dataset.k;if(k==='terme')p.terme=e.target.value;if(k==='honoraires')p.honoraires=e.target.value==='1';save()});
+$('#prof-body').addEventListener('click',e=>{const b=e.target.closest('.prof-del');if(!b)return;const tr=b.closest('tr');const i=+tr.dataset.i;if(state.settings.professions.length<=1){toast('Garder au moins une profession');return}const used=state.dossiers.some(d=>d.profession===state.settings.professions[i].id);if(used){toast('Profession utilisée par un diagnostic, impossible de la retirer');return}state.settings.professions.splice(i,1);save();renderSettings()});
+$('#btn-add-prof').addEventListener('click',()=>{state.settings.professions.push({id:'p'+Date.now().toString(36),nom:'Nouvelle profession',terme:'soin',honoraires:false,masque:14});save();renderSettings();const rows=$$('#prof-body tr');const last=rows[rows.length-1];if(last){const inp=$('input[data-k=nom]',last);inp.focus();inp.select()}});
+$('#btn-json-apply').addEventListener('click',()=>{
+  try{const o=JSON.parse($('#s-json').value);
+    if(!Array.isArray(o.constats)||!Array.isArray(o.semaines))throw new Error('Il faut "constats" et "semaines".');
+    o.constats.forEach(c=>{if(!c.id||!c.label||!Array.isArray(c.semaines))throw new Error('Chaque constat a un id, un label et des semaines.')});
+    o.semaines.forEach(s=>{if(!s.n||!s.titre)throw new Error('Chaque semaine a un n et un titre.')});
+    state.settings.constats=o.constats;state.settings.semaines=o.semaines;save();$('#json-msg').textContent='Appliqué.';toast('Constats et semaines mis à jour');
+  }catch(e){$('#json-msg').textContent='Erreur : '+e.message}
+});
+$('#btn-export').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='librae-diagnostic-express-'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)});
+$('#file-import').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const o=JSON.parse(rd.result);if(!o.settings||!Array.isArray(o.dossiers))throw 0;state=o;const def=SETTINGS_DEFAUT();state.settings=Object.assign(def,state.settings);save();whoRender();renderSettings();toast('Import terminé : '+state.dossiers.length+' diagnostics')}catch(err){toast('Fichier non reconnu')}};rd.readAsText(f);e.target.value=''});
+$('#btn-reset').addEventListener('click',()=>{const keepAuteur=state.settings.auteur;state.settings=SETTINGS_DEFAUT();state.settings.auteur=keepAuteur;save();renderSettings();toast('Réglages d\'origine rétablis')});
+
+/* ---------- Démarrage ---------- */
+whoRender();renderList();
+window.__diag={compute,state:()=>state,summary:(id)=>{const d=state.dossiers.find(x=>x.id===id)||state.dossiers[0];return summaryText(d,compute(d))}};
+})();
+</script>
+</body>
+</html>
