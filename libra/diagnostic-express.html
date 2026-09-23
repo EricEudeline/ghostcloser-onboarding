@@ -678,7 +678,12 @@ function load(){
     const raw=localStorage.getItem(STORE_KEY);
     if(raw){const s=JSON.parse(raw); if(s&&s.settings&&Array.isArray(s.dossiers)){
       const def=SETTINGS_DEFAUT();
-      s.settings=Object.assign(def,s.settings); s.settings.seuils=Object.assign(def.seuils,s.settings.seuils||{});
+      const savedSeuils=(s.settings&&s.settings.seuils)||{};
+      s.settings=Object.assign({},def,s.settings); s.settings.seuils=Object.assign({},def.seuils,savedSeuils);
+      if(s.settings.seuils.recup==null||s.settings.seuils.recup==='')s.settings.seuils.recup=30;
+      if(!Array.isArray(s.settings.semaines)||!s.settings.semaines.length)s.settings.semaines=clone(SEMAINES_DEFAUT);
+      if(!Array.isArray(s.settings.constats)||!s.settings.constats.length)s.settings.constats=clone(CONSTATS_DEFAUT);
+      if(!Array.isArray(s.settings.professions)||!s.settings.professions.length)s.settings.professions=clone(PROFESSIONS_DEFAUT);
       (s.settings.constats||[]).forEach(c=>{if(c.label)c.label=c.label.replace('{hors}','hors expertise').replace(/hors (soin|production)/gi,'hors expertise')});
       s.dossiers.forEach(d=>{if(d.tRevM==null&&isSet(d.tRev)){d.tRevM=Math.round(num(d.tRev)/12)}});
       return s;}}
@@ -738,7 +743,7 @@ function compute(d){
   const ecartPari=(pari>0&&net)?net/pari-1:null;
   const scale=Math.max(hWeek||0,tHours||0,needWeek||0,1);
   const perdu=(net&&horsYear>0)?horsYear*Math.round(net):null;
-  const recupPct=num(s.seuils.recup);
+  const recupPct=(s.seuils.recup==null||s.seuils.recup==='')?30:num(s.seuils.recup);
   const recupH=horsYear>0?horsYear*recupPct/100:0;
   const recupWeek=weeks>0?recupH/weeks:0;
   const tauxDemain=netTarget!=null?Math.round(netTarget):null;
@@ -872,7 +877,7 @@ function renderDossier(keepBars){
   if(!keepBars||prev==='')animateBars(bars);else $$('.fill',bars).forEach(f=>f.style.width=f.dataset.w);
   $('#punch').innerHTML=punchHtml(r);
   $('#h-tRev').textContent=(r.hasTarget?'Soit '+fEur(r.tRev)+' par an. ':'')+(r.bncM?'Aujourd\'hui : '+fEur(r.bncM)+' par mois.':'');
-  $('#scenario').innerHTML=r.hasScenario?scenarioHtml(r):'<div class="callout">Le scénario se calcule dès que les heures et un taux visé (ou un objectif) sont saisis.</div>';
+  $('#scenario').innerHTML=r.hasScenario?scenarioHtml(r):'<div class="callout">Le scénario se calcule dès que les heures et le revenu net visé sont saisis.</div>';
   $('#parcours').innerHTML=parcoursHtml(r);
   $('#keys').innerHTML=keysHtml(r);
   $('#p-note').innerHTML=r.keys.length?'Les semaines allumées répondent aux constats retenus, le point vert à ceux que les chiffres pointent.':'Retenir des constats pour allumer les semaines.';
@@ -891,9 +896,9 @@ function kpisHtml(r,print){
 }
 function barsHtml(r){
   const rows=[
-    {cls:'now',lab:'Aujourd\'hui',sub:'',v:r.hWeek},
-    {cls:'target',lab:'L\'objectif',sub:r.hasTarget?'':'Non saisi',v:r.hasTarget?r.tHours:null},
-    {cls:'need',lab:'Nécessaire à organisation constante',sub:'',v:r.needWeek}
+    {cls:'now',lab:'Aujourd\'hui',sub:fInt(r.soin)+' h d\'expertise, '+fInt(r.admin)+' h administratif, '+fInt(r.depl)+' h déplacements',v:r.hWeek},
+    {cls:'target',lab:'L\'objectif',sub:r.hasTarget?r.tConges+' semaines de congés':'Non saisi',v:r.hasTarget?r.tHours:null},
+    {cls:'need',lab:'Nécessaire à organisation constante',sub:r.hasTarget?'Pour '+fEur(r.tRevM)+' nets par mois sans rien changer':'',v:r.needWeek}
   ];
   return rows.map(x=>{const w=x.v?Math.min(100,x.v/r.scale*100):0;return '<div class="bar '+x.cls+'"><div class="lab">'+x.lab+(x.sub?'<small>'+x.sub+'</small>':'')+'</div><div class="track"><div class="fill" data-w="'+w.toFixed(1)+'%" style="--w:'+w.toFixed(1)+'%"></div></div><div class="v num">'+(x.v!=null?fH(x.v):'..')+'</div></div>'}).join('');
 }
@@ -905,7 +910,7 @@ function punchHtml(r){
   if(!r.ok)return '<div class="callout">Le bilan se calcule dès que le bénéfice et les heures sont saisis.</div>';
   if(!r.hasTarget)return '<div class="callout">Saisir le revenu net visé pour mesurer l\'écart à l\'objectif.</div>';
   if(r.reached)return '<p class="punch calm">Au rythme actuel, '+fEur(r.tRevM)+' nets par mois se tiennent en '+fH(r.needWeek)+' par semaine, dans l\'objectif de '+fH(r.tHours)+'. La question devient ce que rapporte une heure, et ce qui remplit les heures '+r.t.hors+'.</p>';
-  return '<p class="punch">Pour atteindre '+fEur(r.tRevM)+' nets par mois sans rien changer à l\'organisation, il faudrait travailler '+fH(r.needWeek)+' par semaine. L\'objectif est de '+fH(r.tHours)+'.</p><p class="punch calm">L\'écart ne se comble pas en travaillant plus. Il se comble en changeant ce que rapporte une heure et ce qui remplit les heures '+r.t.hors+'.</p>';
+  return '<p class="punch">Pour atteindre '+fEur(r.tRevM)+' nets par mois sans rien changer à l\'organisation, il faudrait travailler '+fH(r.needWeek)+' par semaine. L\'objectif est de '+fH(r.tHours)+'.</p>';
 }
 function parcoursHtml(r){
   return PILIERS.map((pl,i)=>'<div class="pilier"><h4>'+esc(pl)+'</h4>'+[1,2,3].map(j=>{const n=i*3+j;const s=semaine(n)||{n,titre:''};const masked=r.masque===n;const lit=r.lit.has(n);return '<div class="week'+(lit?' lit':'')+(masked?' masked':'')+'" title="'+(masked?'Non concerné pour cette profession':(r.sugWeeks&&r.sugWeeks.has(n)?'Les chiffres pointent cette semaine':''))+'"><div class="wn">Semaine '+n+'</div><div class="wt">'+esc(s.titre)+'</div>'+(r.sugWeeks&&r.sugWeeks.has(n)?'<span class="sugdot"></span>':'')+'</div>'}).join('')+'</div>').join('');
