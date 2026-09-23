@@ -120,6 +120,9 @@ th{text-align:left;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
 td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:middle;font-size:13.5px}
 tr:last-child td{border-bottom:0}
 tr.row{cursor:pointer}tr.row:hover td{background:var(--surface-2)}
+.pname{filter:blur(6px);transition:filter .15s;user-select:none}
+tr.row:hover .pname,body.names .pname{filter:none;user-select:text}
+body.names #btn-names{background:var(--surface-3)}
 td.r,th.r{text-align:right}
 .empty{padding:34px 20px;text-align:center;color:var(--text-3)}
 .empty b{display:block;color:var(--text);font-weight:500;margin-bottom:6px;font-size:15px}
@@ -385,6 +388,7 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
         <p class="sub" style="margin:0"><span class="internal">Un diagnostic par personne, jamais écrasé. Créer le dossier avant l'échange avec les deux chiffres de la 2035, le reste se remplit en direct.</span><span class="share-only" style="display:inline">Diagnostic en direct, à partir des chiffres déclarés.</span></p>
       </div>
       <div class="spacer"></div>
+      <button class="btn sm internal" id="btn-names" title="Les noms de la liste sont floutés par défaut ; survoler une ligne suffit à lire un nom">Afficher les noms</button>
       <button class="btn primary" id="btn-new">Nouveau diagnostic</button>
     </div>
 
@@ -410,7 +414,7 @@ pre.summary{white-space:pre-wrap;font:12.5px/1.55 ui-monospace,SFMono-Regular,Me
       </table>
       <div class="empty" id="list-empty" hidden><b>Aucun diagnostic pour l'instant.</b>Créer le premier dossier avant le prochain call.</div>
     </div>
-    <p class="tiny internal" style="margin-top:12px">Les diagnostics de cette version sont enregistrés dans ce navigateur. La version d'équipe les enregistrera dans une feuille Google partagée, visible par toute la team.</p>
+    <p class="tiny internal" style="margin-top:12px">Les noms sont floutés par défaut : survoler une ligne pour lire le sien, ou afficher tous les noms le temps de la session. Les diagnostics de cette version sont enregistrés dans ce navigateur. La version d'équipe les enregistrera dans une feuille Google partagée, visible par toute la team.</p>
     <div class="card share-only" id="list-shared">
       <div class="empty"><b>Partage d'écran en cours.</b>La liste des diagnostics est masquée. <span id="list-shared-open"></span></div>
     </div>
@@ -796,7 +800,7 @@ function renderList(){
   body.innerHTML=ds.map(d=>{
     const r=compute(d);
     const st=r.done?'<span class="pill good"><span class="dot"></span>Fait</span>':'<span class="pill muted">À faire en call</span>';
-    return '<tr class="row" data-id="'+esc(d.id)+'"><td><b style="font-weight:500">'+esc(d.name||'Sans nom')+'</b>'+(d.demo?' <span class="tiny">exemple</span>':'')+'</td><td class="muted">'+esc(r.p?r.p.nom:'')+'</td><td class="muted num">'+fDate(d.updatedAt||d.createdAt)+'</td><td class="muted">'+esc(d.auteur||'')+'</td><td>'+st+'</td><td class="r num">'+(r.net!=null?fEur(r.net):'')+'</td><td class="r num">'+(r.ecartPari!=null?'<span class="delta '+(r.ecartPari<0?'neg':'pos')+'">'+fPct(r.ecartPari,true)+'</span>':'')+'</td><td class="r num">'+(r.keys.length||'')+'</td><td class="r"><button class="btn ghost sm del" data-id="'+esc(d.id)+'">Supprimer</button></td></tr>';
+    return '<tr class="row" data-id="'+esc(d.id)+'"><td><b class="pname" style="font-weight:500">'+esc(d.name||'Sans nom')+'</b>'+(d.demo?' <span class="tiny">exemple</span>':'')+'</td><td class="muted">'+esc(r.p?r.p.nom:'')+'</td><td class="muted num">'+fDate(d.updatedAt||d.createdAt)+'</td><td class="muted">'+esc(d.auteur||'')+'</td><td>'+st+'</td><td class="r num">'+(r.net!=null?fEur(r.net):'')+'</td><td class="r num">'+(r.ecartPari!=null?'<span class="delta '+(r.ecartPari<0?'neg':'pos')+'">'+fPct(r.ecartPari,true)+'</span>':'')+'</td><td class="r num">'+(r.keys.length||'')+'</td><td class="r"><button class="btn ghost sm del" data-id="'+esc(d.id)+'">Supprimer</button></td></tr>';
   }).join('');
 }
 $('#list-body').addEventListener('click',e=>{
@@ -963,10 +967,11 @@ function presRender(){
 }
 $('#btn-pres').addEventListener('click',presOpen);
 const SHARE_KEY=STORE_KEY+'.share';
-function setShare(on,quiet){document.body.classList.toggle('share',on);try{localStorage.setItem(SHARE_KEY,on?'1':'0')}catch(e){}
+function setShare(on,quiet){document.body.classList.toggle('share',on);if(on){document.body.classList.remove('names');$('#btn-names').textContent='Afficher les noms'}try{localStorage.setItem(SHARE_KEY,on?'1':'0')}catch(e){}
   const open=$('#list-shared-open');if(open){const d=cur();open.innerHTML=d?'<br><button class="btn sm" id="list-shared-btn">Reprendre le diagnostic de '+esc(d.name||'')+'</button>':''}
   if(!quiet)toast(on?'Partage d\'écran : liste, notes, résumé HubSpot, suggestions et réglages masqués':'Vue complète rétablie');}
 $('#btn-share').addEventListener('click',()=>setShare(!document.body.classList.contains('share')));
+$('#btn-names').addEventListener('click',()=>{const on=document.body.classList.toggle('names');$('#btn-names').textContent=on?'Flouter les noms':'Afficher les noms'});
 document.addEventListener('click',e=>{if(e.target.closest('#list-shared-btn')&&currentId)openDossier(currentId)});
 try{if(localStorage.getItem(SHARE_KEY)==='1')setShare(true,true)}catch(e){}
 $('#pres-quit').addEventListener('click',presClose);
