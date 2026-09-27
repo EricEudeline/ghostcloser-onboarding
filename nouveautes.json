@@ -1,0 +1,75 @@
+[
+  {
+    "version": "2.3.0",
+    "date": "2026-09-27",
+    "sujet": "Les nouveautés dans l'app",
+    "titre": "Tu sais enfin ce qui change à chaque mise à jour.",
+    "accroche": "GhostCloser se met à jour tout seul, mais jusqu'ici il ne te disait rien. Désormais, au premier lancement après une mise à jour, une carte t'explique ce qui a changé, en quelques lignes, sans jargon.",
+    "points": [
+      "La carte s'ouvre une seule fois, au premier lancement après une mise à jour. Tu la fermes, elle ne revient pas. Si tu as sauté plusieurs versions, tu les vois toutes.",
+      "Pour la relire : tout en bas des Paramètres, « Voir les nouveautés des dernières mises à jour », l'historique des cinq dernières versions.",
+      "Abonné ? Tu reçois aussi un mail le lendemain matin de chaque vraie nouveauté, jamais pour un simple correctif, avec un lien pour ne plus le recevoir.",
+      "Chaque nouveauté renvoie au chapitre du mode d'emploi qui la détaille.",
+      "Aussi dans cette version : en essai gratuit, ta trame d'appel est comprise dès que tu la sauvegardes, avant même ton premier appel. Et si une trame enregistrée n'est pas encore comprise au moment de démarrer un appel, GhostCloser te le dit au lieu de partir sans elle."
+    ],
+    "lien": "mode-demploi.html#nouveautes"
+  },
+  {
+    "version": "2.2.0",
+    "date": "2026-09-08",
+    "sujet": "Mon équipe",
+    "titre": "Mon équipe : ton manager voit la journée de l'équipe. Jamais tes appels.",
+    "accroche": "Si tu closes dans une équipe, GhostCloser peut envoyer chaque soir à ton manager une synthèse chiffrée de ta journée : rendez-vous, show, close, CA, relances, objections en catégories. Toi, tu gardes ton app, ton cockpit et tout ce qui s'y trouve.",
+    "points": [
+      "Rejoindre une équipe : Réglages › Équipe, colle le code d'invitation de ton manager, puis active « Partager mes journées avec mon manager ». Ton abonnement ne change pas.",
+      "Ce qui part, une fois par jour, quand tu valides ton End of Day : les chiffres de la journée, tes rendez-vous avec leur résultat, ton mois face à tes objectifs, les catégories d'objections. Ton commentaire seulement si tu coches la case.",
+      "Ce qui ne part jamais : transcriptions, enregistrements, debriefs, scores, suggestions, notes, coordonnées de tes prospects, commissions, Mémoire.",
+      "Tu quittes l'équipe quand tu veux depuis le même onglet : le partage s'arrête tout de suite, tes journées sont effacées du serveur sous 30 jours.",
+      "Entreprise équipée par ton employeur : « Activer mon poste » sur l'écran de licence avec le code remis par ton entreprise."
+    ],
+    "lien": "mode-demploi.html#p6"
+  },
+  {
+    "version": "2.1.0",
+    "date": "2026-09-02",
+    "sujet": "Import de tes anciens calls",
+    "titre": "Importe tes anciens calls : Zoom, Meet, téléphone.",
+    "accroche": "Glisse un enregistrement audio ou vidéo dans GhostCloser, ou clique le bouton d'import en bas à gauche : l'app le transcrit en séparant les voix, reconnaît la tienne, puis génère la même fiche qu'après un call en direct. Débrief, matrice de perf, plan de relance, messages prêts à envoyer, statut du deal à valider.",
+    "points": [
+      "Formats acceptés : mp4, mov, m4a, mp3, wav, webm, ogg, flac, jusqu'à 4 h. Rien n'est envoyé avant ta confirmation.",
+      "La fiche porte la pastille « Analysé a posteriori », est datée du call d'origine, apparaît dans l'Historique et dans le cockpit, et nourrit ta Mémoire comme n'importe quel call.",
+      "Compte une dizaine de minutes pour une heure de call. Tu peux fermer la fenêtre, l'import continue et se met en pause si tu démarres un appel.",
+      "Imports illimités avec un abonnement. Pendant l'essai gratuit, un import est offert en plus de l'appel en direct.",
+      "Ton fichier reste chez toi : aucune copie conservée, seuls des morceaux audio temporaires transitent le temps de la transcription."
+    ],
+    "lien": "mode-demploi.html#p3"
+  },
+  {
+    "version": "2.0.3",
+    "date": "2026-09-01",
+    "sujet": "Tes six objections, déjà prêtes",
+    "titre": "Tes six objections, déjà prêtes.",
+    "accroche": "Chaque offre arrive désormais avec les six objections les plus classiques du closing (le prix, les moyens, « je vais réfléchir », le partenaire, le temps, le moment) et, pour chacune, une réponse de closer expert prête à dire. Garde celles qui te ressemblent, réécris les autres avec tes mots. Si tu avais déjà tes objections, rien ne change pour toi.",
+    "points": [
+      "Une objection peut lister plusieurs formulations, séparées par « / » : « Trop cher / ça fait cher / un gros budget ». Chacune est reconnue séparément.",
+      "Une objection en pleine découverte ? Ta réponse s'affiche et le raccourci ⚡ Objections pulse pour te proposer d'y passer. Il propose, il ne décide jamais à ta place. Pendant le pitch, rien ne vient remplacer ton script.",
+      "GhostCloser ne propose plus de passer en Reformulation avant huit minutes d'appel, au lieu de cinq. Une bonne découverte prend le temps de creuser.",
+      "Le chevron qui signale que le nom de l'étape est cliquable est nettement plus visible."
+    ],
+    "lien": "mode-demploi.html#p2"
+  },
+  {
+    "version": "2.0.2",
+    "date": "2026-09-01",
+    "sujet": "Objections à tout moment",
+    "titre": "Tes objections répondent maintenant à tout moment.",
+    "accroche": "Jusqu'ici, les objections préparées dans tes réglages ne s'affichaient qu'en phase Prix et objections. Elles répondent désormais quel que soit le moment de l'appel, sans aucun geste : dès que ton prospect formule une objection que tu as anticipée, ta réponse apparaît.",
+    "points": [
+      "Une barre d'étapes lisible d'un coup d'œil : ta position en gros à gauche, un bouton pleine largeur pour l'étape suivante, un raccourci direct vers les objections. Cliquer sur le nom de l'étape ouvre la liste complète.",
+      "Quand GhostCloser estime que tu peux passer à l'étape suivante, le bouton pulse, avec la même onde que la bulle.",
+      "Chaque nouvel appel repart en Découverte : la phase sélectionnée ne survit plus à la fin d'un appel.",
+      "La détection de fin de découverte vérifie que la phrase du prospect qu'elle cite figure bien dans la conversation : moins de suggestions à contretemps."
+    ],
+    "lien": "mode-demploi.html#p2"
+  }
+]
