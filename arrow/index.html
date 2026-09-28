@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<title>Dix sessions pleines</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f7f8f7; --card:#fdfdfc; --card2:#eef2f4;
+  --ink:#1f2530; --muted:#5b6672; --faint:#8a95a1;
+  --accent:#1c3753; --accent-ink:#0f5f86; --accent-soft:rgba(28,55,83,.08); --accent-border:rgba(28,55,83,.3);
+  --cyan:#1bedf5; --sun:#ffc72c;
+  --good:#1d7a4d; --good-soft:rgba(29,122,77,.09);
+  --warn:#8a5d10; --warn-soft:rgba(178,124,28,.10);
+  --border:rgba(31,37,48,.13); --border-soft:rgba(31,37,48,.08);
+  --disp:'Bricolage Grotesque','DM Sans',-apple-system,sans-serif;
+  --body:'Source Serif 4',Georgia,serif;
+  --mono:'DM Mono','SF Mono',ui-monospace,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16.5px;line-height:1.68;-webkit-font-smoothing:antialiased}
+a{color:var(--accent-ink)}
+.wrap{max-width:860px;margin:0 auto;padding:3rem 1.4rem 5rem}
+.eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:1rem}
+h1{font-family:var(--disp);font-weight:800;font-size:clamp(2.2rem,5vw,3.3rem);line-height:1.02;letter-spacing:-.02em;margin-bottom:1rem;text-wrap:balance;color:var(--accent)}
+.lead{font-size:1.12rem;color:var(--muted);max-width:64ch;margin-bottom:.6rem}
+.byline{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;color:var(--faint);text-transform:uppercase;margin-bottom:2.6rem}
+.toc{display:flex;flex-wrap:wrap;gap:.4rem .9rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;margin-bottom:3rem;padding-bottom:1.4rem;border-bottom:1px solid var(--border)}
+.toc a{text-decoration:none;color:var(--muted)}
+section{margin-bottom:3rem;scroll-margin-top:1.5rem}
+.secno{font-family:var(--mono);font-size:.66rem;letter-spacing:.22em;color:var(--faint);text-transform:uppercase;margin-bottom:.45rem}
+h2{font-family:var(--disp);font-weight:800;font-size:1.6rem;letter-spacing:-.01em;line-height:1.12;margin-bottom:.85rem;text-wrap:balance;color:var(--accent)}
+h3{font-family:var(--disp);font-weight:700;font-size:1.06rem;margin:1.3rem 0 .45rem;color:var(--accent)}
+p{max-width:70ch}
+p+p{margin-top:.7rem}
+b,strong{font-weight:600}
+.quote{font-style:italic;font-size:1.08rem;border-left:3px solid var(--cyan);padding:.2rem 0 .2rem 1.1rem;color:var(--muted);margin:1.1rem 0;max-width:62ch}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.2rem 1.4rem;margin:1rem 0;break-inside:avoid}
+.card.soft{background:var(--card2);border-color:transparent}
+.card h3{margin-top:0}
+.card p{max-width:none}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.lab{font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:.35rem}
+ul.plain{list-style:none;display:flex;flex-direction:column;gap:.5rem;margin:.55rem 0}
+ul.plain li{padding-left:1.2rem;position:relative;max-width:70ch}
+ul.plain li::before{content:'';position:absolute;left:0;top:.72em;width:.5rem;height:2px;background:var(--accent)}
+figure{margin:1.3rem 0;break-inside:avoid}
+figure svg{max-width:100%;height:auto;display:block}
+figcaption{font-size:.88rem;color:var(--muted);margin-top:.6rem;max-width:70ch}
+.tblwrap{overflow-x:auto;margin:.9rem 0;break-inside:avoid}
+table{width:100%;border-collapse:collapse;font-size:.92rem;min-width:560px}
+th{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);text-align:left;padding:.5rem .6rem;border-bottom:1px solid var(--border);font-weight:500}
+td{padding:.62rem .6rem;border-bottom:1px solid var(--border-soft);vertical-align:top;line-height:1.5}
+td.k{font-family:var(--disp);font-weight:700;color:var(--accent)}
+td.n,th.n{text-align:right;font-family:var(--mono);white-space:nowrap}
+.big{font-family:var(--disp);font-weight:800;font-size:2rem;color:var(--accent);line-height:1.1}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin:1rem 0}
+.stats div{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:.8rem .9rem}
+.stats b{display:block;font-family:var(--disp);font-size:1.5rem;font-weight:800;color:var(--accent);line-height:1.1}
+.stats span{font-size:.8rem;color:var(--muted)}
+.block{border:1px solid var(--border);border-radius:14px;margin:1rem 0;overflow:hidden;break-inside:avoid;background:var(--card)}
+.block .head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:.9rem 1.3rem;background:var(--accent);color:#fff}
+.block .head h3{margin:0;color:#fff;font-size:1.08rem}
+.block .head span{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--cyan);white-space:nowrap}
+.block .body{padding:1rem 1.3rem 1.1rem}
+.block .body .lab{margin-top:.8rem}
+.block .body .lab:first-child{margin-top:0}
+.price{font-family:var(--disp);font-weight:800;font-size:1.25rem;color:var(--accent)}
+.x{background:var(--sun);color:#3a2b00;font-family:var(--mono);padding:.05rem .4rem;border-radius:4px;font-weight:500}
+.note{font-size:.9rem;color:var(--muted)}
+.cta{background:var(--accent);color:#fff;border-radius:14px;padding:1.3rem 1.5rem;margin:1.2rem 0}
+.cta h3{color:#fff;margin-top:0}
+.cta p{color:rgba(255,255,255,.9)}
+.cta a{color:var(--cyan)}
+.closing{margin-top:2rem;padding-top:1.4rem;border-top:1px solid var(--border);break-inside:avoid}
+.sig{margin-top:1.4rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+@media (max-width:640px){.two,.stats{grid-template-columns:1fr}table{min-width:0}}
+@media print{
+  @page{size:A4;margin:16mm 14mm}
+  body{background:#fff;font-size:10.8pt;line-height:1.5}
+  .wrap{max-width:none;padding:0}
+  .toc{display:none}
+  section{margin-bottom:1.6rem}
+  h1{font-size:30pt}
+  h2{font-size:17pt;break-after:avoid}
+  .secno{break-after:avoid}
+  section{break-inside:auto}
+  h3{break-after:avoid}
+  .card,.block,figure,.tblwrap,.stats,.cta{break-inside:avoid}
+  .block .head{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .cta,.x,.stats div,.card.soft{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  a{text-decoration:none;color:inherit}
+  .pb{break-before:page}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Proposition pour Arrow Conseil & Formation · septembre 2026</div>
+  <h1>Dix sessions pleines.</h1>
+  <p class="lead">Comment Arrow double son chiffre d'affaires avec les contacts qu'il possède déjà, sans changer de métier : ce que j'ai compris de votre activité, la mécanique du x2, le système à construire, ce que ça coûte, et le calendrier qui compte, celui des budgets de formation.</p>
+  <div class="byline">Eric Eudeline · pour Vincent et l'équipe Arrow, avec Jean · document de travail, à discuter</div>
+
+  <nav class="toc">
+    <a href="#s1">01 Ce que j'ai compris</a><a href="#s2">02 La mécanique du x2</a><a href="#s3">03 Ce qui manque</a><a href="#s4">04 Le système</a><a href="#s5">05 Les trois vagues</a><a href="#s6">06 La maquette</a><a href="#s7">07 Le modèle</a><a href="#s8">08 Le cadre</a><a href="#s9">09 De votre côté</a>
+  </nav>
+
+  <section id="s1">
+    <div class="secno">01</div>
+    <h2>Ce que j'ai compris</h2>
+    <p>Arrow forme les indépendants de l'immobilier, mandataires en tête, avec un produit que peu d'organismes savent faire : la semaine immersive à l'étranger. Cinq jours, 42 heures de présentiel, 15 heures de visio en amont, l'hôtel offert, une prise en charge à 100 % par le budget de formation du stagiaire. Vos chiffres publics de 2025 parlent d'eux-mêmes.</p>
+    <div class="stats">
+      <div><b>50</b><span>sessions réalisées en 2025</span></div>
+      <div><b>548</b><span>stagiaires, 15 344 heures</span></div>
+      <div><b>9,4 / 10</b><span>satisfaction moyenne</span></div>
+      <div><b>≈ 100 %</b><span>du chiffre par bouche à oreille</span></div>
+    </div>
+    <p>Ce qui m'a frappé en regardant l'existant avec Jean, c'est le décalage entre la valeur de ce que vous avez sous la main et ce qui en est fait aujourd'hui.</p>
+    <ul class="plain">
+      <li><b>24 000 contacts</b> de mandataires IAD, Safti, Efficity et BSK, avec numéro de téléphone pour tous et adresse email pour la plupart des IADiens, rangés dans un Airtable. Aucune campagne structurée n'est jamais partie vers eux.</li>
+      <li><b>Un millier d'anciens clients</b> dans SmartOF, qui ont tous une obligation ALUR qui revient, et un budget de formation qui se renouvelle chaque année.</li>
+      <li><b>700 personnes</b> dans la communauté WhatsApp, venues à une formation, qui ne reçoivent que les prochaines dates.</li>
+      <li>Un tunnel de vente qui tient sur une personne : Jean publie les sessions, on lui écrit, il qualifie par texto ou par téléphone, envoie le lien SmartOF, Célia monte le dossier. Ça marche. À l'échelle d'une personne.</li>
+      <li>Un encaissement enfin propre depuis cet été : paiement d'avance, remboursement par le FAF ensuite, plus personne ne court après l'argent.</li>
+    </ul>
+    <p class="note">Si j'ai déformé quelque chose dans ce résumé, c'est le premier point à corriger ensemble : tout ce qui suit en découle.</p>
+  </section>
+
+  <section id="s2">
+    <div class="secno">02</div>
+    <h2>La mécanique du x2</h2>
+    <p>Une session immersive de 25 personnes, c'est 50 000 €. Dix sessions par an remplies à 25, c'est 500 000 €. Remplies à 50, avec un formateur de plus, c'est un million. Le x2 n'est donc pas un pari sur un nouveau produit ni sur un nouveau marché : c'est remplir ce qui existe déjà.</p>
+    <div class="card soft">
+      <div class="two">
+        <div><div class="lab">Ce qu'il faut trouver</div><div class="big">250 places</div><p class="note">de plus par an sur l'immersif, soit une vingtaine par mois.</p></div>
+        <div><div class="lab">Ce que ça représente</div><div class="big">1 % de la base</div><p class="note">24 000 contacts, 1 000 anciens clients, 700 membres de la communauté.</p></div>
+      </div>
+    </div>
+    <p>Trois raisons pour lesquelles ce 1 % est atteignable, et pourquoi c'est maintenant.</p>
+    <h3>L'obligation ALUR travaille pour vous</h3>
+    <p>Tout mandataire doit valider 14 heures de formation par an, ou 42 heures sur trois années consécutives, sous peine de ne pas voir son habilitation renouvelée. Une semaine immersive vaut 42 heures : un client formé une fois est tranquille trois ans, et revient au bon moment s'il est relancé au bon moment. C'est la définition d'un revenu récurrent.</p>
+    <h3>Le budget de formation expire, et tout le monde le sait trop tard</h3>
+    <p>Votre propre page « Budgets de formation » le dit : un budget AGEFICE d'environ 3 000 € par indépendant et par an, non reportable d'une année sur l'autre. Une formation réservée avant le 31 décembre peut se tenir dans les premiers mois de l'année suivante. Autrement dit, entre la mi-octobre et le 31 décembre, chaque mandataire qui n'a pas utilisé son budget a une raison concrète et datée de vous répondre. Personne ne laisse 3 000 € sur la table quand on le lui rappelle clairement.</p>
+    <h3>Un leader amène son équipe</h3>
+    <p>Jean le voit déjà : un responsable d'équipe qui vient à Séville revient rarement seul. Chaque inscription sert de point d'entrée vers quatre ou cinq autres. Le système doit rendre ce geste facile, avec un devis équipe en un message.</p>
+    <p class="note">Le calendrier de tout ce que je propose se déduit de ces trois points : la première campagne s'appelle « Votre budget 2026 expire », elle part fin octobre, et tout se construit à rebours de cette date.</p>
+  </section>
+
+  <section id="s3">
+    <div class="secno">03</div>
+    <h2>Ce qui manque aujourd'hui</h2>
+    <p>Rien de ce qui suit n'est un reproche : c'est l'état normal d'une entreprise qui a grandi au bouche à oreille. Mais ce sont exactement les cinq choses qui empêchent le 1 % de se produire tout seul.</p>
+    <ul class="plain">
+      <li><b>Pas de tracking.</b> Personne ne sait quel contact a reçu quoi, ni d'où vient un inscrit. Impossible de savoir ce qui marche.</li>
+      <li><b>Pas de nurturing.</b> Un contact qui ne répond pas au premier message est perdu, alors qu'il aurait répondu au troisième.</li>
+      <li><b>Des canaux éclatés.</b> Airtable, un Google Sheet, WhatsApp, SmartOF, GoCardless : la même personne existe à cinq endroits, sans lien entre eux.</li>
+      <li><b>Un goulot humain.</b> Toute inscription passe par le téléphone de Jean. À vingt inscriptions par mois ça tient, à cent ça casse.</li>
+      <li><b>Une promesse floue.</b> « Venez vous former » ne fait pas répondre. « Vos 42 heures ALUR en une semaine, prises en charge à 100 %, avant que votre budget 2026 n'expire » fait répondre.</li>
+    </ul>
+  </section>
+
+  <section id="s4">
+    <div class="secno">04</div>
+    <h2>Le système</h2>
+    <p>Je ne remplace pas vos outils. SmartOF reste le registre des inscriptions et de la conformité, GoCardless encaisse, le site reste le site, la communauté WhatsApp continue de vivre. Je construis la couche qui manque au-dessus : une base unifiée, des séquences qui tournent seules, une page d'inscription qui alimente SmartOF, et un cockpit qui montre tout.</p>
+    <figure>
+      <svg viewBox="0 0 860 300" xmlns="http://www.w3.org/2000/svg" font-family="Bricolage Grotesque, DM Sans, sans-serif" font-size="12.5">
+        <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1c3753"/></marker></defs>
+        <!-- sources -->
+        <g>
+          <rect x="10" y="20" width="150" height="34" rx="8" fill="#fdfdfc" stroke="#1f2530" stroke-opacity=".35"/><text x="85" y="42" text-anchor="middle" fill="#1f2530">Airtable · 24 000</text>
+          <rect x="10" y="66" width="150" height="34" rx="8" fill="#fdfdfc" stroke="#1f2530" stroke-opacity=".35"/><text x="85" y="88" text-anchor="middle" fill="#1f2530">SmartOF · 1 000 clients</text>
+          <rect x="10" y="112" width="150" height="34" rx="8" fill="#fdfdfc" stroke="#1f2530" stroke-opacity=".35"/><text x="85" y="134" text-anchor="middle" fill="#1f2530">Commu WhatsApp · 700</text>
+          <rect x="10" y="158" width="150" height="34" rx="8" fill="#fdfdfc" stroke="#1f2530" stroke-opacity=".35"/><text x="85" y="180" text-anchor="middle" fill="#1f2530">Site, formulaires</text>
+        </g>
+        <!-- base -->
+        <rect x="205" y="60" width="150" height="92" rx="10" fill="#1c3753" fill-opacity=".08" stroke="#1c3753" stroke-dasharray="5 4"/>
+        <text x="280" y="96" text-anchor="middle" fill="#1c3753" font-weight="700">Base unifiée</text>
+        <text x="280" y="116" text-anchor="middle" fill="#1c3753" font-size="10.5">dédoublonnée, segmentée,</text>
+        <text x="280" y="132" text-anchor="middle" fill="#1c3753" font-size="10.5">consentements, cycle ALUR</text>
+        <!-- sequences -->
+        <rect x="400" y="60" width="150" height="92" rx="10" fill="#1c3753" fill-opacity=".08" stroke="#1c3753" stroke-dasharray="5 4"/>
+        <text x="475" y="96" text-anchor="middle" fill="#1c3753" font-weight="700">Séquences</text>
+        <text x="475" y="116" text-anchor="middle" fill="#1c3753" font-size="10.5">email + SMS, 5 étapes,</text>
+        <text x="475" y="132" text-anchor="middle" fill="#1c3753" font-size="10.5">stop dès la réponse</text>
+        <!-- inscription -->
+        <rect x="595" y="60" width="150" height="92" rx="10" fill="#1c3753" fill-opacity=".08" stroke="#1c3753" stroke-dasharray="5 4"/>
+        <text x="670" y="96" text-anchor="middle" fill="#1c3753" font-weight="700">Page d'inscription</text>
+        <text x="670" y="116" text-anchor="middle" fill="#1c3753" font-size="10.5">choix de session, questions</text>
+        <text x="670" y="132" text-anchor="middle" fill="#1c3753" font-size="10.5">financement, vers SmartOF</text>
+        <!-- arrows -->
+        <line x1="160" y1="106" x2="203" y2="106" stroke="#1c3753" stroke-width="1.5" marker-end="url(#ar)"/>
+        <line x1="355" y1="106" x2="398" y2="106" stroke="#1c3753" stroke-width="1.5" marker-end="url(#ar)"/>
+        <line x1="550" y1="106" x2="593" y2="106" stroke="#1c3753" stroke-width="1.5" marker-end="url(#ar)"/>
+        <!-- bottom row: existing -->
+        <rect x="400" y="200" width="150" height="34" rx="8" fill="#fdfdfc" stroke="#1f2530" stroke-opacity=".35"/><text x="475" y="222" text-anchor="middle" fill="#1f2530">Jean : conversations</text>
+        <rect x="595" y="200" width="150" height="34" rx="8" fill="#fdfdfc" stroke="#1f2530" stroke-opacity=".35"/><text x="670" y="222" text-anchor="middle" fill="#1f2530">SmartOF · Célia · GoCardless</text>
+        <line x1="475" y1="152" x2="475" y2="198" stroke="#1c3753" stroke-width="1.5" marker-end="url(#ar)"/>
+        <line x1="670" y1="152" x2="670" y2="198" stroke="#1c3753" stroke-width="1.5" marker-end="url(#ar)"/>
+        <!-- cockpit -->
+        <rect x="205" y="200" width="150" height="80" rx="10" fill="#1bedf5" fill-opacity=".18" stroke="#1c3753" stroke-dasharray="5 4"/>
+        <text x="280" y="232" text-anchor="middle" fill="#1c3753" font-weight="700">Cockpit</text>
+        <text x="280" y="250" text-anchor="middle" fill="#1c3753" font-size="10.5">inscrits, sessions, dossiers,</text>
+        <text x="280" y="266" text-anchor="middle" fill="#1c3753" font-size="10.5">encaissés, à faire ce jour</text>
+        <line x1="400" y1="217" x2="357" y2="230" stroke="#1c3753" stroke-width="1.5" marker-end="url(#ar)"/>
+        <line x1="595" y1="217" x2="557" y2="217" stroke="#1c3753" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <!-- legend -->
+        <rect x="10" y="252" width="26" height="14" rx="3" fill="#fdfdfc" stroke="#1f2530" stroke-opacity=".35"/><text x="44" y="264" fill="#5b6672" font-size="11.5">existe, reste en place</text>
+        <rect x="10" y="276" width="26" height="14" rx="3" fill="#1c3753" fill-opacity=".08" stroke="#1c3753" stroke-dasharray="5 4"/><text x="44" y="288" fill="#5b6672" font-size="11.5">à construire</text>
+      </svg>
+      <figcaption>Les cadres pleins existent et restent en place. Les pointillés sont ce que je construis. Chaque inscription remonte dans le cockpit avec sa source : on sait enfin ce qui a fait venir chaque stagiaire.</figcaption>
+    </figure>
+    <p>Trois choix qui comptent. Le premier : on n'envoie jamais à toute la base d'un coup. Base chaude d'abord (anciens clients, communauté), puis conquête réseau par réseau, région par région, pour que Jean et Célia absorbent les réponses et que la réputation d'envoi reste intacte. Le deuxième : l'email et le SMS sont les canaux de masse ; WhatsApp reste la communauté, pas un canal de prospection en volume, ce n'est ni légitime ni durable sans consentement. Le troisième : rien ne part sans validation d'Arrow, message par message, segment par segment. C'est votre nom, votre Qualiopi et votre réputation qui voyagent.</p>
+  </section>
+
+  <section id="s5">
+    <div class="secno">05</div>
+    <h2>Les trois vagues</h2>
+    <p>Chaque vague a un périmètre fermé, des livrables nommés, des points où vous vérifiez sans me croire sur parole, et un prix ferme. Vous pouvez vous arrêter à la fin de chaque vague : ce qui est livré reste chez vous et tourne.</p>
+
+    <div class="block">
+      <div class="head"><h3>Vague 1 · « Votre budget 2026 expire »</h3><span>Octobre · premiers envois le 27</span></div>
+      <div class="body">
+        <div class="lab">Cadrage, une semaine · 1 500 € HT</div>
+        <p>Audit de l'Airtable, de SmartOF et de la communauté : qualité, doublons, emails joignables. Vérification des règles de financement en vigueur avant d'écrire une seule phrase d'urgence. Message et promesse travaillés avec Jean, calendrier des dix sessions 2027, plan des séquences, règles d'attribution et de conformité. Livrable : le plan de campagne et la maquette du cockpit remplie avec vos vraies données.</p>
+        <div class="lab">Système sur la base chaude, deux semaines · 3 900 € HT</div>
+        <p>Base unifiée (SmartOF, Airtable, communauté fusionnés). Séquences email et SMS en cinq étapes avec désinscription en un mot. Page d'inscription avec choix de session, qui pousse vers SmartOF. Réponses routées vers Jean, dossiers vers Célia, alertes automatiques. Cockpit version 1 : vue d'ensemble, pipeline, « à faire aujourd'hui ». Envois vers les anciens clients, la communauté et un premier segment IAD.</p>
+        <div class="lab">Points de vérification</div>
+        <p>Délivrabilité au-dessus de 97 %. Zéro envoi sans validation écrite d'Arrow. Chaque inscrit tracé jusqu'à son premier message. Jean traite ses conversations depuis une seule liste au lieu de trois écrans.</p>
+        <p class="price">Vague 1 : 5 400 € HT, 50 % à la commande, 50 % au premier envoi.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="head"><h3>Vague 2 · Conquête des 24 000</h3><span>Novembre et décembre</span></div>
+      <div class="body">
+        <div class="lab">Contenu · 4 500 € HT, trois à quatre semaines</div>
+        <p>Infrastructure d'envoi dédiée, séparée de votre domaine principal (domaines secondaires, mise en chauffe démarrée dès la vague 1 pour être prête mi-novembre). Segmentation par réseau et par région, séquences adaptées à chaque réseau, SMS avec date limite de dépôt, une page par destination. Les « budget déjà utilisé » et « plutôt l'an prochain » repartent automatiquement dans la campagne budget 2027 en janvier. Coordination avec Joachim si vous lancez des publicités : audiences et retargeting alimentés par la base.</p>
+        <div class="lab">Points de vérification</div>
+        <p>Réputation des domaines d'envoi suivie chaque semaine. Taux de désinscription sous 2 %. Registre des oppositions exportable. Coût par inscrit affiché dans le cockpit.</p>
+        <p class="note">Les coûts d'outils sont refacturés au réel et restent modestes : autour de 0,07 € par SMS, une centaine d'euros par mois pour l'outil de séquences et les domaines, une vérification d'emails à l'import.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="head"><h3>Vague 3 · La récurrence</h3><span>Premier trimestre 2027</span></div>
+      <div class="body">
+        <div class="lab">Contenu · 1 500 € HT, une semaine</div>
+        <p>Relances ALUR par cohorte, calculées client par client sur ce qu'il a déjà validé chez Arrow. Parcours « je viens avec mon équipe » avec devis en un message. Cockpit complet : remplissage des sessions avec alertes à 45 jours, rapport mensuel automatique, export pour la comptabilité. Base prête pour la communauté payante et le contenu, si vous décidez d'y aller.</p>
+        <div class="lab">Ce que ça change</div>
+        <p>La machine ne dépend plus d'une campagne : elle relance seule les bonnes personnes au bon moment, chaque année.</p>
+      </div>
+    </div>
+
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>Quand</th><th>Quoi</th><th class="n">Prix HT</th></tr></thead>
+        <tbody>
+          <tr><td class="k">6 au 10 octobre</td><td>Cadrage, message, calendrier des sessions, vérification des règles de financement</td><td class="n">1 500 €</td></tr>
+          <tr><td class="k">13 au 24 octobre</td><td>Base unifiée, séquences, page d'inscription, cockpit v1</td><td class="n">3 900 €</td></tr>
+          <tr><td class="k">27 octobre</td><td>Premiers envois : anciens clients et communauté, puis IAD Grand Ouest le 3 novembre</td><td class="n"></td></tr>
+          <tr><td class="k">16 novembre au 15 décembre</td><td>Conquête par segments, dernier rappel avant clôture des dossiers 2026</td><td class="n">4 500 €</td></tr>
+          <tr><td class="k">Janvier à mars 2027</td><td>Campagne budget 2027, relances ALUR, parrainage équipe, cockpit complet</td><td class="n">1 500 €</td></tr>
+          <tr><td class="k">Total construction</td><td>Trois vagues, chacune arrêtable</td><td class="n"><b>11 400 €</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="s6">
+    <div class="secno">06</div>
+    <h2>La maquette, en images</h2>
+    <p>Pour ne pas en rester aux mots, j'ai maquetté le cockpit tel qu'il se présenterait à Jean, à Célia et à vous une quinzaine de jours après le premier envoi. Six écrans : la vue d'ensemble, la campagne « Budget 2026 » avec sa séquence et ses segments, le pipeline personne par personne, le remplissage des dix sessions 2027, la base de contacts et sa qualité, les relances ALUR par cohorte. Les chiffres et les prénoms sont fictifs ; la mécanique est celle que je livrerais.</p>
+    <div class="card">
+      <div class="lab">La maquette est en ligne</div>
+      <p><a href="https://ghostcloser.tech/arrow/cockpit.html"><b>ghostcloser.tech/arrow/cockpit.html</b></a> : s'ouvre dans n'importe quel navigateur, sur ordinateur comme sur téléphone, sans rien installer. Cliquez sur les onglets, filtrez le pipeline, survolez les graphiques.</p>
+    </div>
+    <p>Une précision pour la lire correctement : le cockpit n'est pas l'enjeu, c'est la surface visible de l'enjeu. Ce qui compte est en dessous, les séquences qui font répondre et la base qui les alimente. Mais c'est l'écran qui vous dira chaque matin où vous en êtes.</p>
+  </section>
+
+  <section id="s7">
+    <div class="secno">07</div>
+    <h2>Le modèle</h2>
+    <p>Je fonctionne en deux temps, comme avec mes autres clients : la construction se facture par bloc, au livrable, avec un prix ferme connu d'avance ; l'exploitation se rémunère sur ce que la machine rapporte.</p>
+    <div class="two">
+      <div class="card">
+        <div class="lab">Construction</div>
+        <p><b>11 400 € HT</b> sur trois vagues, chacune décidée séparément. Ce qui est construit reste chez vous, documenté, et tourne sans moi.</p>
+      </div>
+      <div class="card">
+        <div class="lab">Exploitation, dès la vague 1 en production</div>
+        <p><b>900 € HT par mois</b> pour faire tourner : délivrabilité, itérations des messages, nouveaux segments, rapport mensuel, support de Jean et Célia. Et <b><span class="x">X %</span> du chiffre encaissé attribué</b> à la machine.</p>
+      </div>
+    </div>
+    <h3>Ce que veut dire « attribué »</h3>
+    <p>Un inscrit compte quand son premier contact, ou la relance qui a déclenché son inscription, vient d'une séquence ou d'une page du système, et que le cockpit peut le montrer. Un ancien client réinscrit par une relance compte. Un leader qui vient avec son équipe après un message compte, son équipe aussi. Le bouche à oreille qui arrive par le téléphone de Vincent sans passer par la machine ne compte pas. La règle est écrite au cadrage, avant le premier envoi, et le cockpit l'applique sans discussion.</p>
+    <p class="note">Pourquoi ce mélange : le fixe paie la construction et le temps de pilotage, sans surprise pour vous ; le variable m'aligne sur ce que vous voulez vraiment, des sessions pleines. Si vous préférez un fixe seul, sans variable, l'exploitation passe à 1 800 € HT par mois.</p>
+  </section>
+
+  <section id="s8">
+    <div class="secno">08</div>
+    <h2>Le cadre</h2>
+    <ul class="plain">
+      <li><b>Vous gardez la main.</b> Arrow est responsable des données de ses contacts et de ses clients. Chaque message, chaque segment, chaque date d'envoi est validé par vous par écrit avant de partir. Je ne prends aucune décision d'envoi seul.</li>
+      <li><b>Conformité.</b> Prospection professionnelle vers des indépendants, avec identification claire d'Arrow, désinscription en un clic sur chaque email, STOP sur chaque SMS, registre des oppositions partagé, aucune promesse de financement qui n'ait été vérifiée auprès de l'organisme concerné.</li>
+      <li><b>Propriété.</b> Les données restent chez vous, dans des outils dont vous détenez les accès. Les composants logiciels que je construis restent ma propriété avec une licence d'usage illimitée pour Arrow ; vous n'êtes jamais bloqués si nous arrêtons.</li>
+      <li><b>Durée.</b> Six mois d'exploitation minimum à partir du premier envoi, puis un préavis d'un mois. Engagement réciproque de ne pas contourner l'autre sur les personnes et les prestataires que nous nous présentons pendant douze mois.</li>
+      <li><b>Ce que je ne ferai pas.</b> Envoyer à toute la base d'un coup. Prospecter en masse sur WhatsApp. Remplacer SmartOF. Écrire une urgence que je n'ai pas vérifiée.</li>
+    </ul>
+  </section>
+
+  <section id="s9">
+    <div class="secno">09</div>
+    <h2>De votre côté</h2>
+    <p>Pour tenir la date du 27 octobre, il me faut six choses, dont aucune ne demande plus d'une heure de votre temps.</p>
+    <ul class="plain">
+      <li>Une décision avant le <b>lundi 6 octobre</b>.</li>
+      <li>Un export de SmartOF (clients, formations suivies, dates) et l'accès à l'Airtable.</li>
+      <li>Les <b>dix dates 2027</b>, les destinations et les trois parcours, même provisoires.</li>
+      <li>La grille de prix et ce qui est inclus, session par session.</li>
+      <li>Trois témoignages, idéalement en vidéo de 90 secondes, filmés pendant la prochaine session.</li>
+      <li>Un référent pour les dossiers (Célia) et une règle simple : chaque message validé sous 48 heures.</li>
+    </ul>
+  </section>
+
+  <div class="closing">
+    <p class="note">Pour situer d'où je parle : j'ai dirigé pendant trois ans un organisme de formation (diagnostic immobilier, Qualiopi, financements OPCO et FAF), je vends depuis deux ans pour des acteurs du coaching en ligne, et je construis des outils d'acquisition et de pilotage pour des équipes commerciales, dont GhostCloser (ghostcloser.tech), un assistant de vente en temps réel utilisé par des closers indépendants.</p>
+    <div class="sig">Dix sessions pleines · proposition pour Arrow · 29 septembre 2026 · Eric Eudeline</div>
+  </div>
+</div>
+</body>
+</html>

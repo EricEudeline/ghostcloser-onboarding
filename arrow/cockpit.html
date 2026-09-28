@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cockpit acquisition Arrow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@500;700&family=Open+Sans:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1c3753; --navy-2:#24486d; --cyan:#1bedf5; --sky:#8dd2e5; --blue:#0076a6; --sun:#ffc72c;
+  --paper:#f4f7f9; --card:#ffffff; --card2:#eef3f6; --ink:#1c2733; --muted:#5b6b7a; --faint:#8a99a6;
+  --border:rgba(28,55,83,.14); --border-soft:rgba(28,55,83,.08);
+  --c1:#2a6fa8; --c2:#c47a1c; --c3:#6b5fbf;
+  --good:#1d7a4d; --good-soft:rgba(29,122,77,.10); --warn:#8a5d10; --warn-soft:rgba(178,124,28,.12); --bad:#a83232; --bad-soft:rgba(168,50,50,.10);
+  --disp:'Roboto Condensed','Arial Narrow',sans-serif; --body:'Open Sans',-apple-system,sans-serif; --mono:'DM Mono',ui-monospace,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--blue)}
+.top{background:var(--navy);color:#fff;padding:0 24px}
+.top .in{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:18px;height:64px}
+.top .logo{background:#fff;border-radius:8px;padding:6px 10px;display:flex;align-items:center}
+.top .logo svg{height:30px;width:auto;display:block}
+.top .t{font-family:var(--disp);font-weight:700;font-size:20px;letter-spacing:.01em}
+.top .t small{display:block;font-family:var(--body);font-weight:400;font-size:12px;color:var(--sky);letter-spacing:0}
+.top .right{margin-left:auto;display:flex;align-items:center;gap:14px;font-size:12px;color:var(--sky)}
+.top .pill{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:4px 10px;font-family:var(--mono);font-size:11px;color:#fff}
+.demo{background:var(--sun);color:#3a2b00;font-size:12px;text-align:center;padding:6px 12px;font-weight:600}
+nav.tabs{background:#fff;border-bottom:1px solid var(--border)}
+nav.tabs .in{max-width:1240px;margin:0 auto;display:flex;gap:2px;overflow-x:auto;padding:0 16px}
+nav.tabs button{background:none;border:0;border-bottom:3px solid transparent;padding:14px 14px 12px;font-family:var(--disp);font-size:15px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap}
+nav.tabs button.on{color:var(--navy);border-bottom-color:var(--cyan)}
+nav.tabs button:hover{color:var(--navy)}
+main{max-width:1240px;margin:0 auto;padding:22px 16px 60px}
+section.view{display:none}
+section.view.on{display:block}
+.row{display:grid;gap:14px;margin-bottom:14px}
+.row.k6{grid-template-columns:repeat(6,1fr)}
+.row.k4{grid-template-columns:repeat(4,1fr)}
+.row.g2{grid-template-columns:1.2fr .8fr}
+.row.g21{grid-template-columns:2fr 1fr}
+.row.g11{grid-template-columns:1fr 1fr}
+.row.g3{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px}
+.card h3{font-family:var(--disp);font-weight:700;font-size:16px;color:var(--navy);margin-bottom:2px}
+.card .sub{font-size:12px;color:var(--muted);margin-bottom:12px}
+.kpi{padding:14px 16px}
+.kpi .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.kpi .v{font-family:var(--disp);font-weight:700;font-size:28px;color:var(--navy);line-height:1.15;margin:4px 0 2px}
+.kpi .d{font-size:12px;color:var(--muted)}
+.kpi .d.up{color:var(--good)}
+.hdr{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.tog{font-size:12px;color:var(--blue);background:none;border:0;cursor:pointer;text-decoration:underline;font-family:var(--body)}
+.chart{position:relative}
+.bars{display:flex;align-items:flex-end;gap:10px;height:170px;padding:0 4px;border-bottom:1px solid var(--border);margin-bottom:26px}
+.bars .b{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;position:relative}
+.bars .b i{display:block;width:100%;max-width:56px;background:var(--c1);border-radius:4px 4px 0 0;transition:opacity .15s}
+.bars .b:hover i{opacity:.8}
+.bars .b b{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--ink);margin-bottom:4px}
+.bars .b span{position:absolute;bottom:-22px;font-size:11px;color:var(--muted);white-space:nowrap}
+.bars .b.fc i{background:var(--sky)}
+.xl{display:flex;justify-content:space-between;padding:6px 4px 0;font-size:11px;color:var(--muted)}
+.tip{position:absolute;pointer-events:none;background:var(--navy);color:#fff;font-size:12px;padding:6px 9px;border-radius:6px;white-space:nowrap;transform:translate(-50%,-115%);opacity:0;transition:opacity .1s;z-index:5}
+.tip b{font-family:var(--mono);font-weight:500}
+.funnel{display:flex;flex-direction:column;gap:7px}
+.funnel .f{display:grid;grid-template-columns:150px 1fr 62px 52px;align-items:center;gap:10px;font-size:12.5px}
+.funnel .f .bar{height:18px;background:var(--card2);border-radius:4px;overflow:hidden}
+.funnel .f .bar i{display:block;height:100%;background:var(--navy);border-radius:4px}
+.funnel .f .n{font-family:var(--mono);text-align:right;color:var(--ink)}
+.funnel .f .p{font-family:var(--mono);text-align:right;color:var(--faint);font-size:11px}
+.hbars{display:flex;flex-direction:column;gap:8px}
+.hbars .h{display:grid;grid-template-columns:132px 1fr 70px;align-items:center;gap:10px;font-size:12.5px}
+.hbars .h .bar{height:16px;background:var(--card2);border-radius:4px;overflow:hidden}
+.hbars .h .bar i{display:block;height:100%;border-radius:4px;background:var(--navy)}
+.hbars .h .n{font-family:var(--mono);text-align:right}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.todo{list-style:none;display:flex;flex-direction:column;gap:8px}
+.todo li{display:flex;gap:10px;align-items:flex-start;padding:9px 10px;border:1px solid var(--border-soft);border-radius:8px;background:var(--card2)}
+.todo li .dot{width:9px;height:9px;border-radius:50%;margin-top:6px;flex:none;background:var(--blue)}
+.todo li .dot.w{background:var(--sun)}
+.todo li .dot.r{background:var(--bad)}
+.todo li small{display:block;color:var(--muted);font-size:11.5px}
+.todo li .act{margin-left:auto;flex:none;font-size:11.5px;color:var(--blue);border:1px solid var(--border);background:#fff;border-radius:6px;padding:3px 8px;cursor:pointer;font-family:var(--body)}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);text-align:left;padding:8px 8px;border-bottom:1px solid var(--border);font-weight:500}
+td{padding:9px 8px;border-bottom:1px solid var(--border-soft);vertical-align:middle}
+td.n,th.n{text-align:right;font-family:var(--mono)}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid var(--border);background:var(--card2);color:var(--muted);white-space:nowrap}
+.tag.new{background:#fff;color:var(--ink)}
+.tag.conv{background:rgba(42,111,168,.12);color:#1f5a8a;border-color:rgba(42,111,168,.3)}
+.tag.sess{background:rgba(107,95,191,.12);color:#4f4494;border-color:rgba(107,95,191,.3)}
+.tag.ins{background:rgba(29,122,77,.10);color:var(--good);border-color:rgba(29,122,77,.3)}
+.tag.dos{background:var(--warn-soft);color:var(--warn);border-color:rgba(178,124,28,.3)}
+.tag.enc{background:var(--navy);color:#fff;border-color:var(--navy)}
+.tag.src{background:#fff}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.filters select,.filters input{font-family:var(--body);font-size:12.5px;padding:6px 9px;border:1px solid var(--border);border-radius:8px;background:#fff;color:var(--ink)}
+.filters .cnt{margin-left:auto;font-size:12px;color:var(--muted);font-family:var(--mono)}
+.steps{display:flex;flex-direction:column;gap:8px}
+.step{display:grid;grid-template-columns:56px 1fr 90px 90px 90px;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--border-soft);border-radius:10px;background:var(--card2)}
+.step .day{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--navy)}
+.step .what b{display:block;font-weight:600}
+.step .what small{color:var(--muted);font-size:11.5px}
+.step .m{font-family:var(--mono);font-size:12px;text-align:right}
+.step .m small{display:block;font-family:var(--body);font-size:10.5px;color:var(--faint);letter-spacing:.06em;text-transform:uppercase}
+.step .ch{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.seg{display:grid;grid-template-columns:1.4fr 80px 90px 110px 90px;gap:10px;align-items:center;padding:9px 10px;border-bottom:1px solid var(--border-soft);font-size:12.5px}
+.seg:last-child{border-bottom:0}
+.seg .n{font-family:var(--mono);text-align:right}
+.seg .st{font-size:11px;padding:2px 8px;border-radius:999px;text-align:center}
+.seg .st.done{background:var(--good-soft);color:var(--good)}
+.seg .st.run{background:rgba(42,111,168,.12);color:#1f5a8a}
+.seg .st.plan{background:var(--card2);color:var(--muted);border:1px solid var(--border)}
+.sessions{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.sess{border:1px solid var(--border);border-radius:12px;padding:14px 16px;background:#fff}
+.sess .h{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.sess .h b{font-family:var(--disp);font-size:17px;color:var(--navy)}
+.sess .h span{font-size:12px;color:var(--muted)}
+.sess .theme{font-size:12px;color:var(--muted);margin:2px 0 8px}
+.sess .bar{height:12px;background:var(--card2);border-radius:6px;overflow:hidden;margin-bottom:6px}
+.sess .bar i{display:block;height:100%;background:var(--blue);border-radius:6px}
+.sess .bar i.full{background:var(--good)}
+.sess .bar i.low{background:var(--sky)}
+.sess .m{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.sess .m b{font-family:var(--mono);font-weight:500;color:var(--ink)}
+.sess .warnline{font-size:11.5px;color:var(--warn);margin-top:6px}
+.qual{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.qual div{background:var(--card2);border-radius:10px;padding:10px 12px}
+.qual b{display:block;font-family:var(--disp);font-size:22px;color:var(--navy)}
+.qual span{font-size:11.5px;color:var(--muted)}
+.hide{display:none}
+.tbl-alt{margin-top:10px}
+.foot{max-width:1240px;margin:0 auto;padding:10px 16px 30px;font-size:11.5px;color:var(--faint)}
+@media (max-width:980px){
+  .row.k6{grid-template-columns:repeat(3,1fr)}
+  .row.k4,.row.g2,.row.g21,.row.g11,.row.g3{grid-template-columns:1fr}
+  .sessions{grid-template-columns:1fr}
+  .step{grid-template-columns:48px 1fr;}
+  .step .m{text-align:left}
+  .seg{grid-template-columns:1fr 70px 80px}
+  .seg .hide-m{display:none}
+  .funnel .f{grid-template-columns:110px 1fr 56px 44px}
+  .qual{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:600px){.row.k6{grid-template-columns:repeat(2,1fr)}.top .t small{display:none}.top .right{display:none}}
+</style>
+</head>
+<body>
+<div class="demo">Maquette de démonstration : chiffres, prénoms et sessions fictifs. Semaine du 9 novembre 2026, treize jours après le premier envoi de la campagne.</div>
+<header class="top">
+  <div class="in">
+    <div class="logo"><svg xmlns="http://www.w3.org/2000/svg" width="188.845" height="46.967" viewBox="0 0 188.845 46.967">
+  <g transform="translate(-40.64 -81.185)">
+    <g transform="translate(40.783 90.319)">
+      <path d="M47.844,85.218h1.92l7.174,18.99h-1.92L53.1,98.885H44.39l-1.918,5.324H40.7Zm4.725,12.2-3.81-10.558L44.923,97.42Z" transform="translate(-40.701 -84.919)" fill="#1c3753"/>
+      <path d="M53.588,85.218H59.05a6.976,6.976,0,0,1,2.671.491A5.686,5.686,0,0,1,63.744,87.1a5.423,5.423,0,0,1,.959,1.6,5.188,5.188,0,0,1,.339,1.892,4.93,4.93,0,0,1-.678,2.608A5.425,5.425,0,0,1,62.593,95a5.84,5.84,0,0,1-2.009.8l5.55,8.4H64.008l-5.4-8.254H55.359v8.254H53.588Zm4.87,9.272a8.685,8.685,0,0,0,1.876-.166,4.293,4.293,0,0,0,1.373-.585,3.71,3.71,0,0,0,1.123-1.322,4.015,4.015,0,0,0,0-3.663,3.7,3.7,0,0,0-1.123-1.319,4.248,4.248,0,0,0-1.373-.587,8.7,8.7,0,0,0-1.876-.164h-3.1V94.49Z" transform="translate(-23.445 -84.919)" fill="#1c3753"/>
+      <path d="M65.276,85.218h5.462a6.976,6.976,0,0,1,2.671.491A5.686,5.686,0,0,1,75.432,87.1a5.423,5.423,0,0,1,.959,1.6,5.188,5.188,0,0,1,.339,1.892,4.93,4.93,0,0,1-.678,2.608A5.41,5.41,0,0,1,74.279,95a5.81,5.81,0,0,1-2.007.8l5.55,8.4H75.7l-5.4-8.254H67.047v8.254H65.276Zm4.87,9.272a8.685,8.685,0,0,0,1.876-.166,4.293,4.293,0,0,0,1.373-.585,3.709,3.709,0,0,0,1.123-1.322,4.015,4.015,0,0,0,0-3.663,3.7,3.7,0,0,0-1.123-1.319,4.248,4.248,0,0,0-1.373-.587,8.7,8.7,0,0,0-1.876-.164h-3.1V94.49Z" transform="translate(-7.795 -84.919)" fill="#1c3753"/>
+      <path d="M80.649,103.418a8.353,8.353,0,0,1-3.1-3.494,12.171,12.171,0,0,1,0-10.079,8.244,8.244,0,0,1,7.677-4.755,8.485,8.485,0,0,1,4.605,1.261,8.352,8.352,0,0,1,3.1,3.494,12.17,12.17,0,0,1,0,10.079,8.244,8.244,0,0,1-7.674,4.755A8.493,8.493,0,0,1,80.649,103.418Zm8.238-1.389a6.684,6.684,0,0,0,2.451-2.9,11,11,0,0,0,0-8.507A6.724,6.724,0,0,0,88.9,87.71a6.512,6.512,0,0,0-3.644-1.034,6.6,6.6,0,0,0-3.663,1.034,6.708,6.708,0,0,0-2.449,2.9,11,11,0,0,0,0,8.509,6.715,6.715,0,0,0,2.435,2.912,6.5,6.5,0,0,0,3.646,1.034A6.569,6.569,0,0,0,88.887,102.029Z" transform="translate(7.177 -85.09)" fill="#1c3753"/>
+      <path d="M89.75,85.218h1.986l4.479,16.9,5.12-16.9h2.241l5.12,16.9,4.479-16.9h1.857l-5.281,18.99H107.51l-5.12-16.9-5.118,16.9H95.031Z" transform="translate(24.975 -84.919)" fill="#1c3753"/>
+    </g>
+    <g transform="translate(40.64 113.21)">
+      <path d="M41.992,102.207a2.774,2.774,0,0,1-1-1.155,3.855,3.855,0,0,1-.356-1.693,3.62,3.62,0,0,1,.384-1.693,2.913,2.913,0,0,1,1.053-1.155,2.8,2.8,0,0,1,1.509-.414,2.626,2.626,0,0,1,1.424.365,2.426,2.426,0,0,1,.863.875l-.561.412a1.993,1.993,0,0,0-.664-.678,1.866,1.866,0,0,0-1.031-.285,2.089,2.089,0,0,0-1.1.295,2,2,0,0,0-.772.877,3.613,3.613,0,0,0,0,2.781,2.034,2.034,0,0,0,.753.875,1.915,1.915,0,0,0,1.043.295,1.846,1.846,0,0,0,1.158-.339,2.9,2.9,0,0,0,.653-.653l.533.456a3.737,3.737,0,0,1-.828.812,2.964,2.964,0,0,1-3.066.026Z" transform="translate(-40.64 -93.246)" fill="#1c3753"/>
+      <path d="M45.522,102.214a2.767,2.767,0,0,1-1.039-1.144,4.145,4.145,0,0,1,0-3.422A2.759,2.759,0,0,1,45.522,96.5a3.109,3.109,0,0,1,3.076,0,2.759,2.759,0,0,1,1.039,1.146,3.731,3.731,0,0,1,.37,1.7,3.775,3.775,0,0,1-.37,1.719,2.767,2.767,0,0,1-1.039,1.144,3.109,3.109,0,0,1-3.076,0Zm2.666-.578a2.05,2.05,0,0,0,.725-.91,3.5,3.5,0,0,0,.25-1.375,3.452,3.452,0,0,0-.25-1.359,2.043,2.043,0,0,0-.725-.912,2.121,2.121,0,0,0-2.257,0,2.024,2.024,0,0,0-.723.912,3.411,3.411,0,0,0-.253,1.359,3.461,3.461,0,0,0,.253,1.375,2.029,2.029,0,0,0,.723.91,2.121,2.121,0,0,0,2.257,0Z" transform="translate(-35.988 -93.246)" fill="#1c3753"/>
+      <path d="M48.206,96.1h.73L49,97.358a2.323,2.323,0,0,1,.877-.926,2.583,2.583,0,0,1,1.343-.337,2.012,2.012,0,0,1,1.471.552,2.3,2.3,0,0,1,.564,1.719v4.114h-.8V98.652a2.386,2.386,0,0,0-.32-1.359,1.272,1.272,0,0,0-1.123-.468,1.608,1.608,0,0,0-.954.309,2.483,2.483,0,0,0-.7.748,2.825,2.825,0,0,0-.353.823v3.775h-.8Z" transform="translate(-30.509 -93.246)" fill="#1c3753"/>
+      <path d="M53.052,102.4a3.23,3.23,0,0,1-.819-.482,2.232,2.232,0,0,1-.421-.428l.5-.482a3.115,3.115,0,0,0,.772.646,2.074,2.074,0,0,0,1.111.292,1.783,1.783,0,0,0,1.085-.285.934.934,0,0,0,.386-.793.809.809,0,0,0-.159-.505,1.1,1.1,0,0,0-.367-.306q-.2-.1-.484-.211c-.073-.028-.161-.058-.26-.091s-.211-.07-.344-.117c-.26-.082-.494-.164-.7-.248a1.7,1.7,0,0,1-1.237-1.572,1.528,1.528,0,0,1,.276-.9,1.762,1.762,0,0,1,.765-.606,2.739,2.739,0,0,1,1.123-.215,2.912,2.912,0,0,1,1.008.166,3.089,3.089,0,0,1,.711.351,2.367,2.367,0,0,1,.356.295l-.419.552a2.367,2.367,0,0,0-.7-.494,2.22,2.22,0,0,0-.982-.211,1.758,1.758,0,0,0-1.01.26.852.852,0,0,0-.377.751.768.768,0,0,0,.166.51,1.14,1.14,0,0,0,.365.295,4.847,4.847,0,0,0,.519.2l.239.077a2.2,2.2,0,0,1,.211.075l.746.262c.889.351,1.333.882,1.333,1.6a1.775,1.775,0,0,1-.161.751,1.561,1.561,0,0,1-.472.587,2.5,2.5,0,0,1-1.612.5A2.862,2.862,0,0,1,53.052,102.4Z" transform="translate(-25.681 -93.246)" fill="#1c3753"/>
+      <path d="M56.48,102.293a2.7,2.7,0,0,1-1.017-1.153,4.009,4.009,0,0,1-.363-1.766,3.934,3.934,0,0,1,.377-1.773,2.808,2.808,0,0,1,1.031-1.16,2.753,2.753,0,0,1,1.469-.4,2.457,2.457,0,0,1,2.313,1.453,3.578,3.578,0,0,1,.325,1.551v.421H55.94a3.318,3.318,0,0,0,.246,1.319,1.954,1.954,0,0,0,.725.889,1.982,1.982,0,0,0,1.134.318,3.1,3.1,0,0,0,1.221-.232,2.238,2.238,0,0,0,.814-.529l.393.55a2.474,2.474,0,0,1-.554.421,3.545,3.545,0,0,1-.861.351,4.048,4.048,0,0,1-1.081.14A2.8,2.8,0,0,1,56.48,102.293ZM59.8,98.834a2.8,2.8,0,0,0-.189-1.046,1.729,1.729,0,0,0-.6-.786,1.994,1.994,0,0,0-2.143.021,2.07,2.07,0,0,0-.66.814,2.979,2.979,0,0,0-.267,1Z" transform="translate(-21.278 -93.318)" fill="#1c3753"/>
+      <path d="M59.086,95.972a.6.6,0,0,1-.189-.449.634.634,0,0,1,.182-.456.6.6,0,0,1,.449-.189.634.634,0,0,1,.456.182.6.6,0,0,1,.189.449.634.634,0,0,1-.182.456.6.6,0,0,1-.449.189A.634.634,0,0,1,59.086,95.972Zm.049,1.754h.8v6.385h-.8Z" transform="translate(-16.194 -94.877)" fill="#1c3753"/>
+      <path d="M61.153,94.895h.8v9.192h-.8Z" transform="translate(-13.173 -94.853)" fill="#1c3753"/>
+      <path d="M71.777,104.021l-1.123-1.265a6.854,6.854,0,0,1-.625.606,3.752,3.752,0,0,1-.926.526,3.54,3.54,0,0,1-1.4.26,3.081,3.081,0,0,1-1.445-.316,2.28,2.28,0,0,1-.744-3.415,4.763,4.763,0,0,1,1.347-1.1l.419-.239-.236-.253a3.944,3.944,0,0,1-.681-.915,2.181,2.181,0,0,1-.274-1.053,1.813,1.813,0,0,1,.264-.957,1.933,1.933,0,0,1,.746-.69,2.5,2.5,0,0,1,2.189,0,1.876,1.876,0,0,1,.744.69,1.815,1.815,0,0,1,.267.957,1.767,1.767,0,0,1-.414,1.193,4.75,4.75,0,0,1-1.13.915l-.351.211,2.2,2.472a4.449,4.449,0,0,0,.554-1.06,4.844,4.844,0,0,0,.33-1.2l.7.168a3.534,3.534,0,0,1-.218.908,7.758,7.758,0,0,1-.442,1,4.366,4.366,0,0,1-.449.718l1.67,1.841Zm-2.891-.807a3.183,3.183,0,0,0,.737-.456,6.844,6.844,0,0,0,.54-.536l-2.456-2.741-.423.255a4.257,4.257,0,0,0-1.064.849,1.656,1.656,0,0,0-.379,1.118,1.684,1.684,0,0,0,.239.886,1.63,1.63,0,0,0,.695.617,2.633,2.633,0,0,0,2.112.007Zm-1.831-5.581a3.652,3.652,0,0,0,.54.695l.393.423.351-.213a3.548,3.548,0,0,0,.933-.751,1.332,1.332,0,0,0,.3-.865,1.38,1.38,0,0,0-.182-.716,1.272,1.272,0,0,0-.491-.479,1.448,1.448,0,0,0-.7-.168,1.329,1.329,0,0,0-1.158.648,1.239,1.239,0,0,0-.175.646A1.54,1.54,0,0,0,67.055,97.633Z" transform="translate(-7.967 -94.773)" fill="#1c3753"/>
+      <path d="M72.3,98.4h-1.01v-.632H72.3v-.847a2.593,2.593,0,0,1,.126-.879,1.84,1.84,0,0,1,.337-.587,1.557,1.557,0,0,1,.54-.4,1.812,1.812,0,0,1,.779-.161,2.463,2.463,0,0,1,.6.058q.232.056.351.1c.08.03.129.049.147.058l-.168.627a1.491,1.491,0,0,0-.344-.126,1.818,1.818,0,0,0-.456-.056A.974.974,0,0,0,73.3,96a1.339,1.339,0,0,0-.154.442,3.808,3.808,0,0,0-.042.625v.7h1.768V98.4H73.1v5.684h-.8Z" transform="translate(0.404 -94.853)" fill="#1c3753"/>
+      <path d="M75.211,102.214a2.767,2.767,0,0,1-1.039-1.144,4.122,4.122,0,0,1,0-3.422A2.759,2.759,0,0,1,75.211,96.5a3.1,3.1,0,0,1,3.073,0,2.76,2.76,0,0,1,1.039,1.146,3.732,3.732,0,0,1,.372,1.7,3.775,3.775,0,0,1-.372,1.719,2.767,2.767,0,0,1-1.039,1.144,3.1,3.1,0,0,1-3.073,0Zm2.666-.578a2.061,2.061,0,0,0,.723-.91,3.461,3.461,0,0,0,.253-1.375,3.411,3.411,0,0,0-.253-1.359,2.055,2.055,0,0,0-.723-.912,2.125,2.125,0,0,0-2.259,0,2.055,2.055,0,0,0-.723.912,3.411,3.411,0,0,0-.253,1.359,3.461,3.461,0,0,0,.253,1.375,2.061,2.061,0,0,0,.723.91,2.125,2.125,0,0,0,2.259,0Z" transform="translate(3.762 -93.246)" fill="#1c3753"/>
+      <path d="M81.191,96.165l-.14.814a.937.937,0,0,0-.421-.084,1.631,1.631,0,0,0-.982.316,2.453,2.453,0,0,0-.6.643,2.33,2.33,0,0,0-.358.931v3.7h-.8V96.1h.73l.07,1.347a2.768,2.768,0,0,1,.47-.737,1.6,1.6,0,0,1,.7-.477A2.623,2.623,0,0,1,80.7,96.1,1.555,1.555,0,0,1,81.191,96.165Z" transform="translate(9.241 -93.246)" fill="#1c3753"/>
+      <path d="M80.7,96.1h.73l.07,1.263a2.4,2.4,0,0,1,.512-.695,1.852,1.852,0,0,1,.751-.442A2.921,2.921,0,0,1,83.6,96.1a1.876,1.876,0,0,1,1.169.358,1.8,1.8,0,0,1,.627,1.116,2.73,2.73,0,0,1,.926-1.06,2.167,2.167,0,0,1,1.247-.414,2.1,2.1,0,0,1,.912.2,1.526,1.526,0,0,1,.688.674,2.505,2.505,0,0,1,.267,1.244v4.266h-.8V98.432a3.142,3.142,0,0,0-.1-.851,1.02,1.02,0,0,0-.372-.55,1.309,1.309,0,0,0-.793-.206,1.431,1.431,0,0,0-.926.344,2.835,2.835,0,0,0-.681.8,2.293,2.293,0,0,0-.3.739v3.775h-.8V98.432a3.238,3.238,0,0,0-.1-.851,1.023,1.023,0,0,0-.374-.55,1.31,1.31,0,0,0-.791-.206,1.422,1.422,0,0,0-.926.344,2.76,2.76,0,0,0-.681.8,2.2,2.2,0,0,0-.3.739v3.775h-.8Z" transform="translate(12.993 -93.246)" fill="#1c3753"/>
+      <path d="M90.893,101.949a3,3,0,0,0,.206.545h-.915a2.929,2.929,0,0,1-.14-.842,2.519,2.519,0,0,1-.847.695,2.707,2.707,0,0,1-1.258.274,2.263,2.263,0,0,1-.987-.213,1.7,1.7,0,0,1-.711-.636,1.9,1.9,0,0,1-.264-1.039,1.525,1.525,0,0,1,.5-1.256,2.965,2.965,0,0,1,1.111-.58,7.359,7.359,0,0,1,1.036-.185,11.533,11.533,0,0,1,1.389-.077v-.479a1.357,1.357,0,0,0-.323-.947,1.243,1.243,0,0,0-.54-.344,2.3,2.3,0,0,0-.723-.11,3.4,3.4,0,0,0-1.074.166,2.985,2.985,0,0,0-.821.4l-.323-.613a4.868,4.868,0,0,1,.985-.43,3.879,3.879,0,0,1,1.191-.18,2.683,2.683,0,0,1,1.8.552,1.687,1.687,0,0,1,.463.648,2.787,2.787,0,0,1,.168,1.062v2.9A2.681,2.681,0,0,0,90.893,101.949Zm-.877-2.683c-.187,0-.461.014-.819.042s-.639.058-.837.094q-1.544.26-1.544,1.308a1.132,1.132,0,0,0,.407.987,1.537,1.537,0,0,0,.926.292,2.022,2.022,0,0,0,.662-.122,2.424,2.424,0,0,0,.681-.381,1.945,1.945,0,0,0,.524-.641Z" transform="translate(20.064 -93.246)" fill="#1c3753"/>
+      <path d="M90.812,103.174a1.317,1.317,0,0,1-.323-.639,5.125,5.125,0,0,1-.084-1.046V97.771h-.968v-.632h.968l.112-1.824h.688v1.824h1.881v.632H91.205V101.5a3.652,3.652,0,0,0,.07.837.848.848,0,0,0,.239.43.808.808,0,0,0,.344.189,1.709,1.709,0,0,0,.428.049,2.019,2.019,0,0,0,.316-.028,1.93,1.93,0,0,0,.3-.07l.112.62a2.767,2.767,0,0,1-.449.1,3.93,3.93,0,0,1-.533.04A1.546,1.546,0,0,1,90.812,103.174Z" transform="translate(24.699 -94.291)" fill="#1c3753"/>
+      <path d="M92.506,95.972a.6.6,0,0,1-.189-.449.634.634,0,0,1,.182-.456.6.6,0,0,1,.449-.189.634.634,0,0,1,.456.182.6.6,0,0,1,.189.449.634.634,0,0,1-.182.456.6.6,0,0,1-.449.189A.634.634,0,0,1,92.506,95.972Zm.049,1.754h.8v6.385h-.8Z" transform="translate(28.555 -94.877)" fill="#1c3753"/>
+      <path d="M95.743,102.214A2.767,2.767,0,0,1,94.7,101.07a4.122,4.122,0,0,1,0-3.422A2.759,2.759,0,0,1,95.743,96.5a3.1,3.1,0,0,1,3.073,0,2.759,2.759,0,0,1,1.039,1.146,3.732,3.732,0,0,1,.372,1.7,3.775,3.775,0,0,1-.372,1.719,2.767,2.767,0,0,1-1.039,1.144,3.1,3.1,0,0,1-3.073,0Zm2.666-.578a2.061,2.061,0,0,0,.723-.91,3.461,3.461,0,0,0,.253-1.375,3.41,3.41,0,0,0-.253-1.359,2.055,2.055,0,0,0-.723-.912,2.125,2.125,0,0,0-2.259,0,2.055,2.055,0,0,0-.723.912,3.411,3.411,0,0,0-.253,1.359,3.461,3.461,0,0,0,.253,1.375,2.061,2.061,0,0,0,.723.91,2.125,2.125,0,0,0,2.259,0Z" transform="translate(31.254 -93.246)" fill="#1c3753"/>
+      <path d="M98.425,96.1h.73l.07,1.263a2.292,2.292,0,0,1,.877-.926,2.581,2.581,0,0,1,1.34-.337,2.014,2.014,0,0,1,1.474.552,2.311,2.311,0,0,1,.561,1.719v4.114h-.8V98.652a2.385,2.385,0,0,0-.323-1.359,1.269,1.269,0,0,0-1.123-.468,1.613,1.613,0,0,0-.954.309,2.513,2.513,0,0,0-.7.748,2.751,2.751,0,0,0-.351.823v3.775h-.8Z" transform="translate(36.733 -93.246)" fill="#1c3753"/>
+    </g>
+    <path d="M144.688,104.7l-14.8,8.439s-1.9-15.575-25.918-31.951" transform="translate(84.797)" fill="#1c3753"/>
+    <path d="M103.969,81.185s20.384,10.479,40.719,23.511" transform="translate(84.797)" fill="#1c3753"/>
+    <path d="M103.808,120.1s12.619-10.256,10.184-32.9c0,0,7.176,10.394,6.388,23.425L103.808,120.1" transform="translate(84.581 8.055)" fill="#1bedf5"/>
+  </g>
+</svg></div>
+    <div class="t">Cockpit acquisition<small>Une seule vue : contacts, campagnes, inscriptions, sessions</small></div>
+    <div class="right"><span class="pill">Semaine 46</span><span>Jean · Célia · direction</span></div>
+  </div>
+</header>
+<nav class="tabs"><div class="in">
+  <button class="on" data-v="v1">Vue d'ensemble</button>
+  <button data-v="v2">Campagne Budget AGEFICE 2026</button>
+  <button data-v="v3">Pipeline</button>
+  <button data-v="v4">Sessions 2027</button>
+  <button data-v="v5">Base contacts</button>
+  <button data-v="v6">Relances ALUR</button>
+</div></nav>
+
+<main>
+<!-- ===== VUE D'ENSEMBLE ===== -->
+<section class="view on" id="v1">
+  <div class="row k6">
+    <div class="card kpi"><div class="lab">Inscrits depuis le 27/10</div><div class="v">63</div><div class="d up">+19 cette semaine</div></div>
+    <div class="card kpi"><div class="lab">CA signé attribué</div><div class="v">126 000 €</div><div class="d">63 places à 2 000 €</div></div>
+    <div class="card kpi"><div class="lab">Encaissé</div><div class="v">98 000 €</div><div class="d">49 paiements GoCardless</div></div>
+    <div class="card kpi"><div class="lab">Dossiers AGEFICE</div><div class="v">51</div><div class="d">12 à déposer (Célia)</div></div>
+    <div class="card kpi"><div class="lab">Conversations en cours</div><div class="v">87</div><div class="d">31 sans réponse depuis 3 jours</div></div>
+    <div class="card kpi"><div class="lab">Coût par inscrit</div><div class="v">38 €</div><div class="d">SMS + outils, hors temps</div></div>
+  </div>
+  <div class="row g2">
+    <div class="card">
+      <div class="hdr"><div><h3>Inscriptions par semaine</h3><div class="sub">Campagne Budget AGEFICE 2026, depuis le premier envoi du 27 octobre</div></div><button class="tog" data-t="t-weeks">Voir en tableau</button></div>
+      <div class="chart" id="c-weeks">
+        <div class="bars">
+          <div class="b" data-l="Semaine 44" data-v="11"><b>11</b><i style="height:31%"></i><span>S44</span></div>
+          <div class="b" data-l="Semaine 45" data-v="33"><b>33</b><i style="height:82%"></i><span>S45</span></div>
+          <div class="b" data-l="Semaine 46, en cours" data-v="19"><b>19</b><i style="height:47%"></i><span>S46</span></div>
+          <div class="b fc" data-l="Semaine 47, prévision" data-v="24"><b>24</b><i style="height:60%"></i><span>S47 prév.</span></div>
+          <div class="b fc" data-l="Semaine 48, prévision" data-v="21"><b>21</b><i style="height:52%"></i><span>S48 prév.</span></div>
+          <div class="b fc" data-l="Semaine 49, prévision" data-v="17"><b>17</b><i style="height:42%"></i><span>S49 prév.</span></div>
+        </div>
+        <div class="tip"></div>
+      </div>
+      <div class="legend"><span><i style="background:var(--c1)"></i>Inscrits</span><span><i style="background:var(--sky)"></i>Prévision (séquences planifiées)</span></div>
+      <table class="tbl-alt hide" id="t-weeks"><thead><tr><th>Semaine</th><th class="n">Inscrits</th><th class="n">Cumul</th></tr></thead><tbody>
+        <tr><td>S44</td><td class="n">11</td><td class="n">11</td></tr><tr><td>S45</td><td class="n">33</td><td class="n">44</td></tr><tr><td>S46 (en cours)</td><td class="n">19</td><td class="n">63</td></tr><tr><td>S47 (prévision)</td><td class="n">24</td><td class="n">87</td></tr><tr><td>S48 (prévision)</td><td class="n">21</td><td class="n">108</td></tr><tr><td>S49 (prévision)</td><td class="n">17</td><td class="n">125</td></tr></tbody></table>
+    </div>
+    <div class="card">
+      <div class="hdr"><div><h3>Du contact à l'encaissement</h3><div class="sub">Vague 1 : anciens clients, communauté, IAD Grand Ouest</div></div></div>
+      <div class="funnel">
+        <div class="f"><span>Contactés</span><div class="bar"><i style="width:100%"></i></div><span class="n">6 400</span><span class="p"></span></div>
+        <div class="f"><span>Mails ouverts</span><div class="bar"><i style="width:46%"></i></div><span class="n">2 950</span><span class="p">46 %</span></div>
+        <div class="f"><span>Réponses ou clics</span><div class="bar"><i style="width:6.4%"></i></div><span class="n">412</span><span class="p">6,4 %</span></div>
+        <div class="f"><span>Conversations</span><div class="bar"><i style="width:2.9%"></i></div><span class="n">187</span><span class="p">2,9 %</span></div>
+        <div class="f"><span>Inscrits SmartOF</span><div class="bar"><i style="width:1%;min-width:6px"></i></div><span class="n">63</span><span class="p">1,0 %</span></div>
+        <div class="f"><span>Dossiers déposés</span><div class="bar"><i style="width:.8%;min-width:5px"></i></div><span class="n">51</span><span class="p">0,8 %</span></div>
+        <div class="f"><span>Encaissés</span><div class="bar"><i style="width:.77%;min-width:5px"></i></div><span class="n">49</span><span class="p">0,77 %</span></div>
+      </div>
+      <div class="sub" style="margin-top:12px">Lecture : 1 contact sur 100 s'inscrit. Sur 24 000 contacts, la même mécanique vise 240 inscrits par campagne.</div>
+    </div>
+  </div>
+  <div class="row g11">
+    <div class="card">
+      <div class="hdr"><div><h3>À faire aujourd'hui</h3><div class="sub">Généré chaque matin depuis le pipeline, une personne par ligne</div></div></div>
+      <ul class="todo">
+        <li><span class="dot r"></span><div>31 conversations sans réponse depuis 3 jours<small>Relance prête à envoyer (SMS court, lien d'inscription Lisbonne)</small></div><button class="act">Envoyer les 31</button></li>
+        <li><span class="dot w"></span><div>12 inscrits sans dossier AGEFICE déposé<small>Pièces manquantes chez 5 d'entre eux, rappel automatique envoyé hier</small></div><button class="act">Voir la liste</button></li>
+        <li><span class="dot"></span><div>Lisbonne 18-22 janvier : 22 / 25, envoyer "dernières places" à 640 contacts<small>Segment IAD Grand Ouest, n'ayant pas encore choisi de session</small></div><button class="act">Programmer</button></li>
+        <li><span class="dot"></span><div>Vague 2 : IAD Île-de-France (3 100 contacts) part lundi 16 novembre<small>Domaines chauffés depuis 3 semaines, séquence validée par Arrow le 5/11</small></div><button class="act">Vérifier</button></li>
+        <li><span class="dot w"></span><div>3 leaders ont demandé un devis équipe (4 à 6 personnes)<small>Appel à passer par Jean, propositions Marrakech et Barcelone</small></div><button class="act">Ouvrir</button></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="hdr"><div><h3>Inscrits par canal d'origine</h3><div class="sub">Premier contact qui a déclenché la conversation</div></div><button class="tog" data-t="t-chan">Voir en tableau</button></div>
+      <div class="hbars">
+        <div class="h"><span>Email</span><div class="bar"><i style="width:100%;background:var(--c1)"></i></div><span class="n">34</span></div>
+        <div class="h"><span>SMS</span><div class="bar"><i style="width:56%;background:var(--c2)"></i></div><span class="n">19</span></div>
+        <div class="h"><span>Commu WhatsApp</span><div class="bar"><i style="width:29%;background:var(--c3)"></i></div><span class="n">10</span></div>
+      </div>
+      <div class="legend"><span><i style="background:var(--c1)"></i>Email</span><span><i style="background:var(--c2)"></i>SMS</span><span><i style="background:var(--c3)"></i>Commu WhatsApp</span></div>
+      <table class="tbl-alt hide" id="t-chan"><thead><tr><th>Canal</th><th class="n">Inscrits</th><th class="n">Part</th></tr></thead><tbody><tr><td>Email</td><td class="n">34</td><td class="n">54 %</td></tr><tr><td>SMS</td><td class="n">19</td><td class="n">30 %</td></tr><tr><td>Commu WhatsApp</td><td class="n">10</td><td class="n">16 %</td></tr></tbody></table>
+      <div class="sub" style="margin-top:14px">Le SMS déclenche moins mais convertit plus vite : 4 jours en moyenne entre le premier message et l'inscription, contre 9 pour l'email.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CAMPAGNE ===== -->
+<section class="view" id="v2">
+  <div class="row k4">
+    <div class="card kpi"><div class="lab">Message</div><div class="v" style="font-size:20px">Votre budget 2026 expire le 31 décembre</div><div class="d">Une semaine immersive, 42 h ALUR, hôtel compris, prise en charge à 100 %</div></div>
+    <div class="card kpi"><div class="lab">Contacts engagés</div><div class="v">6 400</div><div class="d">sur 24 000, vague 1</div></div>
+    <div class="card kpi"><div class="lab">Désinscriptions</div><div class="v">0,9 %</div><div class="d">58 personnes, retirées partout</div></div>
+    <div class="card kpi"><div class="lab">Délivrabilité</div><div class="v">98,4 %</div><div class="d">3 domaines d'envoi, réputation stable</div></div>
+  </div>
+  <div class="row g21">
+    <div class="card">
+      <div class="hdr"><div><h3>La séquence, telle qu'elle tourne</h3><div class="sub">Chaque contact avance à son rythme ; une réponse arrête la séquence et ouvre une conversation</div></div></div>
+      <div class="steps">
+        <div class="step"><span class="day">J0</span><div class="what"><b><i class="ch" style="background:var(--c1)"></i>Email : votre budget formation 2026 expire le 31/12</b><small>Personnalisé par réseau et par région, lien vers la page d'inscription</small></div><div class="m">6 400<small>envoyés</small></div><div class="m">46 %<small>ouverts</small></div><div class="m">214<small>réponses</small></div></div>
+        <div class="step"><span class="day">J+3</span><div class="what"><b><i class="ch" style="background:var(--c2)"></i>SMS : "3 000 € de budget, 3 dates, une réponse suffit"</b><small>Envoyé seulement à ceux qui n'ont pas répondu, STOP en un mot</small></div><div class="m">5 180<small>envoyés</small></div><div class="m">-<small></small></div><div class="m">131<small>réponses</small></div></div>
+        <div class="step"><span class="day">J+7</span><div class="what"><b><i class="ch" style="background:var(--c1)"></i>Email : témoignage vidéo d'un leader revenu de Marrakech</b><small>90 secondes, filmé pendant la session d'octobre</small></div><div class="m">4 870<small>envoyés</small></div><div class="m">39 %<small>ouverts</small></div><div class="m">48<small>réponses</small></div></div>
+        <div class="step"><span class="day">J+12</span><div class="what"><b><i class="ch" style="background:var(--c2)"></i>SMS : dernier rappel avant clôture des dossiers 2026</b><small>Avec la date limite de dépôt AGEFICE</small></div><div class="m">4 610<small>envoyés</small></div><div class="m">-<small></small></div><div class="m">19<small>réponses</small></div></div>
+        <div class="step"><span class="day">J+20</span><div class="what"><b><i class="ch" style="background:var(--c1)"></i>Email : dernières places Lisbonne et Málaga</b><small>Programmé, part le 16 novembre</small></div><div class="m">-<small>planifié</small></div><div class="m">-<small></small></div><div class="m">-<small></small></div></div>
+      </div>
+      <div class="legend"><span><i style="background:var(--c1)"></i>Email</span><span><i style="background:var(--c2)"></i>SMS</span></div>
+    </div>
+    <div class="card">
+      <div class="hdr"><div><h3>Ce que répondent les gens</h3><div class="sub">412 réponses classées automatiquement, relues par Jean</div></div></div>
+      <div class="hbars">
+        <div class="h"><span>Intéressé, quelle date</span><div class="bar"><i style="width:100%"></i></div><span class="n">176</span></div>
+        <div class="h"><span>Budget déjà utilisé</span><div class="bar"><i style="width:44%"></i></div><span class="n">78</span></div>
+        <div class="h"><span>Pas dispo, l'an prochain</span><div class="bar"><i style="width:36%"></i></div><span class="n">63</span></div>
+        <div class="h"><span>Question financement</span><div class="bar"><i style="width:26%"></i></div><span class="n">46</span></div>
+        <div class="h"><span>Vient avec son équipe</span><div class="bar"><i style="width:9%"></i></div><span class="n">16</span></div>
+        <div class="h"><span>Ne plus contacter</span><div class="bar"><i style="width:19%"></i></div><span class="n">33</span></div>
+      </div>
+      <div class="sub" style="margin-top:12px">"Budget déjà utilisé" et "l'an prochain" repartent automatiquement dans la campagne de janvier, budget 2027.</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="hdr"><div><h3>Segments et calendrier d'envoi</h3><div class="sub">Base chaude d'abord, puis conquête par réseau et par région, jamais toute la base d'un coup</div></div></div>
+    <div class="seg" style="font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)"><span>Segment</span><span class="n">Contacts</span><span class="n hide-m">Inscrits</span><span class="hide-m">Envoi</span><span>Statut</span></div>
+    <div class="seg"><span>Anciens clients SmartOF (formés 2023-2025)</span><span class="n">1 012</span><span class="n hide-m">27</span><span class="hide-m">27 oct.</span><span class="st done">Terminé</span></div>
+    <div class="seg"><span>Communauté WhatsApp Arrow</span><span class="n">700</span><span class="n hide-m">14</span><span class="hide-m">27 oct.</span><span class="st done">Terminé</span></div>
+    <div class="seg"><span>IAD Grand Ouest (44, 35, 49, 56, 85)</span><span class="n">2 380</span><span class="n hide-m">18</span><span class="hide-m">3 nov.</span><span class="st run">Séquence en cours</span></div>
+    <div class="seg"><span>Safti Ouest et Sud-Ouest</span><span class="n">1 460</span><span class="n hide-m">4</span><span class="hide-m">5 nov.</span><span class="st run">Séquence en cours</span></div>
+    <div class="seg"><span>IAD Île-de-France</span><span class="n">3 100</span><span class="n hide-m">-</span><span class="hide-m">16 nov.</span><span class="st plan">Planifié</span></div>
+    <div class="seg"><span>IAD Sud-Est et Occitanie</span><span class="n">3 900</span><span class="n hide-m">-</span><span class="hide-m">23 nov.</span><span class="st plan">Planifié</span></div>
+    <div class="seg"><span>Efficity France</span><span class="n">3 300</span><span class="n hide-m">-</span><span class="hide-m">30 nov.</span><span class="st plan">Planifié</span></div>
+    <div class="seg"><span>BSK France</span><span class="n">2 400</span><span class="n hide-m">-</span><span class="hide-m">1 déc.</span><span class="st plan">Planifié</span></div>
+    <div class="seg"><span>Reste IAD (autres régions)</span><span class="n">5 750</span><span class="n hide-m">-</span><span class="hide-m">janv. 2027, budget 2027</span><span class="st plan">Planifié</span></div>
+  </div>
+</section>
+
+<!-- ===== PIPELINE ===== -->
+<section class="view" id="v3">
+  <div class="card">
+    <div class="hdr"><div><h3>Pipeline</h3><div class="sub">Une ligne par personne, du premier message à l'encaissement. Jean voit ses conversations, Célia ses dossiers, la direction voit tout.</div></div></div>
+    <div class="filters">
+      <select id="f-st"><option value="">Tous les statuts</option><option>Nouveau</option><option>En conversation</option><option>Session choisie</option><option>Inscrit SmartOF</option><option>Dossier déposé</option><option>Encaissé</option></select>
+      <select id="f-net"><option value="">Tous les réseaux</option><option>IAD</option><option>Safti</option><option>Efficity</option><option>BSK</option><option>Indépendant</option></select>
+      <select id="f-src"><option value="">Toutes les sources</option><option>Email</option><option>SMS</option><option>Commu WhatsApp</option><option>Parrainage</option></select>
+      <input id="f-q" placeholder="Rechercher un nom, une ville">
+      <span class="cnt" id="cnt"></span>
+    </div>
+    <div style="overflow-x:auto"><table id="pipe"><thead><tr><th>Contact</th><th>Réseau</th><th>Ville</th><th>Source</th><th>Dernière action</th><th>Statut</th><th>Session</th><th class="n">Montant</th></tr></thead><tbody></tbody></table></div>
+  </div>
+</section>
+
+<!-- ===== SESSIONS ===== -->
+<section class="view" id="v4">
+  <div class="row k4">
+    <div class="card kpi"><div class="lab">Sessions 2027</div><div class="v">10</div><div class="d">6 destinations, 5 jours, 42 h ALUR</div></div>
+    <div class="card kpi"><div class="lab">Places vendues</div><div class="v">65 / 400</div><div class="d">capacité 25 puis 50 à partir de mai</div></div>
+    <div class="card kpi"><div class="lab">CA sessions 2027</div><div class="v">130 000 €</div><div class="d">objectif 800 000 € sur l'immersif</div></div>
+    <div class="card kpi"><div class="lab">Devis équipe</div><div class="v">3</div><div class="d">leaders venant avec 4 à 6 personnes</div></div>
+  </div>
+  <div class="card">
+    <div class="hdr"><div><h3>Remplissage des sessions</h3><div class="sub">Une session à 25 = 50 000 €. Le cockpit alerte quand une session passe sous 12 inscrits à 45 jours du départ.</div></div></div>
+    <div class="sessions" id="sess"></div>
+  </div>
+</section>
+
+<!-- ===== BASE ===== -->
+<section class="view" id="v5">
+  <div class="row g11">
+    <div class="card">
+      <div class="hdr"><div><h3>Base de contacts unifiée</h3><div class="sub">Airtable, SmartOF, communauté WhatsApp et formulaires du site, fusionnés et dédoublonnés</div></div><button class="tog" data-t="t-base">Voir en tableau</button></div>
+      <div class="hbars">
+        <div class="h"><span>IAD</span><div class="bar"><i style="width:100%"></i></div><span class="n">14 200</span></div>
+        <div class="h"><span>Safti</span><div class="bar"><i style="width:29%"></i></div><span class="n">4 100</span></div>
+        <div class="h"><span>Efficity</span><div class="bar"><i style="width:23%"></i></div><span class="n">3 300</span></div>
+        <div class="h"><span>BSK</span><div class="bar"><i style="width:17%"></i></div><span class="n">2 400</span></div>
+        <div class="h"><span>Anciens clients hors réseau</span><div class="bar"><i style="width:3%"></i></div><span class="n">412</span></div>
+      </div>
+      <table class="tbl-alt hide" id="t-base"><thead><tr><th>Réseau</th><th class="n">Contacts</th><th class="n">Avec email</th><th class="n">Avec mobile</th></tr></thead><tbody><tr><td>IAD</td><td class="n">14 200</td><td class="n">13 100</td><td class="n">13 900</td></tr><tr><td>Safti</td><td class="n">4 100</td><td class="n">1 240</td><td class="n">4 020</td></tr><tr><td>Efficity</td><td class="n">3 300</td><td class="n">980</td><td class="n">3 210</td></tr><tr><td>BSK</td><td class="n">2 400</td><td class="n">610</td><td class="n">2 350</td></tr><tr><td>Anciens clients hors réseau</td><td class="n">412</td><td class="n">412</td><td class="n">398</td></tr></tbody></table>
+      <div class="sub" style="margin-top:14px">24 412 personnes. Chaque fiche porte son réseau, sa région, son historique de formation chez Arrow, son cycle ALUR et son consentement.</div>
+    </div>
+    <div class="card">
+      <div class="hdr"><div><h3>Qualité de la donnée</h3><div class="sub">Mesurée à l'import, puis à chaque envoi</div></div></div>
+      <div class="qual">
+        <div><b>67 %</b><span>emails vérifiés joignables</span></div>
+        <div><b>96 %</b><span>mobiles au format valide</span></div>
+        <div><b>1 180</b><span>doublons fusionnés</span></div>
+        <div><b>214</b><span>oppositions enregistrées</span></div>
+        <div><b>1 012</b><span>anciens clients rattachés à leur fiche</span></div>
+        <div><b>700</b><span>membres de la commu identifiés</span></div>
+        <div><b>38 %</b><span>fiches avec région renseignée, en cours d'enrichissement</span></div>
+        <div><b>0</b><span>envoi possible sans validation d'Arrow</span></div>
+      </div>
+      <div class="sub" style="margin-top:14px">Toute personne qui répond STOP, se désinscrit ou écrit "ne plus me contacter" est retirée de tous les canaux en même temps. Le registre des oppositions est exportable pour Arrow.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ALUR ===== -->
+<section class="view" id="v6">
+  <div class="row k4">
+    <div class="card kpi"><div class="lab">Anciens clients suivis</div><div class="v">1 012</div><div class="d">heures validées chez Arrow, par personne</div></div>
+    <div class="card kpi"><div class="lab">Arrivent en fin de cycle en 2027</div><div class="v">296</div><div class="d">relance automatique J-120, J-60, J-20</div></div>
+    <div class="card kpi"><div class="lab">Déjà réinscrits</div><div class="v">27</div><div class="d">via la campagne budget 2026</div></div>
+    <div class="card kpi"><div class="lab">Budget 2026 non engagé</div><div class="v">641</div><div class="d">anciens clients sans formation cette année</div></div>
+  </div>
+  <div class="card">
+    <div class="hdr"><div><h3>Cycle ALUR par cohorte</h3><div class="sub">14 h par an ou 42 h sur trois années consécutives. Une semaine immersive vaut 42 h : un client formé une fois est tranquille trois ans, et revient au bon moment s'il est relancé au bon moment.</div></div></div>
+    <div style="overflow-x:auto"><table><thead><tr><th>Cohorte</th><th class="n">Clients</th><th>Ce qu'ils ont validé chez Arrow</th><th>Prochaine échéance</th><th>Relance</th><th class="n">Réinscrits</th></tr></thead><tbody>
+      <tr><td>Formés en 2023</td><td class="n">318</td><td>28 h en moyenne (sessions France)</td><td>Fin du cycle 2023-2025 : heures à compléter avant fin 2026</td><td><span class="tag dos">En cours, budget 2026</span></td><td class="n">14</td></tr>
+      <tr><td>Formés en 2024</td><td class="n">402</td><td>31 h en moyenne</td><td>Il leur manque 11 h avant fin 2026 pour boucler 42 h</td><td><span class="tag dos">En cours, budget 2026</span></td><td class="n">9</td></tr>
+      <tr><td>Formés en 2025, sessions France</td><td class="n">196</td><td>28 h</td><td>14 h à faire en 2026 ou 2027</td><td><span class="tag conv">Planifiée janvier 2027</span></td><td class="n">4</td></tr>
+      <tr><td>Formés en 2025, immersif</td><td class="n">96</td><td>57 h (15 h visio + 42 h présentiel)</td><td>Cycle couvert jusqu'en 2027</td><td><span class="tag src">Relance parrainage et équipe</span></td><td class="n">-</td></tr>
+      <tr><td>Inscrits 2026 (campagne)</td><td class="n">63</td><td>57 h à venir</td><td>Cycle couvert jusqu'en 2029</td><td><span class="tag src">Communauté, contenu</span></td><td class="n">-</td></tr>
+    </tbody></table></div>
+  </div>
+</section>
+</main>
+<div class="foot">Cockpit acquisition Arrow, maquette du 29 septembre 2026 par Eric Eudeline. Données fictives à des fins de démonstration. Fonctionne sur ordinateur, tablette et téléphone.</div>
+
+<script>
+(function(){
+  // Tabs
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('nav.tabs button').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('section.view').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');document.getElementById(b.dataset.v).classList.add('on');window.scrollTo({top:0});
+  }));
+  // Table toggles
+  document.querySelectorAll('.tog').forEach(t=>t.addEventListener('click',()=>{
+    const el=document.getElementById(t.dataset.t);el.classList.toggle('hide');
+    t.textContent=el.classList.contains('hide')?'Voir en tableau':'Masquer le tableau';
+  }));
+  // Hover tooltip on bar chart
+  const ch=document.getElementById('c-weeks');
+  if(ch){const tip=ch.querySelector('.tip');
+    ch.querySelectorAll('.b').forEach(b=>{
+      b.addEventListener('mouseenter',()=>{tip.innerHTML=b.dataset.l+' : <b>'+b.dataset.v+' inscrits</b>';tip.style.opacity=1});
+      b.addEventListener('mousemove',e=>{const r=ch.getBoundingClientRect();tip.style.left=(e.clientX-r.left)+'px';tip.style.top=(e.clientY-r.top)+'px'});
+      b.addEventListener('mouseleave',()=>tip.style.opacity=0);
+    });}
+  // Pipeline data
+  const P=[
+    ['Sophie R.','IAD','Vannes','Email','A choisi Lisbonne, dossier déposé le 6/11','Dossier déposé','Lisbonne 18-22 janv.',2000],
+    ['Karim B.','IAD','Nantes','SMS','Paiement reçu le 8/11','Encaissé','Lisbonne 18-22 janv.',2000],
+    ['Élodie M.','Safti','La Rochelle','Email','Question : "et si je ne peux pas avancer les 2 000 € ?"','En conversation','',0],
+    ['Thomas L.','IAD','Rennes','Commu WhatsApp','Inscrit sur SmartOF, pièces AGEFICE en attente','Inscrit SmartOF','Málaga 8-12 févr.',2000],
+    ['Nadia C.','Efficity','Angers','Email','A cliqué deux fois sur Marrakech, pas de réponse (J+3)','Nouveau','',0],
+    ['Julien P.','IAD','Saint-Malo','Parrainage','Vient avec 4 personnes de son équipe, devis envoyé','Session choisie','Marrakech 8-12 mars',10000],
+    ['Camille D.','BSK','Le Mans','SMS','Rappel demandé mercredi 16 h','En conversation','',0],
+    ['Marc T.','IAD','Lorient','Email','Paiement reçu, dossier accepté par AGEFICE','Encaissé','Lisbonne 18-22 janv.',2000],
+    ['Inès G.','Safti','Bordeaux','SMS','A choisi Barcelone, lien d’inscription envoyé','Session choisie','Barcelone 12-16 avr.',2000],
+    ['Pierre-Yves H.','IAD','Quimper','Email','Budget 2026 déjà utilisé, à recontacter en janvier','En conversation','',0],
+    ['Laura S.','IAD','Nantes','Commu WhatsApp','Inscrite, dossier déposé le 4/11','Dossier déposé','Málaga 8-12 févr.',2000],
+    ['Antoine V.','Efficity','Tours','Email','Sans réponse depuis 4 jours, relance SMS prête','Nouveau','',0],
+    ['Mathilde R.','IAD','Brest','SMS','Paiement reçu le 9/11','Encaissé','Málaga 8-12 févr.',2000],
+    ['Hugo F.','Indépendant','Niort','Email','Demande le programme Stratégie digitale et IA','En conversation','',0],
+    ['Céline A.','IAD','Laval','Parrainage','Amenée par Julien P., inscrite','Inscrit SmartOF','Marrakech 8-12 mars',2000],
+    ['Romain N.','Safti','Poitiers','SMS','Ne plus contacter (retiré de tous les canaux)','Nouveau','',0]
+  ];
+  const cls={'Nouveau':'new','En conversation':'conv','Session choisie':'sess','Inscrit SmartOF':'ins','Dossier déposé':'dos','Encaissé':'enc'};
+  const tb=document.querySelector('#pipe tbody');
+  function render(){
+    const st=document.getElementById('f-st').value,net=document.getElementById('f-net').value,src=document.getElementById('f-src').value,q=document.getElementById('f-q').value.toLowerCase();
+    let n=0;tb.innerHTML='';
+    P.forEach(r=>{
+      if(st&&r[5]!==st)return;if(net&&r[1]!==net)return;if(src&&r[3]!==src)return;
+      if(q&&!(r[0]+' '+r[2]).toLowerCase().includes(q))return;n++;
+      const tr=document.createElement('tr');
+      tr.innerHTML='<td><b>'+r[0]+'</b></td><td>'+r[1]+'</td><td>'+r[2]+'</td><td><span class="tag src">'+r[3]+'</span></td><td style="color:var(--muted)">'+r[4]+'</td><td><span class="tag '+cls[r[5]]+'">'+r[5]+'</span></td><td>'+(r[6]||'<span style="color:var(--faint)">à choisir</span>')+'</td><td class="n">'+(r[7]?r[7].toLocaleString('fr-FR')+' €':'')+'</td>';
+      tb.appendChild(tr);
+    });
+    document.getElementById('cnt').textContent=n+' / '+P.length+' contacts';
+  }
+  ['f-st','f-net','f-src'].forEach(id=>document.getElementById(id).addEventListener('change',render));
+  document.getElementById('f-q').addEventListener('input',render);render();
+  // Sessions
+  const S=[
+    ['Lisbonne','18 au 22 janvier','Relationnel et Leadership',25,22],
+    ['Málaga','8 au 12 février','Stratégie digitale et IA',25,17],
+    ['Marrakech','8 au 12 mars','Management',25,11],
+    ['Barcelone','12 au 16 avril','Relationnel et Leadership',25,9],
+    ['Athènes','10 au 14 mai','Stratégie digitale et IA',50,4],
+    ['Malte','7 au 11 juin','Management',50,2],
+    ['Lisbonne','20 au 24 septembre','Relationnel et Leadership',50,0],
+    ['Málaga','11 au 15 octobre','Stratégie digitale et IA',50,0],
+    ['Marrakech','8 au 12 novembre','Management',50,0],
+    ['Barcelone','6 au 10 décembre','Relationnel et Leadership',50,0]
+  ];
+  const sw=document.getElementById('sess');
+  S.forEach(s=>{
+    const p=Math.round(s[4]/s[3]*100);const cl=p>=80?'full':(p<=20?'low':'');
+    const d=document.createElement('div');d.className='sess';
+    d.innerHTML='<div class="h"><b>'+s[0]+'</b><span>'+s[1]+' 2027</span></div><div class="theme">'+s[2]+' · capacité '+s[3]+'</div><div class="bar"><i class="'+cl+'" style="width:'+p+'%"></i></div><div class="m"><span><b>'+s[4]+'</b> inscrits, reste '+(s[3]-s[4])+'</span><span><b>'+(s[4]*2000).toLocaleString('fr-FR')+' €</b></span></div>'+(s[4]>0&&s[4]<12&&['Marrakech','Barcelone'].includes(s[0])&&s[1].includes('mars')?'<div class="warnline">Sous 12 inscrits à 4 mois : la séquence "dernières places" est déclenchée en janvier.</div>':'');
+    sw.appendChild(d);
+  });
+})();
+</script>
+</body>
+</html>
