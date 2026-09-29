@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Audit SEO et marketing · shampoclean.fr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<style>
+:root{--bg:#F7F4EE;--sand:#EEE8DD;--card:#FFFFFF;--ink:#1A1D1B;--text:#3B403C;--muted:#5B605C;--line:#E1DACE;--accent:#1E4A40;--gold:#B08A4E;--gold-t:#7E6130;--night:#171A18;--warn-bg:#FBF1DE;--warn-line:#EACB90;--warn-t:#5E3B07;--bad-bg:#F8E3DE;--bad-t:#7A2A1C;--ok-bg:#E3EEE9;--ok-t:#1E4A40}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased;font-size:16.5px;line-height:1.65}
+a{color:var(--accent)}
+.serif{font-family:'Instrument Serif',Georgia,'Times New Roman',serif;font-weight:400}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+
+.top{position:sticky;top:0;z-index:20;background:rgba(247,244,238,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid #E4DED3}
+.top-in{display:flex;align-items:center;justify-content:space-between;gap:20px;height:68px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);min-width:0}
+.mono{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',Georgia,serif;font-size:20px;color:var(--gold-t);letter-spacing:-2px;background:#FBF8F2;flex-shrink:0}
+.brand b{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:22px;line-height:1;white-space:nowrap}
+.brand small{display:block;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-top:3px;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;border-radius:999px;font-weight:800;font-size:15px;text-decoration:none;border:0;cursor:pointer;white-space:nowrap;transition:background .2s,transform .2s}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#163A32;color:#fff;transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:#fff}
+
+.toc{display:flex;flex-wrap:wrap;gap:8px;padding:26px 0 0}
+.toc::-webkit-scrollbar{display:none}
+.toc a{flex-shrink:0;min-height:40px;display:inline-flex;align-items:center;padding:0 16px;border-radius:999px;border:1.5px solid #D6CFC2;background:#fff;color:var(--ink);text-decoration:none;font-weight:700;font-size:14px}
+.toc a:hover{border-color:var(--ink)}
+
+.hero{padding:64px 0 40px}
+.kicker{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-t);font-weight:800;margin:0 0 14px;display:flex;align-items:center;gap:10px}
+.kicker i{width:28px;height:1.5px;background:var(--gold);display:block}
+h1{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:68px;line-height:1;letter-spacing:-.02em;margin:0 0 22px;text-wrap:balance}
+h1 em,h2 em{font-style:italic;color:var(--accent)}
+.lead{font-size:19px;line-height:1.6;color:var(--text);max-width:720px;margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:22px;font-size:14px;color:var(--muted);font-weight:600}
+
+.urg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:40px}
+.u{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:26px;display:flex;flex-direction:column;gap:10px}
+.u-n{font-family:'Instrument Serif',Georgia,serif;font-size:52px;line-height:1;color:var(--gold)}
+.u h3{margin:0;font-size:19px;line-height:1.3;font-weight:800;letter-spacing:-.01em}
+.u p{margin:0;font-size:15px;line-height:1.6;color:var(--text)}
+.good{margin-top:16px;background:var(--ok-bg);border-radius:22px;padding:22px 26px;display:flex;gap:14px;align-items:flex-start;color:#173A32;font-size:15.5px;line-height:1.6}
+.good svg{flex-shrink:0;margin-top:3px}
+.good b{font-weight:800}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+
+.sec{padding:72px 0;border-top:1px solid var(--line)}
+.sec-alt{background:#FFFFFF}
+h2{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:48px;line-height:1.05;letter-spacing:-.015em;margin:0 0 18px;text-wrap:balance}
+h3.sub{font-size:21px;font-weight:800;letter-spacing:-.01em;margin:44px 0 12px;display:flex;gap:12px;align-items:baseline}
+h3.sub .n{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:34px;color:var(--gold);line-height:1}
+p{margin:0 0 14px;color:var(--text);max-width:780px}
+.sec p.big{font-size:18px;color:var(--ink)}
+.callout{background:var(--night);color:#F2EEE6;border-radius:22px;padding:26px 28px;margin:26px 0 0;font-size:17px;line-height:1.6}
+.callout b{color:#D9B877}
+.callout p{color:#DAD6CE;margin:0}
+.callout p+p{margin-top:12px}
+.action{display:flex;gap:12px;align-items:flex-start;background:var(--warn-bg);border:1px solid var(--warn-line);color:var(--warn-t);border-radius:16px;padding:14px 18px;margin:18px 0 0;font-size:15px;line-height:1.55;max-width:none}
+.action svg{flex-shrink:0;margin-top:2px}
+.action b{font-weight:800}
+
+.tbl{width:100%;border-collapse:separate;border-spacing:0;margin:18px 0 0;background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;font-size:14.5px;line-height:1.5}
+.tbl th{text-align:left;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:800;padding:14px 16px;background:#FBFAF7;border-bottom:1px solid var(--line);vertical-align:bottom}
+.tbl td{padding:14px 16px;border-bottom:1px solid #EFEAE1;vertical-align:top;color:var(--text)}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td:first-child{font-weight:700;color:var(--ink)}
+.tbl code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;background:#F3EFE8;padding:2px 6px;border-radius:6px;word-break:break-all}
+.tbl .hi{background:#FBF8F2}
+.tag{display:inline-flex;align-items:center;min-height:26px;padding:0 10px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}
+.tag.bad{background:var(--bad-bg);color:var(--bad-t)}
+.tag.mid{background:var(--warn-bg);color:var(--warn-t)}
+.tag.low{background:#ECEAE5;color:#4A4E4B}
+.tag.ok{background:var(--ok-bg);color:var(--ok-t)}
+.dim{color:#9A9D98}
+
+.list{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:10px;max-width:820px}
+.list li{display:flex;gap:12px;align-items:flex-start;color:var(--text)}
+.list li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:10px}
+.cards2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:18px}
+.c2{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px 24px}
+.c2 h4{margin:0 0 6px;font-size:17px;font-weight:800}
+.c2 p{margin:0;font-size:15px}
+
+.plan{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:22px}
+.col{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:4px}
+.col-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px}
+.col-h h3{margin:0;font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:30px;line-height:1}
+.col-h span{font-size:12.5px;font-weight:800;color:var(--gold-t);white-space:nowrap}
+.task{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid #EFEAE1;cursor:pointer;font-size:14.5px;line-height:1.5;color:var(--text)}
+.task input{width:20px;height:20px;margin:1px 0 0;accent-color:var(--accent);flex-shrink:0;cursor:pointer}
+.task input:checked+span{text-decoration:line-through;color:#9A9D98}
+.progress{display:flex;align-items:center;gap:14px;margin-top:18px;font-size:14px;font-weight:700;color:var(--muted)}
+.bar{flex-grow:1;max-width:320px;height:8px;border-radius:99px;background:#E4DED3;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px;transition:width .3s}
+
+.maq{margin-top:8px;background:var(--accent);color:#fff;border-radius:28px;padding:48px;display:flex;justify-content:space-between;align-items:center;gap:32px}
+.maq h2{color:#fff;margin:0 0 10px}
+.maq h2 em{color:#D9B877}
+.maq p{color:rgba(255,255,255,.85);margin:0;max-width:560px}
+.maq .btn{background:#fff;color:var(--ink)}
+.maq .btn:hover{background:#F2EEE6;color:var(--ink)}
+
+.src{font-size:14px;color:var(--muted);line-height:1.7}
+.src a{color:var(--muted)}
+footer{padding:40px 0 56px;font-size:13.5px;color:var(--muted);border-top:1px solid var(--line)}
+
+@media (max-width:900px){
+h1{font-size:50px}
+h2{font-size:38px}
+.urg,.plan{grid-template-columns:minmax(0,1fr)}
+.cards2{grid-template-columns:minmax(0,1fr)}
+.maq{flex-direction:column;align-items:flex-start;padding:36px 28px}
+}
+@media (max-width:680px){
+body{font-size:16px}
+.wrap{padding:0 18px}
+.top-in{height:62px}
+.top .btn{min-height:42px;padding:0 16px;font-size:14px}
+.brand small{display:none}
+.hero{padding:40px 0 28px}
+h1{font-size:40px}
+.lead{font-size:17px}
+.sec{padding:52px 0}
+h2{font-size:33px}
+.tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}
+.tbl thead{display:none}
+.tbl{border-radius:16px}
+.tbl tr{padding:12px 16px;border-bottom:1px solid var(--line)}
+.tbl tr:last-child{border-bottom:0}
+.tbl td{padding:4px 0;border:0}
+.tbl td[data-label]::before{content:attr(data-label);display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:800;margin-top:6px}
+.tbl td:first-child::before{display:none}
+.tbl td:first-child{font-size:15.5px;padding-bottom:2px}
+.tbl td.empty{display:none}
+.hide-sm{display:none}
+.toc{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+<div class="wrap top-in">
+<a class="brand" href="#haut"><span class="mono">SC</span><span><b>Shampo' Clean</b><small>Audit SEO et marketing</small></span></a>
+<a class="btn btn-primary" href="maquette.html">Voir la maquette</a>
+</div>
+</header>
+
+<main id="haut">
+<section class="hero">
+<div class="wrap">
+<p class="kicker"><i></i>Audit · shampoclean.fr</p>
+<h1>Ton site n'est pas mauvais en SEO, <em>il est mal entretenu</em>.</h1>
+<p class="lead">Les bases sont là, mais trois problèmes te coûtent des clients en ce moment même. La bonne nouvelle : les plus graves se corrigent en quelques heures, sans changer d'outil.</p>
+<div class="meta"><span>Analyse du 29 septembre 2026</span><span>Préparé par Eric</span><span>Lecture : 8 minutes</span></div>
+
+<nav class="toc" aria-label="Sommaire">
+<a href="#verdict">Le verdict</a>
+<a href="#wordpress">WordPress ou Hostinger</a>
+<a href="#critiques">Problèmes critiques</a>
+<a href="#technique">SEO technique</a>
+<a href="#local">SEO local</a>
+<a href="#client">Parcours client</a>
+<a href="#plan">Plan d'action</a>
+</nav>
+
+<div class="urg" id="verdict">
+<div class="u"><span class="u-n">01</span><h3>Tes pages villes sont mortes</h3><p>Granville, Avranches, Coutances, Cérences, La Haye-Pesnel et « zones desservies » sont encore affichées dans Google, mais renvoient une erreur 404. Chaque clic dessus est un prospect perdu.</p></div>
+<div class="u"><span class="u-n">02</span><h3>Tes prix se contredisent</h3><p>Trois règles de frais km, deux suppléments saleté, deux ou trois formules auto selon la page. C'est exactement la source de tes désaccords avec les clients.</p></div>
+<div class="u"><span class="u-n">03</span><h3>Ta vitrine ne reflète pas ton niveau</h3><p>87 avis 5 étoiles et des vidéos pro, mais un site qui fait « modèle gratuit ». Un client qui compare te juge sur ton site avant de juger ton travail.</p></div>
+</div>
+<div class="good"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg><span><b>Ce qui va bien, et c'est plus que la plupart des artisans :</b> site rapide (réponse serveur 0,1 s, page chargée en 1,2 s), titres et descriptions renseignés sur chaque page, données structurées LocalBusiness et FAQ, sitemap et robots.txt en place, Google Analytics et Google Ads installés.</span></div>
+</div>
+</section>
+
+<section class="sec sec-alt" id="wordpress">
+<div class="wrap">
+<p class="kicker"><i></i>Ta question</p>
+<h2>WordPress ou Hostinger : <em>la vraie réponse</em>.</h2>
+<p class="big">La question compare deux choses qui ne jouent pas dans la même catégorie. Hostinger est un hébergeur qui propose aussi un constructeur de site (celui que tu utilises, « Hostinger AI Builder »). WordPress est un logiciel pour fabriquer des sites, qu'on peut d'ailleurs installer… chez Hostinger. C'est comparer un garage et une voiture.</p>
+<p>Google ne classe pas un site selon l'outil qui l'a fabriqué. Il regarde quatre choses : le contenu (la page répond-elle à « nettoyage canapé Granville » ?), la technique (vitesse, mobile, pages sans erreur), la réputation (avis, liens depuis d'autres sites) et, pour un artisan local, surtout la fiche Google.</p>
+<table class="tbl">
+<thead><tr><th>Critère</th><th>Hostinger AI Builder (ton site actuel)</th><th>WordPress</th><th>Site sur mesure</th></tr></thead>
+<tbody>
+<tr><td>Potentiel SEO</td><td data-label="Hostinger AI Builder">Correct pour un site vitrine</td><td data-label="WordPress">Excellent si bien fait, mauvais si surchargé de plugins</td><td data-label="Sur mesure">Maximum</td></tr>
+<tr><td>Contrôle technique (redirections, données structurées par page, adresses des pages)</td><td data-label="Hostinger AI Builder">Limité : pas de gestion simple des redirections page par page à ma connaissance, à vérifier dans ton éditeur</td><td data-label="WordPress">Total (Rank Math, Yoast, plugins de redirection)</td><td data-label="Sur mesure">Total</td></tr>
+<tr class="hi"><td>Réservation avec devis auto (km + saleté + acompte)</td><td data-label="Hostinger AI Builder">Impossible, d'où Calendly + téléphone</td><td data-label="WordPress">Possible avec des plugins, mais le calcul km + saleté demande du développement</td><td data-label="Sur mesure">Exactement ton process</td></tr>
+<tr><td>Entretien</td><td data-label="Hostinger AI Builder">Aucun</td><td data-label="WordPress">Mises à jour, sécurité, sauvegardes : le vrai coût caché</td><td data-label="Sur mesure">Très faible (site statique)</td></tr>
+<tr><td>Qui peut le modifier</td><td data-label="Hostinger AI Builder">Toi, facilement</td><td data-label="WordPress">Toi, avec un temps d'apprentissage</td><td data-label="Sur mesure">Un dev, ou toi via un petit back-office</td></tr>
+</tbody>
+</table>
+<div class="callout">
+<p><b>Pourquoi les agences te parlent de WordPress :</b> c'est ce qu'elles savent faire, et ça leur vend un contrat de maintenance mensuel. Ce n'est pas faux sur le SEO, mais ce n'est pas la raison pour laquelle tu n'es pas plus haut dans Google.</p>
+<p><b>Le vrai critère pour toi, c'est la réservation avec devis automatique.</b> C'est elle qui rend Hostinger Builder trop juste, pas le SEO. Changer d'outil sans corriger les points ci-dessous ne te ferait gagner aucune place.</p>
+</div>
+</div>
+</section>
+
+<section class="sec" id="critiques">
+<div class="wrap">
+<p class="kicker"><i></i>À traiter en premier</p>
+<h2>Les 3 problèmes <em>critiques</em>.</h2>
+
+<h3 class="sub"><span class="n">1</span>Sept pages encore dans Google renvoient une erreur 404</h3>
+<p>Toutes les pages de ton sitemap portent la date du 22/09/2026 : c'est très probablement ta dernière refonte qui a supprimé ces pages, sans redirection. Google les affiche toujours, le client clique et tombe sur une page d'erreur.</p>
+<table class="tbl">
+<thead><tr><th>Ancienne page</th><th>Statut aujourd'hui</th><th>Encore dans Google</th></tr></thead>
+<tbody>
+<tr><td><code>/granville-nettoyage-automobile</code></td><td data-label="Statut"><span class="tag bad">404</span></td><td data-label="Dans Google">Oui</td></tr>
+<tr><td><code>/avranches-nettoyage-automobile</code></td><td data-label="Statut"><span class="tag bad">404</span></td><td data-label="Dans Google">Oui</td></tr>
+<tr><td><code>/coutances-nettoyage-automobile</code></td><td data-label="Statut"><span class="tag bad">404</span></td><td data-label="Dans Google">Oui</td></tr>
+<tr><td><code>/cerences-nettoyage-automobile</code></td><td data-label="Statut"><span class="tag bad">404</span></td><td data-label="Dans Google">Oui</td></tr>
+<tr><td><code>/la-haye-pesnel-nettoyage-automobile</code></td><td data-label="Statut"><span class="tag bad">404</span></td><td data-label="Dans Google">Oui</td></tr>
+<tr><td><code>/zones-desservies-nettoyage-voiture</code></td><td data-label="Statut"><span class="tag bad">404</span></td><td data-label="Dans Google">Oui</td></tr>
+<tr><td><code>/nettoyage-a-domicile</code> (ancienne page contact)</td><td data-label="Statut"><span class="tag bad">404</span></td><td data-label="Dans Google">Oui</td></tr>
+</tbody>
+</table>
+<p class="action"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg><span><b>Action :</b> les recréer à la même adresse (idéal), ou rediriger chacune vers la page la plus proche. Si rien n'est fait, Google finira par les retirer et tu perdras le référencement accumulé sur les recherches par ville.</span></p>
+
+<h3 class="sub"><span class="n">2</span>Tes prix changent selon la page que le client lit</h3>
+<table class="tbl">
+<thead><tr><th>Élément</th><th>Pages services</th><th>Page contact</th><th>Cartes cadeaux</th><th>Accueil et Google</th></tr></thead>
+<tbody>
+<tr><td>Frais km</td><td data-label="Pages services">0,35 €/km</td><td data-label="Page contact">10 premiers km offerts</td><td data-label="Cartes cadeaux">10 km offerts puis 0,30 €/km (0,20 € en Concession)</td><td data-label="Accueil et Google" class="dim">Non mentionnés</td></tr>
+<tr><td>Supplément poils, sable</td><td data-label="Pages services">+15 €</td><td data-label="Page contact">« Selon mon avis »</td><td data-label="Cartes cadeaux">+10 €</td><td data-label="Accueil et Google" class="dim">Non mentionné</td></tr>
+<tr><td>Formules auto</td><td data-label="Pages services">2 packs : Économique 65 €, Premium 95 €</td><td class="empty dim">·</td><td data-label="Cartes cadeaux">3 packs × 3 gabarits, de 65 à 135 €</td><td data-label="Accueil et Google">3 packs : Éco, Confort, Concession</td></tr>
+<tr><td>Tapis</td><td data-label="Pages services">15 €/m² sur la page</td><td class="empty dim">·</td><td class="empty dim">·</td><td data-label="Accueil et Google">20 €/m² dans la description Google</td></tr>
+<tr><td>Durée auto</td><td class="empty dim">·</td><td class="empty dim">·</td><td class="empty dim">·</td><td data-label="Accueil et Google">2h30 affiché, 1h30 à 3h dans les données Google</td></tr>
+<tr><td>Durée canapé, matelas</td><td class="empty dim">·</td><td class="empty dim">·</td><td class="empty dim">·</td><td data-label="Accueil et Google">45 min affiché, 1h à 1h30 dans les données Google</td></tr>
+</tbody>
+</table>
+<p class="action"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg><span><b>Action :</b> une seule grille (0,35 €/km dès le 1er km, +15 € saleté), recopiée partout à l'identique. Un client qui a lu « 10 km offerts » et reçoit une facture à 0,35 € dès le premier km a l'impression de se faire avoir, même si tu es honnête.</span></p>
+
+<h3 class="sub"><span class="n">3</span>Ton sitemap envoie Google sur 36 variantes de cartes cadeaux</h3>
+<p>Sur les 44 pages déclarées à Google, 36 sont des variantes de cartes cadeaux (PDF, physique, e-carte × 3 packs × 3 gabarits), presque identiques entre elles. Il ne reste que 8 vraies pages, et aucune page ville.</p>
+<p>Les adresses sont en plus incohérentes : <code style="font-size:14px;background:#F3EFE8;padding:2px 6px;border-radius:6px">/carte-cadeau</code> affiche « Pack Eco Citadine », <code style="font-size:14px;background:#F3EFE8;padding:2px 6px;border-radius:6px">/carte-cadeau-citadine</code> affiche « Pack Confort », et il existe des doublons en « citadine1 ». Le lien « Carte cadeau » du menu renvoie vers l'accueil, donc ces pages ne sont accessibles que via Google.</p>
+<p class="action"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg><span><b>Action :</b> une seule page carte cadeau avec un choix de formule et de gabarit, et les variantes retirées du sitemap.</span></p>
+</div>
+</section>
+
+<section class="sec sec-alt" id="technique">
+<div class="wrap">
+<p class="kicker"><i></i>Sous le capot</p>
+<h2>SEO technique et <em>données structurées</em>.</h2>
+<p class="big">Aucun de ces points n'est grave seul, mais ensemble ils envoient à Google le signal d'un site négligé. La plupart se corrigent en quelques minutes dans ton éditeur.</p>
+<table class="tbl">
+<thead><tr><th>Point</th><th>Constat</th><th>Action</th><th>Priorité</th></tr></thead>
+<tbody>
+<tr><td>Titres en double</td><td data-label="Constat">Les 5 pages services finissent par « | Shampo' Clean | Shampo' Clean »</td><td data-label="Action">Retirer le doublon</td><td data-label="Priorité"><span class="tag bad">Haute</span></td></tr>
+<tr><td>Nombre d'avis</td><td data-label="Constat">Les données Google annoncent 63 avis, le site en affiche 87</td><td data-label="Action">Passer à 87, puis tenir à jour</td><td data-label="Priorité"><span class="tag bad">Haute</span></td></tr>
+<tr><td>FAQ pour Google</td><td data-label="Constat">La même FAQ est déclarée sur toutes les pages, y compris celles où elle n'apparaît pas, et ses réponses diffèrent de la FAQ visible</td><td data-label="Action">Une FAQ propre à chaque page, identique au texte affiché</td><td data-label="Priorité"><span class="tag bad">Haute</span></td></tr>
+<tr><td>Liens internes en nofollow</td><td data-label="Constat">Les 5 photos de services de l'accueil pointent vers tes propres pages avec un attribut qui dit à Google de ne pas suivre le lien</td><td data-label="Action">Supprimer le nofollow</td><td data-label="Priorité"><span class="tag bad">Haute</span></td></tr>
+<tr><td>Politique de confidentialité</td><td data-label="Constat">Le lien renvoie vers l'accueil, la page n'existe pas, alors que tu utilises Google Analytics, Google Ads et un formulaire</td><td data-label="Action">Créer la page (obligation RGPD)</td><td data-label="Priorité"><span class="tag bad">Haute</span></td></tr>
+<tr><td>Lien « Carte cadeau »</td><td data-label="Constat">Renvoie vers l'accueil</td><td data-label="Action">Pointer vers la page carte cadeau</td><td data-label="Priorité"><span class="tag mid">Moyenne</span></td></tr>
+<tr><td>Images sans texte alternatif</td><td data-label="Constat">16 images sur 20 à l'accueil, 10 à 14 par page service, dont toutes tes photos avant/après</td><td data-label="Action">Décrire chaque photo : « Siège de voiture avant et après shampouinage à Granville »</td><td data-label="Priorité"><span class="tag mid">Moyenne</span></td></tr>
+<tr><td>Titre de l'accueil</td><td data-label="Constat">71 caractères, coupé dans Google au-delà d'environ 60</td><td data-label="Action">« Nettoyage auto et canapé à domicile, Manche (50) | Shampo' Clean »</td><td data-label="Priorité"><span class="tag mid">Moyenne</span></td></tr>
+<tr><td>Contenu mince</td><td data-label="Constat">Environ 500 mots sur l'accueil, 230 à 370 par page service, menus compris</td><td data-label="Action">Viser 600 à 900 mots utiles par page service</td><td data-label="Priorité"><span class="tag mid">Moyenne</span></td></tr>
+<tr><td>Ordre de la FAQ</td><td data-label="Constat">Affichée sur deux colonnes : on lit Q1, Q5, Q2, Q6…</td><td data-label="Action">Une seule colonne</td><td data-label="Priorité"><span class="tag low">Basse</span></td></tr>
+<tr><td>Intertitres inversés</td><td data-label="Constat">« Basé à Cérences » est au-dessus du texte sur les avis, « Une qualité reconnue » au-dessus du texte sur ta zone</td><td data-label="Action">Les intervertir</td><td data-label="Priorité"><span class="tag low">Basse</span></td></tr>
+<tr><td>Finitions</td><td data-label="Constat">« © 2025 », « que à Barneville » au lieu de « qu'à »</td><td data-label="Action">Corriger</td><td data-label="Priorité"><span class="tag low">Basse</span></td></tr>
+</tbody>
+</table>
+<p style="margin-top:18px">Sur mobile, le logo occupe presque un tiers de l'écran et le numéro de téléphone disparaît de l'en-tête, remplacé par une icône panier. Pour une activité locale qui recrute sur Instagram et TikTok, c'est pourtant là que se fait l'essentiel des visites (à vérifier dans ton Google Analytics).</p>
+</div>
+</section>
+
+<section class="sec" id="local">
+<div class="wrap">
+<p class="kicker"><i></i>Là où tout se joue</p>
+<h2>SEO local : <em>ta fiche Google d'abord</em>.</h2>
+<p class="big">Pour un artisan qui se déplace, l'essentiel du jeu se passe dans le bloc carte de Google, pas dans les résultats classiques. Ton actif le plus fort, ce sont tes 87 avis à 5,0 : il faut construire autour.</p>
+
+<h3 class="sub">Fiche Google Business</h3>
+<ul class="list">
+<li>Catégorie principale sur ton service le plus rentable, catégories secondaires pour l'auto, le canapé, le tapis et le matelas.</li>
+<li>Zone desservie renseignée commune par commune (Granville, Avranches, Coutances, Villedieu-les-Poêles, La Haye-Pesnel, Barneville-Carteret…).</li>
+<li>Une ou deux photos avant/après par semaine, et un post par semaine : tu as déjà le contenu avec tes vidéos.</li>
+<li>Répondre à chaque avis en citant le service et la ville : « Merci pour la confiance, ravi que votre canapé d'angle à Granville ait retrouvé ses couleurs. »</li>
+<li>Demander aux clients de mentionner le service et la ville dans leur avis. Un lien direct vers le formulaire d'avis, envoyé par SMS après chaque presta, suffit.</li>
+</ul>
+
+<div class="cards2">
+<div class="c2"><h4>Une adresse cohérente partout</h4><p>Ton site, ta fiche, PagesJaunes et Mappy affichent le 2 place du Marché, 50510 Cérences. Si tes frais km partent d'ailleurs, par exemple de Folligny, le client ne peut pas vérifier ton calcul : nouveau motif de litige. L'adresse de départ des km doit être celle que tu affiches.</p></div>
+<div class="c2"><h4>Des pages villes à recréer</h4><p>Une page par ville importante (6 à 8 pages), chacune avec un contenu propre : distance et frais de déplacement, photos de chantiers réalisés sur place, avis de clients de la ville. Pas de copier-coller où seul le nom change : Google le détecte et l'ignore.</p></div>
+</div>
+
+<h3 class="sub">La concurrence le fait déjà</h3>
+<p>Sur « nettoyage canapé à domicile Avranches Coutances », un réseau national (<a href="https://canapeclean.com/nettoyage-canape/avranches/" target="_blank" rel="noopener">canapeclean.com</a>) sort avec des pages dédiées à <a href="https://canapeclean.com/nettoyage-canape/avranches/" target="_blank" rel="noopener">Avranches</a> et <a href="https://canapeclean.com/nettoyage-canape/coutances/" target="_blank" rel="noopener">Coutances</a>. C'est exactement la stratégie que tu viens de perdre. Côté auto sur Granville, tu croises <a href="https://prestowash.fr/" target="_blank" rel="noopener">Prestowash</a> et <a href="https://clean-go.fr/" target="_blank" rel="noopener">Clean &amp; Go</a>, plus les annuaires type <a href="https://www.starofservice.com/annubis/basse-normandie/manche/granville/nettoyage-de-voiture" target="_blank" rel="noopener">StarOfService</a>.</p>
+
+<h3 class="sub">Deux niches locales sous-exploitées</h3>
+<div class="cards2" style="margin-top:6px">
+<div class="c2"><h4>Les loueurs saisonniers de la côte</h4><p>Granville, Saint-Pair, Carteret : matelas, canapés et tapis à remettre à neuf entre deux saisons, souvent en volume.</p></div>
+<div class="c2"><h4>Les garages et concessions</h4><p>Préparation de véhicules d'occasion avant revente. Ton pack « Concession » porte déjà le nom.</p></div>
+</div>
+</div>
+</section>
+
+<section class="sec sec-alt" id="client">
+<div class="wrap">
+<p class="kicker"><i></i>Conversion</p>
+<h2>Ce que vit un client <em>qui arrive sur ton site</em>.</h2>
+<p class="big">Un visiteur décide en 5 secondes s'il reste. Il doit comprendre quoi, où, combien et comment réserver. Aujourd'hui, il ne trouve que le « où ».</p>
+<table class="tbl">
+<thead><tr><th>Moment</th><th>Ce qu'il voit aujourd'hui</th><th>Ce qu'il faudrait</th></tr></thead>
+<tbody>
+<tr><td>Arrivée</td><td data-label="Aujourd'hui">Un titre, le badge 87 avis, deux photos « Avant/Après » et un bouton Réserver. Aucun prix, aucune promesse</td><td data-label="Ce qu'il faudrait">Une promesse claire, les prix « à partir de », la note Google et un bouton « Devis en 1 minute »</td></tr>
+<tr><td>Preuves</td><td data-label="Aujourd'hui">Un widget gratuit qui affiche un seul avis à la fois, avec le logo du fournisseur, et reste vide quelques secondes au chargement</td><td data-label="Ce qu'il faudrait">Tes meilleurs avis intégrés en dur, et tes vidéos Instagram et TikTok, ton meilleur argument, aujourd'hui absentes du site</td></tr>
+<tr><td>Confiance</td><td data-label="Aujourd'hui">Aucune page « qui je suis » alors que tu entres chez les gens</td><td data-label="Ce qu'il faudrait">Ta photo, ton parcours, ton matériel (injecteur-extracteur, vapeur, traitement enzymatique)</td></tr>
+<tr><td>Prix</td><td data-label="Aujourd'hui">Dispersés sur les pages services, contradictoires</td><td data-label="Ce qu'il faudrait">Une grille unique et un devis calculé automatiquement</td></tr>
+<tr class="hi"><td>Réservation</td><td data-label="Aujourd'hui">Un calendrier Calendly : le client choisit un créneau sans connaître le prix, puis tu le rappelles pour chiffrer</td><td data-label="Ce qu'il faudrait">Prestation, gabarit, état, adresse : le prix s'affiche, il réserve et verse un acompte</td></tr>
+<tr><td>En-tête</td><td data-label="Aujourd'hui">Une icône panier (qui ne sert qu'aux cartes cadeaux) plus visible que ton téléphone</td><td data-label="Ce qu'il faudrait">Téléphone et « Réserver » toujours visibles</td></tr>
+</tbody>
+</table>
+<p style="margin-top:18px">Côté image, le gris anthracite, l'or et la police Playfair donnent un rendu « modèle luxe » générique. Les textes dorés fins sur fond gris sont peu lisibles, surtout sur mobile. Ton travail est haut de gamme, ton site doit l'être aussi.</p>
+
+<div class="maq">
+<div><h2>À quoi il pourrait <em>ressembler</em>.</h2><p>Une maquette du nouveau site, avec tes vraies photos et un module de réservation qui calcule le devis en direct : prestation, état de saleté, kilomètres depuis chez toi, acompte en ligne. Essaie-la sur ton téléphone.</p></div>
+<a class="btn" href="maquette.html">Ouvrir la maquette<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+</div>
+</div>
+</section>
+
+<section class="sec" id="plan">
+<div class="wrap">
+<p class="kicker"><i></i>Passer à l'action</p>
+<h2>Plan d'action, <em>à cocher</em>.</h2>
+<p class="big">La première semaine ne demande aucun changement d'outil : 2 à 3 heures dans ton éditeur actuel règlent l'essentiel des urgences.</p>
+<div class="progress"><span id="prog">0 sur 17 faites</span><span class="bar"><i id="progBar"></i></span></div>
+<div class="plan">
+<div class="col">
+<div class="col-h"><h3>Cette semaine</h3><span>2 à 3 h</span></div>
+<label class="task"><input type="checkbox" data-k="s1"><span>Choisir une grille unique (0,35 €/km dès le 1er km, +15 € saleté) et la recopier sur toutes les pages, cartes cadeaux et FAQ</span></label>
+<label class="task"><input type="checkbox" data-k="s2"><span>Recréer ou rediriger les 7 pages en erreur 404</span></label>
+<label class="task"><input type="checkbox" data-k="s3"><span>Supprimer le doublon « Shampo' Clean » dans les titres des pages services</span></label>
+<label class="task"><input type="checkbox" data-k="s4"><span>Retirer le nofollow des liens vers tes pages services</span></label>
+<label class="task"><input type="checkbox" data-k="s5"><span>Créer la politique de confidentialité, réparer les liens « Politique » et « Carte cadeau »</span></label>
+<label class="task"><input type="checkbox" data-k="s6"><span>Passer le nombre d'avis à 87 dans les données structurées</span></label>
+<label class="task"><input type="checkbox" data-k="s7"><span>Aligner la FAQ déclarée à Google sur la FAQ visible</span></label>
+<label class="task"><input type="checkbox" data-k="s8"><span>Vérifier la Google Search Console : sitemap soumis, pages en erreur signalées</span></label>
+</div>
+<div class="col">
+<div class="col-h"><h3>Ce mois-ci</h3><span>1 à 2 jours</span></div>
+<label class="task"><input type="checkbox" data-k="m1"><span>Texte alternatif sur toutes les photos</span></label>
+<label class="task"><input type="checkbox" data-k="m2"><span>Une seule page carte cadeau, variantes retirées du sitemap</span></label>
+<label class="task"><input type="checkbox" data-k="m3"><span>6 à 8 pages villes avec un vrai contenu local</span></label>
+<label class="task"><input type="checkbox" data-k="m4"><span>Fiche Google : catégories, zone, photos et post chaque semaine, réponse à chaque avis</span></label>
+<label class="task"><input type="checkbox" data-k="m5"><span>Une page « Qui je suis »</span></label>
+</div>
+<div class="col">
+<div class="col-h"><h3>D'ici 3 mois</h3><span>Le vrai saut</span></div>
+<label class="task"><input type="checkbox" data-k="t1"><span>Nouveau site avec réservation, devis automatique et acompte en ligne (voir la maquette)</span></label>
+<label class="task"><input type="checkbox" data-k="t2"><span>CRM : leads Meta Ads synchronisés, relance automatique à 5 ou 6 mois, rappels SMS</span></label>
+<label class="task"><input type="checkbox" data-k="t3"><span>Un article par mois sur une vraie question de client (« Comment enlever une odeur d'urine de chat sur un canapé ? »), avec une vidéo</span></label>
+<label class="task"><input type="checkbox" data-k="t4"><span>Démarcher 5 loueurs saisonniers et 3 garages de la zone</span></label>
+</div>
+</div>
+
+<h3 class="sub" style="margin-top:56px">Sources</h3>
+<p class="src">Analyse réalisée le 29/09/2026 sur <a href="https://shampoclean.fr/" target="_blank" rel="noopener">shampoclean.fr</a> : accueil, <a href="https://shampoclean.fr/nettoyage-automobile" target="_blank" rel="noopener">pages services</a>, <a href="https://shampoclean.fr/nettoyage-a-domicile-contact" target="_blank" rel="noopener">contact</a>, <a href="https://shampoclean.fr/nettoyage-automobile-et-canape-reserver" target="_blank" rel="noopener">réservation</a>, <a href="https://shampoclean.fr/carte-cadeau" target="_blank" rel="noopener">cartes cadeaux</a>, <a href="https://shampoclean.fr/sitemap.xml" target="_blank" rel="noopener">sitemap</a> et <a href="https://shampoclean.fr/robots.txt" target="_blank" rel="noopener">robots.txt</a>. Fiches externes : <a href="https://www.pagesjaunes.fr/pros/64139403" target="_blank" rel="noopener">PagesJaunes</a>, <a href="https://fr.mappy.com/poi/6881b99112582e0aeade305d" target="_blank" rel="noopener">Mappy</a>.</p>
+</div>
+</section>
+</main>
+
+<footer>
+<div class="wrap">Audit préparé par Eric pour Shampo' Clean · septembre 2026</div>
+</footer>
+
+<script>
+(function () {
+  var KEY = 'shampoclean-audit-plan';
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('.task input'));
+  function update() {
+    var done = boxes.filter(function (b) { return b.checked; }).length;
+    document.getElementById('prog').textContent = done + ' sur ' + boxes.length + (done > 1 ? ' faites' : ' faite');
+    document.getElementById('progBar').style.width = Math.round(done / boxes.length * 100) + '%';
+  }
+  boxes.forEach(function (b) {
+    b.checked = !!saved[b.getAttribute('data-k')];
+    b.addEventListener('change', function () {
+      saved[b.getAttribute('data-k')] = b.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+      update();
+    });
+  });
+  update();
+})();
+</script>
+</body>
+</html>
