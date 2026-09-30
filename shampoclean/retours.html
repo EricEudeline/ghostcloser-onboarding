@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#2B2A29">
+<title>Tes retours, point par point · Shampo' Clean</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<style>
+:root{--ch:#2B2A29;--ch2:#343331;--ch3:#3E3C3A;--line-d:#4A4845;--gold:#E0BE7B;--gold-h:#EACD95;--gold-d:#7C5E2A;--cream:#F5F1E8;--paper:#FFFFFF;--ink:#2B2A29;--tx-l:#4A4744;--mu-l:#6E6A64;--line-l:#E3DBCC;--tx-d:#E9E4DA;--mu-d:#B5AFA5;--warn-bg:#FBF1DE;--warn-line:#EACB90;--warn-t:#5E3B07}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased;font-size:16.5px;line-height:1.65}
+a{color:var(--gold-d)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+.top{position:sticky;top:0;z-index:20;background:rgba(43,42,41,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line-d)}
+.top-in{display:flex;align-items:center;justify-content:space-between;gap:16px;height:66px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:#F3EEE4;min-width:0}
+.mono{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',Georgia,serif;font-size:20px;color:var(--gold);letter-spacing:-2px;flex-shrink:0}
+.brand b{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:22px;line-height:1;white-space:nowrap}
+.brand small{display:block;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mu-d);font-weight:700;margin-top:3px;white-space:nowrap}
+.top-l{display:flex;gap:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;font-weight:800;font-size:14.5px;text-decoration:none;white-space:nowrap;border:0}
+.btn-gold{background:var(--gold);color:var(--ch)}
+.btn-gold:hover{background:var(--gold-h);color:var(--ch)}
+.btn-line{border:1.5px solid var(--line-d);color:var(--tx-d)}
+.btn-line:hover{border-color:var(--gold);color:var(--gold)}
+
+.hero{background:var(--ch);color:var(--tx-d);padding:64px 0 56px}
+.kicker{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:800;margin:0 0 14px;display:flex;align-items:center;gap:10px}
+.kicker i{width:28px;height:1.5px;background:var(--gold);display:block}
+h1{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:66px;line-height:1;letter-spacing:-.02em;margin:0 0 20px;color:#F3EEE4;text-wrap:balance}
+h1 em{font-style:italic;color:var(--gold)}
+.lead{font-size:19px;line-height:1.6;color:var(--tx-d);max-width:720px;margin:0}
+.score{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:36px;max-width:760px}
+.sc{background:var(--ch2);border:1px solid var(--line-d);border-radius:18px;padding:18px 20px;display:flex;align-items:center;gap:14px}
+.sc strong{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:48px;line-height:1;color:var(--gold)}
+.sc span{font-size:14px;line-height:1.35;color:var(--mu-d);font-weight:600}
+.sc b{display:block;color:#F3EEE4;font-size:15.5px}
+.order{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:26px;font-size:14.5px;color:var(--mu-d);font-weight:600}
+.order b{color:var(--gold)}
+
+.sec{padding:64px 0 16px}
+.sec h2{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:46px;line-height:1.05;letter-spacing:-.015em;margin:0 0 8px}
+.sec h2 em{font-style:italic;color:var(--gold-d)}
+.sec .kicker{color:var(--gold-d)}
+.sec-sub{margin:0 0 26px;color:var(--tx-l);max-width:760px}
+.cards{display:flex;flex-direction:column;gap:14px}
+.rq{background:var(--paper);border:1px solid var(--line-l);border-radius:22px;padding:24px 26px;display:grid;grid-template-columns:190px minmax(0,1fr);gap:20px}
+.rq-l{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.rq-l h3{margin:0;font-size:17px;line-height:1.35;font-weight:800;letter-spacing:-.01em}
+.tag{display:inline-flex;align-items:center;gap:6px;min-height:28px;padding:0 12px;border-radius:999px;font-size:12.5px;font-weight:800;white-space:nowrap}
+.tag.yes{background:var(--ch);color:var(--gold)}
+.tag.adapt{background:#F6EAD1;color:#5A4318;border:1px solid #E6CF9F}
+.tag.other{background:var(--warn-bg);color:var(--warn-t);border:1px solid var(--warn-line)}
+.tag.done{background:#E4EFE8;color:#1F5A3E}
+.rq-r p{margin:0 0 10px;color:var(--tx-l)}
+.rq-r p:last-child{margin-bottom:0}
+.rq-r b{color:var(--ink)}
+.why{background:var(--cream);border-radius:14px;padding:12px 16px;font-size:15px;color:var(--tx-l)}
+.why b{color:var(--ink)}
+
+.flow{background:var(--ch);color:var(--tx-d);border-radius:26px;padding:30px;margin-top:8px}
+.flow-g{display:grid;grid-template-columns:minmax(0,1fr) 40px minmax(0,1.1fr) 40px minmax(0,1fr);align-items:center;gap:0}
+.col{display:flex;flex-direction:column;gap:10px}
+.col-t{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mu-d);font-weight:800;margin-bottom:2px}
+.node{background:var(--ch2);border:1px solid var(--line-d);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.4;color:var(--mu-d)}
+.node b{display:block;color:#F3EEE4;font-size:15px;margin-bottom:2px}
+.core{background:var(--gold);color:var(--ch);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:8px}
+.core b{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:30px;line-height:1.05}
+.core span{font-size:14px;line-height:1.5;color:#4A3C22;font-weight:600}
+.arr{display:flex;align-items:center;justify-content:center;color:var(--gold)}
+.money{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:22px;padding-top:20px;border-top:1px solid var(--line-d);font-size:14px;color:var(--mu-d)}
+.money .node{padding:10px 14px}
+.money .arr svg{transform:none}
+.flow-note{margin:18px 0 0;font-size:14px;color:var(--mu-d);line-height:1.6}
+.flow-note b{color:#F3EEE4}
+
+.cols2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.box{background:var(--paper);border:1px solid var(--line-l);border-radius:22px;padding:24px 26px}
+.box h3{margin:0 0 8px;font-size:18px;font-weight:800}
+.box p{margin:0 0 10px;color:var(--tx-l);font-size:15.5px}
+.box p:last-child{margin-bottom:0}
+.box.dark{background:var(--ch);border-color:var(--ch);color:var(--tx-d)}
+.box.dark h3{color:#F3EEE4}
+.box.dark p{color:var(--mu-d)}
+.box.dark b{color:var(--gold)}
+
+.todo{background:var(--paper);border:1px solid var(--line-l);border-radius:22px;padding:10px 26px}
+.task{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid #EFEAE1;cursor:pointer;color:var(--tx-l);font-size:15.5px;line-height:1.5}
+.task:last-child{border-bottom:0}
+.task input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--ch);flex-shrink:0;cursor:pointer}
+.task input:checked+span{text-decoration:line-through;color:#9A968F}
+.task b{color:var(--ink)}
+
+.src{font-size:13.5px;color:var(--mu-l);line-height:1.7;margin:40px 0 0}
+.src a{color:var(--mu-l)}
+footer{margin-top:56px;background:var(--ch);color:var(--mu-d);padding:32px 0;font-size:13.5px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a{color:var(--gold)}
+
+@media (max-width:860px){
+h1{font-size:48px}
+.score{grid-template-columns:minmax(0,1fr)}
+.rq{grid-template-columns:minmax(0,1fr);gap:12px}
+.flow-g{grid-template-columns:minmax(0,1fr);gap:10px}
+.arr svg{transform:rotate(90deg)}
+.cols2{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:600px){
+body{font-size:16px}
+.wrap{padding:0 18px}
+.brand small{display:none}
+.top-l .btn-line{display:none}
+.hero{padding:40px 0 40px}
+h1{font-size:40px}
+.lead{font-size:17px}
+.sec h2{font-size:34px}
+.rq{padding:20px}
+.flow{padding:20px;border-radius:22px}
+.todo{padding:6px 18px}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+<div class="wrap top-in">
+<a class="brand" href="#haut"><span class="mono">SC</span><span><b>Shampo' Clean</b><small>Tes retours, point par point</small></span></a>
+<div class="top-l"><a class="btn btn-line" href="index.html">L'audit</a><a class="btn btn-gold" href="maquette.html">La maquette</a></div>
+</div>
+</header>
+
+<section class="hero" id="haut">
+<div class="wrap">
+<p class="kicker"><i></i>Réponse à tes retours</p>
+<h1>Presque tout ce que tu demandes <em>est pertinent</em>.</h1>
+<p class="lead">J'ai repris chacun de tes points. La plupart sont validés tels quels, quelques-uns sont adaptés, et deux se font mieux autrement. Pour chaque choix, je t'explique pourquoi.</p>
+<div class="score">
+<div class="sc"><strong>11</strong><span><b>Validés</b>tels que tu les as demandés</span></div>
+<div class="sc"><strong>4</strong><span><b>Adaptés</b>même objectif, meilleure façon</span></div>
+<div class="sc"><strong>2</strong><span><b>Autrement</b>ce que tu veux, par un autre chemin</span></div>
+</div>
+<div class="order"><span><b>Étape 1</b> · le site (maquette mise à jour avec tes couleurs)</span><span><b>Étape 2</b> · le CRM et le dashboard</span></div>
+</div>
+</section>
+
+<main>
+<section class="sec">
+<div class="wrap">
+<p class="kicker"><i></i>Étape 1 · Structure du site</p>
+<h2>Ce qui est <em>déjà dans la maquette</em>.</h2>
+<p class="sec-sub">Tout ce bloc est intégré à la nouvelle version de la maquette, avec ton gris et ton or.</p>
+<div class="cards">
+
+<article class="rq"><div class="rq-l"><span class="tag yes">Oui · fait</span><h3>Les avis Google en premier visuel</h3></div>
+<div class="rq-r"><p>La note 5,0 et tes 87 avis sont la première chose qu'on voit, avant même le titre. Juste en dessous, un bandeau d'avis avec un lien vers ta fiche Google.</p>
+<p class="why"><b>Il me faut tes meilleurs avis.</b> Ton widget gratuit actuel n'en affiche que deux, donc la maquette n'en montre que deux. Choisis-en 6 à 8 qui citent le service et la ville : on les recopie mot pour mot, sans jamais les réécrire.</p></div></article>
+
+<article class="rq"><div class="rq-l"><span class="tag yes">Oui · fait</span><h3>Un bouton d'action très présent</h3></div>
+<div class="rq-r"><p>Bouton or « Réserver » toujours visible en haut. Sur téléphone, une barre fixe en bas de l'écran avec « Appeler » et « Mon devis en 1 minute », qui affiche le prix dès qu'une prestation est choisie.</p></div></article>
+
+<article class="rq"><div class="rq-l"><span class="tag yes">Oui · fait</span><h3>Des prix accessibles tout de suite</h3></div>
+<div class="rq-r"><p>Les prix « dès » de chaque prestation sont dans le premier écran. Un clic sur l'un d'eux ouvre directement le devis avec la bonne prestation.</p></div></article>
+
+<article class="rq"><div class="rq-l"><span class="tag yes">Oui · fait</span><h3>Des photos avant / après</h3></div>
+<div class="rq-r"><p>Elles sont partout : premier écran, prestations, galerie filtrable par type. Tes visuels (bandes grises et lettres or) tombent pile dans ta charte.</p></div></article>
+
+<article class="rq"><div class="rq-l"><span class="tag adapt">Oui, adapté</span><h3>Devis hors norme uniquement par téléphone, pas de formulaire</h3></div>
+<div class="rq-r"><p>Aucun formulaire, ton e-mail n'apparaît nulle part. Pour les cas particuliers, un bloc renvoie vers ton numéro. <b>J'ai ajouté un bouton « Envoyer un SMS »</b> à côté du bouton « Appeler ».</p>
+<p class="why"><b>Pourquoi :</b> beaucoup de gens n'appellent pas, parce qu'ils sont au travail ou qu'il est 22 h. Le SMS arrive quand même sur ton téléphone, et le client peut y joindre une photo : ton devis sera plus juste qu'au téléphone. La réservation classique reste en ligne, c'est elle qui te fait gagner du temps.</p></div></article>
+
+<article class="rq"><div class="rq-l"><span class="tag yes">Oui · fait</span><h3>Tes couleurs : gris #2B2A29 et or #E0BE7B</h3></div>
+<div class="rq-r"><p>La maquette est refaite avec ta charte. Dans l'audit, je critiquais le rendu actuel, pas tes couleurs : le problème venait des textes dorés trop fins et de la police trop petite.</p>
+<p class="why"><b>Deux règles pour que ça reste haut de gamme :</b> l'or sert pour les boutons, les chiffres et les titres, jamais pour du petit texte sur fond clair, où il devient illisible. Et on alterne avec des sections claires, pour garder l'impression de propreté qui fait vendre un nettoyage.</p></div></article>
+</div>
+</div>
+</section>
+
+<section class="sec">
+<div class="wrap">
+<p class="kicker"><i></i>Étape 1 · Automatisations du site</p>
+<h2>Ce qu'on <em>branche</em> sur le site.</h2>
+<p class="sec-sub">Ces points se construisent avec le vrai site. La maquette les simule déjà.</p>
+<div class="cards">
+
+<article class="rq"><div class="rq-l"><span class="tag yes">Oui</span><h3>Rendez-vous synchronisés avec ton agenda</h3></div>
+<div class="rq-r"><p>Le site ne propose que les créneaux libres de ton vrai agenda. Chaque réservation crée l'événement avec tout le nécessaire : adresse, prestations, état déclaré, photos du client et reste à encaisser. Plus de double réservation, plus de ressaisie.</p></div></article>
+
+<article class="rq"><div class="rq-l"><span class="tag yes">Oui</span><h3>Suivi des conversions dans Google Ads</h3></div>
+<div class="rq-r"><p>Bonne nouvelle : tes balises Google Analytics et Google Ads sont déjà installées sur ton site actuel. Ce qui manque, c'est de compter une conversion au bon moment : <b>quand l'acompte est payé</b>, pas quand quelqu'un clique sur « Réserver ». Les clics sur ton téléphone et le SMS comptent en conversions secondaires.</p>
+<p class="why"><b>Point obligatoire :</b> en France, il faut un bandeau cookies relié au mode de consentement de Google (Consent Mode v2), exigé depuis mars 2024 en Europe. Sans lui, Google Ads mesure mal tes conversions et optimise tes pubs à l'aveugle.</p></div></article>
+
+<article class="rq"><div class="rq-l"><span class="tag other">Autrement</span><h3>Synchroniser Shine avec les acomptes de 20 €</h3></div>
+<div class="rq-r"><p>Shine ne permet pas à ses clients de brancher leur compte à un site : son API est réservée aux partenaires agréés. Et surtout, ce n'est pas nécessaire.</p>
+<p class="why"><b>Le bon circuit :</b> l'acompte est payé par carte sur le site via Stripe. Stripe confirme la réservation dans la seconde, puis vire l'argent automatiquement sur ton compte Shine. Ton CRM sait qui a payé, ta banque reçoit l'argent, tu n'as rien à synchroniser. Coût pour une carte européenne standard : 1,5 % + 0,25 €, soit 0,55 € sur un acompte de 20 €.</p></div></article>
+</div>
+</div>
+</section>
+
+<section class="sec">
+<div class="wrap">
+<p class="kicker"><i></i>Étape 2 · Dashboard</p>
+<h2>Ton <em>tableau de bord</em>.</h2>
+<div class="cards">
+
+<article class="rq"><div class="rq-l"><span class="tag yes">Oui</span><h3>Clients, chiffre d'affaires par client, du mois et mois par mois</h3></div>
+<div class="rq-r"><p>C'est le cœur du dashboard. Si les réservations et les acomptes passent par le site, ces chiffres se remplissent tout seuls. Les prestations prises par téléphone se saisissent en 20 secondes depuis ton téléphone.</p>
+<p class="why"><b>Une question à régler :</b> pour un chiffre d'affaires juste, il faut aussi enregistrer le solde que tu encaisses sur place. Comment te paient les clients après la prestation : espèces, carte, virement ?</p></div></article>
+
+<article class="rq"><div class="rq-l"><span class="tag adapt">Oui, avec une limite</span><h3>Savoir qui t'a laissé un avis</h3></div>
+<div class="rq-r"><p>On récupère tes avis Google dans le dashboard et on les rapproche de tes clients par le nom.</p>
+<p class="why"><b>La limite :</b> Google ne fournit que le nom affiché par la personne, pas son numéro. Le rapprochement marchera la plupart du temps, mais pas à 100 %. Un pseudo ou un avis laissé par le conjoint ne pourra pas être relié.</p></div></article>
+
+<article class="rq"><div class="rq-l"><span class="tag other">Autrement</span><h3>Publier en 1 clic sur TikTok, Instagram et Facebook</h3></div>
+<div class="rq-r"><p>On ne le code pas : des outils le font déjà très bien, et suivent les changements permanents des règles des réseaux. Les recoder te coûterait cher en entretien pour un résultat moins bon.</p>
+<p class="why"><b>Ce que je te conseille :</b> Metricool. Il est gratuit jusqu'à 20 publications par mois sur Facebook et Instagram, et la formule payante commence autour de 16 à 20 € par mois (vérifie que TikTok est inclus dans celle que tu choisis). Meta Business Suite est gratuit, mais ne gère que Facebook et Instagram. Dans ton dashboard, un bouton ouvrira directement l'outil.</p></div></article>
+</div>
+</div>
+</section>
+
+<section class="sec">
+<div class="wrap">
+<p class="kicker"><i></i>Étape 2 · CRM</p>
+<h2>Ton <em>suivi clients</em>.</h2>
+<div class="cards">
+
+<article class="rq"><div class="rq-l"><span class="tag yes">Oui</span><h3>Prospect à appeler, appelé, validé, client fait</h3></div>
+<div class="rq-r"><p>Exactement ces colonnes, en glisser-déposer depuis ton téléphone. Une réservation payée en ligne arrive directement en « validé ». <b>J'ajoute une colonne « perdu »</b> avec la raison (trop cher, plus besoin, pas de réponse) : c'est elle qui t'apprendra quoi corriger.</p></div></article>
+
+<article class="rq"><div class="rq-l"><span class="tag yes">Oui</span><h3>Les prospects Meta Ads arrivent seuls dans « à appeler »</h3></div>
+<div class="rq-r"><p>Chaque formulaire rempli sur une de tes pubs Facebook ou Instagram crée la fiche dans « à appeler » et t'envoie une notification sur ton téléphone. Plus tu rappelles vite, plus tu signes : le prospect vient de penser à toi.</p></div></article>
+
+<article class="rq"><div class="rq-l"><span class="tag yes">Oui</span><h3>Rappel automatique de rendez-vous</h3></div>
+<div class="rq-r"><p>Un SMS la veille avec l'heure, l'adresse et le reste à payer. C'est aussi ce qui réduit les absences, en plus de l'acompte.</p></div></article>
+
+<article class="rq"><div class="rq-l"><span class="tag adapt">Oui, adapté</span><h3>Lien de demande d'avis 2 h après la prestation</h3></div>
+<div class="rq-r"><p>Oui, par SMS plutôt que par e-mail : il est lu beaucoup plus souvent. Le lien ouvre directement le formulaire d'avis de ta fiche Google.</p>
+<p class="why"><b>Deux règles de Google à respecter,</b> sous peine de voir des avis supprimés : le message part à <b>tous</b> les clients, pas seulement à ceux qui ont l'air contents, et jamais en échange d'une remise ou d'un cadeau. Google interdit explicitement le tri des avis et les récompenses.</p></div></article>
+
+<article class="rq"><div class="rq-l"><span class="tag adapt">Oui, adapté</span><h3>Envoi de promo tous les 6 mois</h3></div>
+<div class="rq-r"><p>Plutôt une relance personnalisée qu'une promo générale : « Cela fait 6 mois que j'ai nettoyé votre canapé, c'est le bon moment pour l'entretien. » Elle convertit mieux, et elle n'habitue pas tes clients à attendre une réduction.</p>
+<p class="why"><b>Côté loi :</b> tu peux relancer tes anciens clients pour des prestations similaires, à condition que chaque SMS permette de se désinscrire (« STOP »). Pour les simples prospects, il faut leur accord explicite, avec une case non cochée par défaut.</p></div></article>
+</div>
+</div>
+</section>
+
+<section class="sec">
+<div class="wrap">
+<p class="kicker"><i></i>Étape 2 · Comment ça s'assemble</p>
+<h2>Un seul endroit <em>où tout arrive</em>.</h2>
+<p class="sec-sub">Le principe : toutes les entrées (site, pubs, téléphone) alimentent la même base clients, et tout le reste (agenda, SMS, dashboard) en découle. Tu ne saisis jamais deux fois la même info.</p>
+<div class="flow">
+<div class="flow-g">
+<div class="col"><span class="col-t">Ce qui arrive</span>
+<div class="node"><b>Site de réservation</b>Devis, créneau, photos, acompte</div>
+<div class="node"><b>Pubs Meta</b>Formulaires Facebook et Instagram</div>
+<div class="node"><b>Téléphone et SMS</b>Saisie rapide en 20 secondes</div>
+</div>
+<div class="arr" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+<div class="core"><b>Ton CRM</b><span>Prospects, clients, prestations, paiements et avis au même endroit, sur ton téléphone.</span></div>
+<div class="arr" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+<div class="col"><span class="col-t">Ce qui se fait seul</span>
+<div class="node"><b>Ton agenda</b>Rendez-vous créés et bloqués</div>
+<div class="node"><b>SMS automatiques</b>Rappel la veille, demande d'avis, relance à 6 mois</div>
+<div class="node"><b>Ton dashboard</b>Chiffre d'affaires, clients, avis</div>
+</div>
+</div>
+<div class="money"><span class="col-t" style="margin:0">L'argent</span>
+<span class="node"><b>Client</b></span><span class="arr"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<span class="node"><b>Stripe</b>acompte payé</span><span class="arr"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<span class="node"><b>Ton compte Shine</b>virement automatique</span>
+</div>
+<p class="flow-note"><b>Pourquoi du sur-mesure léger plutôt qu'un CRM du marché :</b> tu l'as dit toi-même, la plupart sont faits pour de grosses boîtes. Ton métier a ses règles (kilomètres, états de saleté, acompte, photos), et un outil générique t'obligerait à tout contourner. En contrepartie, un outil sur mesure demande un minimum d'entretien : on le garde volontairement simple.</p>
+</div>
+</div>
+</section>
+
+<section class="sec">
+<div class="wrap">
+<p class="kicker"><i></i>Pour avancer</p>
+<h2>Ce qu'il me faut <em>de ta part</em>.</h2>
+<p class="sec-sub">Coche au fur et à mesure, ça reste enregistré sur ton téléphone.</p>
+<div class="todo">
+<label class="task"><input type="checkbox" data-k="q1"><span><b>Ton agenda :</b> tu utilises Google Agenda, celui de l'iPhone ou un autre ?</span></label>
+<label class="task"><input type="checkbox" data-k="q2"><span><b>Le solde sur place :</b> comment te paient les clients après la prestation (espèces, carte, virement) ?</span></label>
+<label class="task"><input type="checkbox" data-k="q3"><span><b>Tes 6 à 8 meilleurs avis Google,</b> de préférence ceux qui citent le service et la ville.</span></label>
+<label class="task"><input type="checkbox" data-k="q4"><span><b>Le départ des kilomètres :</b> gare de Folligny, ou ton adresse affichée à Cérences ? Il faut que ce soit la même partout.</span></label>
+<label class="task"><input type="checkbox" data-k="q5"><span><b>Deux règles à valider :</b> +30 € pour un état « extrême », et l'acompte conservé si annulation moins de 48 h avant.</span></label>
+<label class="task"><input type="checkbox" data-k="q6"><span><b>Les accès :</b> ta fiche Google Business Profile et ton compte Meta Business, pour brancher les avis et les pubs.</span></label>
+<label class="task"><input type="checkbox" data-k="q7"><span><b>Ton volume :</b> combien de prestations par semaine en moyenne, pour dimensionner les SMS.</span></label>
+<label class="task"><input type="checkbox" data-k="q8"><span><b>Une photo de toi au travail,</b> pour la section « Qui je suis » du site.</span></label>
+</div>
+
+<p class="src">Sources : <a href="https://developers.shine.fr/v2.0" target="_blank" rel="noopener">accès à l'API Shine</a>, <a href="https://www.shine.fr/encaissements/" target="_blank" rel="noopener">encaissements Shine (compatibilité Stripe)</a>, <a href="https://stripe.com/fr/pricing" target="_blank" rel="noopener">tarifs Stripe</a>, <a href="https://www.cybercite.fr/ressources/dossiers/consent-mode-v2-campagnes-google-ads" target="_blank" rel="noopener">Consent Mode v2</a>, <a href="https://support.google.com/contributionpolicy/answer/7400114?hl=fr" target="_blank" rel="noopener">règlement Google sur les avis</a>, <a href="https://www.cnil.fr/fr/la-prospection-commerciale-par-courrier-electronique-sms-mms-et-automate-dappel" target="_blank" rel="noopener">CNIL, prospection par SMS</a>, <a href="https://metricool.com/pricing/" target="_blank" rel="noopener">tarifs Metricool</a>, <a href="https://help.metricool.com/main-differences-between-free-and-paid-plans-bl0v9" target="_blank" rel="noopener">formule gratuite Metricool</a>. Vérifié le 30 septembre 2026.</p>
+</div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>Préparé par Eric pour Shampo' Clean · septembre 2026</span><span><a href="index.html">L'audit</a> · <a href="maquette.html">La maquette</a></span></div></footer>
+
+<script>
+(function () {
+  var KEY = 'shampoclean-retours';
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
+  Array.prototype.forEach.call(document.querySelectorAll('.task input'), function (b) {
+    b.checked = !!saved[b.getAttribute('data-k')];
+    b.addEventListener('change', function () {
+      saved[b.getAttribute('data-k')] = b.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+    });
+  });
+})();
+</script>
+</body>
+</html>

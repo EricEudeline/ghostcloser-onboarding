@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap">
 <style>
-:root{--bg:#F7F4EE;--sand:#EEE8DD;--card:#FFFFFF;--ink:#1A1D1B;--text:#3B403C;--muted:#5B605C;--line:#E1DACE;--accent:#1E4A40;--gold:#B08A4E;--gold-t:#7E6130;--night:#171A18;--warn-bg:#FBF1DE;--warn-line:#EACB90;--warn-t:#5E3B07;--bad-bg:#F8E3DE;--bad-t:#7A2A1C;--ok-bg:#E3EEE9;--ok-t:#1E4A40}
+:root{--bg:#F7F4EE;--sand:#EEE8DD;--card:#FFFFFF;--ink:#1A1D1B;--text:#3B403C;--muted:#5B605C;--line:#E1DACE;--accent:#2B2A29;--gold:#E0BE7B;--gold-t:#7C5E2A;--night:#2B2A29;--warn-bg:#FBF1DE;--warn-line:#EACB90;--warn-t:#5E3B07;--bad-bg:#F8E3DE;--bad-t:#7A2A1C;--ok-bg:#E3EEE9;--ok-t:#1E4A40}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:84px}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased;font-size:16.5px;line-height:1.65}
@@ -20,12 +20,12 @@ a{color:var(--accent)}
 .top{position:sticky;top:0;z-index:20;background:rgba(247,244,238,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid #E4DED3}
 .top-in{display:flex;align-items:center;justify-content:space-between;gap:20px;height:68px}
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);min-width:0}
-.mono{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',Georgia,serif;font-size:20px;color:var(--gold-t);letter-spacing:-2px;background:#FBF8F2;flex-shrink:0}
+.mono{width:40px;height:40px;border-radius:50%;border:1.5px solid #B8995C;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',Georgia,serif;font-size:20px;color:var(--gold-t);letter-spacing:-2px;background:#FBF8F2;flex-shrink:0}
 .brand b{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:22px;line-height:1;white-space:nowrap}
 .brand small{display:block;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-top:3px;white-space:nowrap}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;border-radius:999px;font-weight:800;font-size:15px;text-decoration:none;border:0;cursor:pointer;white-space:nowrap;transition:background .2s,transform .2s}
 .btn-primary{background:var(--accent);color:#fff}
-.btn-primary:hover{background:#163A32;color:#fff;transform:translateY(-1px)}
+.btn-primary:hover{background:#1F1E1D;color:#fff;transform:translateY(-1px)}
 .btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
 .btn-ghost:hover{background:var(--ink);color:#fff}
 
@@ -38,7 +38,7 @@ a{color:var(--accent)}
 .kicker{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-t);font-weight:800;margin:0 0 14px;display:flex;align-items:center;gap:10px}
 .kicker i{width:28px;height:1.5px;background:var(--gold);display:block}
 h1{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:68px;line-height:1;letter-spacing:-.02em;margin:0 0 22px;text-wrap:balance}
-h1 em,h2 em{font-style:italic;color:var(--accent)}
+h1 em,h2 em{font-style:italic;color:var(--gold-t)}
 .lead{font-size:19px;line-height:1.6;color:var(--text);max-width:720px;margin:0}
 .meta{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:22px;font-size:14px;color:var(--muted);font-weight:600}
 
@@ -60,7 +60,7 @@ h3.sub .n{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size
 p{margin:0 0 14px;color:var(--text);max-width:780px}
 .sec p.big{font-size:18px;color:var(--ink)}
 .callout{background:var(--night);color:#F2EEE6;border-radius:22px;padding:26px 28px;margin:26px 0 0;font-size:17px;line-height:1.6}
-.callout b{color:#D9B877}
+.callout b{color:var(--gold)}
 .callout p{color:#DAD6CE;margin:0}
 .callout p+p{margin-top:12px}
 .action{display:flex;gap:12px;align-items:flex-start;background:var(--warn-bg);border:1px solid var(--warn-line);color:var(--warn-t);border-radius:16px;padding:14px 18px;margin:18px 0 0;font-size:15px;line-height:1.55;max-width:none}
@@ -103,7 +103,7 @@ p{margin:0 0 14px;color:var(--text);max-width:780px}
 
 .maq{margin-top:8px;background:var(--accent);color:#fff;border-radius:28px;padding:48px;display:flex;justify-content:space-between;align-items:center;gap:32px}
 .maq h2{color:#fff;margin:0 0 10px}
-.maq h2 em{color:#D9B877}
+.maq h2 em{color:var(--gold)}
 .maq p{color:rgba(255,255,255,.85);margin:0;max-width:560px}
 .maq .btn{background:#fff;color:var(--ink)}
 .maq .btn:hover{background:#F2EEE6;color:var(--ink)}
@@ -150,7 +150,7 @@ h2{font-size:33px}
 <header class="top">
 <div class="wrap top-in">
 <a class="brand" href="#haut"><span class="mono">SC</span><span><b>Shampo' Clean</b><small>Audit SEO et marketing</small></span></a>
-<a class="btn btn-primary" href="maquette.html">Voir la maquette</a>
+<span style="display:flex;gap:8px"><a class="btn btn-ghost hide-sm" href="retours.html">Tes retours</a><a class="btn btn-primary" href="maquette.html">Voir la maquette</a></span>
 </div>
 </header>
 
