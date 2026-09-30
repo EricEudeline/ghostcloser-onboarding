@@ -42,6 +42,9 @@ h1 em{font-style:italic;color:var(--gold)}
 .sc b{display:block;color:#F3EEE4;font-size:15.5px}
 .order{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:26px;font-size:14.5px;color:var(--mu-d);font-weight:600}
 .order b{color:var(--gold)}
+.cta2{display:flex;justify-content:space-between;align-items:center;gap:20px;background:var(--ch);color:var(--tx-d);border-radius:24px;padding:26px 30px;margin:0 0 28px}
+.cta2 h3{margin:0 0 4px;font-size:20px;font-weight:800;color:#F3EEE4}
+.cta2 p{margin:0;font-size:15px;line-height:1.55;color:var(--mu-d);max-width:620px}
 
 .sec{padding:64px 0 16px}
 .sec h2{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:46px;line-height:1.05;letter-spacing:-.015em;margin:0 0 8px}
@@ -114,7 +117,14 @@ h1{font-size:48px}
 body{font-size:16px}
 .wrap{padding:0 18px}
 .brand small{display:none}
-.top-l .btn-line{display:none}
+.top-l .hide-m{display:none}
+.top-l{gap:6px}
+.top-l .btn{padding:0 13px;font-size:13.5px;min-height:40px}
+.brand b{font-size:19px}
+.cta2{flex-direction:column;align-items:flex-start;padding:22px}
+}
+@media (max-width:440px){
+.brand>span:last-child{display:none}
 .hero{padding:40px 0 40px}
 h1{font-size:40px}
 .lead{font-size:17px}
@@ -130,7 +140,7 @@ h1{font-size:40px}
 <header class="top">
 <div class="wrap top-in">
 <a class="brand" href="#haut"><span class="mono">SC</span><span><b>Shampo' Clean</b><small>Tes retours, point par point</small></span></a>
-<div class="top-l"><a class="btn btn-line" href="index.html">L'audit</a><a class="btn btn-gold" href="maquette.html">La maquette</a></div>
+<div class="top-l"><a class="btn btn-line hide-m" href="index.html">L'audit</a><a class="btn btn-line" href="maquette.html">La maquette</a><a class="btn btn-gold" href="crm.html">Le CRM</a></div>
 </div>
 </header>
 
@@ -144,7 +154,7 @@ h1{font-size:40px}
 <div class="sc"><strong>4</strong><span><b>Adaptés</b>même objectif, meilleure façon</span></div>
 <div class="sc"><strong>2</strong><span><b>Autrement</b>ce que tu veux, par un autre chemin</span></div>
 </div>
-<div class="order"><span><b>Étape 1</b> · le site (maquette mise à jour avec tes couleurs)</span><span><b>Étape 2</b> · le CRM et le dashboard</span></div>
+<div class="order"><span><b>Étape 1</b> · le site (maquette mise à jour avec tes couleurs)</span><span><b>Étape 2</b> · le CRM et le dashboard (<a href="crm.html" style="color:var(--gold)">maquette prête</a>)</span></div>
 </div>
 </section>
 
@@ -205,6 +215,7 @@ h1{font-size:40px}
 <div class="wrap">
 <p class="kicker"><i></i>Étape 2 · Dashboard</p>
 <h2>Ton <em>tableau de bord</em>.</h2>
+<div class="cta2"><div><h3>La maquette du CRM est prête</h3><p>Tableau de bord, prospects, agenda, clients et SMS automatiques, avec des clients et des chiffres fictifs. Essaie-la sur ton téléphone : glisse un prospect, termine une prestation, simule une pub Meta.</p></div><a class="btn btn-gold" href="crm.html">Ouvrir le CRM</a></div>
 <div class="cards">
 
 <article class="rq"><div class="rq-l"><span class="tag yes">Oui</span><h3>Clients, chiffre d'affaires par client, du mois et mois par mois</h3></div>
@@ -235,7 +246,7 @@ h1{font-size:40px}
 <div class="rq-r"><p>Chaque formulaire rempli sur une de tes pubs Facebook ou Instagram crée la fiche dans « à appeler » et t'envoie une notification sur ton téléphone. Plus tu rappelles vite, plus tu signes : le prospect vient de penser à toi.</p></div></article>
 
 <article class="rq"><div class="rq-l"><span class="tag yes">Oui</span><h3>Rappel automatique de rendez-vous</h3></div>
-<div class="rq-r"><p>Un SMS la veille avec l'heure, l'adresse et le reste à payer. C'est aussi ce qui réduit les absences, en plus de l'acompte. À 5 prestations par semaine, rappels, demandes d'avis et relances font une soixantaine de SMS par mois : quelques euros au total.</p></div></article>
+<div class="rq-r"><p>Un SMS la veille avec l'heure, l'adresse et le reste à payer. C'est aussi ce qui réduit les absences, en plus de l'acompte. À 5 prestations par semaine, rappels, demandes d'avis et relances font une soixantaine de SMS par mois. Avec les confirmations de réservation et les réponses aux prospects Meta, compte plutôt une centaine : quelques euros au total.</p></div></article>
 
 <article class="rq"><div class="rq-l"><span class="tag adapt">Oui, adapté</span><h3>Lien de demande d'avis 2 h après la prestation</h3></div>
 <div class="rq-r"><p>Oui, par SMS plutôt que par e-mail : il est lu beaucoup plus souvent. Le lien ouvre directement le formulaire d'avis de ta fiche Google.</p>
