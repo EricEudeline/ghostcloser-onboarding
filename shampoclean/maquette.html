@@ -157,11 +157,15 @@ img{display:block;max-width:100%}
 .sup-r strong{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:28px;line-height:1;white-space:nowrap;color:var(--ink)}
 .pk-inc{margin:2px 0 0;font-size:13.5px;color:var(--mu-l)}
 .pack.hi li svg{color:var(--gold)}
-.tex{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin-top:20px}
+.tex{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin-top:0}
+.sub-h{margin-top:72px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.sub-h h3{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:42px;line-height:1.05;letter-spacing:-.015em;margin:0;color:var(--ink)}
+.sub-h h3 em{font-style:italic;color:var(--gold-d)}
+.sub-h p{margin:0;font-size:15.5px;line-height:1.55;color:var(--tx-l);max-width:420px}
 .tx{background:var(--paper);border:1px solid var(--line-l);border-radius:22px;padding:24px 24px 18px;color:var(--ink)}
 .tx h4{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:26px;margin:0 0 12px}
 .tx-r{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-top:1px solid #EFEAE1;font-size:14.5px;color:var(--tx-l)}
-.tx-r b{font-weight:800;color:var(--ink)}
+.tx-r b{font-weight:800;color:var(--ink);white-space:nowrap}
 .fine{font-size:14px;color:var(--mu-l);margin:22px 0 0;line-height:1.6}
 
 .gal-f{display:flex;gap:8px;flex-wrap:wrap}
@@ -427,6 +431,8 @@ img{display:block;max-width:100%}
 .final{padding:32px 24px;border-radius:24px}
 .ftr-g{grid-template-columns:minmax(0,1fr)}
 .pack-p{font-size:52px}
+.sub-h{margin-top:52px;gap:10px}
+.sub-h h3{font-size:32px}
 }
 
 [hidden]{display:none!important}
@@ -470,14 +476,14 @@ img{display:block;max-width:100%}
 <span class="gb-n">5,0</span>
 <span class="gb-t"><span class="stars" data-stars="16"></span><b>87 avis Google</b><small>Note moyenne sur Google</small></span>
 </a>
-<h1 class="h1">Votre voiture et vos textiles <em>comme neufs</em>, sans bouger de chez vous.</h1>
-<p class="lead">Intérieur auto, canapé, fauteuil, matelas et tapis. Je viens chez vous avec mon matériel professionnel, 7 jours sur 7, de Granville à Coutances et Avranches.</p>
+<h1 class="h1">Vos canapés, matelas et tapis <em>comme neufs</em>, sans bouger de chez vous.</h1>
+<p class="lead">Canapé, fauteuil, matelas, tapis, et aussi l'intérieur de votre voiture. Je viens chez vous avec mon matériel professionnel, 7 jours sur 7, de Granville à Coutances et Avranches.</p>
 <div class="pchips" aria-label="Prix de départ">
-<a class="pchip" href="#reserver" data-act="card" data-type="auto">Intérieur auto <b>dès 65 €</b></a>
 <a class="pchip" href="#reserver" data-act="card" data-type="canape">Canapé <b>dès 60 €</b></a>
 <a class="pchip" href="#reserver" data-act="card" data-type="fauteuil">Fauteuil <b>dès 40 €</b></a>
 <a class="pchip" href="#reserver" data-act="card" data-type="matelas">Matelas <b>dès 60 €</b></a>
 <a class="pchip" href="#reserver" data-act="card" data-type="tapis">Tapis <b>15 €/m²</b></a>
+<a class="pchip" href="#reserver" data-act="card" data-type="auto">Intérieur auto <b>dès 65 €</b></a>
 </div>
 <div class="hero-ctas">
 <a class="btn btn-gold" href="#reserver">Mon devis en 1 minute<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
@@ -489,8 +495,8 @@ img{display:block;max-width:100%}
 <img class="hero-img2" data-img="auto-banquette-moisissure" alt="Banquette arrière de voiture couverte de moisissures, avant et après nettoyage">
 <div class="qcard">
 <div class="stars" data-stars="14" aria-label="5 étoiles sur 5"></div>
-<p>« J'ai confié ma voiture à Shampo Clean et je me demande encore si c'est bien la mienne qu'on m'a rendue ! »</p>
-<small>Alliance Musique · avis Google</small>
+<p>« Nettoyage d'un canapé à Jullouville. Très bon travail. Après nettoyage, le canapé est quasi neuf. »</p>
+<small>Geneviève D. · avis Google</small>
 </div>
 </div>
 </div>
@@ -512,11 +518,11 @@ img{display:block;max-width:100%}
 <p class="sec-sub">Chaque matière a son produit. Je traite tissu, cuir, velours et microfibre, jusqu'aux taches d'urine et aux moisissures.</p>
 </div>
 <div class="svcs">
-<article class="svc"><img data-img="auto-siege-tache" alt="Siège de voiture taché, avant et après shampouinage"><div class="svc-b"><h3>Intérieur auto</h3><span class="svc-p">Dès 65 €</span><p class="svc-d">Aspiration, plastiques, vitres, tapis et sièges selon la formule.</p><a class="svc-l" href="#reserver" data-act="card" data-type="auto">Réserver<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></div></article>
 <article class="svc"><img data-img="canape-convertible" alt="Canapé convertible avant et après nettoyage"><div class="svc-b"><h3>Canapé</h3><span class="svc-p">Dès 60 €</span><p class="svc-d">Injection-extraction en profondeur et désinfection vapeur.</p><a class="svc-l" href="#reserver" data-act="card" data-type="canape">Réserver<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></div></article>
 <article class="svc"><img data-img="fauteuil-urine" alt="Fauteuil en tissu taché d'urine, avant et après nettoyage à Coutances"><div class="svc-b"><h3>Fauteuil</h3><span class="svc-p">Dès 40 €</span><p class="svc-d">Fauteuil de salon, bergère ou chaise gaming.</p><a class="svc-l" href="#reserver" data-act="card" data-type="fauteuil">Réserver<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></div></article>
 <article class="svc"><img data-img="matelas-urine" alt="Matelas taché d'urine, avant et après nettoyage à Coutances"><div class="svc-b"><h3>Matelas</h3><span class="svc-p">Dès 60 €</span><p class="svc-d">Acariens, auréoles, taches et odeurs d'urine.</p><a class="svc-l" href="#reserver" data-act="card" data-type="matelas">Réserver<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></div></article>
 <article class="svc"><img data-img="tapis-persan" alt="Tapis persan avant et après shampouinage à Granville"><div class="svc-b"><h3>Tapis et moquette</h3><span class="svc-p">15 € le m²</span><p class="svc-d">Persan, oriental ou moderne, fibres naturelles ou synthétiques.</p><a class="svc-l" href="#reserver" data-act="card" data-type="tapis">Réserver<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></div></article>
+<article class="svc"><img data-img="auto-siege-tache" alt="Siège de voiture taché, avant et après shampouinage"><div class="svc-b"><h3>Intérieur auto</h3><span class="svc-p">Dès 65 €</span><p class="svc-d">Aspiration, plastiques, vitres, tapis et sièges selon la formule.</p><a class="svc-l" href="#reserver" data-act="card" data-type="auto">Réserver<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></div></article>
 </div>
 </div>
 </section>
@@ -538,16 +544,17 @@ img{display:block;max-width:100%}
 <section class="sec white" id="tarifs">
 <div class="wrap">
 <div class="sec-head">
-<div><p class="kicker"><i></i>Tarifs</p><h2 class="h2">Intérieur auto : <em>deux formules</em>.</h2></div>
+<div><p class="kicker"><i></i>Tarifs</p><h2 class="h2">Canapés, matelas, tapis : <em>des prix clairs</em>.</h2></div>
 <p class="sec-sub">Le déplacement s'ajoute, calculé au kilomètre près au moment de réserver.</p>
 </div>
-<div class="packs" id="packs"></div>
 <div class="tex">
 <div class="tx"><h4>Canapé</h4><div class="tx-r"><span>2 places</span><b>60 €</b></div><div class="tx-r"><span>3 places</span><b>75 €</b></div><div class="tx-r"><span>Plus de 3 places</span><b>90 €</b></div></div>
 <div class="tx"><h4>Fauteuil</h4><div class="tx-r"><span>1 fauteuil</span><b>40 €</b></div><div class="tx-r"><span>2 fauteuils</span><b>75 €</b></div><div class="tx-r"><span>3 fauteuils</span><b>110 €</b></div></div>
 <div class="tx"><h4>Matelas</h4><div class="tx-r"><span>1 place</span><b>60 €</b></div><div class="tx-r"><span>1 place ½</span><b>65 €</b></div><div class="tx-r"><span>2 places</span><b>70 €</b></div><div class="tx-r"><span>Plus grand</span><b>75 €</b></div></div>
 <div class="tx"><h4>Tapis et options</h4><div class="tx-r"><span>Tapis, moquette</span><b>15 € / m²</b></div><div class="tx-r"><span>Anti-odeurs enzymatique</span><b>+15 €</b></div><div class="tx-r"><span>État très sale</span><b>+15 €</b></div><div class="tx-r"><span>État extrême</span><b>+30 €</b></div></div>
 </div>
+<div class="sub-h"><h3>Intérieur auto : <em>deux formules</em>.</h3><p>Le niveau d'état et le déplacement s'appliquent à toutes les prestations.</p></div>
+<div class="packs" id="packs"></div>
 <p class="fine">Déplacement : 0,35 € par km depuis la gare de Folligny, calculé automatiquement à la réservation. Le traitement anti-odeurs concerne les canapés, fauteuils, matelas et tapis.</p>
 </div>
 </section>
@@ -648,7 +655,7 @@ img{display:block;max-width:100%}
 <div>
 <p class="kicker"><i></i>Qui je suis</p>
 <h2 class="h2">Un seul interlocuteur, <em>du devis à la dernière aspiration</em>.</h2>
-<p class="body-t">Shampo' Clean, c'est Alain. Je me déplace chez vous avec un matériel professionnel pour redonner propreté et confort à votre voiture et à vos textiles, ponctuellement ou régulièrement.</p>
+<p class="body-t">Shampo' Clean, c'est Alain. Je me déplace chez vous avec un matériel professionnel pour redonner propreté et confort à vos canapés, matelas, tapis et à votre voiture, ponctuellement ou régulièrement.</p>
 <div class="feats">
 <div class="feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg><span><b>Injecteur-extracteur pro</b> qui nettoie les fibres en profondeur.</span></div>
 <div class="feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg><span><b>Désinfection vapeur</b> sur les tissus et les plastiques.</span></div>
@@ -693,9 +700,9 @@ img{display:block;max-width:100%}
 <div class="ftr-g">
 <div>
 <a class="logo" href="#top"><span class="mono">SC</span><span class="word"><b>Shampo' Clean</b><small>Nettoyage à domicile · Manche</small></span></a>
-<p>Nettoyage intérieur auto, canapé, fauteuil, matelas et tapis à domicile. 7 jours sur 7, de 8 h à 20 h.</p>
+<p>Nettoyage de canapé, fauteuil, matelas, tapis et intérieur auto à domicile. 7 jours sur 7, de 8 h à 20 h.</p>
 </div>
-<div class="ftr-l"><h5>Prestations</h5><a href="#prestations">Intérieur auto</a><a href="#prestations">Canapé et fauteuil</a><a href="#prestations">Matelas</a><a href="#prestations">Tapis et moquette</a><a href="#tarifs">Carte cadeau</a></div>
+<div class="ftr-l"><h5>Prestations</h5><a href="#prestations">Canapé et fauteuil</a><a href="#prestations">Matelas</a><a href="#prestations">Tapis et moquette</a><a href="#prestations">Intérieur auto</a><a href="#tarifs">Carte cadeau</a></div>
 <div class="ftr-l"><h5>Contact</h5><a href="tel:+33658078295" data-track="clic_appel">06 58 07 82 95</a><a href="sms:+33658078295" data-track="clic_sms">Envoyer un SMS</a><a href="#reserver">Réserver en ligne</a><a href="#zone">Zone d'intervention</a></div>
 <div class="ftr-l"><h5>Suivre</h5><a href="https://www.instagram.com/shampoclean.pro/" target="_blank" rel="noopener">Instagram</a><a href="https://www.tiktok.com/@shampoclean.pro" target="_blank" rel="noopener">TikTok</a><a href="https://www.youtube.com/@ShampoClean" target="_blank" rel="noopener">YouTube</a><a href="https://www.facebook.com/profile.php?id=61577139523545" target="_blank" rel="noopener">Facebook</a></div>
 </div>
@@ -751,7 +758,7 @@ var COMMUNES_RAW = {"base":"Gare de Folligny","method":"distance a vol d oiseau 
     { id: 'eco', name: 'Économique', tag: 'L\u2019essentiel', price: 65, inc: ['Aspiration de l\u2019habitacle', 'Entretien des plastiques', 'Shampouinage des tapis', 'Lavage des vitres'], exc: ['Shampouinage des sièges', 'Lavage des sièges en cuir'] },
     { id: 'premium', name: 'Premium', tag: 'Sièges compris', price: 95, inc: ['Aspiration de l\u2019habitacle', 'Entretien des plastiques', 'Shampouinage des tapis', 'Lavage des vitres', 'Shampouinage des sièges', 'Lavage des sièges en cuir'], exc: [] }
   ];
-  var REVIEWS = [["Intérieur auto", "J'ai confié ma voiture à Shampo Clean et je me demande encore si c'est bien la mienne qu'on m'a rendue ! Franchement, le résultat est incroyable. Un travail hyper minutieux, soigné dans les moindres détails.", "Alliance Musique"], ["Canapé · odeurs d'animaux", "Très satisfaite du résultat, je recommande à 100 %. Plus d'odeur d'urines d'animaux sur mon canapé. Je reprendrais rdv sans hésiter pour les véhicules.", "Andrea"], ["Canapé · Jullouville", "Nettoyage d'un canapé à Jullouville. Très bon travail. Après nettoyage, le canapé est quasi neuf. Bravo et merci.", "Geneviève D."], ["Intérieur auto", "Service de detailing à domicile au top ! Intervention réalisée avec beaucoup de soin pour ma Mégane 3 RS. Le résultat est impeccable, la voiture est ressortie comme neuve. Professionnel et très méticuleux.", "Auvray L."], ["Canapé", "J'ai fait intervenir ce professionnel pour le nettoyage de mon canapé et je suis vraiment satisfaite du résultat. Personne très sympa, ponctuelle et professionnelle. Mon canapé est comme neuf, le résultat est au top.", "Mélodie B."], ["Canapé · Camprond", "Professionnel très réactif et très efficace. Le nettoyage de mon canapé a nécessité 1 heure et le résultat est parfait. Déplacement à Camprond pour effectuer le nettoyage de mon canapé. Je recommande.", "Sandrine G."], ["Canapé", "Je suis entièrement satisfaite du nettoyage de mon canapé. Le travail a été réalisé avec beaucoup de professionnalisme et de soin. J'ai également reçu de très bons conseils pour l'entretien après nettoyage.", "Émilie Q."], ["Véhicule, canapé, lit", "Je recommande à 200 % ! Un jeune homme travailleur qui a fait un travail monstre. Je suis très satisfaite ainsi que ma tante, car il y avait tellement de taf et en 4 h 30 il a fait tellement.", "Aurélie"], ["Canapé", "Je suis entièrement satisfait, mon canapé a retrouvé sa jeunesse. Mille fois merci.", "Michel E."], ["", "Très bonne prestation, efficacité et sérieux au RDV. Je recommande tout à fait Shampo Clean !", "Janik F."]];
+  var REVIEWS = [["Canapé · Jullouville", "Nettoyage d'un canapé à Jullouville. Très bon travail. Après nettoyage, le canapé est quasi neuf. Bravo et merci.", "Geneviève D."], ["Canapé · odeurs d'animaux", "Très satisfaite du résultat, je recommande à 100 %. Plus d'odeur d'urines d'animaux sur mon canapé. Je reprendrais rdv sans hésiter pour les véhicules.", "Andrea"], ["Canapé", "Je suis entièrement satisfait, mon canapé a retrouvé sa jeunesse. Mille fois merci.", "Michel E."], ["Canapé", "J'ai fait intervenir ce professionnel pour le nettoyage de mon canapé et je suis vraiment satisfaite du résultat. Personne très sympa, ponctuelle et professionnelle. Mon canapé est comme neuf, le résultat est au top.", "Mélodie B."], ["Canapé · Camprond", "Professionnel très réactif et très efficace. Le nettoyage de mon canapé a nécessité 1 heure et le résultat est parfait. Déplacement à Camprond pour effectuer le nettoyage de mon canapé. Je recommande.", "Sandrine G."], ["Canapé", "Je suis entièrement satisfaite du nettoyage de mon canapé. Le travail a été réalisé avec beaucoup de professionnalisme et de soin. J'ai également reçu de très bons conseils pour l'entretien après nettoyage.", "Émilie Q."], ["Véhicule, canapé, lit", "Je recommande à 200 % ! Un jeune homme travailleur qui a fait un travail monstre. Je suis très satisfaite ainsi que ma tante, car il y avait tellement de taf et en 4 h 30 il a fait tellement.", "Aurélie"], ["Intérieur auto", "J'ai confié ma voiture à Shampo Clean et je me demande encore si c'est bien la mienne qu'on m'a rendue ! Franchement, le résultat est incroyable. Un travail hyper minutieux, soigné dans les moindres détails.", "Alliance Musique"], ["Intérieur auto", "Service de detailing à domicile au top ! Intervention réalisée avec beaucoup de soin pour ma Mégane 3 RS. Le résultat est impeccable, la voiture est ressortie comme neuve. Professionnel et très méticuleux.", "Auvray L."], ["", "Très bonne prestation, efficacité et sérieux au RDV. Je recommande tout à fait Shampo Clean !", "Janik F."]];
   var TEX = {
     canape: { label: 'Canapé', opts: [['2 places', 60], ['3 places', 75], ['Plus de 3 places', 90]] },
     fauteuil: { label: 'Fauteuil', opts: [['1 fauteuil', 40], ['2 fauteuils', 75], ['3 fauteuils', 110]] },
@@ -765,40 +772,40 @@ var COMMUNES_RAW = {"base":"Gare de Folligny","method":"distance a vol d oiseau 
     { id: 4, name: 'Extrême', desc: 'Moisissures étendues, vomi, urine, odeurs fortes', sup: 30 }
   ];
   var CHIPS = [
-    { type: 'auto', label: 'Intérieur auto', from: 'Dès 65 €', img: 'auto-siege-tache' },
     { type: 'canape', label: 'Canapé', from: 'Dès 60 €', img: 'canape-convertible' },
     { type: 'fauteuil', label: 'Fauteuil', from: 'Dès 40 €', img: 'fauteuil-urine' },
     { type: 'matelas', label: 'Matelas', from: 'Dès 60 €', img: 'matelas-urine' },
-    { type: 'tapis', label: 'Tapis', from: '15 € le m²', img: 'tapis-persan' }
+    { type: 'tapis', label: 'Tapis', from: '15 € le m²', img: 'tapis-persan' },
+    { type: 'auto', label: 'Intérieur auto', from: 'Dès 65 €', img: 'auto-siege-tache' }
   ];
   var GALLERY = [
-    ['auto', 'auto-banquette-moisissure', 'Banquette arrière, moisissures'],
     ['canape', 'canape-angle', 'Canapé d’angle en tissu'],
     ['fauteuil', 'fauteuil-gaming', 'Fauteuil gaming'],
     ['tapis', 'tapis-oriental', 'Tapis oriental, fibres naturelles'],
-    ['auto', 'auto-sieges-moisissures', 'Sièges avant, moisissures'],
     ['matelas', 'matelas-urine', 'Matelas, taches d’urine, Coutances'],
     ['canape', 'canape-velours', 'Canapé velours, Granville'],
-    ['auto', 'auto-moquette-poils', 'Moquette, poils d’animaux'],
     ['fauteuil', 'fauteuil-velours', 'Fauteuil velours, Granville'],
-    ['auto', 'auto-ceinture-moisissure', 'Ceinture de sécurité, moisissures'],
     ['tapis', 'tapis-persan', 'Tapis persan, Granville'],
     ['canape', 'canape-meridienne', 'Méridienne'],
-    ['auto', 'auto-habitacle', 'Habitacle complet'],
+    ['auto', 'auto-banquette-moisissure', 'Banquette arrière, moisissures'],
     ['fauteuil', 'fauteuil-urine', 'Fauteuil en tissu, urine, Coutances'],
+    ['auto', 'auto-sieges-moisissures', 'Sièges avant, moisissures'],
     ['canape', 'canape-tissu', 'Canapé en tissu'],
+    ['auto', 'auto-moquette-poils', 'Moquette, poils d’animaux'],
     ['tapis', 'tapis-bleu', 'Tapis moderne'],
-    ['auto', 'auto-siege-tache', 'Siège conducteur, taches'],
-    ['canape', 'canape-convertible', 'Canapé convertible']
+    ['auto', 'auto-ceinture-moisissure', 'Ceinture de sécurité, moisissures'],
+    ['canape', 'canape-convertible', 'Canapé convertible'],
+    ['auto', 'auto-habitacle', 'Habitacle complet'],
+    ['auto', 'auto-siege-tache', 'Siège conducteur, taches']
   ];
-  var GAL_TABS = [['all', 'Tout'], ['auto', 'Auto'], ['canape', 'Canapés'], ['fauteuil', 'Fauteuils'], ['matelas', 'Matelas'], ['tapis', 'Tapis']];
+  var GAL_TABS = [['all', 'Tout'], ['canape', 'Canapés'], ['fauteuil', 'Fauteuils'], ['matelas', 'Matelas'], ['tapis', 'Tapis'], ['auto', 'Auto']];
   var ZONES = [['La Haye-Pesnel'], ['Sartilly-Baie-Bocage', 'Sartilly'], ['Cérences'], ['Saint-Pair-sur-Mer'], ['Granville'], ['Bréhal'], ['Villedieu-les-Poêles-Rouffigny', 'Villedieu-les-Poêles'], ['Avranches'], ['Coutances'], ['Pontorson'], ['Saint-Lô'], ['Cherbourg-en-Cotentin', 'Cherbourg']];
   var SLOTS = ['8h00', '10h30', '13h30', '16h00', '18h00'];
   var FAQ = [
     ['Comment est calculé le prix ?', 'Le prix de la prestation dépend de la formule et de la taille, avec un supplément éventuel selon l’état que vous déclarez. Le déplacement est facturé 0,35 € par km depuis la gare de Folligny. Tout s’affiche avant de réserver.'],
     ['Pourquoi un acompte de 20 € ?', 'Il bloque votre créneau. Il est déduit du total et vous réglez le reste après la prestation. Il est conservé seulement en cas d’absence ou d’annulation moins de 48 h avant.'],
     ['Et si c’est plus sale que ce que j’ai indiqué ?', 'Je vous le signale avant de commencer et vous validez le supplément. Si vous avez joint des photos fidèles à la réservation, le prix est garanti.'],
-    ['Combien de temps dure une intervention ?', 'Comptez environ 2 h 30 pour une voiture et 45 min pour un canapé ou un matelas. Un traitement anti-odeurs ajoute environ 30 min.'],
+    ['Combien de temps dure une intervention ?', 'Comptez environ 45 min pour un canapé ou un matelas, et 2 h 30 pour une voiture. Un traitement anti-odeurs ajoute environ 30 min.'],
     ['Les produits sont-ils sans danger ?', 'Oui. J’utilise des produits professionnels adaptés à chaque matière, sans danger pour les enfants et les animaux.'],
     ['Mon cas ne rentre pas dans les cases, comment faire ?', 'Appelez-moi ou envoyez un SMS au 06 58 07 82 95 avec une photo. Je vous réponds en moins de 2 h avec un prix adapté.'],
     ['Vous éliminez vraiment les odeurs d’urine ?', 'Oui, avec un traitement enzymatique qui neutralise les cristaux d’acide urique responsables de l’odeur, au lieu de la masquer.']
