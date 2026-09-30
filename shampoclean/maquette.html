@@ -74,9 +74,17 @@ img{display:block;max-width:100%}
 .qcard small{font-size:12.5px;color:var(--mu-l);font-weight:600}
 
 .revs{background:var(--ch2);border-top:1px solid var(--line-d);border-bottom:1px solid var(--line-d);padding:40px 0}
-.revs-g{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1fr) minmax(0,1fr) minmax(0,.9fr);gap:16px;align-items:stretch}
+.revs-h{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px}
+.revs-h h2{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:32px;line-height:1.1;margin:0;color:#F3EEE4}
+.revs-nav{display:flex;gap:8px}
+.rv-btn{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line-d);background:transparent;color:var(--tx-d);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.rv-btn:hover{border-color:var(--gold);color:var(--gold)}
+.revs-track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:none}
+.revs-track::-webkit-scrollbar{display:none}
+.revs-track>.rv{flex:0 0 320px;scroll-snap-align:start}
+.rv-tag{display:inline-flex;align-self:flex-start;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);border:1px solid var(--line-d);border-radius:999px;padding:4px 10px}
 .rv{background:var(--ch);border:1px solid var(--line-d);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:12px}
-.rv p{margin:0;font-size:15.5px;line-height:1.55;color:#F3EEE4;flex-grow:1}
+.rv p{margin:0;font-size:15px;line-height:1.55;color:#F3EEE4;flex-grow:1}
 .rv small{font-size:13px;color:var(--mu-d);font-weight:600}
 .rv-score{justify-content:center}
 .rv-score strong{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:64px;line-height:.9;color:#F3EEE4}
@@ -139,6 +147,15 @@ img{display:block;max-width:100%}
 .pack.hi ul{border-top-color:var(--line-d)}
 .pack li{display:flex;gap:10px;font-size:15px;line-height:1.4}
 .pack li svg{flex-shrink:0;margin-top:2px;color:var(--gold-d)}
+.pack li.no{color:#9A968F}
+.pack li.no svg{color:#B9B1A3}
+.pack-sup{gap:0}
+.pack-sup .pack-top{margin-bottom:10px}
+.sup-r{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;padding:14px 0;border-top:1px solid #ECE5D8}
+.sup-r span{font-size:14px;line-height:1.45;color:var(--mu-l)}
+.sup-r b{display:block;color:var(--ink);font-size:15px;margin-bottom:2px}
+.sup-r strong{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:28px;line-height:1;white-space:nowrap;color:var(--ink)}
+.pk-inc{margin:2px 0 0;font-size:13.5px;color:var(--mu-l)}
 .pack.hi li svg{color:var(--gold)}
 .tex{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin-top:20px}
 .tx{background:var(--paper);border:1px solid var(--line-l);border-radius:22px;padding:24px 24px 18px;color:var(--ink)}
@@ -335,7 +352,6 @@ img{display:block;max-width:100%}
 .chips{grid-template-columns:repeat(3,minmax(0,1fr))}
 .tex{grid-template-columns:repeat(2,minmax(0,1fr))}
 .book{grid-template-columns:minmax(0,1fr) 340px}
-.revs-g{grid-template-columns:repeat(2,minmax(0,1fr))}
 .h1{font-size:64px}
 }
 @media (max-width:960px){
@@ -381,7 +397,10 @@ img{display:block;max-width:100%}
 .hero-vis{padding:0 0 24px 18px}
 .qcard{display:none}
 .revs{padding:28px 0}
-.revs-g{grid-template-columns:minmax(0,1fr)}
+.revs-track>.rv{flex-basis:84%}
+.revs-track>.rv-score{display:none}
+.revs-nav{display:none}
+.revs-h h2{font-size:26px}
 .h2{font-size:38px}
 .svcs{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .svc-b{padding:14px 14px 16px}
@@ -470,19 +489,19 @@ img{display:block;max-width:100%}
 <img class="hero-img2" data-img="auto-banquette-moisissure" alt="Banquette arrière de voiture couverte de moisissures, avant et après nettoyage">
 <div class="qcard">
 <div class="stars" data-stars="14" aria-label="5 étoiles sur 5"></div>
-<p>« Je suis entièrement satisfait, mon canapé a retrouvé sa jeunesse. Mille fois merci. »</p>
-<small>Michel E. · avis Google</small>
+<p>« J'ai confié ma voiture à Shampo Clean et je me demande encore si c'est bien la mienne qu'on m'a rendue ! »</p>
+<small>Alliance Musique · avis Google</small>
 </div>
 </div>
 </div>
 </section>
 
 <section class="revs" id="avis" aria-label="Avis Google">
-<div class="wrap revs-g">
-<div class="rv rv-score"><strong>5,0</strong><div class="stars" data-stars="18"></div><span>Note moyenne sur 87 avis Google</span></div>
-<div class="rv"><div class="stars" data-stars="14"></div><p>« Très bonne prestation, efficacité et sérieux au RDV. Je recommande tout à fait Shampo Clean ! »</p><small>Janik F. · avis Google</small></div>
-<div class="rv"><div class="stars" data-stars="14"></div><p>« Je suis entièrement satisfait, mon canapé a retrouvé sa jeunesse. Mille fois merci. »</p><small>Michel E. · avis Google</small></div>
-<a class="rv rv-link" href="https://share.google/Z7mX6Bx5GtXRxEoUQ" target="_blank" rel="noopener"><strong>Lire les 87 avis sur Google</strong><span>Voir sur Google<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"></path></svg></span></a>
+<div class="wrap">
+<div class="revs-h"><h2>Ce que disent mes clients</h2>
+<div class="revs-nav"><button type="button" class="rv-btn" data-act="revprev" aria-label="Avis précédents"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button><button type="button" class="rv-btn" data-act="revnext" aria-label="Avis suivants"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button></div>
+</div>
+<div class="revs-track" id="revTrack"></div>
 </div>
 </section>
 
@@ -519,17 +538,17 @@ img{display:block;max-width:100%}
 <section class="sec white" id="tarifs">
 <div class="wrap">
 <div class="sec-head">
-<div><p class="kicker"><i></i>Tarifs</p><h2 class="h2">Intérieur auto : <em>trois formules</em>.</h2></div>
-<div class="tabs" role="group" aria-label="Gabarit du véhicule" id="sizeTabs"></div>
+<div><p class="kicker"><i></i>Tarifs</p><h2 class="h2">Intérieur auto : <em>deux formules</em>.</h2></div>
+<p class="sec-sub">Le déplacement s'ajoute, calculé au kilomètre près au moment de réserver.</p>
 </div>
 <div class="packs" id="packs"></div>
 <div class="tex">
 <div class="tx"><h4>Canapé</h4><div class="tx-r"><span>2 places</span><b>60 €</b></div><div class="tx-r"><span>3 places</span><b>75 €</b></div><div class="tx-r"><span>Plus de 3 places</span><b>90 €</b></div></div>
 <div class="tx"><h4>Fauteuil</h4><div class="tx-r"><span>1 fauteuil</span><b>40 €</b></div><div class="tx-r"><span>2 fauteuils</span><b>75 €</b></div><div class="tx-r"><span>3 fauteuils</span><b>110 €</b></div></div>
 <div class="tx"><h4>Matelas</h4><div class="tx-r"><span>1 place</span><b>60 €</b></div><div class="tx-r"><span>1 place ½</span><b>65 €</b></div><div class="tx-r"><span>2 places</span><b>70 €</b></div><div class="tx-r"><span>Plus grand</span><b>75 €</b></div></div>
-<div class="tx"><h4>Options</h4><div class="tx-r"><span>Tapis, moquette</span><b>15 € / m²</b></div><div class="tx-r"><span>Anti-odeurs enzymatique</span><b>+15 €</b></div><div class="tx-r"><span>Rénovation plastiques</span><b>+15 €</b></div><div class="tx-r"><span>Soin cuir</span><b>+15 €</b></div></div>
+<div class="tx"><h4>Tapis et options</h4><div class="tx-r"><span>Tapis, moquette</span><b>15 € / m²</b></div><div class="tx-r"><span>Anti-odeurs enzymatique</span><b>+15 €</b></div><div class="tx-r"><span>État très sale</span><b>+15 €</b></div><div class="tx-r"><span>État extrême</span><b>+30 €</b></div></div>
 </div>
-<p class="fine">Déplacement : 0,35 € par km depuis la gare de Folligny, calculé automatiquement à la réservation. Supplément selon l'état : +15 € pour un état très sale, +30 € pour un état extrême.</p>
+<p class="fine">Déplacement : 0,35 € par km depuis la gare de Folligny, calculé automatiquement à la réservation. Le traitement anti-odeurs concerne les canapés, fauteuils, matelas et tapis.</p>
 </div>
 </section>
 
@@ -728,12 +747,11 @@ var COMMUNES_RAW = {"base":"Gare de Folligny","method":"distance a vol d oiseau 
     return res.slice(0, 6).map(function (r) { return r[1]; });
   }
 
-  var SIZES = ['Citadine', 'Berline / Break', 'SUV / Monospace'];
   var PACKS = [
-    { id: 'eco', name: 'Éco', tag: 'L’essentiel', prices: [65, 70, 75], inc: ['Aspiration minutieuse des moquettes et tapis', 'Lavage des plastiques : portières, console, tableau de bord', 'Nettoyage des vitres', 'Shampouinage des tapis'] },
-    { id: 'confort', name: 'Confort', tag: 'Sièges compris', prices: [95, 100, 105], inc: ['Tout le pack Éco', 'Shampouinage des sièges'] },
-    { id: 'concession', name: 'Concession', tag: 'Comme neuve', prices: [125, 130, 135], inc: ['Tout le pack Confort', 'Rénovation des plastiques', 'Soin cuir', 'Contours de portes, joints et charnières'] }
+    { id: 'eco', name: 'Économique', tag: 'L\u2019essentiel', price: 65, inc: ['Aspiration de l\u2019habitacle', 'Entretien des plastiques', 'Shampouinage des tapis', 'Lavage des vitres'], exc: ['Shampouinage des sièges', 'Lavage des sièges en cuir'] },
+    { id: 'premium', name: 'Premium', tag: 'Sièges compris', price: 95, inc: ['Aspiration de l\u2019habitacle', 'Entretien des plastiques', 'Shampouinage des tapis', 'Lavage des vitres', 'Shampouinage des sièges', 'Lavage des sièges en cuir'], exc: [] }
   ];
+  var REVIEWS = [["Intérieur auto", "J'ai confié ma voiture à Shampo Clean et je me demande encore si c'est bien la mienne qu'on m'a rendue ! Franchement, le résultat est incroyable. Un travail hyper minutieux, soigné dans les moindres détails.", "Alliance Musique"], ["Canapé · odeurs d'animaux", "Très satisfaite du résultat, je recommande à 100 %. Plus d'odeur d'urines d'animaux sur mon canapé. Je reprendrais rdv sans hésiter pour les véhicules.", "Andrea"], ["Canapé · Jullouville", "Nettoyage d'un canapé à Jullouville. Très bon travail. Après nettoyage, le canapé est quasi neuf. Bravo et merci.", "Geneviève D."], ["Intérieur auto", "Service de detailing à domicile au top ! Intervention réalisée avec beaucoup de soin pour ma Mégane 3 RS. Le résultat est impeccable, la voiture est ressortie comme neuve. Professionnel et très méticuleux.", "Auvray L."], ["Canapé", "J'ai fait intervenir ce professionnel pour le nettoyage de mon canapé et je suis vraiment satisfaite du résultat. Personne très sympa, ponctuelle et professionnelle. Mon canapé est comme neuf, le résultat est au top.", "Mélodie B."], ["Canapé · Camprond", "Professionnel très réactif et très efficace. Le nettoyage de mon canapé a nécessité 1 heure et le résultat est parfait. Déplacement à Camprond pour effectuer le nettoyage de mon canapé. Je recommande.", "Sandrine G."], ["Canapé", "Je suis entièrement satisfaite du nettoyage de mon canapé. Le travail a été réalisé avec beaucoup de professionnalisme et de soin. J'ai également reçu de très bons conseils pour l'entretien après nettoyage.", "Émilie Q."], ["Véhicule, canapé, lit", "Je recommande à 200 % ! Un jeune homme travailleur qui a fait un travail monstre. Je suis très satisfaite ainsi que ma tante, car il y avait tellement de taf et en 4 h 30 il a fait tellement.", "Aurélie"], ["Canapé", "Je suis entièrement satisfait, mon canapé a retrouvé sa jeunesse. Mille fois merci.", "Michel E."], ["", "Très bonne prestation, efficacité et sérieux au RDV. Je recommande tout à fait Shampo Clean !", "Janik F."]];
   var TEX = {
     canape: { label: 'Canapé', opts: [['2 places', 60], ['3 places', 75], ['Plus de 3 places', 90]] },
     fauteuil: { label: 'Fauteuil', opts: [['1 fauteuil', 40], ['2 fauteuils', 75], ['3 fauteuils', 110]] },
@@ -743,8 +761,8 @@ var COMMUNES_RAW = {"base":"Gare de Folligny","method":"distance a vol d oiseau 
   var LEVELS = [
     { id: 1, name: 'Entretenu', desc: 'Poussière, quelques miettes', sup: 0 },
     { id: 2, name: 'Sale', desc: 'Taches légères, usage quotidien', sup: 0 },
-    { id: 3, name: 'Très sale', desc: 'Poils d’animaux, sable, taches incrustées', sup: 15 },
-    { id: 4, name: 'Extrême', desc: 'Moisissures, vomi, urine, odeurs fortes', sup: 30 }
+    { id: 3, name: 'Très sale', desc: 'Poils d’animaux, sable, moisi léger, grosse saleté', sup: 15 },
+    { id: 4, name: 'Extrême', desc: 'Moisissures étendues, vomi, urine, odeurs fortes', sup: 30 }
   ];
   var CHIPS = [
     { type: 'auto', label: 'Intérieur auto', from: 'Dès 65 €', img: 'auto-siege-tache' },
@@ -823,9 +841,7 @@ var COMMUNES_RAW = {"base":"Gare de Folligny","method":"distance a vol d oiseau 
     var lines = [];
     if (it.type === 'auto') {
       var p = PACKS.filter(function (x) { return x.id === it.pack; })[0];
-      lines.push(['Intérieur auto, pack ' + p.name + ', ' + SIZES[it.size], p.prices[it.size]]);
-      if (it.pack !== 'concession' && it.plast) lines.push(['Rénovation des plastiques', 15]);
-      if (it.pack !== 'concession' && it.cuir) lines.push(['Soin cuir', 15]);
+      lines.push(['Intérieur auto, pack ' + p.name, p.price]);
     } else if (it.type === 'tapis') {
       lines.push(['Tapis, ' + it.m2 + ' m² × 15 €', it.m2 * 15]);
     } else {
@@ -834,7 +850,7 @@ var COMMUNES_RAW = {"base":"Gare de Folligny","method":"distance a vol d oiseau 
     }
     var lv = LEVELS[it.level - 1];
     if (lv.sup) lines.push(['Supplément état « ' + lv.name.toLowerCase() + ' »', lv.sup]);
-    if (it.odeur) lines.push(['Traitement anti-odeurs', 15]);
+    if (it.odeur && it.type !== 'auto') lines.push(['Traitement anti-odeurs', 15]);
     var total = 0;
     lines.forEach(function (l) { total += l[1]; });
     return { lines: lines, total: total };
@@ -869,12 +885,26 @@ var COMMUNES_RAW = {"base":"Gare de Folligny","method":"distance a vol d oiseau 
   }
 
   function renderTarifs() {
-    $('sizeTabs').innerHTML = SIZES.map(function (z, i) { return pill('tab', S.tarifSize === i, 'data-act="tab" data-i="' + i + '"', z); }).join('');
+    var cross = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg>';
     $('packs').innerHTML = PACKS.map(function (p) {
-      return '<div class="pack' + (p.id === 'confort' ? ' hi' : '') + '"><div class="pack-top"><span class="pack-n">' + esc(p.name) + '</span><span class="pack-tag">' + esc(p.tag) + '</span></div>' +
-        '<div class="pack-p">' + fmt(p.prices[S.tarifSize]) + '<small>' + esc(SIZES[S.tarifSize]) + '</small></div><ul>' +
-        p.inc.map(function (t) { return '<li>' + ICON.check + '<span>' + esc(t) + '</span></li>'; }).join('') + '</ul></div>';
-    }).join('');
+      return '<div class="pack' + (p.id === 'premium' ? ' hi' : '') + '"><div class="pack-top"><span class="pack-n">' + esc(p.name) + '</span><span class="pack-tag">' + esc(p.tag) + '</span></div>' +
+        '<div class="pack-p">' + fmt(p.price) + '</div><ul>' +
+        p.inc.map(function (t) { return '<li>' + ICON.check + '<span>' + esc(t) + '</span></li>'; }).join('') +
+        p.exc.map(function (t) { return '<li class="no">' + cross + '<span>' + esc(t) + '</span></li>'; }).join('') + '</ul></div>';
+    }).join('') +
+      '<div class="pack pack-sup"><div class="pack-top"><span class="pack-n">Selon l\u2019état</span></div>' +
+      '<div class="sup-r"><span><b>Très sale</b>Poils d\u2019animaux, sable, moisi léger, grosse saleté</span><strong>+15 €</strong></div>' +
+      '<div class="sup-r"><span><b>Extrême</b>Moisissures étendues, vomi, urine, odeurs fortes</span><strong>+30 €</strong></div>' +
+      '<div class="sup-r"><span><b>Déplacement</b>Depuis la gare de Folligny, calculé à la réservation</span><strong>0,35 €/km</strong></div></div>';
+  }
+  function renderReviews() {
+    var st = ''; for (var k = 0; k < 5; k++) st += star(14);
+    var st2 = ''; for (k = 0; k < 5; k++) st2 += star(18);
+    $('revTrack').innerHTML = '<div class="rv rv-score"><strong>5,0</strong><div class="stars">' + st2 + '</div><span>Note moyenne sur 87 avis Google</span></div>' +
+      REVIEWS.map(function (r) {
+        return '<div class="rv">' + (r[0] ? '<span class="rv-tag">' + esc(r[0]) + '</span>' : '') + '<div class="stars">' + st + '</div><p>« ' + esc(r[1]) + ' »</p><small>' + esc(r[2]) + ' · avis Google</small></div>';
+      }).join('') +
+      '<a class="rv rv-link" href="https://share.google/Z7mX6Bx5GtXRxEoUQ" target="_blank" rel="noopener"><strong>Lire les 87 avis sur Google</strong><span>Voir sur Google<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"></path></svg></span></a>';
   }
   function renderGallery() {
     $('galTabs').innerHTML = GAL_TABS.map(function (t) { return pill('pill', S.gal === t[0], 'data-act="gal" data-k="' + t[0] + '"', t[1]); }).join('');
@@ -898,13 +928,8 @@ var COMMUNES_RAW = {"base":"Gare de Folligny","method":"distance a vol d oiseau 
       h += '<div class="item"><div class="item-h"><div><span class="item-n">Prestation ' + (idx + 1) + '</span><h4>' + esc(TITLES[it.type]) + '</h4></div><span class="item-price">' + fmt(c.total) + '</span>' +
         '<button type="button" class="icon-btn" aria-label="Retirer ' + esc(TITLES[it.type]) + '" data-act="rm" ' + u + '>' + ICON.x + '</button></div>';
       if (it.type === 'auto') {
-        h += '<div class="grp"><span class="lbl">Formule</span><div class="pills">' + PACKS.map(function (p) { return pill('pill', it.pack === p.id, 'data-act="set" ' + u + ' data-k="pack" data-v="' + p.id + '"', p.name, fmt(p.prices[it.size])); }).join('') + '</div></div>';
-        h += '<div class="grp"><span class="lbl">Gabarit</span><div class="pills">' + SIZES.map(function (z, i) { return pill('pill', it.size === i, 'data-act="set" ' + u + ' data-k="size" data-n="' + i + '"', z); }).join('') + '</div></div>';
-        if (it.pack !== 'concession') {
-          h += '<div class="grp"><span class="lbl">Options</span><div class="pills">' +
-            tog(it.plast, 'data-act="tog" ' + u + ' data-k="plast"', 'Rénovation des plastiques <b>+15 €</b>') +
-            tog(it.cuir, 'data-act="tog" ' + u + ' data-k="cuir"', 'Soin cuir <b>+15 €</b>') + '</div></div>';
-        }
+        h += '<div class="grp"><span class="lbl">Formule</span><div class="pills">' + PACKS.map(function (p) { return pill('pill', it.pack === p.id, 'data-act="set" ' + u + ' data-k="pack" data-v="' + p.id + '"', p.name, fmt(p.price)); }).join('') + '</div>' +
+          '<p class="pk-inc">' + (it.pack === 'premium' ? 'Habitacle, plastiques, tapis, vitres, sièges tissu et cuir.' : 'Habitacle, plastiques, tapis et vitres. Sièges non compris.') + '</p></div>';
       } else if (it.type === 'tapis') {
         h += '<div class="grp"><span class="lbl">Surface</span><div class="pills">' +
           '<button type="button" class="icon-btn" aria-label="Retirer un mètre carré" data-act="m2" ' + u + ' data-d="-1">' + ICON.minus + '</button>' +
@@ -918,7 +943,7 @@ var COMMUNES_RAW = {"base":"Gare de Folligny","method":"distance a vol d oiseau 
         var bars = [1, 2, 3, 4].map(function (b) { return '<i class="bar' + (b <= l.id ? ' f' : '') + '"></i>'; }).join('');
         return '<button type="button" class="lvl' + (on ? ' on' : '') + '" aria-pressed="' + on + '" data-act="set" ' + u + ' data-k="level" data-n="' + l.id + '"><span class="bars" aria-hidden="true">' + bars + '</span><strong>' + esc(l.name) + '</strong><small>' + esc(l.desc) + '</small><em>' + (l.sup ? '+' + fmt(l.sup) : 'Prix de base') + '</em></button>';
       }).join('') + '</div></div>';
-      h += '<div class="pills">' + tog(it.odeur, 'data-act="tog" ' + u + ' data-k="odeur"', 'Odeurs d’urine ou d’animal : traitement enzymatique <b>+15 €</b>') + '</div>';
+      if (it.type !== 'auto') h += '<div class="pills">' + tog(it.odeur, 'data-act="tog" ' + u + ' data-k="odeur"', 'Odeurs d’urine ou d’animal : traitement enzymatique <b>+15 €</b>') + '</div>';
       return h + '</div>';
     }).join('');
   }
@@ -1004,7 +1029,7 @@ var COMMUNES_RAW = {"base":"Gare de Folligny","method":"distance a vol d oiseau 
   function renderBooking() { renderChips(); renderItems(); renderPhotos(); renderCommune(); renderDays(); renderSummary(); renderDone(); }
 
   function addItem(type) {
-    S.items.push({ uid: S.uid++, type: type, pack: 'confort', size: 0, opt: 0, m2: 4, level: 2, plast: false, cuir: false, odeur: false });
+    S.items.push({ uid: S.uid++, type: type, pack: 'premium', opt: 0, m2: 4, level: 2, odeur: false });
     S.done = false;
   }
   function item(uid) { return S.items.filter(function (x) { return x.uid === uid; })[0]; }
@@ -1014,7 +1039,7 @@ var COMMUNES_RAW = {"base":"Gare de Folligny","method":"distance a vol d oiseau 
     if (!el) return;
     var a = el.getAttribute('data-act'), uid = +el.getAttribute('data-uid'), it = uid ? item(uid) : null;
     switch (a) {
-      case 'tab': S.tarifSize = +el.getAttribute('data-i'); renderTarifs(); return;
+      case 'revprev': case 'revnext': var tr = $('revTrack'); tr.scrollBy({ left: (a === 'revnext' ? 1 : -1) * Math.round(tr.clientWidth * 0.8), behavior: 'smooth' }); return;
       case 'gal': S.gal = el.getAttribute('data-k'); renderGallery(); return;
       case 'faq': var i = +el.getAttribute('data-i'); S.faq = S.faq === i ? -1 : i; renderFaq(); return;
       case 'card': var ty = el.getAttribute('data-type'); if (!S.items.some(function (x) { return x.type === ty; })) addItem(ty); break;
@@ -1067,7 +1092,7 @@ var COMMUNES_RAW = {"base":"Gare de Folligny","method":"distance a vol d oiseau 
 
   Array.prototype.forEach.call(document.querySelectorAll('img[data-img]'), function (im) { im.src = IMG[im.getAttribute('data-img')]; });
   Array.prototype.forEach.call(document.querySelectorAll('[data-stars]'), function (el) { var s = +el.getAttribute('data-stars'), h = ''; for (var i = 0; i < 5; i++) h += star(s); el.innerHTML = h; });
-  renderTarifs(); renderGallery(); renderZones(); renderFaq(); renderBooking();
+  renderTarifs(); renderReviews(); renderGallery(); renderZones(); renderFaq(); renderBooking();
 })();
 
 </script>
