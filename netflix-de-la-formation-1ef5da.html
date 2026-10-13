@@ -1,0 +1,991 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Netflix de la formation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --bg: #F6F7F4;
+    --surface: #FFFFFF;
+    --surface-2: #EDF0EA;
+    --ink: #1B2430;
+    --ink-2: #414B58;
+    --muted: #6B7480;
+    --rule: #D8DDE3;
+    --rule-strong: #B9C2CC;
+    --accent: #1F4FD8;
+    --accent-ink: #173FB0;
+    --accent-soft: #E4EAFB;
+    --warn: #B45309;
+    --warn-soft: #FBEBD5;
+    --good: #1E7F4F;
+    --good-soft: #DDF2E6;
+    --bad: #B42318;
+    --bad-soft: #FBE3E0;
+    --dot: #55637A;
+    --shadow: 0 1px 2px rgba(27,36,48,.06), 0 8px 24px rgba(27,36,48,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0F1419;
+      --surface: #161C24;
+      --surface-2: #1E2630;
+      --ink: #E7EBF0;
+      --ink-2: #B7BFC9;
+      --muted: #8B95A2;
+      --rule: #2B3440;
+      --rule-strong: #3B4655;
+      --accent: #7D9BFF;
+      --accent-ink: #A9BDFF;
+      --accent-soft: #1B2A4F;
+      --warn: #E9A23B;
+      --warn-soft: #3A2A10;
+      --good: #4CBF80;
+      --good-soft: #12301F;
+      --bad: #F0705F;
+      --bad-soft: #3A1A16;
+      --dot: #9AA8BC;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0F1419;
+    --surface: #161C24;
+    --surface-2: #1E2630;
+    --ink: #E7EBF0;
+    --ink-2: #B7BFC9;
+    --muted: #8B95A2;
+    --rule: #2B3440;
+    --rule-strong: #3B4655;
+    --accent: #7D9BFF;
+    --accent-ink: #A9BDFF;
+    --accent-soft: #1B2A4F;
+    --warn: #E9A23B;
+    --warn-soft: #3A2A10;
+    --good: #4CBF80;
+    --good-soft: #12301F;
+    --bad: #F0705F;
+    --bad-soft: #3A1A16;
+    --dot: #9AA8BC;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+    font-size: 17px;
+    line-height: 1.62;
+    padding-block: 0 96px;
+    padding-inline: 20px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    max-width: 1140px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 236px minmax(0, 1fr);
+    gap: 56px;
+  }
+  @media (max-width: 960px) {
+    .page { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    .toc { display: none; }
+  }
+  .toc {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    max-height: 100vh;
+    overflow-y: auto;
+    padding-block: 40px 24px;
+    font-family: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+    font-size: 13.5px;
+    line-height: 1.35;
+  }
+  .toc .k {
+    font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .toc a {
+    display: block;
+    color: var(--ink-2);
+    text-decoration: none;
+    padding: 5px 0 5px 12px;
+    border-left: 2px solid var(--rule);
+  }
+  .toc a:hover, .toc a:focus-visible { color: var(--accent-ink); border-left-color: var(--accent); outline: none; }
+  .toc a span { color: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 11px; margin-right: 6px; }
+
+  main { min-width: 0; max-width: 780px; }
+
+  header.masthead { padding-block: 48px 8px; border-bottom: 1px solid var(--rule-strong); margin-bottom: 8px; }
+  .eyebrow {
+    font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    font-size: 12px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex; flex-wrap: wrap; gap: 8px 18px;
+    margin-bottom: 22px;
+  }
+  h1 {
+    font-family: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 800;
+    font-size: clamp(38px, 6vw, 64px);
+    line-height: .98;
+    letter-spacing: -.025em;
+    margin: 0 0 18px;
+    text-wrap: balance;
+  }
+  .standfirst {
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--ink-2);
+    max-width: 640px;
+    margin: 0 0 26px;
+    text-wrap: pretty;
+  }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px 22px; color: var(--muted); font-size: 14px; font-family: "Bricolage Grotesque", sans-serif; padding-bottom: 22px; }
+  .meta b { color: var(--ink); font-weight: 600; }
+
+  section { padding-block: 44px 6px; }
+  section + section { border-top: 1px solid var(--rule); }
+  h2 {
+    font-family: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 1.12;
+    letter-spacing: -.015em;
+    margin: 0 0 6px;
+    text-wrap: balance;
+  }
+  h2 .num {
+    display: block;
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: .14em;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .lede { font-size: 18.5px; color: var(--ink-2); margin: 10px 0 22px; max-width: 66ch; }
+  h3 {
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.25;
+    margin: 34px 0 10px;
+    letter-spacing: -.01em;
+  }
+  h4 { font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 16.5px; margin: 22px 0 6px; }
+  p { margin: 0 0 16px; max-width: 68ch; text-wrap: pretty; }
+  ul, ol { padding-left: 22px; margin: 0 0 18px; max-width: 68ch; }
+  li { margin-bottom: 8px; text-wrap: pretty; }
+  li::marker { color: var(--muted); }
+  strong { font-weight: 600; }
+  em { font-style: italic; }
+  a { color: var(--accent-ink); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+  .num-mono, .n { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; font-size: .94em; }
+
+  .block {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    padding: 22px 24px 6px;
+    margin: 24px 0 28px;
+    max-width: 100%;
+  }
+  .block .lbl {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .block.verdict { background: var(--accent-soft); border-color: transparent; }
+  .block.verdict .lbl { color: var(--accent-ink); }
+  .block.angle { background: var(--warn-soft); border-color: transparent; }
+  .block.angle .lbl { color: var(--warn); }
+  .block.ok { background: var(--good-soft); border-color: transparent; }
+  .block.ok .lbl { color: var(--good); }
+  .block p:last-child, .block ul:last-child, .block ol:last-child { margin-bottom: 16px; }
+
+  .points { list-style: none; padding: 0; margin: 20px 0 8px; max-width: none; counter-reset: pt; }
+  .points li {
+    counter-increment: pt;
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 14px;
+    padding: 16px 0;
+    border-top: 1px solid var(--rule);
+    margin: 0;
+  }
+  .points li:last-child { border-bottom: 1px solid var(--rule); }
+  .points li::before {
+    content: counter(pt, decimal-leading-zero);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+    color: var(--accent);
+    padding-top: 5px;
+  }
+  .points b, .points p { grid-column: 2; }
+  .points b { display: block; font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 17.5px; margin-bottom: 4px; letter-spacing: -.005em; }
+  .points p { margin: 0; color: var(--ink-2); font-size: 16px; }
+
+  .tw { overflow-x: auto; margin: 18px 0 26px; border: 1px solid var(--rule); background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 14.5px; line-height: 1.45; }
+  th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--rule); }
+  th {
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-weight: 700;
+    font-size: 12.5px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    background: var(--surface-2);
+    position: sticky; top: 0;
+  }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.n, th.n { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; white-space: nowrap; font-size: 13.5px; }
+  td .q { color: var(--ink-2); font-style: italic; }
+  .cap { font-family: "Bricolage Grotesque", sans-serif; font-size: 13px; color: var(--muted); margin: -16px 0 26px; }
+
+  .tag {
+    display: inline-block;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border: 1px solid var(--rule-strong);
+    color: var(--ink-2);
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  .tag.ok { color: var(--good); border-color: var(--good); }
+  .tag.mid { color: var(--warn); border-color: var(--warn); }
+  .tag.no { color: var(--bad); border-color: var(--bad); }
+
+  .persona { border-top: 2px solid var(--ink); padding-top: 12px; margin: 26px 0 8px; }
+  .persona h4 { margin: 0 0 4px; font-size: 18px; }
+  .persona .who { font-family: "Bricolage Grotesque", sans-serif; font-size: 14px; color: var(--muted); margin-bottom: 10px; }
+
+  figure { margin: 26px 0 30px; }
+  figure .fw { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); padding: 12px; }
+  figure svg { display: block; width: 100%; height: auto; min-width: 640px; }
+  figcaption { font-family: "Bricolage Grotesque", sans-serif; font-size: 13px; color: var(--muted); margin-top: 10px; line-height: 1.45; }
+  .legend { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 4px 18px; font-family: "Bricolage Grotesque", sans-serif; font-size: 13px; color: var(--ink-2); margin-top: 12px; }
+  .legend span b { font-family: "IBM Plex Mono", monospace; font-weight: 500; color: var(--accent); margin-right: 6px; }
+
+  .steps { list-style: none; padding: 0; margin: 18px 0 20px; max-width: none; }
+  .steps li { display: grid; grid-template-columns: 112px minmax(0,1fr); gap: 16px; padding: 14px 0; border-top: 1px solid var(--rule); margin: 0; }
+  .steps li:last-child { border-bottom: 1px solid var(--rule); }
+  .steps .w { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; color: var(--accent); padding-top: 4px; letter-spacing: .04em; }
+  .steps b { display: block; font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 16.5px; margin-bottom: 3px; }
+  .steps p { margin: 0; font-size: 15.5px; color: var(--ink-2); }
+  @media (max-width: 560px) { .steps li { grid-template-columns: minmax(0,1fr); gap: 4px; } }
+
+  .sources { font-size: 14px; color: var(--ink-2); }
+  .sources h4 { margin-top: 18px; }
+  .sources ul { columns: 1; }
+  .sources li { margin-bottom: 4px; }
+
+  .sig { margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--rule-strong); color: var(--muted); font-family: "Bricolage Grotesque", sans-serif; font-size: 13.5px; }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+  @media print {
+    :root { --bg: #FFFFFF; --surface: #FFFFFF; --surface-2: #F1F3EE; --ink: #111; --ink-2: #333; --muted: #555; --rule: #CCC; --rule-strong: #999; --accent: #1F4FD8; --accent-ink: #173FB0; --accent-soft: #E9EEFB; --warn: #9A4A08; --warn-soft: #FBEBD5; --good: #1E7F4F; --good-soft: #DDF2E6; --dot: #55637A; }
+    body { padding: 0; font-size: 10.5pt; line-height: 1.5; background: #fff; }
+    .page { display: block; max-width: none; }
+    .toc { display: none; }
+    main { max-width: none; }
+    header.masthead { padding-top: 0; }
+    h1 { font-size: 30pt; }
+    h2 { font-size: 18pt; page-break-after: avoid; }
+    h3, h4 { page-break-after: avoid; }
+    section { padding-block: 22px 4px; page-break-inside: auto; }
+    .tw { overflow: visible; border: 1px solid #CCC; }
+    table { min-width: 0; font-size: 8.5pt; line-height: 1.35; }
+    th { position: static; }
+    th, td { padding: 5px 7px; }
+    td.n, th.n { font-size: 8pt; white-space: normal; }
+    tr, .block, .persona, figure, .points li, .steps li { page-break-inside: avoid; }
+    figure svg { min-width: 0; }
+    a { color: inherit; text-decoration: none; }
+    .sources a { text-decoration: underline; color: #173FB0; }
+    .points p, .steps p { font-size: 10pt; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <nav class="toc" aria-label="Sommaire">
+    <div class="k">Sommaire</div>
+    <a href="#retenir"><span>01</span>État des lieux et constats</a>
+    <a href="#depart"><span>02</span>Le point de départ</a>
+    <a href="#faisable"><span>03</span>Est-ce qu'on est capables de le faire</a>
+    <a href="#marche"><span>04</span>Le marché tel qu'il est</a>
+    <a href="#benchmark"><span>05</span>Benchmark des acteurs</a>
+    <a href="#archi"><span>06</span>Comment un LMS est construit</a>
+    <a href="#usagers"><span>07</span>Vu du côté des utilisateurs</a>
+    <a href="#ia"><span>08</span>Ce que l'IA permet et qui n'existe pas</a>
+    <a href="#netflix"><span>09</span>Le Netflix de la formation à l'épreuve</a>
+    <a href="#socle"><span>10</span>Le socle réglementaire à embarquer</a>
+    <a href="#prix"><span>11</span>Prix, cible, modèle économique</a>
+    <a href="#suite"><span>12</span>Recommandation et la suite</a>
+    <a href="#sources"><span>13</span>Sources</a>
+  </nav>
+
+  <main>
+    <header class="masthead">
+      <div class="eyebrow"><span>Benchmark et faisabilité</span><span>Projet LMS</span><span>13 octobre 2026</span></div>
+      <h1>Netflix de la formation</h1>
+      <p class="standfirst">L'état du marché des LMS, ce que les utilisateurs subissent aujourd'hui, ce que l'IA permet vraiment, et ce que je suis capable de construire.</p>
+      <div class="meta">
+        <span>Auteur <b>Eric Eudeline</b></span>
+        <span>Pour <b>Anis</b></span>
+        <span>Périmètre <b>OF, CFA, filiales formation</b></span>
+        <span>Base <b>environ 500 pages consultées, septembre et octobre 2026</b></span>
+        <span>Statut <b>document de travail, confidentiel</b></span>
+      </div>
+    </header>
+
+    <section id="retenir">
+      <h2><span class="num">01</span>État des lieux et constats</h2>
+      <p class="lede">Dix constats, sans arrondir les angles. Le reste du dossier les documente.</p>
+      <ol class="points">
+        <li><b>Le cadrage « 10 k€ contre 60 k€ » est faux pour notre marché.</b><p>Les 60 k€ existent, mais chez Docebo (contrat moyen 67 k$), Cornerstone ou Syfadis (24 à 48 k€ pour 200 utilisateurs) : des LMS d'entreprise achetés par des DRH pour du SSO, des intégrations SIRH et de la sécurité. Un organisme de formation, lui, paie déjà Digiforma entre 600 et 8 400 €/an. À 10 k€, nous ne sommes pas les moins chers : nous sommes au-dessus de Digiforma Leader.</p></li>
+        <li><b>Le vrai ennemi n'est pas le prix, c'est l'empilement.</b><p>En France, un OF sérieux paie quatre outils qui ne se parlent pas : gestion administrative (Dendreo, Ypareo), LMS (Dokeos, Moodle, Rise Up), émargement (Edusign), classe virtuelle. Environ 15 k€ la première année pour une structure de 8 personnes, et une ressaisie permanente. Aucun acteur ne tient les deux bouts avec une vraie profondeur pédagogique.</p></li>
+        <li><b>SACADO n'est pas une anomalie, c'est la norme.</b><p>Syfadis, sa technologie, repose sur une architecture de vingt ans que l'éditeur lui-même refondait en 2023. Moodle est jugé « outdated, too many clicks » en 2026, Dokeos « like the old days », Cornerstone obtient 6,6/10 en mise en place. La lourdeur des LMS est structurelle : ils sont nés pour enregistrer de la conformité, pas pour faire apprendre.</p></li>
+        <li><b>L'IA des LMS actuels est une couche de rattrapage, facturée en crédits.</b><p>Génération de contenu, traduction, chatbot. Presque rien qui exécute le travail administratif de bout en bout, presque rien qui connaisse le référentiel métier du client. C'est là que se trouve la place : l'administration invisible et le tuteur ancré sur la certification.</p></li>
+        <li><b>Les preuves scientifiques sur les tuteurs IA sont réelles mais modestes.</b><p>0,63 écart-type à Harvard en conditions contrôlées, 0,06 à 0,08 par an sur deux ans avec Khanmigo sur le terrain. Le goulot n'est pas le modèle, c'est l'engagement : l'élève médian n'ouvre le tuteur qu'un jour sur trois. Et sans garde-fous, l'IA fait baisser les résultats de 17 % à l'examen. Il faut construire pour l'engagement et la validation humaine, pas pour la démo.</p></li>
+        <li><b>Le référentiel Qualiopi change dans trois semaines, et ses seuils ne sont pas encore publiés.</b><p>33 indicateurs au lieu de 32 au 1er novembre 2026, un indicateur 19 qui exige un suivi à distance « effectif » au-delà des connexions, un indicateur 33 propre aux CFA. Au 12 octobre, ni le guide de lecture ni les arrêtés fixant les seuils des indicateurs 19 et 20 n'étaient parus : le produit doit naître sur la V10 avec des règles paramétrables, pas codées en dur. Tous les concurrents vont devoir se mettre à jour : c'est une fenêtre.</p></li>
+        <li><b>Le « Netflix » marche pour une raison que personne ne dit : le calendrier réglementaire.</b><p>Un diagnostiqueur a un cycle de certification de sept ans, 7 h de formation continue par an en DPE, deux fenêtres de recyclage en amiante. La récurrence que Netflix obtient par l'habitude, nous l'obtenons par la loi. La « prochaine formation » n'a pas besoin d'un moteur de recommandation magique : elle a besoin d'un calendrier par personne et d'un catalogue en libre-service. Up n'PRO vend déjà 32 modules à 200 à 850 € HT sur son site. Ce moteur de calendrier, je l'ai déjà construit deux fois, pour un OF immobilier (échéances ALUR) et pour I.Cert (cycle de sept ans des diagnostiqueurs).</p></li>
+        <li><b>Le marché OF se contracte, et le PLF 2027 accélère le mouvement.</b><p>Budget CPF de 1,96 à 1,31 Md€ entre 2025 et 2026, participation du titulaire majorée dès les demandes du 1er octobre 2026 (350 € évoqués, contre 150 €), France compétences amputée de 667 M€ en 2027, apprentissage en recul (-2,2 % au premier semestre 2026), près de la moitié des CFA projetés en déficit, NPEC en baisse pour 55 % des certifications. En face, Septeo a racheté Dendreo, Ymag (Ypareo), Campus Skills et Wedof : 32 M€ de chiffre d'affaires et 210 salariés sur notre segment.</p></li>
+        <li><b>« Tout le monde peut se faire son LMS avec l'IA » est vrai, et c'est aussi notre problème.</b><p>Si le code ne vaut plus rien, le prix ne peut pas se justifier par des fonctionnalités. Il se justifie par le métier encodé (EDOF v15, NPEC, BPF, V10, cycle des diagnostiqueurs), par la confiance (audits, archivage 10 ans, RGPD, AI Act) et par la distribution. Le fossé n'est pas technique.</p></li>
+        <li><b>Oui, nous sommes capables de le construire, à trois conditions.</b><p>Six à huit mois de ma capacité concentrée ; acheter ce qui s'achète (vidéo, signature probante, visio, envoi de mails) au lieu de le reconstruire ; et un propriétaire métier de la conformité qui ne soit pas moi seul. Les preuves et le plan de construction sont en partie 3. Ce que je ne sais pas encore faire y est écrit aussi.</p></li>
+      </ol>
+    </section>
+
+    <section id="depart">
+      <h2><span class="num">02</span>Le point de départ</h2>
+      <div class="tw"><table>
+        <thead><tr><th>Entité</th><th>Rôle</th><th class="n">CA 2025</th><th class="n">Effectif</th><th>Ce qui compte pour le LMS</th></tr></thead>
+        <tbody>
+          <tr><td>ITGA (groupe Carso, actionnaire Archimed)</td><td>Laboratoires amiante et air, diagnostics, logiciels</td><td class="n">58 M€</td><td class="n">810</td><td>Un groupe de 810 salariés, maison Microsoft : le profil d'un client groupe, avec ses exigences d'hébergement et d'authentification</td></tr>
+          <tr><td>Up n'PRO</td><td>Organisme de formation, certificateur du RNCP41787</td><td class="n">3,84 M€ (5,12 en 2024)</td><td class="n">39</td><td>Présentiel dans 5 départements, classe virtuelle, 100 % e-learning sur SACADO (instance Syfadis de 2011) ; 32 modules en libre-service à 200 à 850 € HT</td></tr>
+          <tr><td>ID School (marque d'Up n'PRO)</td><td>CFA du diagnostic immobilier</td><td class="n">inclus</td><td class="n">500+ alternants</td><td>Distanciel dominant ; exposé à la minoration du NPEC au-delà de 80 % à distance et aux baisses de septembre 2026</td></tr>
+          <tr><td>I.Cert</td><td>Certification de personnes et d'organismes</td><td class="n">3,37 M€</td><td class="n">26</td><td>Certifie des diagnostiqueurs et des OF ; tient les échéances de certification qui font la récurrence du marché</td></tr>
+        </tbody>
+      </table></div>
+      <p class="cap">Chiffres Pappers et sites des entités, septembre 2026.</p>
+    </section>
+
+    <section id="faisable">
+      <h2><span class="num">03</span>Est-ce qu'on est capables de le faire</h2>
+      <p class="lede">La première question, et la bonne. Réponse courte : oui. Réponse complète : oui, à trois conditions, avec une liste honnête de ce que je n'ai jamais fait.</p>
+      <h3>La réponse en quatre phrases</h3>
+      <p>Un LMS complet pour organismes de formation et CFA est dans mes cordes, avec la méthode que j'utilise depuis janvier : un brief écrit, une maquette validée à l'œil, des lots courts sur branche, un harnais de non-régression, des audits croisés par plusieurs IA, des rapports de chantier. Cela demande six à huit mois de ma capacité concentrée, ce qui veut dire qu'un de mes autres chantiers s'arrête. Cela suppose d'acheter ce qui s'achète (vidéo, signature probante, visio, envoi de mails) au lieu de le reconstruire. Et cela ne tient dans la durée que si la conformité réglementaire a un propriétaire métier qui n'est pas moi seul.</p>
+
+      <h3>Ce qui existe déjà et se réutilise</h3>
+      <p>Chaque ligne ci-dessous est quelque chose qui tourne aujourd'hui, chez un client ou en production, pas une intention.</p>
+      <div class="tw"><table>
+        <thead><tr><th>Brique d'un LMS</th><th>Ce que j'ai déjà construit</th><th>Ce qui se réutilise directement</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Application complète en production</strong> : comptes, paiement, licences, mises à jour, support</td><td>GhostCloser, lancé le 15 septembre 2026, version 2.3.3 au 13 octobre : application Mac et Windows, essai gratuit, abonnement Stripe, licences et quotas gérés par un serveur, mises à jour automatiques, mails de release, plus de 20 000 lignes de code, 15 versions publiées entre août et septembre, 86 rapports de chantier.</td><td>Le socle serveur, l'authentification, la facturation, le cycle de publication, et surtout la discipline de livraison : chaque version testée avant d'être livrée.</td></tr>
+          <tr><td><strong>IA cadrée et mesurée</strong> : deux modèles, routage, coûts</td><td>GhostCloser écoute un appel en direct, suit la phase, dresse le profil et souffle une réponse en une à deux secondes, puis rédige un débrief. Deux modèles (un rapide, un profond), aucune clé dans l'application, aucun contenu stocké côté serveur, coût mesuré au centime : 0,87 € par appel de 45 minutes.</td><td>Le tuteur, le formateur augmenté, la génération et le contrôle de contenus, et la règle qui gouverne tout : le code compte, l'IA rédige. La maîtrise du coût par usage, condition du prix à 10 k€ avec IA incluse.</td></tr>
+          <tr><td><strong>Tableaux de bord, saisie quotidienne, droits par rôle</strong></td><td>LIBRAE (cabinet de conseil aux professions libérales) : tableau de bord d'équipe, saisie de fin de journée, commissions, échéancier des paiements, livré en 48 heures sur leur Google Workspace avec des droits qui suivent les comptes (un vendeur voit ses chiffres, le manager voit tout). Puis la maquette d'un diagnostic client qui produit rapport, score et présentation.</td><td>Le cockpit « Où on en est » du dirigeant, la logique de rôles, la saisie courte qui remplace un tableau Excel.</td></tr>
+          <tr><td><strong>Calendrier réglementaire par personne et relances</strong></td><td>Arrow (OF immobilier, mission en cours) : un outil qui relie Airtable, HubSpot et les autres bases où « un prospect vit à cinq endroits », calcule l'échéance ALUR de chaque mandataire, relance à J-90, J-45 et J-15, et propose une inscription qui pré-remplit le dossier de financement.</td><td>Le moteur de la « prochaine formation » et la relance qui part au bon moment, c'est-à-dire la récurrence du Netflix.</td></tr>
+          <tr><td><strong>Règles métier du diagnostic immobilier</strong></td><td>I.Cert, séance du 7 octobre : cycle de sept ans par domaine, fenêtres de chaque contrôle, regroupement des contrôles en missions, grilles tarifaires de plusieurs certificateurs, vérifications automatiques, proposition générée à la charte, 20 règles et dix cas de test écrits avec le directeur.</td><td>Les règles d'échéance des diagnostiqueurs, déjà validées par un certificateur, et la façon de faire : les règles écrites avec le métier avant le code.</td></tr>
+          <tr><td><strong>Le métier lui-même</strong></td><td>Trois ans à diriger l'activité d'Up n'PRO et le CFA ID School : conventions, convocations, émargements, OPCO, BPF, audits Qualiopi, jurys, apprentis, tuteurs.</td><td>Aucun temps d'apprentissage à facturer ; les entretiens de la partie 12 servent à corriger, pas à découvrir.</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>Ce que je n'ai jamais fait, et comment je le traite</h3>
+      <p>C'est la partie qui compte pour répondre sérieusement à la question. Rien ici n'est hors de portée, mais chaque ligne a un coût ou une décision.</p>
+      <div class="tw"><table>
+        <thead><tr><th>Sujet</th><th>État</th><th>Traitement</th></tr></thead>
+        <tbody>
+          <tr><td>Application web multi-clients avec rôles fins (organisme, centre, formateur, stagiaire, entreprise, tuteur)</td><td><span class="tag mid">à faire proprement</span></td><td>Technique standard, mais à poser dès le premier jour : un client ne doit jamais voir une ligne d'un autre. Modèle de données et droits écrits avant le premier écran, testés par un jeu de cas.</td></tr>
+          <tr><td>Lecture des modules SCORM existants</td><td><span class="tag ok">à intégrer</span></td><td>Lecteur open source ou moteur sous licence, jamais réécrit. Import seulement : les nouveaux contenus naissent dans le produit.</td></tr>
+          <tr><td>Hébergement et diffusion vidéo</td><td><span class="tag ok">à acheter</span></td><td>Un hébergeur vidéo spécialisé, facturé au stockage et à la diffusion. Pas de serveur vidéo maison.</td></tr>
+          <tr><td>Signature électronique à valeur probante (conventions, émargements)</td><td><span class="tag ok">à acheter</span></td><td>Prestataire eIDAS par API, facturé à la signature (de l'ordre de 0,15 à 1 € selon le niveau). Simple avec piste d'audit pour l'émargement, avancée pour les contrats.</td></tr>
+          <tr><td>Classe virtuelle</td><td><span class="tag ok">à intégrer</span></td><td>Teams, Zoom ou Meet, avec récupération des présences. Jamais construite.</td></tr>
+          <tr><td>Envoi de mails et de SMS, génération de PDF</td><td><span class="tag ok">maîtrisé ou à acheter</span></td><td>Les PDF et les mails automatisés existent déjà chez GhostCloser et LIBRAE ; les volumes passent par un prestataire d'envoi.</td></tr>
+          <tr><td>Recherche documentaire pour le tuteur (référentiels, supports)</td><td><span class="tag mid">standard, à mesurer</span></td><td>Technique courante en 2026 ; ce qui compte est le jeu de test : des questions dont on connaît la réponse, rejouées à chaque version, avec un taux de bonnes réponses affiché.</td></tr>
+          <tr><td>Archivage dix ans, journalisation, réversibilité</td><td><span class="tag mid">à concevoir</span></td><td>Stockage objet en Europe avec verrouillage, journal de toutes les actions, export complet par client. Prévu au lot 5, pas en option.</td></tr>
+          <tr><td>Hébergement pour un client groupe</td><td><span class="tag mid">décision</span></td><td>Mon hébergeur actuel convient à des OF indépendants. Un groupe demandera une région Azure France ou un hébergeur français sous contrat, et son authentification d'entreprise. Deux cibles, une seule base de code.</td></tr>
+          <tr><td>Accessibilité (RGAA) et test d'intrusion</td><td><span class="tag no">externe</span></td><td>Audit par un tiers avant la première vente à un groupe. Budget à prévoir, pas une compétence à acquérir seul.</td></tr>
+          <tr><td>Connecteurs EDOF, OPCO, future plateforme nationale des contrats</td><td><span class="tag mid">limité par l'extérieur</span></td><td>Aucune API publique confirmée côté Caisse des Dépôts ; les OPCO ont chacun leur extranet. Le produit prépare les dossiers et les pièces, la chargée de formation dépose. Automatiser ce qui n'a pas d'API serait une promesse fausse.</td></tr>
+          <tr><td>Migration des données de SACADO</td><td><span class="tag mid">à évaluer</span></td><td>Quinze ans de données dans un format Syfadis que je n'ai pas vu. Un export réel est la première chose à demander ; la migration se chiffre après, et se facture.</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>Le plan de construction, et ce qu'on peut voir à chaque étape</h3>
+      <p>Six à huit mois à partir d'un go, en lots qui se montrent. Chaque lot se termine par quelque chose d'utilisable sur des données fictives ou réelles, et peut être arrêté sans casser le reste.</p>
+      <ol class="steps">
+        <li><span class="w">Semaines 1 à 4</span><div><b>Lot 0 : cadrage et maquette</b><p>Entretiens, carte des irritants, modèle de données (personne, session, preuve), maquette cliquable des trois écrans sur le cas du diagnostic immobilier. Visible : la maquette que l'on montre à des dirigeants d'OF.</p></div></li>
+        <li><span class="w">Semaines 5 à 10</span><div><b>Lot 1 : le socle administratif</b><p>Organismes et centres, utilisateurs et rôles, catalogue conforme aux indicateurs 1 à 3, sessions, stagiaires, entreprises, devis et conventions, convocations, émargement et signature, attestations et certificats de réalisation, exports. Visible : une session créée et tous ses documents générés sans ressaisie.</p></div></li>
+        <li><span class="w">Semaines 11 à 16</span><div><b>Lot 2 : l'apprentissage</b><p>Modules créés depuis les supports du formateur et relus par lui, quiz, import SCORM, traces de suivi à distance (indicateur 19), page stagiaire « Ma suite », classe virtuelle intégrée, évaluations à chaud et à froid. Visible : un stagiaire qui termine un module, et le certificat de réalisation qui en sort avec ses preuves.</p></div></li>
+        <li><span class="w">Semaines 17 à 21</span><div><b>Lot 3 : l'IA utile</b><p>L'administration invisible (la liste du matin, préparée, validée d'un clic), le tuteur ancré sur les référentiels et les supports avec garde-fous réglables, le contrôle qualité des quiz, le formateur augmenté (décrocheurs, questions récurrentes, pré-correction assistée). Visible : la chargée de formation qui valide sa journée en dix minutes.</p></div></li>
+        <li><span class="w">Semaines 22 à 25</span><div><b>Lot 4 : la récurrence</b><p>Calendrier réglementaire par personne et par entreprise cliente, relances, libre-service avec paiement et accès immédiat, lien sans compte pour les entreprises et les tuteurs, serveur MCP par rôle. Visible : un cabinet de diagnostic qui voit les échéances de toute son équipe et inscrit ses techniciens en un clic.</p></div></li>
+        <li><span class="w">Semaines 26 à 30</span><div><b>Lot 5 : sécurité, conformité, pilote</b><p>Journalisation, archivage, export complet, dossier AI Act et registre RGPD, déclaration d'accessibilité, audit externe, migration et mise en service chez un ou deux OF pilotes. Visible : un client réel qui a abandonné ses quatre outils.</p></div></li>
+      </ol>
+      <p>Reporté à la version suivante, et dit tel quel : le module CFA complet (Cerfa, DECA, NPEC 40/30/20/10, comptabilité analytique MAP, future plateforme nationale), le module certificateur (jurys, déclarations au SI du CPF), les jeux de rôle vocaux, et tout marketplace multi-organismes.</p>
+
+      <h3>Ce qui ne dépend pas de moi, et ce que je ne ferai pas seul</h3>
+      <ul>
+        <li><strong>La conformité vivante.</strong> EDOF v15 en mai, NPEC en septembre, Qualiopi en novembre, loi de finances en février : quelqu'un doit la suivre en permanence et traduire chaque changement en règles. Je peux encoder, je ne peux pas être seul à veiller.</li>
+        <li><strong>Le support et la mise en service.</strong> À 10 k€ par an, un client attend du téléphone, une présence le jour de l'audit, une formation de ses équipes, une migration propre. Dès le troisième client, c'est une personne.</li>
+        <li><strong>La vente.</strong> Le produit se vend par le réseau et par la démonstration, pas par une page web. C'est l'autre moitié du duo.</li>
+        <li><strong>Le juridique et la sécurité externe.</strong> Accord de traitement des données, conditions générales, audit d'intrusion, accessibilité : des prestataires, pas des compétences à improviser.</li>
+        <li><strong>Un second développeur</strong> à partir d'une dizaine de clients, pour que le produit ne dépende plus d'une seule personne. Tout est documenté pour cela dès le premier lot, comme pour GhostCloser.</li>
+      </ul>
+    </section>
+    <section id="marche">
+      <h2><span class="num">04</span>Le marché tel qu'il est</h2>
+      <p class="lede">Beaucoup de clients, très peu de budget, une consolidation en cours, et un PLF 2027 qui resserre encore.</p>
+      <div class="tw"><table>
+        <thead><tr><th>Indicateur</th><th class="n">Valeur</th><th>Ce que cela implique</th></tr></thead>
+        <tbody>
+          <tr><td>Organismes de formation déclarés</td><td class="n">165 541</td><td>Un marché de masse, mais 76 % n'ont qu'un seul formateur et 87 % en ont cinq ou moins</td></tr>
+          <tr><td>OF certifiés Qualiopi</td><td class="n">47 022</td><td>Le périmètre sérieux, celui qui a un budget logiciel</td></tr>
+          <tr><td>CFA</td><td class="n">3 688</td><td>Segment structuré, obligations lourdes, et près de 50 % projetés en déficit sur 2025-2026 ; le PLF 2027 crée un fonds de soutien aux CFA en difficulté</td></tr>
+          <tr><td>Chiffre d'affaires des OF (formation pro et alternance)</td><td class="n">28,7 Md€ (2023)</td><td>L'argent est là, mais concentré sur peu de structures</td></tr>
+          <tr><td>Budget CPF</td><td class="n">1,96 → 1,31 Md€ (2025 → 2026)</td><td>Reste à charge porté à 150 € en avril 2026 ; le PLF 2027 le majore pour les demandes déposées depuis le 1er octobre 2026 (350 € évoqués), sauf cofinancement, transition professionnelle, métiers en tension et six secteurs prioritaires</td></tr>
+          <tr><td>France compétences</td><td class="n">-667 M€ en 2027</td><td>Zéro dotation de l'État dans le PLF 2027 ; la pression sur les NPEC et les financements continue</td></tr>
+          <tr><td>Apprentissage</td><td class="n">-3,35 % (2025), -2,2 % (S1 2026)</td><td>Recul confirmé ; NPEC en baisse pour 55 % des certifications depuis le 1er septembre 2026 ; dépôt des contrats sur une plateforme nationale au plus tard le 31 octobre 2027</td></tr>
+          <tr><td>OF qui utilisent l'IA pour créer des contenus</td><td class="n">44 %</td><td>Frein n° 1 déclaré : la confidentialité des données (baromètre Dendreo/Ymag)</td></tr>
+        </tbody>
+      </table></div>
+      <p class="cap">Sources : liste publique DGEFP via Certiforma (2 septembre 2026), DEPP RERS 2025, Jaune budgétaire PLF 2026, Centre Inffo, France compétences, PLF 2027 (texte n° 3210 déposé le 1er octobre 2026, via Certiforma et maformation.fr).</p>
+
+      <h3>Où se situent les prix, vraiment</h3>
+      <p>Le graphique place les acteurs par périmètre fonctionnel et par prix annuel public ou constaté. L'échelle est logarithmique : un cran, c'est un facteur 10. Les cercles pleins sont des prix publics ou des médianes de contrats réels (Vendr, février 2026) ; les cercles vides sont des estimations de tiers. La veille du 13 octobre n'a relevé aucun changement de prix chez ces éditeurs depuis septembre.</p>
+      <figure>
+        <div class="fw">
+        <svg viewBox="0 0 860 440" role="img" aria-labelledby="chart1-title chart1-desc" font-family="Bricolage Grotesque, Helvetica Neue, Arial, sans-serif">
+          <title id="chart1-title">Prix annuel des logiciels de formation par périmètre fonctionnel</title>
+          <desc id="chart1-desc">Quatre colonnes de périmètre, du plus administratif au plus pédagogique, et une échelle de prix logarithmique de 200 à 100 000 euros par an. La cible du projet est placée à 10 000 euros dans la colonne gestion plus LMS.</desc>
+          <rect x="100" y="40" width="180" height="340" fill="var(--surface-2)" opacity=".55"/>
+          <rect x="460" y="40" width="180" height="340" fill="var(--surface-2)" opacity=".55"/>
+          <g stroke="var(--rule)" stroke-width="1">
+            <line x1="100" y1="329.9" x2="820" y2="329.9"/>
+            <line x1="100" y1="292.4" x2="820" y2="292.4"/>
+            <line x1="100" y1="254.1" x2="820" y2="254.1"/>
+            <line x1="100" y1="203.9" x2="820" y2="203.9"/>
+            <line x1="100" y1="166" x2="820" y2="166" stroke="var(--accent)" stroke-dasharray="3 4" opacity=".7"/>
+            <line x1="100" y1="128" x2="820" y2="128"/>
+            <line x1="100" y1="78" x2="820" y2="78"/>
+            <line x1="100" y1="40" x2="820" y2="40"/>
+            <line x1="100" y1="380" x2="820" y2="380" stroke="var(--rule-strong)"/>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)" text-anchor="end">
+            <text x="92" y="384">200 €</text>
+            <text x="92" y="333.9">500 €</text>
+            <text x="92" y="296.4">1 k€</text>
+            <text x="92" y="258.1">2 k€</text>
+            <text x="92" y="207.9">5 k€</text>
+            <text x="92" y="170" fill="var(--accent)">10 k€</text>
+            <text x="92" y="132">20 k€</text>
+            <text x="92" y="82">50 k€</text>
+            <text x="92" y="44">100 k€</text>
+          </g>
+          <text x="14" y="212" transform="rotate(-90 14 212)" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)" text-anchor="middle" letter-spacing="1">PRIX PAR AN, ÉCHELLE LOG</text>
+          <g font-size="12.5" font-weight="700" fill="var(--ink-2)" text-anchor="middle">
+            <text x="190" y="26">Gestion d'OF seule</text>
+            <text x="370" y="26">Gestion + LMS</text>
+            <text x="550" y="26">LMS seul, OF et PME</text>
+            <text x="730" y="26">LMS / LXP d'entreprise</text>
+          </g>
+          <g stroke="var(--dot)" stroke-width="2" stroke-linecap="round">
+            <line x1="190" y1="302" x2="190" y2="199.8"/>
+            <line x1="230" y1="237.6" x2="230" y2="156.4"/>
+            <line x1="330" y1="288.3" x2="330" y2="256.8"/>
+            <line x1="370" y1="321" x2="370" y2="175.6"/>
+            <line x1="500" y1="331" x2="500" y2="292.9"/>
+            <line x1="530" y1="284.6" x2="530" y2="212"/>
+            <line x1="590" y1="176.3" x2="590" y2="118.6"/>
+            <line x1="620" y1="194" x2="620" y2="87.5"/>
+            <line x1="720" y1="180.7" x2="720" y2="88"/>
+            <line x1="770" y1="163.9" x2="770" y2="70.5"/>
+            <line x1="795" y1="125" x2="795" y2="45"/>
+          </g>
+          <g stroke="var(--dot)" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 4">
+            <line x1="745" y1="118" x2="745" y2="80"/>
+          </g>
+          <g fill="var(--dot)" stroke="var(--surface)" stroke-width="2">
+            <circle cx="150" cy="372.5" r="5.5"><title>1 · Kaliopi Premium IA : 229 €/an</title></circle>
+            <circle cx="190" cy="302" r="5.5"><title>2 · Hop3team : 828 à 5 388 €/an</title></circle>
+            <circle cx="230" cy="237.6" r="5.5"><title>3 · Dendreo : 2 700 à 11 904 €/an + 1 490 à 3 990 € de mise en service</title></circle>
+            <circle cx="330" cy="288.3" r="5.5"><title>5 · Queoval : 1 068 à 1 908 €/an</title></circle>
+            <circle cx="370" cy="321" r="5.5"><title>6 · Digiforma : 588 à 8 388 €/an</title></circle>
+            <circle cx="500" cy="331" r="5.5"><title>7 · Teachizy : 490 à 990 €/an</title></circle>
+            <circle cx="530" cy="284.6" r="5.5"><title>8 · TalentLMS : 1 142 à 4 310 $/an</title></circle>
+            <circle cx="560" cy="216.6" r="5.5"><title>9 · Classilio Lära : 3 960 €/an pour 250 utilisateurs</title></circle>
+            <circle cx="590" cy="176.3" r="5.5"><title>10 · iSpring Learn : 8 286 $/an (100 actifs) à 23 790 $/an (500 actifs)</title></circle>
+            <circle cx="620" cy="194" r="5.5"><title>11 · Moodle Workplace : 6 000 à 42 000 $/an de licence, hébergement en plus</title></circle>
+            <circle cx="670" cy="166" r="5.5"><title>12 · Didask : à partir de 10 000 € HT/an</title></circle>
+            <circle cx="695" cy="120.9" r="5.5"><title>13 · Edflex : à partir de 22 788 €/an</title></circle>
+            <circle cx="720" cy="108" r="5.5"><title>14 · 360Learning : médiane 28 872 $/an (7 641 à 41 509 $)</title></circle>
+            <circle cx="770" cy="110.8" r="5.5"><title>16 · Cornerstone : médiane 27 402 $/an (10 389 à 57 239 $)</title></circle>
+            <circle cx="795" cy="89" r="5.5"><title>17 · Docebo : médiane 41 283 $/an (21 123 à 91 295 $), contrat moyen 67 000 $</title></circle>
+          </g>
+          <g fill="var(--surface)" stroke="var(--dot)" stroke-width="2">
+            <circle cx="260" cy="204" r="5"><title>4 · Ypareo : environ 5 000 €/an + 1 404 € de démarrage, estimation de concurrents</title></circle>
+            <circle cx="745" cy="118" r="5"><title>15 · Syfadis : 24 000 à 48 000 €/an pour 200 utilisateurs, estimation d'un concurrent</title></circle>
+          </g>
+          <g>
+            <circle cx="410" cy="166" r="9" fill="var(--accent)" stroke="var(--surface)" stroke-width="2.5"><title>Cible du projet : 10 000 €/an, gestion + LMS + IA</title></circle>
+            <circle cx="410" cy="166" r="15" fill="none" stroke="var(--accent)" stroke-width="1.5" opacity=".55"/>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--ink-2)">
+            <text x="159" y="376">1</text>
+            <text x="199" y="306">2</text>
+            <text x="239" y="241">3</text>
+            <text x="269" y="208">4</text>
+            <text x="339" y="292">5</text>
+            <text x="379" y="325">6</text>
+            <text x="509" y="335">7</text>
+            <text x="539" y="288">8</text>
+            <text x="569" y="220">9</text>
+            <text x="599" y="180">10</text>
+            <text x="629" y="198">11</text>
+            <text x="655" y="158">12</text>
+            <text x="680" y="113">13</text>
+            <text x="706" y="100">14</text>
+            <text x="731" y="126">15</text>
+            <text x="755" y="103">16</text>
+            <text x="805" y="93">17</text>
+          </g>
+          <text x="432" y="156" font-size="12" font-weight="700" fill="var(--accent-ink)">Cible : 10 k€ par an</text>
+          <text x="432" y="187" font-size="11.5" font-weight="700" fill="var(--accent-ink)">gestion + LMS + IA</text>
+        </svg>
+        </div>
+        <div class="legend">
+          <span><b>1</b>Kaliopi 229 €</span><span><b>2</b>Hop3team 0,8 à 5,4 k€</span><span><b>3</b>Dendreo 2,7 à 11,9 k€ + mise en service</span><span><b>4</b>Ypareo ~5 k€ (estimation)</span>
+          <span><b>5</b>Queoval 1,1 à 1,9 k€</span><span><b>6</b>Digiforma 0,6 à 8,4 k€</span><span><b>7</b>Teachizy 0,5 à 1 k€</span><span><b>8</b>TalentLMS 1,1 à 4,3 k$</span>
+          <span><b>9</b>Classilio 4 k€ (250 util.)</span><span><b>10</b>iSpring 8,3 à 23,8 k$</span><span><b>11</b>Moodle Workplace 6 à 42 k$ licence</span><span><b>12</b>Didask dès 10 k€</span>
+          <span><b>13</b>Edflex dès 22,8 k€</span><span><b>14</b>360Learning médiane 28,9 k$</span><span><b>15</b>Syfadis 24 à 48 k€ (estimation)</span><span><b>16</b>Cornerstone médiane 27,4 k$</span><span><b>17</b>Docebo médiane 41,3 k$</span>
+        </div>
+        <figcaption>Prix HT annuels relevés le 10 septembre 2026 sur les pages tarifs des éditeurs, Capterra et Vendr, revérifiés sans changement le 13 octobre. Les barres indiquent l'étendue des formules publiques ou des contrats observés ; le point marque le prix d'entrée ou la médiane. Survolez un point pour le détail.</figcaption>
+      </figure>
+
+      <p>Lecture. La colonne « Gestion + LMS » est quasiment vide au-dessus de Digiforma. C'est exactement l'endroit où nous voulons aller, et personne n'y est avec un produit profond des deux côtés. La colonne de droite, celle des 25 à 60 k€, est occupée par des acteurs qui vendent autre chose que de la pédagogie : SSO, intégration SIRH, multi-entités, ISO 27001, référencement UGAP, accompagnement dédié. Ce n'est pas notre bataille, et ce n'est pas celle d'un OF.</p>
+
+      <h3>Quatre mouvements de fond</h3>
+      <p><strong>La consolidation.</strong> Septeo, éditeur de logiciels pour professions réglementées, a racheté Dendreo (février 2024), Ymag et son Ypareo (décembre 2024), puis Campus Skills et Wedof en 2025 : un pôle Éducation de 210 salariés et 32 M€. Orians a regroupé Syfadis, Bealink et Callimedia. Rise Up a absorbé Domoscio (adaptatif) et Yunoo (e-commerce). À l'international, Workday a payé Sana 1,1 Md$ pour réparer l'expérience de son propre LMS, et Coursera a absorbé Udemy en mai. La conséquence habituelle : des prix qui montent (Digiforma est passé de 19 à 49 € d'entrée en un an) et des produits qui ralentissent.</p>
+      <p><strong>La facturation à l'utilisateur actif.</strong> 81 % des éditeurs la proposent en 2026. Un prix forfaitaire annuel est lisible, mais il nous expose à un client qui met 5 000 stagiaires sur la plateforme pour 10 k€. Il faudra un plafond, ou un palier.</p>
+      <p><strong>L'IA facturée en crédits.</strong> TalentLMS, Kajabi, LearnWorlds, Coursebox vendent des jetons ; Dendreo vend son assistant en option ; Digiforma le plafonne par jour. Les utilisateurs détestent cela (« The way 360Learning chose the use of tokens »). Une IA incluse, sans compteur visible, est un argument. À condition que les coûts d'inférence tiennent (partie 11), et ils tiennent d'autant mieux que les prix des modèles baissent encore.</p>
+      <p><strong>L'accès par MCP devient un standard.</strong> Docebo a son serveur en production depuis juillet, SimpliTrain a lancé le sien en septembre, 360Learning l'annonce, Kaliopi le propose aux petits OF. Dans un an, un LMS que l'on ne peut pas interroger depuis Copilot, ChatGPT ou Claude paraîtra fermé.</p>
+    </section>
+
+    <section id="benchmark">
+      <h2><span class="num">05</span>Benchmark des acteurs</h2>
+      <p class="lede">Ceux que nous croiserons en rendez-vous, ce qu'ils coûtent, ce que leurs clients leur reprochent. Relevé du 10 septembre, revérifié le 13 octobre sans nouveauté datée chez les éditeurs français.</p>
+      <h3>Gestion d'organisme de formation et de CFA (France)</h3>
+      <div class="tw"><table>
+        <thead><tr><th>Acteur</th><th>Périmètre</th><th class="n">Prix public HT</th><th>IA livrée</th><th>Ce que disent les utilisateurs</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Digiforma</strong><br>6 000+ OF, 2 M d'apprenants</td><td>Gestion complète + CRM + LMS intégré basique</td><td class="n">49 à 699 €/mois<br>+ modules 29 à 99 €/mois</td><td>Assistant « Pétronille » (avril 2026), inclus avec un quota quotidien : crée des sessions, saisit, aide Qualiopi ; « agent de suivi des apprenants » en août 2026</td><td><span class="q">« Offre STARTER limité à 5 programmes. Informations trompeuse sur le site »</span> ; interface à moderniser (test Saask). Le module LMS+ vendu à part et Pédagogie+ sorti en août 2026 disent la faiblesse pédagogique.</td></tr>
+          <tr><td><strong>Dendreo</strong> (Septeo)<br>1 000 OF, 385 000 util./mois</td><td>Gestion complète, EDOF, Qualiopi, classe virtuelle Live ; <em>pas de LMS</em> (Dokeos, Moodle en intégration)</td><td class="n">225 à 992 €/mois<br>+ 1 490 à 3 990 € de mise en service<br>+ 19 €/util.</td><td>Assistant IA en option payante (moteur Septeo « Brain » hébergé en France) : rédaction, QCM, résumés de classes</td><td>Peu d'avis publics. Frais d'installation obligatoires, prise en main longue (comparatifs).</td></tr>
+          <tr><td><strong>Ypareo</strong> (Ymag, Septeo)<br>~4 000 clients, 21,7 M€</td><td>ERP CFA/OF : Cerfa, OPCO, planning d'alternance, BPF ; LMS par API</td><td class="n">Sur devis<br>(~300 €/mois + 1 404 € de démarrage selon des concurrents)</td><td>Rien de détaillé</td><td>« Interface dense, complexe » (concurrent). La référence historique des CFA, et l'outil que les CFA en difficulté regardent comme une charge.</td></tr>
+          <tr><td><strong>Hop3team</strong></td><td>Gestion, Qualiopi, BPF, signatures ; pas de LMS</td><td class="n">69 à 449 €/mois<br>+ 0,15 € par signature</td><td>Aucune</td><td><span class="q">Fonctions « mal exécutées », documents générés via Google Docs, engagement d'un an</span></td></tr>
+          <tr><td><strong>SC-Form, GesCOF, Val Software (AMMON)</strong></td><td>ERP historiques (CFA, insertion, CACES, financeurs)</td><td class="n">Sur devis</td><td>Aucune</td><td>Aucun avis public exploitable. Des bases installées, pas des produits qui séduisent.</td></tr>
+          <tr><td><strong>Queoval</strong></td><td>Gestion + LMS (SCORM, visio, contenus sur étagère)</td><td class="n">89 à 159 €/mois<br>+ 1,50 €/apprenant/mois pour l'étagère</td><td>Aucune</td><td>Petit acteur, pas de signal utilisateur.</td></tr>
+          <tr><td><strong>Edusign</strong></td><td>Brique émargement, assiduité, signature</td><td class="n">29 à 99 €/mois<br>puis 0,25 à 0,50 € par émargement</td><td>« Agents IA dont JustifAI » (justificatifs d'absence)</td><td>4,5/5 mais <span class="q">fonctions difficiles à trouver, pas de tableau de bord par apprenant</span></td></tr>
+          <tr><td><strong>Kaliopi, SmartOF, Loop, Calendium</strong><br>entrants 2025-2026</td><td>Gestion légère, Qualiopi, parfois CFA (Calendium)</td><td class="n">22,90 à 449 €/mois</td><td>Kaliopi : serveur MCP pour ChatGPT ou Claude</td><td>Ils tirent le bas du marché vers zéro. Kaliopi se décrit lui-même comme « pas un LMS complet ».</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>LMS et plateformes vendus en France</h3>
+      <div class="tw"><table>
+        <thead><tr><th>Acteur</th><th>Cible</th><th class="n">Prix</th><th>IA livrée</th><th>Ce que disent les utilisateurs</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Syfadis</strong> (Orians, Rennes)<br>4 M d'utilisateurs, 17,2 M€</td><td>Grands comptes, secteur public ; c'est la techno de SACADO</td><td class="n">Sur devis ; 24 à 48 k€/an pour 200 util. (estimation concurrent)</td><td>Chantiers annoncés en 2023, aucun lancement documenté 2025-2026</td><td><span class="q">« Beaucoup de paramétrages… pas intuitives » ; « l'outil de création de contenu n'est pas fun » ; « sans évolution malgré les multiples relances »</span></td></tr>
+          <tr><td><strong>Rise Up</strong><br>540 clients, 5 M d'apprenants, 35 M€ levés</td><td>Entreprises et OF (blended) ; utilisé par WEDGE Institute, concurrent d'Up n'PRO</td><td class="n">Sur devis ; « dès 59 €/util./an »</td><td>Outil auteur, traduction 45 langues, adaptatif Domoscio, e-commerce Yunoo</td><td><span class="q">« Bug tous les vendredi lorsqu'il y a beaucoup d'utilisateur connecté » ; « Visuellement compliqué » ; « Export de données… incomplet »</span></td></tr>
+          <tr><td><strong>360Learning</strong><br>2 300 clients, 240 M$ levés</td><td>Services formation d'entreprise ; pas d'admin OF</td><td class="n">8 $/util./mois jusqu'à 100 ; médiane 28 872 $/an</td><td>AI Companion (oct. 2025), statistiques en langage naturel, serveur MCP annoncé pour le troisième trimestre 2026, statut non confirmé au 13 octobre</td><td><span class="q">« Navigation… lacks fluidity » ; « clunky and a bit unintuitive » ; « connectors are not free »</span></td></tr>
+          <tr><td><strong>Didask</strong><br>200 clients, 10 M€ levés en 2025</td><td>Grandes entreprises (SUEZ, ENGIE, Orange)</td><td class="n">« À partir de 10 000 € HT/an tout inclus »</td><td>Génération de modules, tuteur « agentique », adaptatif</td><td><span class="q">« j'ai parfois dû chercher longtemps pour trouver les paramètres »</span>. Le plus proche de nous en prix et en discours IA, mais sans admin OF.</td></tr>
+          <tr><td><strong>Dokeos</strong></td><td>PME réglementées et OF ; le LMS « naturel » de Dendreo</td><td class="n">Sur devis</td><td>Rien ; l'éditeur critique lui-même « la course au fonctionnalisme »</td><td><span class="q">« user interface and backend is still like the old days »</span></td></tr>
+          <tr><td><strong>Moodle</strong> (Enovation, MoodleCloud)</td><td>Tous publics, open source</td><td class="n">MoodleCloud 170 à 2 120 $/an ; Workplace 6 à 42 k$ + hébergement</td><td>Module IA natif depuis 4.5 (texte, images, résumé)</td><td><span class="q">« feels quite outdated, often requires too many clicks » (2026) ; « on mobile, navigation can turn into a real labyrinth »</span></td></tr>
+          <tr><td><strong>Beedeez, Edflex, Coorpacademy</strong></td><td>Grands comptes, microlearning et curation</td><td class="n">Edflex dès 1 899 €/mois ; autres sur devis</td><td>Capsules IA, jeux de rôle, coach</td><td><span class="q">« Il manque une grande simplicité côté administrateur » ; « lancement des fonctionnalités avant corrections »</span></td></tr>
+          <tr><td><strong>Teachizy, LearnyBox</strong></td><td>Formateurs indépendants qui vendent en ligne</td><td class="n">0 à 149 €/mois</td><td>Rédacteur IA à crédits</td><td><span class="q">« CA BUG comme un fou, A FUIR !!!! »</span> (Trustpilot, juin 2026)</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>Les références internationales, pour situer les 60 k€</h3>
+      <div class="tw"><table>
+        <thead><tr><th>Acteur</th><th class="n">Contrat réel</th><th>Ce qui justifie le prix</th><th>Note de facilité et reproche principal</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Docebo</strong></td><td class="n">médiane 41 k$, moyen 67 k$ ; +20 à 40 % d'implémentation</td><td>Agents (AgentHub), serveur MCP en production depuis juillet 2026, catalogues, multi-entités</td><td>4,3/5 ; <span class="q">« One cannot make easy graphic level modifications, without basic knowledge of HTML and CSS »</span></td></tr>
+          <tr><td><strong>Cornerstone</strong></td><td class="n">médiane 27 k$ ; hausses de 9 à 14 % au renouvellement</td><td>Suite talents complète, agents « Workforce AI »</td><td>Mise en place 6,6/10, administration 6,9/10 ; <span class="q">« mistakes that cannot be reversed »</span></td></tr>
+          <tr><td><strong>Workday Learning</strong> (Sana)</td><td class="n">inclus dans HCM à 34 à 42 $/salarié/mois ; implémentation 100 à 150 % de l'an 1</td><td>Intégration RH totale</td><td>4,1/5 ; <span class="q">« well known as a system that isn't easy to use »</span> (Bersin)</td></tr>
+          <tr><td><strong>TalentLMS</strong></td><td class="n">1,1 à 4,3 k$/an jusqu'à 500 actifs</td><td>Simplicité</td><td>4,7/5 ; reporting et personnalisation limités</td></tr>
+          <tr><td><strong>LearnUpon, iSpring</strong></td><td class="n">30 k$ médiane ; 8 à 24 k$</td><td>Facilité d'usage 9,1/10 sur G2, les meilleures du marché</td><td>Reporting « unintuitive », intégrations limitées</td></tr>
+          <tr><td><strong>Sana</strong></td><td class="n">≥ 46,8 k$/an (300 licences)</td><td>AI-native, 4,8/5 sur 109 avis</td><td>Racheté 1,1 Md$ : la preuve que l'expérience se paie</td></tr>
+        </tbody>
+      </table></div>
+      <p class="cap">Médianes Vendr (février 2026), G2 et Capterra (septembre 2026). Les étoiles ne discriminent presque pas (moyenne G2 : 4,44 sur 405 LMS) ; il faut regarder les sous-scores et les verbatims.</p>
+
+      <div class="block verdict">
+        <div class="lbl">Ce que le benchmark dit</div>
+        <ul>
+          <li>Personne ne combine gestion d'OF profonde, LMS moderne, IA incluse et prix de milieu de marché. Digiforma s'en approche par le bas, Didask par le haut, aucun des deux ne tient les deux bouts.</li>
+          <li>Les trois reproches universels sont l'administration (versions, paramétrages), le reporting (« a dozen different reports… manually merge them ») et la navigation côté apprenant (« I can't find anything »). Ce sont nos trois promesses.</li>
+          <li>Les acteurs les mieux notés sur la facilité (LearnUpon, iSpring, TalentLMS) sont ceux qui font moins. La simplicité n'est pas un vernis, c'est une décision de périmètre.</li>
+        </ul>
+      </div>
+    </section>
+    <section id="archi">
+      <h2><span class="num">06</span>Comment un LMS est construit aujourd'hui</h2>
+      <p class="lede">Et pourquoi cette construction produit mécaniquement des outils pénibles.</p>
+      <h3>Les briques, toujours les mêmes</h3>
+      <p>Un LMS, quel que soit l'éditeur, empile neuf briques : identité et rôles (apprenant, formateur, administrateur, manager, tuteur entreprise) ; catalogue ; contenus ; parcours et sessions ; suivi et traces ; évaluation ; reporting ; notifications ; intégrations (SSO, SIRH, CRM, visio, signature, paiement). Ce qui les relie, ce sont des standards nés pour la conformité : SCORM 1.2 date de 2001, SCORM 2004 de 2004, xAPI de 2013, cmi5 et LTI 1.3 plus récemment. Un module SCORM est un paquet zip opaque que le LMS lance et dont il reçoit « complété / réussi / score ». Le LMS ne sait pas ce qu'il y a dedans.</p>
+      <p>Trois conséquences que l'on vit chez SACADO comme partout ailleurs.</p>
+      <ul>
+        <li><strong>Le contenu est une boîte noire.</strong> Il se fabrique dans un outil séparé (Articulate à 1 749 $ par auteur et par an, Genially, Rise), s'exporte, s'importe, se réimporte à chaque correction. Le formateur ne peut pas corriger une phrase depuis la plateforme. L'IA ne peut ni lire ni adapter ce contenu.</li>
+        <li><strong>L'administration est un modèle d'objets à paramétrer, pas une liste de choses à faire.</strong> Un administrateur crée un « cours », y rattache des « activités », des « groupes », des « règles d'inscription », des « rapports ». Personne ne lui dit ce qu'il doit faire mardi. C'est ce qui produit les « too many clicks » de Moodle et les « mistakes that cannot be reversed » de Cornerstone.</li>
+        <li><strong>Le reporting est un export.</strong> Les données sont là, mais il faut lancer « une douzaine de rapports et les fusionner à la main » (Absorb). La question du dirigeant, « où en est-on », n'a pas d'écran.</li>
+      </ul>
+      <h3>La spécificité française : deux outils, deux vérités</h3>
+      <p>En France, l'obligation réglementaire ne porte pas sur le LMS mais sur l'organisme : convention, convocation, émargement, certificat de réalisation, BPF, Qualiopi, EDOF, OPCO, Cerfa d'apprentissage. Ce travail vit dans un « logiciel de gestion d'OF » (Dendreo, Ypareo, Digiforma) qui ne sait pas faire apprendre, tandis que le LMS sait faire apprendre mais ignore ce qu'est une convention. Entre les deux : des exports, des imports, des copier-coller, et une chargée de formation qui saisit trois fois le même stagiaire. Dendreo facture même l'intégration avec un LMS tiers 49 €/mois.</p>
+      <figure>
+        <div class="fw">
+        <svg viewBox="0 0 860 330" role="img" aria-labelledby="fig2-title" font-family="Bricolage Grotesque, Helvetica Neue, Arial, sans-serif">
+          <title id="fig2-title">Aujourd'hui, quatre outils et de la ressaisie ; demain, un seul modèle de données et des rôles qui y accèdent</title>
+          <g font-size="11" font-weight="700" fill="var(--muted)" letter-spacing="1">
+            <text x="20" y="24">AUJOURD'HUI : QUATRE OUTILS, UNE PERSONNE ENTRE LES QUATRE</text>
+            <text x="470" y="24">CIBLE : UN MODÈLE, DES RÔLES, DES AGENTS</text>
+          </g>
+          <line x1="440" y1="12" x2="440" y2="318" stroke="var(--rule-strong)" stroke-dasharray="4 5"/>
+          <g fill="var(--surface-2)" stroke="var(--rule-strong)" stroke-width="1">
+            <rect x="20" y="50" width="150" height="58"/>
+            <rect x="240" y="50" width="150" height="58"/>
+            <rect x="20" y="230" width="150" height="58"/>
+            <rect x="240" y="230" width="150" height="58"/>
+          </g>
+          <g font-size="12.5" fill="var(--ink)" text-anchor="middle">
+            <text x="95" y="74" font-weight="700">Gestion d'OF</text><text x="95" y="93" fill="var(--ink-2)">devis, conventions, BPF, EDOF</text>
+            <text x="315" y="74" font-weight="700">LMS</text><text x="315" y="93" fill="var(--ink-2)">SCORM, parcours, scores</text>
+            <text x="95" y="254" font-weight="700">Émargement</text><text x="95" y="273" fill="var(--ink-2)">signatures, justificatifs</text>
+            <text x="315" y="254" font-weight="700">Classe virtuelle</text><text x="315" y="273" fill="var(--ink-2)">visio, présences</text>
+          </g>
+          <circle cx="205" cy="169" r="33" fill="var(--warn-soft)" stroke="var(--warn)" stroke-width="1.5"/>
+          <text x="205" y="166" font-size="10" font-weight="700" fill="var(--warn)" text-anchor="middle">chargée de</text>
+          <text x="205" y="179" font-size="10" font-weight="700" fill="var(--warn)" text-anchor="middle">formation</text>
+          <g stroke="var(--warn)" stroke-width="1.5" fill="none">
+            <path d="M120 108 L181 143"/><path d="M290 108 L229 143"/><path d="M120 230 L181 195"/><path d="M290 230 L229 195"/>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--warn)">
+            <text x="120" y="135">ressaisie</text><text x="250" y="135">export</text><text x="112" y="212">copier-coller</text><text x="250" y="212">import</text>
+          </g>
+          <rect x="470" y="196" width="370" height="60" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+          <text x="655" y="221" font-size="13" font-weight="700" fill="var(--accent-ink)" text-anchor="middle">Un seul modèle : personne · session · preuve</text>
+          <text x="655" y="240" font-size="11.5" fill="var(--ink-2)" text-anchor="middle">chaque clic d'apprentissage devient une preuve, chaque preuve un document</text>
+          <g fill="var(--surface)" stroke="var(--rule-strong)">
+            <rect x="470" y="50" width="86" height="52"/><rect x="565" y="50" width="86" height="52"/><rect x="660" y="50" width="86" height="52"/><rect x="755" y="50" width="85" height="52"/>
+          </g>
+          <g font-size="11.5" fill="var(--ink)" text-anchor="middle" font-weight="700">
+            <text x="513" y="72">Stagiaire</text><text x="608" y="72">Formateur</text><text x="703" y="72">Chargée de</text><text x="703" y="86" font-weight="400" fill="var(--ink-2)">formation</text><text x="797" y="72">Direction,</text><text x="797" y="86" font-weight="400" fill="var(--ink-2)">entreprise</text>
+          </g>
+          <text x="513" y="88" font-size="11" fill="var(--ink-2)" text-anchor="middle">apprend</text><text x="608" y="88" font-size="11" fill="var(--ink-2)" text-anchor="middle">anime, corrige</text>
+          <rect x="470" y="122" width="370" height="50" fill="var(--surface)" stroke="var(--rule-strong)"/>
+          <text x="655" y="143" font-size="12" font-weight="700" fill="var(--ink)" text-anchor="middle">Agents : administration invisible, tuteur, contrôle qualité</text>
+          <text x="655" y="161" font-size="11" fill="var(--ink-2)" text-anchor="middle">préparent et proposent ; un humain valide d'un clic</text>
+          <g stroke="var(--accent)" stroke-width="1.5" fill="none">
+            <path d="M513 102 L513 122"/><path d="M608 102 L608 122"/><path d="M703 102 L703 122"/><path d="M797 102 L797 122"/>
+            <path d="M655 172 L655 196"/>
+          </g>
+          <text x="655" y="290" font-size="11" fill="var(--muted)" text-anchor="middle">Standards en entrée seulement : import SCORM/xAPI, SSO, API et MCP en sortie</text>
+        </svg>
+        </div>
+        <figcaption>À gauche, la situation d'un OF français équipé « normalement » ; à droite, le principe d'architecture que je propose : les preuves réglementaires sont un sous-produit de l'activité pédagogique, pas un travail à part.</figcaption>
+      </figure>
+      <h3>Ce qu'il faut garder de l'ancien monde</h3>
+      <p>Pas de romantisme : il faudra importer du SCORM (les OF ont des stocks de modules), gérer du SSO pour les clients entreprise, exporter vers Excel parce que le comptable le demandera, et rester compatible avec les formats des OPCO. Mais ces standards sont des portes, pas des fondations. Le cœur doit être un modèle de données unique où un apprenant, une session et une preuve ne sont saisis qu'une fois, et où chaque événement d'apprentissage (une vidéo terminée, un quiz réussi, une question posée au tuteur, une signature) est une trace exploitable à la fois par le formateur, par l'indicateur 19 de Qualiopi et par le certificat de réalisation.</p>
+    </section>
+
+    <section id="usagers">
+      <h2><span class="num">07</span>Vu du côté des utilisateurs</h2>
+      <p class="lede">Cinq personnes utilisent un LMS d'OF. Aucune d'elles n'est « l'administrateur ». Ces portraits viennent de ce que nous avons vécu chez Up n'PRO et ID School ; les entretiens de la partie 12 les corrigeront.</p>
+
+      <div class="persona">
+        <h4>La chargée de formation</h4>
+        <div class="who">ADV, back-office, « celle qui fait tourner la boutique ». C'est elle qui décide si l'outil est bon.</div>
+        <p>Sa journée : une demande arrive par mail, elle fait un devis, le transforme en convention, relance la signature, inscrit le stagiaire, envoie la convocation à J-7 avec le règlement intérieur, monte le dossier OPCO ou EDOF, vérifie les prérequis (pour un diagnostiqueur : la validité de sa certification), fait signer l'émargement, génère l'attestation et le certificat de réalisation, facture, lance l'évaluation à chaud, puis à froid, et au printemps compile le BPF. Chaque étape vit dans un outil différent, et quand un stagiaire change de session, elle refait tout.</p>
+        <p>Ce qu'elle veut : arriver le matin et voir la liste de ce qui doit partir aujourd'hui, déjà préparé, à valider d'un clic. Ne jamais ressaisir un nom. Savoir en une seconde si le dossier d'un stagiaire est complet. Ne pas avoir peur de l'audit.</p>
+      </div>
+
+      <div class="persona">
+        <h4>Le stagiaire</h4>
+        <div class="who">Diagnostiqueur en recyclage, salarié envoyé par son entreprise, ou particulier en reconversion. Il ne « navigue » pas dans un LMS, il veut finir.</div>
+        <p>Ce qu'il subit : un mail avec un identifiant, une plateforme où il cherche son parcours, des modules qui s'ouvrent dans une fenêtre, un QCM à la fin, personne à qui poser une question à 21 h, et une attestation qui arrive trois semaines plus tard. Chez les leaders, les verbatims sont les mêmes : « search… inadequate », « so many options », « I can't find anything ».</p>
+        <p>Ce qu'il veut : une seule page, « voilà où tu en es, voilà la suite, voilà ce qui te reste à faire avant vendredi », une réponse immédiate à ses questions sur le contenu, un document officiel dès qu'il a fini, et, pour un diagnostiqueur, savoir quand tombe sa prochaine obligation.</p>
+      </div>
+
+      <div class="persona">
+        <h4>Le formateur</h4>
+        <div class="who">Souvent un expert métier à temps partiel, parfois un diagnostiqueur en activité. Il tolère l'outil, il ne l'aime pas.</div>
+        <p>Ce qu'il subit : ses supports vivent dans PowerPoint, la plateforme ne sait pas les lire ; corriger une question de quiz demande de réexporter un module ; il découvre les décrocheurs le jour de l'examen ; il refait les mêmes retours à chaque promotion.</p>
+        <p>Ce qu'il veut : déposer ses documents et obtenir un module propre à relire ; voir qui bloque et sur quoi avant la séance ; que les questions récurrentes des stagiaires reçoivent une première réponse qu'il valide ; corriger en deux fois moins de temps sans perdre son jugement.</p>
+      </div>
+
+      <div class="persona">
+        <h4>Le dirigeant de l'OF ou du CFA</h4>
+        <div class="who">Le patron d'un OF de 15 personnes, ou le directeur d'une filiale formation. Il paie, et il n'ouvre l'outil qu'en cas de problème.</div>
+        <p>Ce qu'il subit : le chiffre d'affaires est dans la compta, le taux de réussite dans un Excel, la satisfaction dans un Google Form, la conformité dans un classeur ; l'audit Qualiopi tous les 18 mois est une semaine de stress ; il découvre en mai qu'il manque des données pour le BPF ; et il ne sait pas quels stagiaires reviendront l'an prochain.</p>
+        <p>Ce qu'il veut : un cockpit à trois chiffres (sessions, remplissage, encaissé), les indicateurs Qualiopi à jour en permanence, et la liste des clients à relancer parce que leur obligation de formation continue arrive.</p>
+      </div>
+
+      <div class="persona">
+        <h4>L'entreprise cliente et le tuteur d'apprenti</h4>
+        <div class="who">Le cabinet de diagnostic qui envoie ses techniciens, le maître d'apprentissage d'ID School. Ils n'ont pas de compte, ou un compte qu'ils n'ouvrent jamais.</div>
+        <p>Ce qu'ils subissent : ils ne savent pas où en est leur salarié, reçoivent des convocations à réexpédier, signent des Cerfa et des conventions par mail, et remplissent un livret d'apprentissage sur papier.</p>
+        <p>Ce qu'ils veulent : un lien, pas un compte ; la situation de leurs gens en un écran ; les échéances de certification de toute leur équipe ; et, pour un tuteur, une évaluation qui prend trois minutes sur téléphone.</p>
+      </div>
+
+      <h3>Les dix irritants que le produit doit tuer</h3>
+      <ol>
+        <li>Saisir un stagiaire plus d'une fois.</li>
+        <li>Chercher « où on en est » dans plus d'un écran.</li>
+        <li>Découvrir un décrocheur après coup.</li>
+        <li>Produire un document (convention, convocation, attestation, certificat) à la main alors que toutes ses informations existent déjà.</li>
+        <li>Réimporter un module pour corriger une phrase.</li>
+        <li>Préparer un audit Qualiopi en rassemblant des preuves.</li>
+        <li>Recompiler le BPF au printemps.</li>
+        <li>Attendre une réponse à une question de cours.</li>
+        <li>Ouvrir un compte pour un tuteur ou une entreprise qui ne se connectera jamais.</li>
+        <li>Ne pas savoir quel client doit revenir, et quand.</li>
+      </ol>
+      <div class="block ok">
+        <div class="lbl">Principe de conception</div>
+        <p>Chaque écran répond à une question que la personne se pose ce jour-là, pas à une entité de la base de données. La chargée de formation n'ouvre pas « Sessions » : elle ouvre « Aujourd'hui ». Le stagiaire n'ouvre pas « Catalogue » : il ouvre « Ma suite ». Le dirigeant n'ouvre pas « Rapports » : il ouvre « Où on en est ». Les objets existent, mais derrière.</p>
+      </div>
+    </section>
+
+    <section id="ia">
+      <h2><span class="num">08</span>Ce que l'IA permet et qui n'existe pas</h2>
+      <p class="lede">D'abord ce que les preuves disent, ensuite ce que cela change dans le produit, enfin ce qu'il ne faut pas faire.</p>
+      <h3>Ce que les études sérieuses disent</h3>
+      <div class="tw"><table>
+        <thead><tr><th>Étude</th><th>Dispositif</th><th class="n">Effet</th><th>Ce qu'il faut en retenir</th></tr></thead>
+        <tbody>
+          <tr><td>Kestin et al., Harvard, Scientific Reports, juin 2025</td><td>194 étudiants, physique, tuteur IA alimenté avec les corrigés, séances surveillées</td><td class="n">+0,63 écart-type</td><td>Un tuteur qui connaît le contenu exact du cours et qui est cadré fait mieux que la classe. Notions d'introduction seulement.</td></tr>
+          <tr><td>Banque mondiale, Nigeria, 2025</td><td>6 semaines, GPT-4 encadré par des enseignants</td><td class="n">+0,3 écart-type</td><td>Mieux que 80 % des interventions éducatives évaluées. L'encadrement humain fait partie du dispositif.</td></tr>
+          <tr><td>Khanmigo, essai randomisé sur deux ans, NBER, août 2026</td><td>18 collèges, usage libre</td><td class="n">+0,06 à 0,08 écart-type par an</td><td>Sur le terrain, l'effet s'effondre : l'élève médian n'utilise le tuteur qu'un jour sur trois, et ne l'appelle que dans 17 % des séances où il se trompe. L'engagement est le goulot.</td></tr>
+          <tr><td>Khan Academy, 20 tests A/B sur 15 M de conversations, 2026</td><td>Variantes du tuteur</td><td class="n">+3,4 % (historique injecté), +2,7 % (prérequis), 0 (liens recommandés)</td><td>Ce qui marche : donner au tuteur le passé de l'apprenant et rappeler les prérequis. Ce qui ne marche pas : recommander des contenus.</td></tr>
+          <tr><td>Bastani et al., PNAS, juin 2025</td><td>Lycéens avec GPT sans garde-fous</td><td class="n">-17 % à l'examen sans IA</td><td>Une IA qui donne la réponse fait baisser l'apprentissage. Une IA contrainte à faire raisonner le protège.</td></tr>
+          <tr><td>Tutor CoPilot, Stanford, 2024-2025</td><td>900 tuteurs humains assistés par IA</td><td class="n">+4 points, +9 pour les tuteurs les plus faibles ; 20 $ par tuteur et par an</td><td>Augmenter le formateur rapporte plus, et coûte moins, que remplacer le formateur.</td></tr>
+          <tr><td>Frontiers in Education, juillet 2026</td><td>Correction de copies par ChatGPT</td><td class="n">accord avec l'humain QWK 0,42 à 0,59</td><td>L'IA est cohérente avec elle-même mais plus sévère que l'humain sur 67 % des copies. Pré-correction oui, note certifiante non.</td></tr>
+        </tbody>
+      </table></div>
+      <p>Traduction pour nous : le tuteur IA n'est pas un argument de vente en soi (tout le monde en aura un), c'est une fonction qui ne vaut que si elle est ancrée sur le contenu exact, cadrée pédagogiquement, et si le produit va chercher l'apprenant au lieu d'attendre qu'il vienne. Et le meilleur retour sur investissement documenté n'est pas côté apprenant : il est côté formateur assisté.</p>
+
+      <h3>Ce que les LMS livrent réellement en 2026</h3>
+      <p>Génération de brouillons de cours (Articulate, 360Learning, Docebo, Rise Up, Didask), traduction, quiz, résumés, un chatbot sur le catalogue, et depuis cet été des « agents » qui pour l'essentiel consultent et recommandent (Absorb Aura, Docebo AgentHub). Les serveurs MCP arrivent (Docebo en production depuis juillet, SimpliTrain en septembre, 360Learning annoncé, Kaliopi côté OF). Les reproches sur le contenu généré sont constants : exemples génériques, distracteurs de QCM mal construits, corrigés faux, « style machine » reconnaissable. Aucun outil n'intègre de contrôle qualité des questions générées.</p>
+
+      <h3>Ce qui n'existe pas, classé par valeur pour un OF</h3>
+      <div class="tw"><table>
+        <thead><tr><th>Fonction</th><th>Pourquoi cela manque</th><th>Faisabilité et coût</th><th>Cadre</th></tr></thead>
+        <tbody>
+          <tr><td><strong>L'administration invisible.</strong> Un agent qui prépare chaque matin les convocations, relances, attestations, certificats, justificatifs OPCO et preuves Qualiopi du jour ; la chargée valide d'un clic.</td><td>Les agents en production consultent et recommandent, ils n'exécutent pas de bout en bout. Digiforma vient à peine de sortir un « agent de suivi ».</td><td><span class="tag ok">faisable</span> workflows programmés + rédaction par modèle ; coût d'inférence négligeable</td><td>Tâche préparatoire, validation humaine : hors haut risque AI Act si documenté</td></tr>
+          <tr><td><strong>Le tuteur ancré sur le référentiel de certification.</strong> Il connaît l'arrêté, le référentiel RNCP41787, les supports du formateur, et le passé du stagiaire.</td><td>Les tuteurs sont génériques ; rien n'est branché sur les référentiels français.</td><td><span class="tag ok">faisable</span> recherche documentaire sur des textes que l'OF possède déjà ; 0,04 à 1 $ par heure de tutorat écrit, en baisse d'environ 20 % sur le haut de gamme depuis le 22 septembre</td><td>Transparence art. 50 (dire que c'est une IA) ; garde-fous « essayer avant l'aide » réglables par le formateur</td></tr>
+          <tr><td><strong>Le tuteur qui vient chercher le stagiaire.</strong> Relance au moment de l'erreur, message quand une échéance approche, dans le mail ou sur téléphone.</td><td>Khanmigo : un jour sur trois. Personne ne travaille l'engagement, tout le monde travaille le chatbot.</td><td><span class="tag ok">faisable</span> coût faible</td><td>RGPD : consentement aux notifications</td></tr>
+          <tr><td><strong>Le formateur augmenté.</strong> Retours préparés, décrocheurs signalés avant la séance, questions récurrentes pré-répondues, pré-correction des travaux avec suivi des écarts IA / humain.</td><td>Tutor CoPilot montre +4 à +9 points pour 20 $ par an ; aucun LMS ne le fait.</td><td><span class="tag ok">faisable</span> coût faible</td><td>Pré-correction en assistance seulement, jamais de note automatique (art. 22 RGPD, annexe III)</td></tr>
+          <tr><td><strong>Le calendrier de formation par personne.</strong> Pour un diagnostiqueur : cycle de 7 ans, 7 h de DPE par an, deux fenêtres amiante, deux missions tutorées. Le produit sait ce que chacun doit suivre et quand, et le propose au client entreprise pour toute son équipe.</td><td>Aucun concurrent observé ne le fait. C'est la vraie « recommandation de la prochaine formation ».</td><td><span class="tag ok">déjà construit</span> règles métier, pas d'IA nécessaire ; moteur livré pour Arrow et pour I.Cert</td><td>Aucun risque : ce sont des obligations réglementaires, pas un profilage</td></tr>
+          <tr><td><strong>Le module qui se fabrique depuis les supports du formateur</strong>, avec citations phrase par phrase et circuit de relecture, puis contrôle qualité automatique des quiz (distracteurs morts, questions ambiguës, statistiques de réponses).</td><td>Les brouillons existent ; la traçabilité des sources et la relecture structurée, presque pas ; le contrôle qualité, nulle part.</td><td><span class="tag mid">coût moyen</span> surtout l'interface de relecture ; environ 2,50 $ par module d'une heure en génération</td><td>Marquage des contenus générés (art. 50)</td></tr>
+          <tr><td><strong>Les preuves FOAD de l'indicateur 19.</strong> Le suivi à distance « effectif » (échanges avec le tuteur, travaux, évaluations, assistance) produit automatiquement, pas seulement les connexions.</td><td>Le nouveau référentiel entre en vigueur le 1er novembre 2026 ; la DREETS et le TA de Toulouse ont déjà jugé que les connexions ne suffisent pas.</td><td><span class="tag ok">faisable</span> c'est un sous-produit du modèle de données</td><td>Conservation 10 ans (OPCO)</td></tr>
+          <tr><td><strong>Le jeu de rôle vocal métier en français</strong> : entretien avec un client, restitution d'un diagnostic, situation de sécurité amiante, noté sur le référentiel.</td><td>L'offre est anglophone et orientée vente (Udemy, Coursera, LinkedIn).</td><td><span class="tag mid">sous quotas</span> voix ~1 $ par heure avec un modèle vocal léger ; 6 à 15 $ avec les modèles premium ; avatar vidéo 11 à 12 $, exclu à 10 k€</td><td>Pas de reconnaissance d'émotions (interdit depuis février 2025)</td></tr>
+          <tr><td><strong>Le LMS accessible depuis Claude, ChatGPT ou Copilot</strong> par MCP, avec les droits de chaque rôle.</td><td>Docebo, 360Learning et Kaliopi y sont ou y viennent. Différenciant six mois, standard dans deux ans.</td><td><span class="tag ok">faisable</span> coût faible</td><td>Droits par rôle, journalisation</td></tr>
+          <tr><td><strong>La conformité AI Act et RGPD comme argument de vente</strong> : dossier art. 6(3), journaux, transparence, validation humaine, hébergement UE, pas d'entraînement sur les données.</td><td>Échéance haut risque au 2 décembre 2027 ; aucun concurrent ne le met en avant ; c'est le frein n° 1 des OF (confidentialité) et de toute DSI de groupe.</td><td><span class="tag mid">coût moyen</span> surtout de la documentation et de l'architecture</td><td>Différenciant face aux offres américaines</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>Ce qu'il ne faut pas faire</h3>
+      <ul>
+        <li><strong>Une note certifiante automatique.</strong> Fiabilité insuffisante, haut risque AI Act (annexe III, 3b), droit à l'intervention humaine. L'IA pré-corrige, le formateur note.</li>
+        <li><strong>La télésurveillance ou la détection d'attention par webcam.</strong> Exclue par la CNIL, à haut risque, et la reconnaissance d'émotions est interdite en contexte éducatif. Terrain miné pour un petit éditeur.</li>
+        <li><strong>Le « graphe de compétences » déduit des traces.</strong> C'est ce qui a coulé Knewton (180 M$ levés, revendu moins de 17 M$). Un profil apprenant doit être visible, modifiable par l'intéressé, et ne jamais décider seul de son parcours.</li>
+        <li><strong>L'avatar vidéo temps réel inclus dans le forfait.</strong> 11 à 12 $ par heure : trois heures par stagiaire et par an mangent la marge.</li>
+        <li><strong>Un modèle maison.</strong> Aucun intérêt en 2026. Duolingo a divisé ses coûts par 30 en passant à des modèles open source, mais après des années de volume.</li>
+      </ul>
+    </section>
+
+    <section id="netflix">
+      <h2><span class="num">09</span>Le Netflix de la formation à l'épreuve</h2>
+      <p class="lede">L'image est bonne. Il faut juste savoir ce qu'elle veut dire, et ce qu'elle ne peut pas vouloir dire.</p>
+      <p>Netflix, c'est trois choses : un catalogue en libre-service, un abonnement qui crée de la récurrence, et une page d'accueil qui sait ce que vous regarderez ensuite. Prenons-les une par une.</p>
+      <h3>Le catalogue en libre-service</h3>
+      <p>Up n'PRO le fait déjà, sur son site : 32 modules e-learning entre 200 € (7 h de DPE) et 850 € HT (3PT et DTG), accès sous trois jours ouvrés, 60 jours pour finir. Les concurrents aussi : ODE à 190 €, PRO FORMATION de 99 à 189 € le module, WEDGE à 250 € TTC. Ce n'est donc pas une innovation, c'est une hygiène. Ce qui n'existe pas : l'achat qui déclenche immédiatement l'accès, la convention, la convocation, le suivi FOAD et le certificat de réalisation sans qu'une chargée de formation touche le dossier. Le libre-service côté client n'a de valeur que s'il est libre-service côté OF.</p>
+      <h3>La récurrence</h3>
+      <p>C'est ici que l'idée est meilleure qu'elle n'en a l'air. Netflix obtient la récurrence par l'habitude ; nous l'obtenons par la réglementation. Un diagnostiqueur certifié a un cycle de sept ans avec des obligations de formation continue datées : 7 h par an en DPE (années 2, 3, 4 et 6, plus 7 h avec mention en années 2 et 5), deux fenêtres de recyclage en amiante, deux missions tutorées dans les 12 mois après la certification, 7 h d'audit énergétique par an. Multipliez par les techniciens d'un cabinet, et vous avez un client entreprise qui a besoin, chaque année, d'un plan de formation pour toute son équipe.</p>
+      <p>Un abonnement « formation continue » par diagnostiqueur, avec le calendrier tenu par le produit, la relance au bon moment et le module disponible en un clic, est un modèle Netflix au sens strict. Et il transforme la « recommandation » en chose simple : ce n'est pas de l'IA, c'est un calendrier réglementaire par personne, que personne ne tient aujourd'hui. Ce moteur existe déjà deux fois : chez Arrow pour les échéances ALUR des mandataires immobiliers, et chez I.Cert pour les échéances de certification des diagnostiqueurs, validé par le directeur d'I.Cert lui-même.</p>
+      <h3>La page d'accueil qui sait</h3>
+      <p>La reconnaissance du profil du stagiaire, telle qu'elle est imaginée au départ, est la partie la plus risquée et la moins prouvée. Khan Academy a mesuré zéro effet des liens recommandés ; les moteurs adaptatifs ont déçu ; et à partir du 2 décembre 2027, un système qui évalue les acquis pour orienter le parcours est à haut risque au sens de l'AI Act. Ce n'est pas rédhibitoire, c'est une contrainte de conception : le profil doit être visible et modifiable par l'apprenant, nourri par ce qu'il déclare (objectif, métier, obligations) plus que par ce qu'on déduit, et il propose, il ne décide pas. La « next step » vient de trois sources : le calendrier réglementaire, le référentiel de certification (les blocs qui restent à valider), et ce que le stagiaire dit vouloir. Le modèle de langage sert à en parler, pas à en décider.</p>
+      <div class="block angle">
+        <div class="lbl">Le problème du Netflix inter-OF</div>
+        <p>Un marketplace où plusieurs OF vendent leurs modules sur une plateforme commune a un problème d'amorçage (qui met ses contenus en premier ?) et un problème de confiance : un OF ne pose pas son catalogue sur la plateforme d'un autre OF qui vend les mêmes formations. Le Netflix réaliste est intra-client : chaque OF a son catalogue en libre-service pour ses propres clients, avec le calendrier réglementaire de ses stagiaires. Le Netflix multi-OF, s'il doit exister, viendra de contenus tiers neutres (réglementaire, sécurité, HSE), pas de contenus de concurrents.</p>
+      </div>
+      <h3>Ce que je garderais de la vision</h3>
+      <ul>
+        <li>Un seul produit pour OF et CFA, avec le libre-service intégré à l'administration.</li>
+        <li>Le calendrier réglementaire par personne comme moteur de récurrence et de vente aux entreprises.</li>
+        <li>Une page d'accueil stagiaire réduite à « où j'en suis, la suite, avant vendredi ».</li>
+        <li>Un profil transparent, déclaratif, non décisionnel.</li>
+        <li>Le mot « Netflix » pour vendre, pas pour spécifier.</li>
+      </ul>
+    </section>
+    <section id="socle">
+      <h2><span class="num">10</span>Le socle réglementaire à embarquer</h2>
+      <p class="lede">C'est la partie qu'un développeur seul ne fera jamais correctement, et c'est pour cela qu'elle vaut de l'argent.</p>
+      <div class="tw"><table>
+        <thead><tr><th>Domaine</th><th>Ce que le produit doit faire</th><th>Ce qui a changé ou change</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Qualiopi V10</strong></td><td>Produire les preuves des 33 indicateurs au fil de l'eau : catalogue avec taux et méthode de calcul (ind. 1 à 3), analyse du besoin horodatée, positionnement, convocations et règlement avec accusé de lecture, émargement, alertes de décrochage, canal de signalement (ind. 12), traces FOAD effectives (ind. 19), CV et certifications des formateurs, sous-traitants (ind. 27), registre des risques (ind. 32), évaluation des enseignements par les apprentis (ind. 33, CFA)</td><td>Décret 2026-728, en vigueur le 1er novembre 2026 pour tous les audits ; surveillance entre le 14e et le 22e mois ; audits centrés sur la mise en œuvre réelle. Guide de lecture et arrêtés sur les seuils des indicateurs 19 et 20 non publiés au 12 octobre : règles paramétrables, pas codées en dur</td></tr>
+          <tr><td><strong>Actes et documents</strong></td><td>Devis, convention (L6353-1), contrat particulier avec 10 jours de rétractation et 30 % d'acompte maximum (L6353-5 et 6), informations avant inscription (L6353-8), convocation, émargement horodaté, certificat de réalisation (arrêté du 21 décembre 2018), attestation, évaluations à chaud et à froid ; signature électronique eIDAS simple avec piste d'audit, avancée pour les contrats</td><td>Conservation 10 ans exigée par les OPCO</td></tr>
+          <tr><td><strong>FOAD</strong></td><td>Séquences avec durée estimée, assistance tracée, évaluations qui jalonnent, travaux déposés, connexions ; certificat de réalisation qui consolide le tout (D6313-3-1)</td><td>DREETS et TA de Toulouse (2023) : les connexions seules ne justifient rien ; ind. 19 V10 : référent pédagogique au-delà d'un seuil à venir</td></tr>
+          <tr><td><strong>CPF / EDOF</strong></td><td>Référencement (NDA, Qualiopi, habilitation certificateur), déclaration des sorties et du service fait, sous-traitance déclarée, reste à charge affiché et calculé selon les exonérations</td><td>Reste à charge à 150 € depuis le 2 avril 2026 ; conditions v15 (mai 2026) ; PLF 2027 : majoration (350 € évoqués) applicable aux demandes déposées depuis le 1er octobre 2026, avec exonérations (cofinancement, transition, métiers en tension, six secteurs) ; aucune API publique confirmée côté Caisse des Dépôts</td></tr>
+          <tr><td><strong>OPCO et BPF</strong></td><td>Dossiers de prise en charge, contrôle de service fait (R6332-26), BPF calculé toute l'année et déposé avant le 31 mai, ventilation de la sous-traitance</td><td>NDA caduc sans BPF ; CFA : comptabilité analytique sur la plateforme MAP (mai à juillet)</td></tr>
+          <tr><td><strong>Apprentissage / CFA</strong></td><td>Cerfa FA13, dépôt OPCO sous 5 jours, numéro DECA, versement NPEC 40/30/20/10 au prorata, participation employeur 750 € (niveau 6+), calcul du pourcentage de distanciel (minoration de 20 % au-delà de 80 %), 14 missions légales, indicateurs L6111-8, évaluation des enseignements (ind. 33)</td><td>NPEC 2026 applicable aux contrats signés depuis le 1er septembre : 55 % en baisse. Décret 2025-585. PLF 2027 : dépôt des contrats sur une plateforme nationale au plus tard le 31 octobre 2027, fonds de soutien aux CFA en difficulté. ID School est directement concerné par la règle des 80 %.</td></tr>
+          <tr><td><strong>Certification</strong></td><td>Sessions d'examen, jurys, partenaires habilités, déclaration des inscrits, présents et titulaires au SI du CPF (L6113-8), passeport de prévention pour les formations sécurité</td><td>Up n'PRO est certificateur du RNCP41787 : c'est un module en soi. Passeport de prévention obligatoire pour les OF depuis septembre 2025 ; espace salariés au plus tard le 31 décembre 2026.</td></tr>
+          <tr><td><strong>Diagnostic immobilier</strong></td><td>Cycle de 7 ans par personne, heures obligatoires par domaine et par année, limite de 7 h de pratique à distance en DPE, missions tutorées, certification OF DTI de l'organisme</td><td>Arrêtés du 20 juillet 2023 (DPE, modifié en juin 2025) et du 1er juillet 2024 (autres domaines) ; rien de nouveau depuis septembre</td></tr>
+          <tr><td><strong>Données et IA</strong></td><td>Registre, durées de conservation en trois phases, contrats art. 28 avec hébergeur et fournisseurs de modèles (UE, pas d'entraînement), AIPD, dossier AI Act art. 6(3), transparence art. 50, validation humaine des notes, RGAA</td><td>Transparence applicable depuis le 2 août 2026 ; haut risque éducation au 2 décembre 2027 ; brèche Canvas d'avril 2026 (275 M de comptes) : la sécurité est un argument</td></tr>
+        </tbody>
+      </table></div>
+      <div class="block angle">
+        <div class="lbl">Ce que cela veut dire pour le produit</div>
+        <p>Ce socle bouge tous les six mois : EDOF v15 en mai, NPEC en septembre, PLF en octobre, Qualiopi en novembre, loi de finances en février. Un LMS pour OF n'est pas un logiciel qu'on livre, c'est un abonnement à une veille réglementaire encodée. Quelqu'un doit en être responsable en permanence. C'est un coût fixe de l'entreprise, et c'est aussi la raison pour laquelle « chacun pourrait se faire son LMS » est faux pour un OF audité.</p>
+      </div>
+    </section>
+
+    <section id="prix">
+      <h2><span class="num">11</span>Prix, cible, modèle économique</h2>
+      <p class="lede">10 k€ par an est un bon prix. Pas pour les raisons qu'on croit, et pas pour tout le monde.</p>
+      <h3>Qui paie 10 k€</h3>
+      <p>Pas les 76 % d'OF à un formateur : Digiforma, Kaliopi et Teachizy les tiennent entre 20 et 100 € par mois, et ils n'ont pas de chargée de formation à libérer. Pas non plus les DRH de grands groupes : ils achètent du SSO et de l'intégration SIRH, et ils ont déjà Cornerstone. Restent trois cibles où 10 k€ remplace une dépense existante et libère du temps de personnes :</p>
+      <ul>
+        <li><strong>L'OF ou le CFA de 10 à 100 salariés</strong>, 500 à 5 000 stagiaires par an, aujourd'hui équipé Dendreo ou Ypareo plus un LMS plus Edusign plus une classe virtuelle : 10 à 15 k€ par an, plus des frais de mise en service, plus la ressaisie.</li>
+        <li><strong>La filiale formation d'un groupe</strong>, exactement le profil d'Up n'PRO (39 personnes, 100 formations, présentiel, distanciel et CFA), souvent bloquée sur un LMS d'entreprise hérité.</li>
+        <li><strong>L'OF d'un secteur réglementé</strong> (diagnostic immobilier, amiante, HSE, sécurité, DPC santé, immobilier loi ALUR) où le calendrier de formation continue par personne vaut de l'argent pour l'OF comme pour ses clients entreprises.</li>
+      </ul>
+      <p>Combien sont-ils ? Sur 165 541 OF déclarés, 13 % ont plus de cinq formateurs, soit de l'ordre de 21 000 structures ; ceux qui dépassent dix salariés se comptent probablement en quelques milliers, auxquels s'ajoutent 3 688 CFA. Je n'ai pas trouvé de chiffre public plus fin : c'est une estimation, à consolider avec les bases OPCO ou la liste publique. L'objectif de 200 k€ par an, c'est 20 clients. Sur ce périmètre, avec notre réseau, c'est plausible en deux à trois ans ; ce n'est pas un chiffre de première année, parce que chaque vente inclut une migration de données et un cycle de décision de trois à six mois.</p>
+
+      <h3>Ce que 10 k€ doit inclure</h3>
+      <p>Didask vend « 10 000 € HT par an tout inclus » aux grandes entreprises ; Digiforma Leader coûte 8 388 € par an avant modules. Notre prix ne tient que si tout est dedans : gestion complète, LMS, émargement et signature, classe virtuelle (intégrée à Teams, Meet ou Zoom, jamais reconstruite), IA sans compteur, multi-centres, API et MCP, hébergement européen, mises à jour réglementaires. Les seules choses facturées à part : la mise en service avec migration (le marché l'accepte, Dendreo prend 1 490 à 3 990 €), et un palier de volume au-delà d'un nombre de stagiaires actifs par an, sinon un réseau de 30 centres nous coûtera plus qu'il ne nous rapporte.</p>
+      <div class="tw"><table>
+        <thead><tr><th>Offre</th><th class="n">Prix HT / an</th><th>Pour qui</th><th>Inclus</th></tr></thead>
+        <tbody>
+          <tr><td>Atelier</td><td class="n">4 800 €</td><td>OF de 5 à 15 personnes, jusqu'à 500 stagiaires actifs</td><td>Tout, sauf multi-centres et module CFA</td></tr>
+          <tr><td>Organisme</td><td class="n">10 000 €</td><td>OF et CFA de 15 à 100 personnes, jusqu'à 2 000 stagiaires actifs</td><td>Tout, module CFA, multi-centres, MCP</td></tr>
+          <tr><td>Réseau</td><td class="n">20 000 € et plus</td><td>Groupes, réseaux multi-sites, certificateurs</td><td>Tout, entités multiples, module certification, SSO, accompagnement</td></tr>
+          <tr><td>Mise en service</td><td class="n">2 000 à 6 000 €</td><td>Une fois</td><td>Migration des données, paramétrage, formation des équipes</td></tr>
+        </tbody>
+      </table></div>
+      <p class="cap">Grille indicative pour le test de prix de la partie 12, pas une décision. Le prix du milieu est notre hypothèse de départ ; les deux autres existent pour que 10 k€ paraisse raisonnable et pour ne pas laisser les petits OF à Digiforma.</p>
+
+      <h3>Est-ce que cela tient avec l'IA incluse ?</h3>
+      <p>Oui, si nous choisissons les modèles et plafonnons la voix. Pour un client de 300 apprenants actifs qui utiliseraient chacun 10 heures de tuteur écrit par an, l'inférence coûte entre 120 $ (modèle léger) et 2 700 $ (modèle haut de gamme partout), avec la mise en cache du contexte ; les baisses de prix de septembre réduisent encore le haut de la fourchette. L'administration invisible et la génération de modules sont négligeables (environ 2,50 $ par module d'une heure). La pratique orale coûte environ 1 $ par heure avec un modèle vocal léger et 6 à 15 $ avec les modèles premium : c'est elle qu'il faut plafonner. Ajoutez l'hébergement européen, le support (une personne pour quinze à vingt clients, estimation) et la veille réglementaire (un tiers de temps plein, permanent). À vingt clients, la marge brute reste confortable ; le poste qui pèse, c'est le temps humain, pas les tokens.</p>
+      <div class="block verdict">
+        <div class="lbl">L'argument de vente, en une phrase</div>
+        <p>« Vous payez aujourd'hui quatre outils et une chargée de formation qui ressaisit. Pour 10 k€, vous en gardez un, il prépare le travail administratif tout seul, il produit vos preuves Qualiopi au fil de l'eau, et il vous dit quels clients doivent revenir cette année. » Le retour se mesure en heures par semaine et en clients relancés, pas en fonctionnalités.</p>
+      </div>
+    </section>
+
+    <section id="suite">
+      <h2><span class="num">12</span>Recommandation et la suite</h2>
+      <p class="lede">Oui au projet, dans cet ordre : le terrain, la maquette, le prix. Le code après. Trente jours, avec la bascule Qualiopi V10 au milieu.</p>
+      <ol class="steps">
+        <li><span class="w">J1 à J14</span><div><b>Le terrain : dix entretiens</b><p>Deux chargées de formation et une responsable ADV, deux formateurs, deux apprentis, un tuteur en entreprise, une responsable qualité qui a vécu un audit, un dirigeant d'OF extérieur. Une heure chacun, à côté de leur écran, avec une grille d'entretien préparée. On en sort la carte des irritants réels et les trois chantiers qui font le plus râler.</p></div></li>
+        <li><span class="w">J8 à J21</span><div><b>La maquette à l'œil : trois écrans</b><p>« Aujourd'hui » pour la chargée de formation, « Ma suite » pour le stagiaire, « Où on en est » pour le dirigeant. Données fictives, sur le modèle du diagnostic immobilier, aucun ticket DSI, aucune connexion à quoi que ce soit. C'est la méthode chantier, et c'est ce qu'on montre aux dirigeants d'OF à l'étape suivante.</p></div></li>
+        <li><span class="w">J15 à J30</span><div><b>Le test de prix : cinq dirigeants</b><p>Cinq dirigeants d'OF ou de CFA de notre réseau, hors ITGA, maquette en main, les trois offres de la partie 11 sur la table. On ne demande pas « est-ce que cela vous plaît », on demande « qu'est-ce que vous arrêteriez de payer, et signez-vous une lettre d'intention ».</p></div></li>
+        <li><span class="w">J30</span><div><b>Go / no-go, sur des critères écrits</b><p>Au moins trois lettres d'intention, ou une précommande payée. Du temps identifié chaque semaine pour chacun de nous. De mon côté, la décision prise sur ce qui s'arrête pour libérer six mois. Si un critère manque, on n'écrit pas de code : on retravaille le point qui manque.</p></div></li>
+      </ol>
+
+      <h3>Si c'est go : le périmètre de la première version</h3>
+      <p>Six à huit mois, une verticale (diagnostic immobilier, amiante, énergie, HSE), et le strict nécessaire pour qu'un OF de 15 à 100 personnes abandonne ses quatre outils. Le détail lot par lot est en partie 3 ; en résumé :</p>
+      <ul>
+        <li><strong>Gestion :</strong> catalogue conforme aux indicateurs 1 à 3, devis, convention et contrat, convocation, émargement et signature, attestation et certificat de réalisation, évaluations à chaud et à froid, dossier OPCO, BPF en continu, preuves Qualiopi V10 au fil de l'eau.</li>
+        <li><strong>Apprentissage :</strong> modules vidéo, documents et quiz créés depuis les supports du formateur et relus par lui, import SCORM pour l'existant, traces FOAD de l'indicateur 19, classe virtuelle par intégration, page stagiaire « Ma suite ».</li>
+        <li><strong>IA :</strong> l'administration invisible (la liste du matin, préparée, validée d'un clic), le tuteur ancré sur les référentiels et les supports avec garde-fous réglables, le contrôle qualité des quiz, le formateur augmenté (décrocheurs, questions récurrentes, pré-correction assistée).</li>
+        <li><strong>Récurrence :</strong> le calendrier réglementaire par personne et par entreprise cliente, avec relances et libre-service.</li>
+        <li><strong>Accès :</strong> lien sans compte pour les entreprises et tuteurs, serveur MCP par rôle, API, exports.</li>
+        <li><strong>Reporté en version 2 :</strong> le module CFA complet (Cerfa, DECA, NPEC 40/30/20/10, MAP, plateforme nationale des contrats), le module certificateur (jurys, SI du CPF), les jeux de rôle vocaux, le marketplace multi-OF.</li>
+      </ul>
+      <h3>Les principes d'architecture posés dès le premier jour</h3>
+      <ul>
+        <li>Un seul modèle de données, multi-clients, où personne, session et preuve ne sont saisis qu'une fois ; chaque événement d'apprentissage est une trace horodatée exploitable par le pédagogique, le réglementaire et le financier.</li>
+        <li>Le code compte, l'IA rédige : jamais un chiffre produit par un modèle. La règle de GhostCloser, appliquée aux BPF et aux certificats.</li>
+        <li>Chaque action d'agent est une proposition journalisée, validée par un humain, réversible.</li>
+        <li>Hébergement européen, fournisseurs de modèles sous contrat sans entraînement, routage par tâche vers le modèle le moins cher qui suffit, cache systématique, quotas sur la voix.</li>
+        <li>Standards en entrée (SCORM, xAPI, SSO), ouverture en sortie (API, MCP, exports complets) : un client doit pouvoir partir avec ses données. C'est ce qui le fait rester.</li>
+        <li>Le dossier AI Act, le registre RGPD et la déclaration d'accessibilité sont des livrables de la version 1, pas de la version 3.</li>
+      </ul>
+      <div class="block ok">
+        <div class="lbl">Prêt à produire dès la décision</div>
+        <p>La grille d'entretien pour les dix rendez-vous, puis la maquette des trois écrans sur données fictives. Dans cet ordre.</p>
+      </div>
+    </section>
+
+    <section id="sources" class="sources">
+      <h2><span class="num">13</span>Sources</h2>
+      <p class="lede">Les cinq dossiers de recherche complets (marché France, LMS internationaux, IA et apprentissage, réglementation et contexte ITGA, veille du 13 octobre) sont conservés à part. Ci-dessous les sources principales, consultées le 10 septembre et le 13 octobre 2026.</p>
+      <h4>Marché et chiffres</h4>
+      <ul>
+        <li><a href="https://certiforma.fr/chiffres-formation-professionnelle/">Certiforma, chiffres de la formation professionnelle (liste publique DGEFP)</a></li>
+        <li><a href="https://www.education.gouv.fr/sites/default/files/2025-07/rers2025-chapitre-6-441729.pdf">DEPP, RERS 2025, apprentissage et CFA</a></li>
+        <li><a href="https://www.assemblee-nationale.fr/dyn/dyn/contenu/visualisation/1089989/file/7-Jaune2026_Formation_Professionnelle.pdf">Jaune budgétaire 2026, formation professionnelle</a></li>
+        <li><a href="https://certiforma.fr/plf-2027-articles-88-89-formation/">Certiforma, PLF 2027, articles 88 et 89 (CPF, apprentissage, France compétences)</a> ; <a href="https://www.maformation.fr/droits/cpf-1er-octobre-plus-cher-2027-199611">maformation.fr, CPF plus cher dès le 1er octobre 2026</a> ; <a href="https://cpformation.com/plf-2027-la-filiere-formation-alerte-sur-le-cpf-les-pric-et-lapprentissage/">cpformation.com, la filière alerte sur le PLF 2027</a></li>
+        <li><a href="https://www.centre-inffo.fr/site-centre-inffo/actualites-centre-inffo/le-quotidien-de-la-formation-actualite-formation-professionnelle-apprentissage/actualites-2026/cfa-la-bataille-de-la-qualite-pour-survivre-a-la-crise">Centre Inffo, CFA en difficulté (avril 2026)</a></li>
+        <li><a href="https://www.francecompetences.fr/fiche/france-competences-publie-le-referentiel-complet-des-niveaux-de-prise-en-charge-des-contrats-dapprentissage-npec/">France compétences, référentiel NPEC (septembre 2026)</a></li>
+        <li><a href="https://www.dendreo.com/blog/6-insights-ia-organismes-formation">Baromètre Dendreo/Ymag, IA dans les OF</a></li>
+      </ul>
+      <h4>Éditeurs et prix</h4>
+      <ul>
+        <li><a href="https://www.digiforma.com/tarifs/">Digiforma, tarifs</a> ; <a href="https://www.digiformag.com/digiforma-annonce-la-sortie-de-petronille-son-premier-assistant-ia/">annonce de l'assistant Pétronille</a></li>
+        <li><a href="https://www.dendreo.com/prix">Dendreo, prix</a> ; <a href="https://www.septeo.com/fr/presse/septeo-acquisition-editeur-logiciels-ymag-acteur-majeur-tech-formation">Septeo, rachat de Ymag</a></li>
+        <li><a href="https://www.hop3team.com/tarifs/">Hop3team</a>, <a href="https://edusign.com/fr/tarifs">Edusign</a>, <a href="https://kaliopi.io/">Kaliopi</a>, <a href="https://www.queoval-formation.com/tarifs-logiciel-formation">Queoval</a>, <a href="https://classilio.com/tarifs/">Classilio</a></li>
+        <li><a href="https://www.rhmatin.com/formation/digital-learning/lms-syfadis-repart-a-l-offensive-en-faisant-evoluer-sa-plateforme.html">RH Matin, Syfadis en refonte (2023)</a> ; <a href="https://orians.fr/actualite/syfadis-le-groupe-orians-rachete-100-des-titres-de-la-societe-syfadis-a-manpowergroup/">Orians, rachat de Syfadis</a> ; <a href="https://www.capterra.lu/software/213009/syfadis-xperience">avis Syfadis</a></li>
+        <li><a href="https://www.upnpro.fr/outils-de-formations">Up n'PRO, outils de formation (SACADO)</a> ; <a href="https://www.upnpro.fr/produits/all">catalogue e-learning Up n'PRO</a> ; <a href="https://www.idschoolfrance.fr/">ID School</a> ; <a href="https://www.icert.fr/">I.Cert</a> ; <a href="https://www.pappers.fr/entreprise/up-n-pro-851635508">Pappers, Up n'PRO</a></li>
+        <li><a href="https://360learning.com/pricing/">360Learning</a>, <a href="https://360learning.com/partner-marketplace/mcp/">360Learning, serveur MCP</a>, <a href="https://www.didask.com/post/tarif-lms-comprendre-les-couts-reels-pour-choisir-la-bonne-plateforme">Didask</a>, <a href="https://www.riseup.ai/en/pricing">Rise Up</a>, <a href="https://www.talentlms.com/pricing">TalentLMS</a>, <a href="https://www.ispring.com/pricing">iSpring</a>, <a href="https://www.articulate.com/360/pricing/">Articulate</a></li>
+        <li><a href="https://www.vendr.com/marketplace/docebo">Vendr, Docebo</a>, <a href="https://www.vendr.com/marketplace/cornerstone-ondemand">Cornerstone</a>, <a href="https://www.vendr.com/marketplace/360learning">360Learning</a>, <a href="https://www.vendr.com/marketplace/absorb-lms">Absorb</a>, <a href="https://www.vendr.com/marketplace/learnupon">LearnUpon</a></li>
+        <li><a href="https://www.docebo.com/learning-network/blog/inspire-2026-announcements/">Docebo, annonces Inspire 2026</a> ; <a href="https://community.docebo.com/pdg-docebo-mcp-server-144/docebo-mcp-server-production-release-now-available-16344">Docebo, serveur MCP en production (juillet 2026)</a> ; <a href="https://trainingindustry.com/?p=155320">SimpliTrain, serveur MCP (septembre 2026)</a> ; <a href="https://newsroom.workday.com/2026-07-22-Workday-Learning,-Powered-by-Sana,-Now-Generally-Available-as-an-AI-Native-Learning-Experience-Built-on-Workdays-Trusted-Data">Workday Learning propulsé par Sana</a> ; <a href="https://joshbersin.com/2026/02/the-enterprise-learning-tech-market-quickly-transforms-around-ai/">Josh Bersin, le marché se transforme autour de l'IA</a></li>
+        <li><a href="https://talentedlearning.com/customer-lms-statistics-42-benchmarks-for-business-buyers/">Talented Learning, coûts et modèles de prix LMS 2026</a> ; <a href="https://www.compono.com/articles/moodle-workplace-pricing-hidden-costs-2026">Moodle Workplace, coûts</a></li>
+        <li>Avis utilisateurs : <a href="https://www.capterra.com/p/80691/Moodle/reviews/">Moodle</a>, <a href="https://www.capterra.com/p/52968/Dokeos/reviews/">Dokeos</a>, <a href="https://www.capterra.com/p/143992/UpGraduate-LMS/">Rise Up</a>, <a href="https://www.g2.com/products/360learning/reviews">360Learning</a>, <a href="https://www.capterra.com/p/150446/Cornerstone-LMS/reviews/">Cornerstone</a>, <a href="https://capterra.com/p/61763/Absorb-LMS/reviews/">Absorb</a>, <a href="https://www.g2.com/products/sana/reviews">Sana</a></li>
+      </ul>
+      <h4>IA et apprentissage</h4>
+      <ul>
+        <li><a href="https://www.nature.com/articles/s41598-025-97652-6">Kestin et al., Scientific Reports, tuteur IA à Harvard</a></li>
+        <li><a href="https://www.nber.org/papers/w35620">Oreopoulos et Low, NBER, essai randomisé Khanmigo sur deux ans</a> ; <a href="https://blog.khanacademy.org/how-khan-academy-is-building-a-better-ai-tutor-our-most-recent-learnings/">Khan Academy, 20 tests A/B</a></li>
+        <li><a href="https://www.pnas.org/doi/10.1073/pnas.2422633122">Bastani et al., PNAS, IA sans garde-fous</a> ; <a href="https://voxdev.org/topic/education/how-ai-tutors-improved-learning-nigeria">Banque mondiale, Nigeria</a> ; <a href="https://arxiv.org/abs/2410.03017">Tutor CoPilot</a></li>
+        <li><a href="https://scale.stanford.edu/sites/default/files/The%20Evidence%20Base%20on%20AI%20in%20K-12%20Report.pdf">Stanford SCALE, état des preuves</a> ; <a href="https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2026.1861960/full">Frontiers in Education, correction par IA</a> ; <a href="https://drphilippahardman.substack.com/p/the-ai-content-explosion-what-your">Philippa Hardman, contenus générés</a></li>
+        <li><a href="https://www.edsurge.com/news/2019-09-07-knewton-was-acquired-for-less-than-17m-and-former-ceo-brian-kibby-has-left">EdSurge, la fin de Knewton</a> ; <a href="https://investors.duolingo.com/news-releases/news-release-details/duolingo-reports-second-quarter-2026-results">Duolingo, résultats T2 2026</a></li>
+        <li><a href="https://openai.com/api/pricing/">OpenAI, tarifs</a> ; <a href="https://platform.claude.com/docs/en/about-claude/pricing">Anthropic, tarifs</a> ; <a href="https://ai.google.dev/gemini-api/docs/pricing">Google, tarifs Gemini</a> ; <a href="https://www.digitalapplied.com/blog/ai-model-api-pricing-tracker-q3-2026">relevé des prix des modèles au 3 octobre 2026 (agrégateur, à revérifier)</a></li>
+      </ul>
+      <h4>Réglementation</h4>
+      <ul>
+        <li><a href="https://www.c2rp.fr/article/nouveau-referentiel-qualiopi-ce-qui-change-a-compter-du-1er-novembre-2026">C2RP, nouveau référentiel Qualiopi au 1er novembre 2026</a> ; <a href="https://www.digi-certif.com/decret-2026-728-referentiel-qualiopi/">Digi-certif, décret 2026-728</a> ; <a href="https://pro.cap-metiers.fr/organismes-de-formation/qualite-de-la-formation/qualiopi-ce-qui-change-avec-le-nouveau-referentiel-qualite/">Cap Métiers, ce qui change</a> ; <a href="https://certiforma.fr/qualiopi-v10/">Certiforma, état de la V10 au 12 octobre (guide et seuils non publiés)</a></li>
+        <li><a href="https://code.travail.gouv.fr/code-du-travail/d6313-3-1">Code du travail, D6313-3-1 (FOAD)</a> ; <a href="https://corse.dreets.gouv.fr/Formation-dispensee-a-distance-FOAD-vous-devez-respecter-le-cadre-reglementaire">DREETS Corse, preuves de la FOAD</a> ; <a href="https://code.travail.gouv.fr/code-du-travail/r6332-26">R6332-26, contrôle de service fait</a></li>
+        <li><a href="https://of.moncompteformation.gouv.fr/espace-public/version-15-des-conditions-dutilisation-ce-qui-change">EDOF, conditions d'utilisation v15</a> ; <a href="https://www.centre-inffo.fr/site-droit-formation/actualites-droit/cpf-hausse-du-montant-de-la-participation-forfaitaire-du-titulaire">Centre Inffo, reste à charge CPF à 150 €</a> ; <a href="https://www.via-competences.fr/actualites/bpf-2026-jusqua-quand-pour-le-remplir">BPF 2026</a></li>
+        <li><a href="https://www.centre-inffo.fr/site-droit-formation/actualites-droit/minoration-du-npec-apprentissage-en-cas-de-formation-a-distance-mesures-dapplication-definies">Centre Inffo, minoration du NPEC en cas de distanciel</a> ; <a href="https://www.opco2i.fr/apprentissage-nouveaux-niveaux-de-prise-en-charge-pour-les-contrats-conclus-des-le-1er-septembre-2026/">OPCO 2i, NPEC au 1er septembre 2026</a></li>
+        <li><a href="https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000049890008">Arrêté du 1er juillet 2024, certification des diagnostiqueurs</a> ; <a href="https://learning-diagnostic.fr/arrete-dpe-du-20-juillet-2023-competence-dpe-des-diagnostiqueurs-immobiliers/">Arrêté DPE du 20 juillet 2023</a> ; <a href="https://www.upnpro.fr/formations-continues-amiante-avec-et-sans-mention-mise-a-jour-des-competences-et-reglementation">Up n'PRO, obligations de formation continue amiante</a></li>
+        <li><a href="https://artificialintelligenceact.eu/annex/3/">AI Act, annexe III (éducation et formation)</a> ; <a href="https://artificialintelligenceact.eu/article/6/">article 6</a> ; <a href="https://www.whitecase.com/insight-alert/eu-ai-omnibus-enters-force-amending-ai-act">White &amp; Case, calendrier après l'Omnibus</a> ; <a href="https://www.cnil.fr/fr/telesurveillance-des-examens-en-ligne-la-cnil-publie-une-recommandation">CNIL, télésurveillance des examens</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/2026_Canvas_data_breach">Brèche Canvas 2026</a></li>
+      </ul>
+      <div class="sig">Eric Eudeline, benchmark et faisabilité, 13 octobre 2026. Les estimations sont signalées comme telles ; les prix sont ceux affichés à cette date et changent vite.</div>
+    </section>
+  </main>
+</div>
+</body>
+</html>
