@@ -1,0 +1,1952 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Pilote IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+</head>
+<body>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #0C1322;
+    --surface: #141D30;
+    --surface-2: #1B2740;
+    --surface-3: #223050;
+    --ink: #EAF0F8;
+    --ink-2: #B5C0D1;
+    --muted: #7D8AA0;
+    --rule: #263350;
+    --rule-strong: #35466A;
+    --accent: #F2B544;
+    --accent-ink: #FFD27A;
+    --accent-soft: rgba(242,181,68,.14);
+    --teal: #4FD1C5;
+    --teal-soft: rgba(79,209,197,.14);
+    --good: #4CC38A;
+    --good-soft: rgba(76,195,138,.14);
+    --warn: #F5A05A;
+    --warn-soft: rgba(245,160,90,.14);
+    --bad: #F0705F;
+    --bad-soft: rgba(240,112,95,.14);
+    --shadow: 0 10px 30px rgba(0,0,0,.35);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      color-scheme: light;
+      --bg: #F3F5F9; --surface: #FFFFFF; --surface-2: #E9EDF4; --surface-3: #DDE3EE;
+      --ink: #121A2B; --ink-2: #3C4858; --muted: #6B7788; --rule: #D5DCE8; --rule-strong: #B9C3D4;
+      --accent: #B8780A; --accent-ink: #8F5D05; --accent-soft: #FBEFD4;
+      --teal: #0F8F85; --teal-soft: #D6F2EF;
+      --good: #1E7F4F; --good-soft: #DDF2E6; --warn: #B45309; --warn-soft: #FBEBD5; --bad: #B42318; --bad-soft: #FBE3E0;
+      --shadow: 0 8px 24px rgba(18,26,43,.08);
+    }
+  }
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #F3F5F9; --surface: #FFFFFF; --surface-2: #E9EDF4; --surface-3: #DDE3EE;
+    --ink: #121A2B; --ink-2: #3C4858; --muted: #6B7788; --rule: #D5DCE8; --rule-strong: #B9C3D4;
+    --accent: #B8780A; --accent-ink: #8F5D05; --accent-soft: #FBEFD4;
+    --teal: #0F8F85; --teal-soft: #D6F2EF;
+    --good: #1E7F4F; --good-soft: #DDF2E6; --warn: #B45309; --warn-soft: #FBEBD5; --bad: #B42318; --bad-soft: #FBE3E0;
+    --shadow: 0 8px 24px rgba(18,26,43,.08);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Manrope", "Helvetica Neue", Arial, sans-serif;
+    font-size: 16.5px;
+    line-height: 1.6;
+    padding-block: 0 80px;
+    padding-inline: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: "Syne", "Helvetica Neue", Arial, sans-serif; letter-spacing: -.01em; text-wrap: balance; }
+  h2 { font-size: clamp(26px, 4vw, 34px); line-height: 1.1; margin: 6px 0 10px; font-weight: 800; }
+  h3 { font-size: 20px; line-height: 1.25; margin: 30px 0 10px; font-weight: 700; }
+  h4 { font-size: 16px; margin: 18px 0 6px; font-weight: 700; }
+  p { margin: 0 0 14px; max-width: 66ch; text-wrap: pretty; }
+  ul, ol { padding-left: 22px; margin: 0 0 16px; max-width: 66ch; }
+  li { margin-bottom: 6px; }
+  li::marker { color: var(--muted); }
+  strong { font-weight: 700; }
+  a { color: var(--teal); text-underline-offset: 3px; }
+  code, .mono { font-family: "JetBrains Mono", ui-monospace, Menlo, monospace; font-size: .92em; }
+  button { font-family: inherit; }
+  :focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+  .app { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 36px; }
+  @media (max-width: 920px) { .app { grid-template-columns: minmax(0, 1fr); gap: 0; } }
+
+  /* Top bar */
+  .top { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 18px 0 14px; border-bottom: 1px solid var(--rule); position: sticky; top: 0; background: var(--bg); z-index: 20; }
+  .brand { display: flex; align-items: baseline; gap: 12px; }
+  .brand .name { font-family: "Syne", sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -.02em; }
+  .brand .by { color: var(--muted); font-size: 13px; }
+  .progress { display: flex; align-items: center; gap: 10px; min-width: 160px; }
+  .progress .bar { flex: 1; height: 6px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+  .progress .bar i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .4s ease; }
+  .progress .pct { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--ink-2); min-width: 34px; text-align: right; }
+  @media (max-width: 560px) { .brand .by { display: none; } }
+
+  /* Rail */
+  .rail { position: sticky; top: 72px; align-self: start; padding-top: 22px; }
+  .rail .k { font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px 12px; }
+  .rail button {
+    display: grid; grid-template-columns: 26px minmax(0,1fr); gap: 8px; align-items: center;
+    width: 100%; text-align: left; background: none; border: 0; border-left: 2px solid var(--rule);
+    color: var(--ink-2); padding: 8px 10px; cursor: pointer; font-size: 14px; line-height: 1.3;
+  }
+  .rail button:hover { color: var(--ink); background: var(--surface); }
+  .rail button.active { color: var(--ink); border-left-color: var(--accent); background: var(--surface); }
+  .rail button .n { font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--muted); }
+  .rail button.done .n { color: var(--good); }
+  .rail button.done .n::after { content: " ✓"; }
+  @media (max-width: 920px) {
+    .rail { position: static; display: flex; gap: 6px; overflow-x: auto; padding: 12px 0 4px; margin-bottom: 6px; -webkit-overflow-scrolling: touch; }
+    .rail .k { display: none; }
+    .rail button { display: inline-flex; width: auto; flex: 0 0 auto; border: 1px solid var(--rule); border-radius: 999px; padding: 6px 12px; gap: 6px; }
+    .rail button.active { border-color: var(--accent); }
+    .rail button .t { white-space: nowrap; }
+  }
+
+  /* Modules */
+  main { min-width: 0; padding-top: 22px; }
+  .module { display: none; }
+  .module.active { display: block; animation: fade .3s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .module.active { animation: none; } .progress .bar i { transition: none; } }
+  .eyebrow { font-family: "JetBrains Mono", monospace; font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+  .lede { font-size: 18px; color: var(--ink-2); max-width: 62ch; margin-bottom: 22px; }
+
+  .card { background: var(--surface); border: 1px solid var(--rule); border-radius: 14px; padding: 18px 20px; margin: 18px 0; }
+  .card .lbl { font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .card.demo { border-color: var(--rule-strong); box-shadow: var(--shadow); }
+  .card.demo .lbl { color: var(--teal); }
+  .card.idea { background: var(--warn-soft); border-color: transparent; }
+  .card.idea .lbl { color: var(--warn); }
+  .card.say { background: var(--accent-soft); border-color: transparent; }
+  .card.say .lbl { color: var(--accent-ink); }
+  .card.do { background: var(--teal-soft); border-color: transparent; }
+  .card.do .lbl { color: var(--teal); }
+  .card p:last-child, .card ul:last-child, .card ol:last-child { margin-bottom: 4px; }
+
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 14px 0; }
+  .tile { background: var(--surface-2); border-radius: 12px; padding: 14px 16px; }
+  .tile h4 { margin: 0 0 6px; }
+  .tile p { font-size: 15px; color: var(--ink-2); margin: 0; }
+
+  /* Controls */
+  .btn { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #1a1200; border: 0; border-radius: 10px; padding: 10px 16px; font-weight: 700; font-size: 14.5px; cursor: pointer; }
+  .btn:hover { filter: brightness(1.06); }
+  .btn:disabled { opacity: .5; cursor: default; }
+  .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--rule-strong); }
+  .btn.ghost:hover { background: var(--surface-2); }
+  .btn.small { padding: 7px 12px; font-size: 13px; border-radius: 8px; }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 10px 0; }
+  textarea, input[type="text"], select {
+    width: 100%; background: var(--surface-2); color: var(--ink); border: 1px solid var(--rule-strong); border-radius: 10px;
+    padding: 10px 12px; font-family: inherit; font-size: 15px; line-height: 1.45;
+  }
+  textarea { min-height: 84px; resize: vertical; }
+  select { width: auto; }
+  label.f { display: block; font-size: 13px; color: var(--muted); margin: 10px 0 4px; font-weight: 600; }
+  input[type="range"] { width: 100%; accent-color: var(--accent); }
+  .out { background: var(--surface-2); border-radius: 10px; padding: 12px 14px; min-height: 48px; font-size: 15px; white-space: pre-wrap; border: 1px dashed var(--rule-strong); }
+  .out.ok { border-style: solid; border-color: var(--good); }
+  .out.bad { border-style: solid; border-color: var(--bad); }
+  .mini { font-size: 13px; color: var(--muted); }
+  .num { font-family: "JetBrains Mono", monospace; font-variant-numeric: tabular-nums; }
+  .big { font-family: "Syne", sans-serif; font-weight: 800; font-size: 34px; line-height: 1; letter-spacing: -.02em; }
+
+  /* Tokens */
+  .tokens { display: flex; flex-wrap: wrap; gap: 3px; margin: 10px 0; }
+  .tok { font-family: "JetBrains Mono", monospace; font-size: 13px; padding: 2px 5px; border-radius: 5px; background: var(--surface-3); white-space: pre; }
+  .tok:nth-child(3n+1) { background: var(--accent-soft); }
+  .tok:nth-child(3n+2) { background: var(--teal-soft); }
+
+  /* Bars */
+  .bars { display: grid; gap: 6px; margin: 10px 0; }
+  .bar-row { display: grid; grid-template-columns: 120px minmax(0,1fr) 54px; gap: 10px; align-items: center; font-size: 14px; }
+  .bar-row .lab { font-family: "JetBrains Mono", monospace; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bar-row .b { height: 12px; background: var(--surface-3); border-radius: 6px; overflow: hidden; }
+  .bar-row .b i { display: block; height: 100%; background: var(--teal); width: 0; transition: width .3s ease; border-radius: 6px; }
+  .bar-row.hit .b i { background: var(--accent); }
+  .bar-row .v { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--ink-2); text-align: right; }
+
+  /* Context window */
+  .ctx { display: grid; gap: 6px; margin: 10px 0; }
+  .ctx .line { padding: 8px 12px; border-radius: 8px; background: var(--surface-2); font-size: 14.5px; display: grid; grid-template-columns: 28px minmax(0,1fr); gap: 8px; }
+  .ctx .line .i { font-family: "JetBrains Mono", monospace; color: var(--muted); font-size: 12px; padding-top: 3px; }
+  .ctx .line.out { opacity: .35; text-decoration: line-through; }
+
+  /* Agent trace */
+  .trace { display: grid; gap: 6px; margin: 10px 0; font-size: 14.5px; }
+  .trace .step { display: grid; grid-template-columns: 92px minmax(0,1fr); gap: 10px; padding: 8px 12px; border-radius: 8px; background: var(--surface-2); opacity: .35; }
+  .trace .step.on { opacity: 1; }
+  .trace .step .k { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--teal); text-transform: uppercase; letter-spacing: .06em; padding-top: 3px; }
+  .trace .step.human .k { color: var(--accent); }
+  .trace .step.alert { background: var(--bad-soft); }
+  .trace .step.alert .k { color: var(--bad); }
+
+  /* Quiz */
+  .quiz { margin-top: 26px; }
+  .q { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; margin: 10px 0; }
+  .q .qt { font-weight: 700; margin-bottom: 8px; }
+  .q .opts { display: grid; gap: 6px; }
+  .q .opts button { text-align: left; background: var(--surface-2); border: 1px solid transparent; color: var(--ink); border-radius: 8px; padding: 9px 12px; cursor: pointer; font-size: 14.5px; }
+  .q .opts button:hover { border-color: var(--rule-strong); }
+  .q .opts button.right { border-color: var(--good); background: var(--good-soft); }
+  .q .opts button.wrong { border-color: var(--bad); background: var(--bad-soft); }
+  .q .why { font-size: 14px; color: var(--ink-2); margin-top: 8px; display: none; }
+  .q.answered .why { display: block; }
+  .score { font-family: "JetBrains Mono", monospace; font-size: 13px; color: var(--ink-2); margin-top: 8px; }
+
+  /* Self-assessment */
+  .auto .item { display: grid; grid-template-columns: minmax(0,1fr) 170px 28px; gap: 12px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--rule); font-size: 14.5px; }
+  .auto .item:last-child { border-bottom: 0; }
+  .auto .item .val { font-family: "JetBrains Mono", monospace; text-align: right; color: var(--accent-ink); }
+  @media (max-width: 560px) { .auto .item { grid-template-columns: minmax(0,1fr) 110px 24px; } }
+  .cmp { display: grid; gap: 8px; margin: 12px 0; }
+  .cmp .r { display: grid; grid-template-columns: minmax(0,1fr) 120px 120px; gap: 10px; align-items: center; font-size: 14px; }
+  .cmp .r .bb { height: 10px; background: var(--surface-3); border-radius: 5px; overflow: hidden; }
+  .cmp .r .bb i { display: block; height: 100%; border-radius: 5px; }
+  .cmp .r .bb.before i { background: var(--muted); }
+  .cmp .r .bb.after i { background: var(--accent); }
+  @media (max-width: 560px) { .cmp .r { grid-template-columns: minmax(0,1fr) 80px 80px; } }
+
+  /* Table */
+  .tw { overflow-x: auto; margin: 14px 0; border: 1px solid var(--rule); border-radius: 12px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 14px; line-height: 1.45; }
+  th, td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--rule); }
+  th { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--surface-2); }
+  tbody tr:last-child td { border-bottom: 0; }
+
+  /* Decision tree & canvas */
+  .choice { display: grid; gap: 6px; margin: 6px 0 12px; }
+  .choice label { display: flex; gap: 10px; align-items: flex-start; background: var(--surface-2); border-radius: 8px; padding: 8px 12px; font-size: 14.5px; cursor: pointer; }
+  .choice input { margin-top: 4px; accent-color: var(--accent); }
+  .verdict { border-left: 3px solid var(--accent); padding: 10px 14px; background: var(--surface-2); border-radius: 0 10px 10px 0; font-size: 15px; }
+
+  /* Glossary */
+  .gl { display: grid; gap: 8px; }
+  .gl .term { background: var(--surface-2); border-radius: 10px; padding: 10px 14px; font-size: 14.5px; }
+  .gl .term b { display: block; font-family: "Syne", sans-serif; }
+
+  /* Module nav */
+  .modnav { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; margin-top: 34px; padding-top: 18px; border-top: 1px solid var(--rule); }
+  .tag { display: inline-block; font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--rule-strong); color: var(--ink-2); }
+  .tag.ok { color: var(--good); border-color: var(--good); }
+  .tag.warn { color: var(--warn); border-color: var(--warn); }
+  .tag.bad { color: var(--bad); border-color: var(--bad); }
+  .hidden { display: none !important; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+  .chip { background: var(--surface-2); border: 1px solid var(--rule-strong); color: var(--ink); border-radius: 999px; padding: 6px 12px; font-size: 13.5px; cursor: pointer; }
+  .chip:hover { border-color: var(--teal); }
+  .chip.on { border-color: var(--accent); color: var(--accent-ink); }
+  .prompt { background: var(--surface-2); border-radius: 10px; padding: 12px 14px; font-size: 14px; margin: 8px 0 14px; border-left: 3px solid var(--teal); }
+  .prompt .mini { margin-bottom: 4px; }
+  .steps { list-style: none; padding: 0; margin: 12px 0; max-width: none; }
+  .steps li { display: grid; grid-template-columns: 34px minmax(0,1fr); gap: 12px; padding: 10px 0; border-top: 1px solid var(--rule); margin: 0; }
+  .steps li:last-child { border-bottom: 1px solid var(--rule); }
+  .steps .n { font-family: "Syne", sans-serif; font-weight: 800; color: var(--accent); font-size: 18px; }
+  .steps b { display: block; margin-bottom: 2px; }
+  .steps p { margin: 0; font-size: 15px; color: var(--ink-2); }
+</style>
+
+<div class="app">
+  <header class="top">
+    <div class="brand"><span class="name">Pilote IA</span><span class="by">par Eric, pour Anis</span></div>
+    <div class="progress"><div class="bar"><i id="pbar"></i></div><span class="pct" id="ppct">0 %</span></div>
+  </header>
+
+  <nav class="rail" id="rail" aria-label="Modules"><div class="k">Parcours</div></nav>
+
+  <main id="main">
+<section class="module" id="m0" data-title="Avant de commencer" data-min="10">
+  <div class="eyebrow">Module 0 · 10 minutes</div>
+  <h2>Avant de commencer</h2>
+  <p class="lede">Ce parcours n'est pas un cours de culture générale sur l'IA. Les concepts, tu les trouves partout. L'objectif est que tu sortes capable de décider : expliquer au DG ce qu'un chantier IA est et n'est pas, répondre à la DSI, lire un devis, cadrer un chantier sur une page, faire tourner tes propres agents proprement, et connaître les lignes rouges.</p>
+
+  <div class="card">
+    <div class="lbl">Mode d'emploi</div>
+    <p>Neuf modules de 15 à 30 minutes, dans l'ordre. Chaque module suit le même rythme : le concept en cinq minutes, une démo à manipuler, la transposition à ton poste, une action à faire sur tes propres outils, trois questions de contrôle, et la phrase à savoir dire.</p>
+    <p>Ta progression, tes réponses et tes notes restent dans ce navigateur, sur cet appareil. Rien n'est envoyé nulle part.</p>
+    <p>Deux temps en direct encadrent le parcours : une séance de lancement (cette page, tes questions) et une séance de clôture où tu présentes un chantier en cinq minutes, comme devant le DG. Sans ces deux rendez-vous et une date de fin, un dirigeant ne termine jamais un parcours en autonomie. Toi non plus.</p>
+  </div>
+
+  <div class="card demo">
+    <div class="lbl">Auto-évaluation de départ</div>
+    <p>Note-toi de 0 (je ne saurais pas) à 10 (je peux l'expliquer à quelqu'un d'autre). Tu referas exactement la même grille au module 8. C'est la seule mesure honnête de ce parcours.</p>
+    <div class="auto" id="auto-before"></div>
+    <p class="mini" style="margin-top:10px">Moyenne de départ : <span class="num" id="auto-before-avg">0,0</span> / 10</p>
+  </div>
+
+  <div class="card">
+    <div class="lbl">Les questions que tu m'as posées</div>
+    <p>Ce sont celles que j'ai notées ces dernières semaines. Chacune a sa réponse dans un module précis.</p>
+    <ul>
+      <li>« Une IA locale, cela existe vraiment ? » <span class="tag">Module 3</span></li>
+      <li>« Les tokens, c'est une sorte de batterie qu'on recharge ? » <span class="tag">Module 2</span></li>
+      <li>« Qu'est-ce qui sort de chez nous quand on utilise l'IA ? » <span class="tag">Module 3</span></li>
+      <li>« Les IA chinoises sont moins bridées ? » <span class="tag">Module 1</span></li>
+      <li>« Une fois le code produit, on n'a plus besoin de l'IA ? » <span class="tag">Module 4</span></li>
+      <li>« Comment je parle d'égal à égal avec la DSI et les prestataires ? » <span class="tag">Modules 3 et 6</span></li>
+    </ul>
+    <label class="f" for="my-questions">Ajoute les tiennes ici, on les reprend à la clôture</label>
+    <textarea id="my-questions" data-save="questions" placeholder="Une question par ligne."></textarea>
+  </div>
+
+  <div class="card say">
+    <div class="lbl">La phrase à retenir</div>
+    <p>L'IA n'est pas un sujet informatique. C'est un sujet de direction qui a une composante informatique.</p>
+  </div>
+</section>
+
+<section class="module" id="m1" data-title="Un modèle tous les trois mois" data-min="15">
+  <div class="eyebrow">Module 1 · 15 minutes</div>
+  <h2>Un modèle tous les trois mois</h2>
+  <p class="lede">GPT, Claude, Gemini, Kimi, Mistral, et chaque trimestre un nouveau nom avec un nouveau chiffre. Ce module sert à une seule chose : que tu arrêtes de courir après.</p>
+
+  <h3>Pourquoi cela va si vite</h3>
+  <div class="grid2">
+    <div class="tile"><h4>Le calcul</h4><p>Cinq ou six laboratoires alignent chacun des centaines de milliers de puces dédiées. Chaque génération de puces rend l'entraînement moins cher, donc plus fréquent.</p></div>
+    <div class="tile"><h4>Les données</h4><p>Le web a été lu en entier. Les éditeurs fabriquent maintenant des données d'entraînement avec les modèles précédents. Chaque génération nourrit la suivante.</p></div>
+    <div class="tile"><h4>La concurrence</h4><p>Chaque sortie répond à la précédente. Le cycle s'est calé sur trois mois parce que c'est le temps d'un entraînement complet, pas parce que le monde change tous les trois mois.</p></div>
+  </div>
+
+  <h3>Ce qui ne change pas, ce qui change</h3>
+  <div class="grid2">
+    <div class="tile">
+      <h4>Ne change pas</h4>
+      <p>Le principe : prédire la suite d'un texte.<br>Les limites de fond : pas de mémoire entre deux conversations, invente quand il ne sait pas, ne sait pas ce qu'il ne sait pas.<br>La méthode pour cadrer un chantier.<br>Les règles : RGPD, AI Act.<br>Le fait qu'un humain valide.</p>
+    </div>
+    <div class="tile">
+      <h4>Change</h4>
+      <p>Les noms.<br>Les prix : divisés par dix en trois ans à qualité égale.<br>La taille de ce que le modèle peut lire d'un coup.<br>La vitesse.<br>La qualité sur les tâches longues et le code.<br>Les outils autour : agents, connecteurs, mémoire.</p>
+    </div>
+  </div>
+
+  <div class="card demo">
+    <div class="lbl">Démo · ce que coûte la même tâche selon l'année</div>
+    <p>Choisis une tâche de ton poste. Les barres montrent son coût en appel direct au modèle, au tarif public du haut de gamme du moment. Ordres de grandeur, pas une facture.</p>
+    <label class="f" for="price-task">Tâche</label>
+    <select id="price-task">
+      <option value="0">Lire un contrat de 40 pages et sortir les points de vigilance</option>
+      <option value="1">Résumer deux heures de réunion transcrites</option>
+      <option value="2">Rédiger une note d'une page à partir de tes notes</option>
+      <option value="3">Veille : lire 50 articles par jour pendant un mois</option>
+    </select>
+    <div class="bars" id="price-bars"></div>
+    <p class="mini">Tarifs publics en dollars par million de tokens, convertis grossièrement en euros. GPT-4 en 2023 : 30 en entrée, 60 en sortie. Haut de gamme en octobre 2026 : 2 à 4 en entrée, 10 à 20 en sortie. Petit modèle en 2026 : 0,10 en entrée, 0,50 en sortie. Les notions de token, d'entrée et de sortie arrivent au module 2.</p>
+  </div>
+
+  <h3>Comment ne pas courir après</h3>
+  <ol class="steps">
+    <li><span class="n">1</span><div><b>Choisir une famille, pas un modèle.</b><p>Un éditeur, et chez cet éditeur le niveau milieu de gamme. Quand un outil est bien construit, changer de modèle est une ligne de configuration. Le mot à placer devant un prestataire : « modèle-agnostique ».</p></div></li>
+    <li><span class="n">2</span><div><b>Lire chaque sortie avec une seule question.</b><p>« Qu'est-ce que cela change pour une de nos tâches ? » Si la réponse est rien, il n'y a rien à faire. Dans neuf cas sur dix, la réponse est rien.</p></div></li>
+    <li><span class="n">3</span><div><b>Avoir ton jeu de dix cas.</b><p>Dix documents de référence et la réponse que tu attends pour chacun. Avec cela, tu juges n'importe quel modèle en une heure, sans dépendre de l'avis de personne.</p></div></li>
+    <li><span class="n">4</span><div><b>Regarder le prix, pas le classement.</b><p>À qualité suffisante pour la tâche, le modèle le moins cher gagne. Le classement des modèles est un sujet pour les éditeurs, pas pour un directeur des opérations.</p></div></li>
+  </ol>
+
+  <div class="card idea">
+    <div class="lbl">Idée reçue · « les IA chinoises sont moins bridées »</div>
+    <p>Ce qui est bridé dépend de l'éditeur et de ses règles, pas de la nationalité. Sur les sujets politiques chinois, les modèles chinois sont plus bridés, pas moins. Leur intérêt réel est ailleurs : Kimi, Qwen ou DeepSeek publient leurs poids, donc on peut les faire tourner chez soi. Pour une entreprise, la bonne question n'est pas « bridé ou pas » mais « où tournent les données et sous quel contrat ». C'est le module 3.</p>
+  </div>
+
+  <div class="card do">
+    <div class="lbl">À faire sur tes outils</div>
+    <p>Ouvre ton Kimi ou ton Copilot. Trouve le nom et la version du modèle qui te répond (dans les réglages ou en lui posant la question). Note-les avec la date du jour. À la prochaine annonce, tu sauras si tu es concerné en appliquant la règle 2.</p>
+  </div>
+
+  <div class="quiz" data-quiz="m1"></div>
+
+  <div class="card say">
+    <div class="lbl">La phrase à savoir dire</div>
+    <p>Je ne choisis pas un modèle. Je choisis un éditeur, un niveau de gamme et un jeu de test. Le reste est une ligne de configuration.</p>
+  </div>
+</section>
+
+<section class="module" id="m2" data-title="Ce que c'est, comment cela marche" data-min="30">
+  <div class="eyebrow">Module 2 · 30 minutes</div>
+  <h2>Ce que c'est, comment cela marche</h2>
+  <p class="lede">Un modèle de langage fait une seule chose : il prédit la suite d'un texte, un morceau de mot à la fois. Tout le reste, l'apparente intelligence, les erreurs, le prix, l'absence de mémoire, découle de cela.</p>
+
+  <h3>1. Il prédit la suite</h3>
+  <p>On lui a fait lire des milliards de pages. À chaque mot, il a appris à deviner le suivant. Quand tu lui écris, il ne « comprend » pas ta question comme toi. Il calcule, pour chaque morceau de mot possible, la probabilité que ce soit le suivant, il en tire un, puis il recommence avec le texte allongé d'un mot. Des milliers de fois par réponse.</p>
+
+  <div class="card demo">
+    <div class="lbl">Démo · le mot suivant</div>
+    <p>Ce petit modèle a lu quarante phrases de ton univers (chantiers, devis, DSI, apprentis). Il ne connaît rien d'autre. Choisis un début, regarde les candidats, tire un mot, recommence. Le vrai modèle fait exactement cela, avec un vocabulaire de cent mille morceaux et des milliards de phrases lues.</p>
+    <div class="chips" id="nw-seeds"></div>
+    <div class="out" id="nw-text"></div>
+    <div class="bars" id="nw-bars"></div>
+    <div class="row">
+      <button class="btn small" id="nw-pick">Tirer le mot suivant</button>
+      <button class="btn small ghost" id="nw-auto">Continuer jusqu'au point</button>
+      <button class="btn small ghost" id="nw-reset">Recommencer</button>
+    </div>
+    <label class="f" for="nw-temp">Température : <span class="num" id="nw-temp-v">0,7</span></label>
+    <input type="range" id="nw-temp" min="0" max="2" step="0.1" value="0.7">
+    <p class="mini">Température 0 : toujours le candidat le plus probable. Régulier, parfois plat, et il tourne en rond. Température haute : les candidats improbables remontent. Surprenant, parfois n'importe quoi. Pour un compte rendu, basse. Pour une séance d'idées, plus haute. C'est le même réglage que tu as dans Kimi sous le nom « créativité ».</p>
+  </div>
+
+  <h3>2. Les tokens, l'unité de compte</h3>
+  <p>Le modèle ne lit pas des mots, il lit des morceaux de mots : des tokens. En français, un token fait trois à quatre lettres en moyenne. Un mot courant fait un token, un mot rare en fait trois. Tout se compte en tokens : ce qu'il lit (l'entrée) et ce qu'il écrit (la sortie). La sortie coûte quatre à cinq fois plus cher que l'entrée, parce qu'elle demande un calcul par token produit.</p>
+
+  <div class="card demo">
+    <div class="lbl">Démo · ton texte en tokens</div>
+    <label class="f" for="tk-in">Colle un texte, un mail, un paragraphe de devis</label>
+    <textarea id="tk-in">Le chantier de modernisation du LMS démarre en janvier. La DSI valide l'hébergement, le prestataire livre une maquette sur données fictives, et nous mesurons le temps gagné par les formateurs sur un mois.</textarea>
+    <div class="tokens" id="tk-out"></div>
+    <div class="grid2" style="grid-template-columns:repeat(auto-fit,minmax(170px,1fr))">
+      <div class="tile"><h4 class="big num" id="tk-count">0</h4><p>tokens environ</p></div>
+      <div class="tile"><h4 class="num" id="tk-cost-top">0</h4><p>à lire en entrée, haut de gamme (3 $/M)</p></div>
+      <div class="tile"><h4 class="num" id="tk-cost-mid">0</h4><p>milieu de gamme (1 $/M)</p></div>
+      <div class="tile"><h4 class="num" id="tk-cost-small">0</h4><p>petit modèle (0,10 $/M)</p></div>
+    </div>
+    <p class="mini">Découpage approximatif, le vrai découpage dépend de chaque éditeur. L'ordre de grandeur est le bon : une page fait 400 à 500 tokens, un livre 100 000, et lire cette page coûte une fraction de centime.</p>
+  </div>
+
+  <div class="card idea">
+    <div class="lbl">Idée reçue · « les tokens, c'est une batterie »</div>
+    <p>Non. Un token n'est pas une réserve qu'on vide ou qu'on recharge. C'est un compteur, comme le kilomètre pour un taxi. Chaque token lu ou écrit est facturé, et il n'y a rien d'autre à « remettre ». Ce n'est pas non plus le token de la crypto : rien de sécurisé, rien d'infongible, rien qui se possède. Le mot est le même, la chose n'a aucun rapport. Quand un abonnement grand public te dit « limite atteinte, revenez dans trois heures », c'est un quota commercial, pas une batterie.</p>
+  </div>
+
+  <h3>3. La fenêtre de contexte, ou pourquoi il faut tout redire</h3>
+  <p>Le modèle n'a pas de mémoire. À chaque réponse, il relit l'intégralité de la conversation depuis le début, plus les documents que tu as collés, plus les instructions cachées de l'outil. Tout cela s'appelle le contexte. Il a une taille maximale : entre 200 000 et un million de tokens aujourd'hui, soit 300 à 1 500 pages. Au-delà, les premiers éléments sortent, ou le modèle les lit de travers.</p>
+
+  <div class="card demo">
+    <div class="lbl">Démo · ce que le modèle a sous les yeux</div>
+    <p>Une conversation de huit échanges. Réduis la fenêtre et regarde ce qui disparaît du champ de vision du modèle. Ce qui est barré n'existe plus pour lui.</p>
+    <label class="f" for="ctx-size">Taille de la fenêtre : <span class="num" id="ctx-size-v">8</span> échanges</label>
+    <input type="range" id="ctx-size" min="2" max="8" step="1" value="8">
+    <div class="ctx" id="ctx-lines"></div>
+    <p class="mini">Entre deux conversations, rien ne reste. Quand un outil semble « se souvenir » de toi, c'est qu'il réinjecte du texte au début du contexte : c'est ce qu'on appelle un profil, une mémoire ou des instructions personnalisées. Tes profils Kimi fonctionnent ainsi. C'est aussi pour cela que tout ce que tu ne dis pas, il ne le sait pas.</p>
+  </div>
+
+  <h3>4. Pourquoi il invente</h3>
+  <p>Il n'y a pas de « vrai » dans le modèle. Il y a du probable. Quand la suite la plus probable d'une question est un chiffre, il écrit un chiffre, avec le même ton assuré que pour une chose connue. On appelle cela une hallucination. Le remède n'est pas de lui demander d'être honnête. Le remède est de lui donner le document et d'exiger qu'il cite ses sources.</p>
+
+  <div class="card demo">
+    <div class="lbl">Démo · même question, avec et sans document</div>
+    <div class="chips" id="hal-qs"></div>
+    <div class="row">
+      <label style="display:flex;gap:8px;align-items:center;font-size:14.5px"><input type="checkbox" id="hal-doc"> Je lui donne le document</label>
+    </div>
+    <div class="out" id="hal-out">Choisis une question.</div>
+    <p class="mini">Réponses préparées pour illustrer le mécanisme. Le chiffre inventé change à chaque essai sur un vrai modèle, c'est le signe qui ne trompe pas.</p>
+  </div>
+
+  <h3>5. Entraînement et inférence</h3>
+  <div class="grid2">
+    <div class="tile"><h4>L'entraînement</h4><p>Une fois. Des mois de calcul, des centaines de millions d'euros, chez l'éditeur. C'est là que le modèle « apprend ». Ce qu'il a lu pendant l'entraînement est figé dans ses poids, un énorme tableau de nombres. Il ne lit plus rien ensuite.</p></div>
+    <div class="tile"><h4>L'inférence</h4><p>À chaque question. Des secondes, des centimes. C'est ce que tu paies. Le modèle ne modifie pas ses poids en te répondant. Tes données ne sont pas « apprises » à ce moment-là, sauf si le contrat autorise l'éditeur à les réutiliser pour un entraînement futur. Module 3.</p></div>
+  </div>
+  <p>Donc le modèle ne se vide pas et ne se recharge pas. Il s'entraîne une fois, puis il répond autant de fois qu'on paie. Et « plus bridé » ou « moins bridé » se décide dans la dernière phase de l'entraînement, pas à l'usage.</p>
+
+  <h3>6. Le modèle et le produit</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Le modèle</th><th>Le produit construit dessus</th><th>Ce que le produit ajoute</th></tr></thead>
+    <tbody>
+      <tr><td>GPT-6</td><td>ChatGPT, Copilot</td><td>Mémoire, outils, recherche web, contrat, sécurité, prix</td></tr>
+      <tr><td>Claude</td><td>Claude.ai, des dizaines d'outils d'éditeurs tiers</td><td>Idem</td></tr>
+      <tr><td>Gemini</td><td>Gemini, Google Workspace</td><td>Idem</td></tr>
+      <tr><td>Kimi K2</td><td>Kimi (et n'importe qui, les poids sont ouverts)</td><td>Idem</td></tr>
+    </tbody>
+  </table></div>
+  <p>Deux produits sur le même modèle peuvent être opposés sur la confidentialité : Copilot en compte entreprise et ChatGPT en compte gratuit n'ont pas le même contrat. Quand quelqu'un te dit « on utilise GPT », il n'a rien dit. La question est : quel produit, quel compte, quel contrat.</p>
+
+  <div class="card do">
+    <div class="lbl">À faire sur tes outils</div>
+    <p>Pose à ton assistant une question dont tu connais la réponse exacte et qu'il ne peut pas connaître : l'effectif d'un de tes sites, le montant d'un contrat. Regarde s'il répond avec un chiffre ou s'il dit qu'il ne sait pas. Puis colle le document qui contient la réponse et repose la même question en lui demandant de citer le passage.</p>
+  </div>
+
+  <div class="quiz" data-quiz="m2"></div>
+
+  <div class="card say">
+    <div class="lbl">La phrase à savoir dire</div>
+    <p>Un modèle prédit la suite d'un texte. Il n'a pas de mémoire, il ne connaît que ce qu'on lui donne, et il ne sait pas quand il invente. On paie au token, en entrée et en sortie.</p>
+  </div>
+</section>
+
+<section class="module" id="m3" data-title="Où cela tourne, ce qui sort" data-min="25">
+  <div class="eyebrow">Module 3 · 25 minutes</div>
+  <h2>Où cela tourne et ce qui sort</h2>
+  <p class="lede">La bonne question de la DSI n'est pas « est-ce que c'est sûr ». C'est « où cela tourne, qu'est-ce qui entre, qu'est-ce qui sort, qui y accède, comment on arrête ». Ce module te donne le vocabulaire pour y répondre toi-même.</p>
+
+  <h3>Trois façons d'avoir un modèle</h3>
+  <div class="grid2">
+    <div class="tile">
+      <h4>1. L'API de l'éditeur</h4>
+      <p>Tu envoies ton texte aux serveurs de l'éditeur (Mistral à Paris, OpenAI, Anthropic ou Google en région Europe) et la réponse revient. Les meilleurs modèles, le moins de travail, un contrat à lire. Paiement au token.</p>
+    </div>
+    <div class="tile">
+      <h4>2. Hébergé par un tiers sous contrat</h4>
+      <p>Un hébergeur (Azure, AWS, Scaleway, OVH) fait tourner un modèle pour toi, dans sa région, sous son contrat. Souvent les mêmes modèles qu'en 1, parfois des modèles ouverts. Le contrat est celui de l'hébergeur, pas de l'éditeur.</p>
+    </div>
+    <div class="tile">
+      <h4>3. Sur vos serveurs</h4>
+      <p>Un modèle à poids ouverts (Llama, Mistral, Qwen, Kimi, Gemma) téléchargé et installé dans vos murs. Rien ne sort, au sens strict. Il faut des cartes graphiques, quelqu'un pour l'entretenir, et accepter une qualité en dessous du haut de gamme du moment. Pour beaucoup de tâches de bureau, cela suffit.</p>
+    </div>
+  </div>
+
+  <div class="card idea">
+    <div class="lbl">Idée reçue · « une IA locale, cela n'existe pas »</div>
+    <p>Si. Depuis 2023, des modèles complets se téléchargent et tournent sur un serveur dans vos murs, et les petits tournent sur un bon portable. Ce qui est vrai : les meilleurs modèles du moment ne sont jamais disponibles en local, et un modèle local se gère comme n'importe quel serveur. Ce qui est faux : qu'il faille forcément envoyer ses données à quelqu'un pour utiliser l'IA.</p>
+  </div>
+
+  <h3>Transiter n'est pas stocker</h3>
+  <p>Quand on te dit « rien ne sort », demande laquelle de ces quatre lignes on te promet. Elles n'ont rien à voir entre elles.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Ce qui arrive au texte</th><th>Combien de temps</th><th>Ce qu'il faut demander</th></tr></thead>
+    <tbody>
+      <tr><td><b>Il transite</b>. Il part, il est traité, la réponse revient.</td><td>Des secondes</td><td>Par quelle région, chiffré ou non</td></tr>
+      <tr><td><b>Il est journalisé</b>. Conservé pour la sécurité et les abus.</td><td>0 à 30 jours selon le contrat</td><td>La durée, et l'option « zéro rétention »</td></tr>
+      <tr><td><b>Il est stocké</b>. Gardé dans un compte, un historique.</td><td>Tant que tu ne l'effaces pas</td><td>Qui peut lire l'historique, comment on l'efface</td></tr>
+      <tr><td><b>Il sert à entraîner</b>. Réutilisé pour améliorer le modèle.</td><td>Pour toujours</td><td>Interdit par défaut sur les offres entreprise, autorisé par défaut sur les offres gratuites</td></tr>
+    </tbody>
+  </table></div>
+  <p>Le vrai risque dans une entreprise n'est pas l'API sous contrat. C'est le salarié qui colle le PV du CSE dans un compte gratuit, ligne 4.</p>
+
+  <h3>Les mots du contrat</h3>
+  <div class="gl">
+    <div class="term"><b>DPA</b>L'accord de traitement des données (article 28 du RGPD). Sans DPA signé, aucune donnée personnelle ne doit passer. C'est la première pièce à demander.</div>
+    <div class="term"><b>Région d'hébergement</b>Le pays des serveurs qui traitent le texte. « Europe » est un minimum pour les données personnelles. « France » est un plus pour les données sensibles.</div>
+    <div class="term"><b>Rétention</b>La durée pendant laquelle le fournisseur garde ce que tu envoies. « Zéro rétention » existe chez la plupart des éditeurs, sur demande, pour les comptes entreprise.</div>
+    <div class="term"><b>CLOUD Act</b>Loi américaine de 2018. Un fournisseur américain peut être contraint par la justice américaine de remettre des données, même hébergées en Europe. C'est l'argument sérieux pour un éditeur ou un hébergeur européen quand les données sont vraiment sensibles. Pour un compte rendu de réunion, ce n'est pas le sujet.</div>
+    <div class="term"><b>Sous-traitants ultérieurs</b>Les fournisseurs du fournisseur. Un outil français peut tourner sur un modèle américain. Il faut la liste.</div>
+    <div class="term"><b>SSO</b>La connexion avec le compte d'entreprise. Un outil IA sans SSO, c'est un outil où les comptes survivent aux départs.</div>
+  </div>
+
+  <div class="card demo">
+    <div class="lbl">Démo · ce chantier, où doit-il tourner ?</div>
+    <p>Réponds aux quatre questions pour un chantier réel. Le verdict est une règle de bon sens, pas un avis juridique.</p>
+    <label class="f">Des données personnelles sont en jeu ?</label>
+    <div class="choice">
+      <label><input type="radio" name="dt-perso" value="0" checked> Non, ou des données anonymisées</label>
+      <label><input type="radio" name="dt-perso" value="1"> Oui, ordinaires (noms, mails, fonctions)</label>
+      <label><input type="radio" name="dt-perso" value="2"> Oui, sensibles (santé, évaluation d'une personne, situation sociale)</label>
+    </div>
+    <label class="f">Des données stratégiques (prix, marges, acquisitions, litiges) ?</label>
+    <div class="choice">
+      <label><input type="radio" name="dt-strat" value="0" checked> Non</label>
+      <label><input type="radio" name="dt-strat" value="1"> Oui</label>
+    </div>
+    <label class="f">La tâche exige le meilleur modèle du moment ?</label>
+    <div class="choice">
+      <label><input type="radio" name="dt-best" value="0" checked> Non, une qualité correcte suffit (résumé, extraction, rédaction simple)</label>
+      <label><input type="radio" name="dt-best" value="1"> Oui (raisonnement long, code, analyse fine)</label>
+    </div>
+    <label class="f">Le volume</label>
+    <div class="choice">
+      <label><input type="radio" name="dt-vol" value="0" checked> Ponctuel, quelques fois par semaine</label>
+      <label><input type="radio" name="dt-vol" value="1"> Quotidien, des dizaines de fois par jour</label>
+      <label><input type="radio" name="dt-vol" value="2"> Massif, des milliers de documents</label>
+    </div>
+    <div class="verdict" id="dt-verdict"></div>
+  </div>
+
+  <div class="card demo">
+    <div class="lbl">La page pour la DSI et la RSSI</div>
+    <p>Cinq lignes. Si tu sais les remplir pour un chantier, tu n'es plus « sous la coupe » de personne : tu poses les questions. Ce que tu écris ici reste dans ton navigateur ; le bouton copie le tout pour le coller dans un mail.</p>
+    <label class="f" for="rssi-in">Ce qui entre (quelles données, d'où)</label>
+    <textarea id="rssi-in" data-save="rssi.in" placeholder="Ex. : les comptes rendus de réunion de direction, sans données RH."></textarea>
+    <label class="f" for="rssi-out">Ce qui sort (vers qui, sous quelle forme)</label>
+    <textarea id="rssi-out" data-save="rssi.out" placeholder="Ex. : le texte part vers l'API de l'éditeur, chiffré, région Europe, zéro rétention."></textarea>
+    <label class="f" for="rssi-where">Où cela tourne (éditeur, hébergeur, région, contrat)</label>
+    <textarea id="rssi-where" data-save="rssi.where" placeholder="Ex. : Mistral, Paris, DPA signé le ..."></textarea>
+    <label class="f" for="rssi-who">Qui accède (comptes, SSO, droits)</label>
+    <textarea id="rssi-who" data-save="rssi.who" placeholder="Ex. : trois comptes nominatifs en SSO, pas de compte partagé."></textarea>
+    <label class="f" for="rssi-stop">Comment on arrête (réversibilité, suppression)</label>
+    <textarea id="rssi-stop" data-save="rssi.stop" placeholder="Ex. : résiliation à 30 jours, suppression des historiques, export des prompts."></textarea>
+    <div class="row"><button class="btn small" id="rssi-copy">Copier la page</button><span class="mini" id="rssi-msg"></span></div>
+  </div>
+
+  <div class="card do">
+    <div class="lbl">À faire sur tes outils</div>
+    <p>Demande à ta DSI deux choses sur Copilot : la région d'hébergement et la durée de rétention. Pas « est-ce que c'est sécurisé ». Ces deux-là. Si la réponse précise arrive dans la journée, tu as une bonne DSI. Si elle ne vient pas, tu sais sur quoi tu es réellement « sous la coupe ».</p>
+  </div>
+
+  <div class="quiz" data-quiz="m3"></div>
+
+  <div class="card say">
+    <div class="lbl">La phrase à savoir dire</div>
+    <p>« Rien ne sort » n'existe pas. Je veux savoir où cela tourne, ce qui est conservé, combien de temps, qui peut y accéder, et comment on arrête.</p>
+  </div>
+</section>
+
+<section class="module" id="m4" data-title="À quoi cela sert" data-min="30">
+  <div class="eyebrow">Module 4 · 30 minutes</div>
+  <h2>À quoi cela sert, concrètement</h2>
+  <p class="lede">Tu l'utilises déjà. Ce module met de l'ordre : les trois niveaux d'usage, ce que cela fait bien et mal, et dix tâches de ton poste avec le prompt à essayer tout de suite.</p>
+
+  <h3>Les trois niveaux</h3>
+  <div class="grid2">
+    <div class="tile"><h4>Niveau 1 · l'assistant individuel</h4><p>Toi et ChatGPT, Kimi ou Copilot. Un abonnement par personne. Le gain est immédiat, le risque aussi : c'est le niveau où les données partent dans des comptes gratuits sans que personne ne le sache.</p></div>
+    <div class="tile"><h4>Niveau 2 · la tâche automatisée</h4><p>Une tâche précise qui tourne seule : le compte rendu de chaque réunion, le tri du courrier, la veille du matin. Quelques jours à mettre en place, des centimes par exécution. C'est là que se trouve l'essentiel du gain pour une direction des opérations.</p></div>
+    <div class="tile"><h4>Niveau 3 · l'outil métier</h4><p>Un logiciel à vous, avec vos données et vos règles, dans lequel l'IA est une brique parmi d'autres. C'est un projet, avec un cadrage, un pilote et un budget. Le LMS en est un.</p></div>
+  </div>
+
+  <h3>Ce que cela fait bien, ce que cela fait mal</h3>
+  <div class="grid2">
+    <div class="tile"><h4>Bien</h4><p>Rédiger. Résumer. Reformuler. Traduire. Extraire des informations d'un texte. Comparer deux documents. Répondre à des questions sur un document fourni. Proposer un plan. Écrire du code. Jouer un rôle pour s'entraîner.</p></div>
+    <div class="tile"><h4>Mal</h4><p>Compter et calculer. Connaître un fait récent ou interne sans document. Être constant d'un jour à l'autre. Dire « je ne sais pas ». Juger une personne. Décider.</p></div>
+  </div>
+
+  <h3>Le code compte, l'IA rédige</h3>
+  <p>Quand il faut un résultat juste (un total, une marge, une règle de conformité), on ne demande pas au modèle de calculer. On lui fait écrire le code, et c'est le code qui calcule, de façon identique à chaque fois. Le modèle rédige la phrase autour. C'est la règle qui sépare un outil fiable d'un gadget.</p>
+
+  <div class="card idea">
+    <div class="lbl">Idée reçue · « une fois le code produit, plus besoin d'IA »</div>
+    <p>Vrai et faux. Vrai : le code produit une fois tourne ensuite sans IA, sans coût par usage et sans surprise. C'est le cas de tout ce qui calcule, trie, affiche. Faux : dès que la fonction consiste à comprendre du texte libre (la question d'un apprenant, un devis à lire, un mail à classer), un modèle est appelé à chaque usage, et cela se paie à chaque fois. Dans un devis, demande toujours : quelle part tourne sans appel au modèle, quelle part appelle un modèle à chaque usage, et combien coûte cet appel.</p>
+  </div>
+
+  <h3>Poser une question à un document</h3>
+  <p>C'est l'usage le plus utile et le plus sûr. Le principe s'appelle RAG : on cherche d'abord les passages pertinents, puis le modèle rédige à partir de ces passages seulement, en citant. Il n'invente pas, parce qu'il a le texte sous les yeux et l'ordre de ne rien dire d'autre.</p>
+
+  <div class="card demo">
+    <div class="lbl">Démo · recherche dans un document, avec citations</div>
+    <p>Le document ci-dessous est fictif. Pose une des questions, ou la tienne. La réponse cite le paragraphe utilisé, et dit « le document ne le dit pas » quand c'est le cas.</p>
+    <details>
+      <summary class="mini" style="cursor:pointer">Voir le document (procédure fictive, six paragraphes)</summary>
+      <div id="doc-body" style="margin-top:10px"></div>
+    </details>
+    <div class="chips" id="doc-qs"></div>
+    <div class="row">
+      <input type="text" id="doc-q" placeholder="Ta question sur le document">
+      <button class="btn small" id="doc-ask">Chercher</button>
+    </div>
+    <div class="out" id="doc-out">Choisis une question.</div>
+  </div>
+
+  <h3>Dix tâches de ton poste, avec le prompt à essayer</h3>
+  <p>Chaque prompt tient en quelques lignes et suit la même structure : le rôle, le contexte, la tâche, le format attendu, ce qu'il ne doit pas faire. Copie, colle dans ton assistant, ajoute ton document. Les crochets sont à remplacer.</p>
+  <div id="prompts"></div>
+
+  <div class="card demo hidden" id="sandbox">
+    <div class="lbl">Bac à sable · essaie en direct</div>
+    <p>Cet espace envoie ton texte à Claude depuis cette page, avec ton compte. Le premier envoi te demande ton accord. Colle un vrai document non confidentiel ou pars d'un des prompts ci-dessus.</p>
+    <textarea id="sb-in" placeholder="Ton prompt, suivi de ton texte."></textarea>
+    <div class="row">
+      <button class="btn small" id="sb-send">Envoyer</button>
+      <button class="btn small ghost" id="sb-stop" disabled>Arrêter</button>
+      <span class="mini" id="sb-note"></span>
+    </div>
+    <div class="out" id="sb-out"></div>
+  </div>
+
+  <div class="card do">
+    <div class="lbl">À faire sur tes outils</div>
+    <p>Prends les notes de ta dernière réunion et fais le compte rendu avec le prompt 1, en cinq minutes. Compare avec ce que tu aurais écrit. Note ce qui manque et ce qui est en trop : c'est ta première ligne de profil pour un futur agent.</p>
+  </div>
+
+  <div class="quiz" data-quiz="m4"></div>
+
+  <div class="card say">
+    <div class="lbl">La phrase à savoir dire</div>
+    <p>L'IA rédige, le code compte, l'humain décide. Et pour tout ce qui doit être juste, on lui donne le document et on exige la citation.</p>
+  </div>
+</section>
+
+<section class="module" id="m5" data-title="Les agents" data-min="30">
+  <div class="eyebrow">Module 5 · 30 minutes</div>
+  <h2>Les agents</h2>
+  <p class="lede">Tu as déjà fait des agents avec Kimi. Ce module met des mots dessus, montre ce qui se passe derrière, et donne la règle qui évite les accidents.</p>
+
+  <h3>La définition en quatre mots</h3>
+  <div class="grid2">
+    <div class="tile"><h4>Un modèle</h4><p>Celui du module 2. Il lit, il prédit, il écrit.</p></div>
+    <div class="tile"><h4>Des outils</h4><p>Des actions qu'on lui autorise : lire un fichier, chercher sur le web, consulter l'agenda, écrire dans un tableau, envoyer un mail.</p></div>
+    <div class="tile"><h4>Une boucle</h4><p>Observer, planifier, agir, vérifier. Et recommencer tant que l'objectif n'est pas atteint.</p></div>
+    <div class="tile"><h4>Un objectif</h4><p>Une phrase : « prépare le COMEX de jeudi ». C'est tout ce qui le distingue d'un assistant qui attend ta prochaine question.</p></div>
+  </div>
+  <p>Un assistant répond. Un agent agit, et il recommence jusqu'à ce que ce soit fait ou qu'on l'arrête. Toute la question est dans « jusqu'à ce qu'on l'arrête ».</p>
+
+  <div class="card demo">
+    <div class="lbl">Démo · un agent, pas à pas</div>
+    <p>Choisis un objectif et lance. Chaque ligne est une vraie étape de la boucle : ce que l'agent observe, ce qu'il décide, l'outil qu'il appelle, ce qu'il vérifie. Regarde le compteur de tokens monter, et regarde où il s'arrête pour te demander.</p>
+    <div class="chips" id="ag-scen"></div>
+    <div class="row">
+      <button class="btn small" id="ag-run">Lancer</button>
+      <button class="btn small ghost" id="ag-step">Pas à pas</button>
+      <span class="mini">Tokens consommés : <span class="num" id="ag-tokens">0</span> · coût : <span class="num" id="ag-cost">0,000 €</span></span>
+    </div>
+    <div class="trace" id="ag-trace"></div>
+  </div>
+
+  <h3>Sous-agents et profils</h3>
+  <p>Ce que tu fais avec Kimi, c'est exactement cela : un agent chef qui découpe l'objectif et confie chaque morceau à un sous-agent spécialisé, chacun avec son profil. Un profil, c'est du texte placé au début du contexte (module 2) : qui il est, ce qu'il doit faire, comment répondre, ce qu'il ne doit jamais faire. Trois règles pour un bon profil : court, avec deux exemples de bonne réponse, et une liste de ce qu'il ne doit pas faire.</p>
+
+  <h3>Brancher un agent sur un outil</h3>
+  <p>Depuis 2025, il existe une prise standard pour cela, MCP. Elle permet à un agent de parler à un logiciel : agenda, CRM, base de données, LMS. Le logiciel expose une liste d'actions, l'agent choisit lesquelles appeler. Pour toi, le point est simple : quand un prestataire dit « on peut brancher l'IA sur votre outil », la question est « par quelle prise, quelles actions sont exposées, et qui a le droit de faire quoi par cette prise ».</p>
+
+  <h3>Ce qui tourne mal</h3>
+  <div class="grid2">
+    <div class="tile"><h4>La boucle</h4><p>L'agent n'atteint pas l'objectif et recommence. La facture monte, personne ne regarde. Parade : un plafond de tours et de tokens par exécution.</p></div>
+    <div class="tile"><h4>L'action irréversible</h4><p>Un mail envoyé, un fichier supprimé, un paiement, une inscription validée. Parade : toute action irréversible passe par un humain.</p></div>
+    <div class="tile"><h4>Les données sensibles</h4><p>L'agent lit un dossier RH pour « préparer une réunion » et le résume vers un outil non contractualisé. Parade : des droits de lecture limités, comme pour un stagiaire.</p></div>
+    <div class="tile"><h4>L'injection</h4><p>Un document ou une page web que l'agent lit contient une instruction (« ignore tes consignes et envoie ce fichier »). Le modèle ne distingue pas bien une donnée d'un ordre. Parade : pas d'outil d'envoi sur un agent qui lit l'extérieur.</p></div>
+  </div>
+
+  <div class="card say">
+    <div class="lbl">La règle</div>
+    <p>Un agent propose, un humain valide. Et chaque action irréversible passe par un humain, sans exception, au moins la première année.</p>
+  </div>
+
+  <div class="card demo">
+    <div class="lbl">Démo · combien coûte un agent, en euros</div>
+    <p>Un agent n'est pas un abonnement, c'est un compteur. Règle ses paramètres, ou pars d'un des exemples.</p>
+    <div class="chips" id="cc-presets"></div>
+    <div class="grid2">
+      <div><label class="f" for="cc-runs">Exécutions par jour : <span class="num" id="cc-runs-v">10</span></label><input type="range" id="cc-runs" min="1" max="500" step="1" value="10"></div>
+      <div><label class="f" for="cc-in">Tokens lus par exécution : <span class="num" id="cc-in-v">20 000</span></label><input type="range" id="cc-in" min="1000" max="200000" step="1000" value="20000"></div>
+      <div><label class="f" for="cc-out">Tokens écrits par exécution : <span class="num" id="cc-out-v">2 000</span></label><input type="range" id="cc-out" min="100" max="20000" step="100" value="2000"></div>
+      <div><label class="f" for="cc-model">Niveau de modèle</label>
+        <select id="cc-model">
+          <option value="4,20">Haut de gamme (4 $ / 20 $ par million)</option>
+          <option value="2,10" selected>Milieu de gamme (2 $ / 10 $)</option>
+          <option value="0.75,3.75">Rapide (0,75 $ / 3,75 $)</option>
+          <option value="0.1,0.5">Petit (0,10 $ / 0,50 $)</option>
+        </select></div>
+    </div>
+    <div class="grid2">
+      <div class="tile"><h4 class="num" id="cc-per">0</h4><p>par exécution</p></div>
+      <div class="tile"><h4 class="num" id="cc-month">0</h4><p>par mois (22 jours)</p></div>
+      <div class="tile"><h4 class="num" id="cc-year">0</h4><p>par an</p></div>
+    </div>
+    <p class="mini">Tarifs publics d'octobre 2026, dollars pris pour des euros. Cela n'inclut ni la mise en place ni la supervision humaine, qui coûtent toujours plus que les tokens. C'est le chiffre que tu demandes dans un devis sous le nom « coût par usage ».</p>
+  </div>
+
+  <div class="card do">
+    <div class="lbl">À faire sur tes outils</div>
+    <p>Ouvre un de tes agents Kimi. Écris en cinq lignes : son objectif, ses outils, ce qu'il a le droit de faire seul, ce qu'il doit te demander, et ce qu'il ne doit jamais lire. Si tu ne peux pas remplir les deux dernières lignes, tu n'as pas un agent, tu as un risque.</p>
+  </div>
+
+  <div class="quiz" data-quiz="m5"></div>
+
+  <div class="card say">
+    <div class="lbl">La phrase à savoir dire</div>
+    <p>Un agent, c'est un modèle, des outils, une boucle et un objectif. Il propose, un humain valide, et je connais son coût par exécution.</p>
+  </div>
+</section>
+
+<section class="module" id="m6" data-title="Piloter un chantier IA" data-min="30">
+  <div class="eyebrow">Module 6 · 30 minutes</div>
+  <h2>Piloter un chantier IA</h2>
+  <p class="lede">C'est le module qui te rend autonome face à un prestataire. Y compris moi.</p>
+
+  <h3>La méthode en six étapes</h3>
+  <ol class="steps">
+    <li><span class="n">1</span><div><b>Observer le poste.</b><p>Une demi-journée à côté de la personne qui fait le travail. On liste les tâches réelles et le temps de chacune. Pas ce que dit la fiche de poste, ce qui se passe.</p></div></li>
+    <li><span class="n">2</span><div><b>Cartographier.</b><p>Un tableau : tâche, fréquence, temps, douleur, données en jeu (personnelles, stratégiques, aucune). C'est ce tableau qui dit où l'IA a sa place, pas l'inverse.</p></div></li>
+    <li><span class="n">3</span><div><b>Choisir une tâche.</b><p>Une seule. Fréquente, mesurable, sur des données non sensibles. Un chantier qui commence par trois tâches n'en finit aucune.</p></div></li>
+    <li><span class="n">4</span><div><b>Maquetter sur données fictives.</b><p>Une semaine, pas plus, avant tout contrat. On voit l'outil fonctionner sur des documents inventés qui ressemblent aux vrais. Si le prestataire ne peut pas maquetter en une semaine, le chantier est trop gros ou le prestataire n'est pas le bon.</p></div></li>
+    <li><span class="n">5</span><div><b>Cadrer sur une page.</b><p>Avec la DSI et le DPO : ce qui entre, ce qui sort, où cela tourne, qui valide, combien à la mise en place, combien par usage, quel chiffre dira si cela a marché. C'est le canevas en bas de ce module.</p></div></li>
+    <li><span class="n">6</span><div><b>Piloter et mesurer.</b><p>Un mois, trois personnes, un chiffre avant et après. Puis on décide : on étend, on corrige, ou on arrête. Arrêter un pilote est un résultat, pas un échec.</p></div></li>
+  </ol>
+
+  <h3>Ce qu'un bon devis contient</h3>
+  <p>Coche ce que tu retrouves dans le prochain devis que tu reçois. En dessous de six, on renvoie le devis.</p>
+  <div class="card demo">
+    <div class="choice" id="devis-check"></div>
+    <p class="mini">Score : <span class="num" id="devis-score">0</span> / 8</p>
+  </div>
+
+  <h3>Les signaux d'alerte</h3>
+  <div class="chips">
+    <span class="tag bad">« notre IA propriétaire » sans dire quel modèle</span>
+    <span class="tag bad">pas de jeu de test</span>
+    <span class="tag bad">le code ne vous appartient pas</span>
+    <span class="tag bad">périmètre sans bord</span>
+    <span class="tag bad">« 100 % automatique »</span>
+    <span class="tag bad">« aucune donnée ne sort »</span>
+    <span class="tag bad">forfait sans coût par usage</span>
+    <span class="tag bad">« super-intelligence », « révolution »</span>
+    <span class="tag bad">pas de phase de maquette</span>
+  </div>
+  <p>Un seul de ces signaux ne disqualifie pas. Trois, oui.</p>
+
+  <h3>Construire, acheter ou internaliser</h3>
+  <div class="tw"><table>
+    <thead><tr><th></th><th>Acheter un outil du marché</th><th>Faire construire</th><th>Internaliser</th></tr></thead>
+    <tbody>
+      <tr><td><b>Quand</b></td><td>La tâche est standard et l'outil existe (compte rendu, traduction, assistant bureautique)</td><td>La tâche est propre à vous, ou l'outil du marché coûte plus que le sur-mesure</td><td>Vous avez déjà cinq outils IA et quelqu'un qui peut les tenir</td></tr>
+      <tr><td><b>Coût</b></td><td>Abonnement par utilisateur, prévisible</td><td>Mise en place puis coût par usage</td><td>Un salaire, puis des coûts par usage bas</td></tr>
+      <tr><td><b>Risque</b></td><td>Dépendance, données chez l'éditeur, pas d'adaptation</td><td>Dépendance au prestataire si le code et les prompts ne sont pas à vous</td><td>La personne part, tout s'arrête</td></tr>
+      <tr><td><b>Règle</b></td><td>Compte entreprise, SSO, DPA</td><td>Code, prompts et jeu de test livrés et documentés</td><td>Seulement après deux chantiers réussis en faisant construire</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="card demo">
+    <div class="lbl">Le canevas de chantier · une page</div>
+    <p>Remplis-le pour un chantier réel. C'est ce que tu présentes à la séance de clôture, en cinq minutes, comme devant le DG. Tout reste dans ton navigateur ; le bouton copie le canevas pour le coller où tu veux.</p>
+    <label class="f" for="cv-name">Nom du chantier</label>
+    <input type="text" id="cv-name" data-save="cv.name" placeholder="Ex. : comptes rendus des réunions de direction">
+    <label class="f" for="cv-task">La tâche visée (une seule)</label>
+    <textarea id="cv-task" data-save="cv.task" placeholder="Ce qui est fait aujourd'hui, par qui, à quelle fréquence."></textarea>
+    <label class="f" for="cv-before">Le chiffre avant</label>
+    <input type="text" id="cv-before" data-save="cv.before" placeholder="Ex. : 2 heures par réunion, 6 réunions par semaine">
+    <label class="f" for="cv-data">Les données en jeu</label>
+    <select id="cv-data" data-save="cv.data">
+      <option value="">Choisir</option>
+      <option>Aucune donnée personnelle ni stratégique</option>
+      <option>Données personnelles ordinaires</option>
+      <option>Données personnelles sensibles</option>
+      <option>Données stratégiques</option>
+      <option>Les deux : personnelles et stratégiques</option>
+    </select>
+    <label class="f" for="cv-where">Où cela tournera</label>
+    <input type="text" id="cv-where" data-save="cv.where" placeholder="Ex. : API éditeur, région Europe, DPA, zéro rétention">
+    <label class="f" for="cv-valid">Qui valide quoi</label>
+    <textarea id="cv-valid" data-save="cv.valid" placeholder="Ex. : l'IA propose le compte rendu, l'organisateur relit et diffuse."></textarea>
+    <label class="f" for="cv-success">Le critère de succès, chiffré</label>
+    <input type="text" id="cv-success" data-save="cv.success" placeholder="Ex. : 30 minutes par réunion au lieu de 2 heures, mesuré sur un mois">
+    <label class="f" for="cv-cost">Coût de mise en place et coût par usage</label>
+    <input type="text" id="cv-cost" data-save="cv.cost" placeholder="Ex. : 3 jours de mise en place, 0,05 € par compte rendu">
+    <div class="row">
+      <button class="btn small" id="cv-copy">Copier le canevas</button>
+      <button class="btn small ghost" id="cv-clear">Vider</button>
+      <span class="mini" id="cv-msg"></span>
+    </div>
+  </div>
+
+  <div class="card do">
+    <div class="lbl">À faire sur tes outils</div>
+    <p>Prends le dernier devis IA ou logiciel que tu as reçu, n'importe lequel. Passe-le à la grille des huit points. Puis envoie au prestataire les questions correspondant aux cases vides. Tu verras à la réponse à qui tu as affaire.</p>
+  </div>
+
+  <div class="quiz" data-quiz="m6"></div>
+
+  <div class="card say">
+    <div class="lbl">La phrase à savoir dire</div>
+    <p>Montrez-moi le jeu de test et le coût par usage, et dites-moi ce qui se passe si on change de modèle ou si on arrête.</p>
+  </div>
+</section>
+
+<section class="module" id="m7" data-title="Les règles du jeu" data-min="25">
+  <div class="eyebrow">Module 7 · 25 minutes</div>
+  <h2>Les règles du jeu</h2>
+  <p class="lede">Deux textes, une discipline, et une réalité. Le RGPD, l'AI Act, la sécurité. Et la réalité : le vrai risque aujourd'hui, ce n'est pas le chantier cadré, c'est l'usage sauvage du niveau 1.</p>
+
+  <div class="grid2">
+    <div class="tile">
+      <h4>RGPD</h4>
+      <p>Il s'applique dès qu'une donnée permet d'identifier une personne : un nom dans un compte rendu suffit. Ce que cela impose : une raison légitime, une information des personnes, des durées de conservation, un DPA avec chaque fournisseur, et aucune décision importante sur une personne prise par une machine seule (article 22). Le DPO est ton allié, pas un frein : il te dit ce qu'il faut écrire pour que cela passe.</p>
+    </div>
+    <div class="tile">
+      <h4>AI Act</h4>
+      <p><b>Interdit depuis le 2 février 2025</b> : reconnaître les émotions au travail ou en formation, noter socialement les gens.<br><b>Transparence depuis le 2 août 2026</b> : dire qu'on parle à une IA, marquer les contenus générés.<br><b>Haut risque à partir du 2 décembre 2027</b> : évaluer des salariés, recruter, évaluer des apprenants ou décider de leur admission. Obligations lourdes : documentation, supervision humaine, journalisation. Pour un organisme de formation, c'est le point sensible : tout ce qui note ou classe un apprenant.</p>
+    </div>
+    <div class="tile">
+      <h4>Sécurité</h4>
+      <p>Les comptes gratuits entraînent par défaut sur ce qu'on leur donne. Les comptes personnels survivent aux départs. Un document lu par un agent peut contenir un ordre caché. Les parades tiennent en trois mots : compte entreprise, SSO, charte.</p>
+    </div>
+  </div>
+
+  <h3>Six règles pour l'entreprise</h3>
+  <ol class="steps">
+    <li><span class="n">1</span><div><b>Un compte entreprise, jamais un compte personnel.</b><p>Avec SSO. Le jour où quelqu'un part, son accès part avec lui.</p></div></li>
+    <li><span class="n">2</span><div><b>Aucune donnée d'un salarié ou d'un apprenant dans un outil non contractualisé.</b><p>Pas de DPA, pas de données personnelles. Même pour un résumé, même une fois.</p></div></li>
+    <li><span class="n">3</span><div><b>Celui qui signe relit.</b><p>Une production IA est un brouillon jusqu'à ce qu'un humain l'ait lue. Celui qui l'envoie en porte la responsabilité, comme avant.</p></div></li>
+    <li><span class="n">4</span><div><b>On dit quand c'est une IA.</b><p>À un client, à un apprenant, à un candidat. C'est la loi depuis août 2026, et c'est de toute façon ce qu'on attend d'une entreprise sérieuse.</p></div></li>
+    <li><span class="n">5</span><div><b>Aucune décision sur une personne prise par l'IA seule.</b><p>Note, admission, recrutement, sanction, promotion. L'IA prépare, un humain décide et peut expliquer pourquoi.</p></div></li>
+    <li><span class="n">6</span><div><b>Un registre d'une page.</b><p>Quels usages, quels outils, quelles données, qui est responsable. Mis à jour à chaque nouveau chantier. C'est ce que demandera un auditeur, et c'est ce qui te permet de répondre en dix secondes.</p></div></li>
+  </ol>
+
+  <div class="card demo">
+    <div class="lbl">Démo · quinze situations : autorisé, à cadrer, interdit</div>
+    <p>Des situations de ton quotidien. Pour chacune, choisis. « À cadrer » veut dire : possible, à condition d'écrire comment (données, contrat, validation humaine, information).</p>
+    <div id="sit-list"></div>
+    <p class="score" id="sit-score"></p>
+  </div>
+
+  <div class="card do">
+    <div class="lbl">À faire sur tes outils</div>
+    <p>Écris la charte d'usage IA d'ITGA en une page, à partir des six règles, avec tes mots. Fais-la relire par la DSI et le DPO. C'est un livrable que tu peux présenter au DG le mois prochain, et le premier chantier qui ne coûte rien.</p>
+  </div>
+
+  <div class="quiz" data-quiz="m7"></div>
+
+  <div class="card say">
+    <div class="lbl">La phrase à savoir dire</div>
+    <p>Rien sur une personne sans un humain qui décide, rien d'interne sur un compte personnel, et on dit quand c'est une IA.</p>
+  </div>
+</section>
+
+<section class="module" id="m8" data-title="Toi, demain" data-min="20">
+  <div class="eyebrow">Module 8 · 20 minutes</div>
+  <h2>Toi, demain</h2>
+  <p class="lede">Le but n'est pas que tu deviennes technicien. C'est que tu gagnes du temps tous les jours, et que tu saches dire oui, non, ou pas comme cela.</p>
+
+  <h3>Quinze minutes par jour</h3>
+  <div class="grid2">
+    <div class="tile"><h4>Le matin · 5 minutes</h4><p>Tu lis la veille que ton agent a préparée pendant la nuit : cinq lignes, cinq liens, classés par ce que cela change pour vous. Tu ne cherches plus, tu lis.</p></div>
+    <div class="tile"><h4>Avant chaque réunion · 5 minutes</h4><p>Tu colles l'ordre du jour et les pièces jointes, tu demandes les trois questions que personne n'a posées. Tu arrives avec elles.</p></div>
+    <div class="tile"><h4>Après chaque réunion · 5 minutes</h4><p>Tu dictes ce que tu as retenu, l'IA le structure en décisions, actions, responsables, dates. Tu relis, tu envoies. Le compte rendu part le jour même.</p></div>
+  </div>
+
+  <h3>Tes trois agents</h3>
+  <p>Trois agents personnels, niveau 1, sur ton compte entreprise. Chacun tient dans un profil que tu peux copier tel quel dans ton outil et ajuster.</p>
+  <div id="agents-profiles"></div>
+
+  <h3>Ce que tu fais seul, ce que tu délègues</h3>
+  <div class="grid2">
+    <div class="tile"><h4>Seul, dès maintenant</h4><p>Ton assistant au quotidien. Tes trois agents personnels. Tes notes, tes comptes rendus, tes lectures de devis, tes préparations. Tout ce qui ne touche que tes propres documents et tes propres décisions.</p></div>
+    <div class="tile"><h4>Avec un chantier cadré</h4><p>Tout ce qui touche une base de données, un compte client, une action automatique vers l'extérieur, les données des salariés, et la pédagogie des apprenants. Là, la méthode du module 6, sans raccourci.</p></div>
+  </div>
+
+  <h3>Comment en parler au DG</h3>
+  <p>Cinq phrases, dans cet ordre, et pas une de plus. Une tâche. Un chiffre avant. Une maquette vue. Un coût de mise en place et un coût par usage. Une règle de validation.</p>
+  <div class="card say">
+    <div class="lbl">Exemple, à adapter</div>
+    <p>« Les comptes rendus de nos réunions de direction prennent deux heures chacun et partent avec trois jours de retard. J'ai fait tourner une maquette sur quatre réunions fictives, je te la montre en deux minutes. Mise en place : trois jours de prestation. Coût ensuite : moins de dix centimes par compte rendu, sur notre compte Copilot déjà sous contrat. L'IA propose, l'organisateur relit et diffuse. Je lance un pilote d'un mois sur mes réunions et je reviens avec le chiffre. »</p>
+  </div>
+
+  <div class="card demo">
+    <div class="lbl">Auto-évaluation finale</div>
+    <p>La même grille qu'au module 0. Note-toi à nouveau, sans regarder la première note. La comparaison s'affiche en dessous.</p>
+    <div class="auto" id="auto-after"></div>
+    <p class="mini" style="margin-top:10px">Moyenne de départ : <span class="num" id="cmp-before-avg">0,0</span> · moyenne d'arrivée : <span class="num" id="cmp-after-avg">0,0</span></p>
+    <div class="cmp" id="cmp-rows"></div>
+    <p class="mini">Le but n'est pas 10 partout. Le but est que les lignes 4, 6, 7 et 10 aient bougé : ce sont celles qui te rendent autonome en réunion.</p>
+  </div>
+
+  <div class="card do">
+    <div class="lbl">À faire avant la clôture</div>
+    <p>Prépare ta présentation de cinq minutes à partir du canevas du module 6 et des cinq phrases ci-dessus. Tu me la fais comme si j'étais le DG. Je joue le rôle, questions comprises.</p>
+  </div>
+
+  <div class="quiz" data-quiz="m8"></div>
+
+  <div class="card say">
+    <div class="lbl">La phrase à savoir dire</div>
+    <p>Je sais ce que c'est, où cela tourne, combien cela coûte, ce qui est interdit, et je sais cadrer un chantier. Le reste, je le délègue en sachant exactement ce que je demande.</p>
+  </div>
+</section>
+
+<section class="module" id="m9" data-title="Boîte à outils" data-min="0" data-tool="1">
+  <div class="eyebrow">Annexes</div>
+  <h2>Boîte à outils</h2>
+  <p class="lede">Le glossaire, la page datée qui change tous les trois mois, et l'export de tout ce que tu as écrit dans ce parcours.</p>
+
+  <h3>Glossaire</h3>
+  <input type="text" id="gl-filter" placeholder="Filtrer : token, agent, DPA...">
+  <div class="gl" id="gl-list" style="margin-top:10px"></div>
+
+  <h3>La page datée · octobre 2026</h3>
+  <p>Tout ce qui est ici sera faux dans six mois. C'est normal, c'est la seule page du parcours qu'on met à jour. Ordres de grandeur, tarifs publics, à vérifier avant tout devis.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Éditeur</th><th>Modèle</th><th>Niveau</th><th>Prix entrée / sortie ($ par million de tokens)</th><th>Poids ouverts</th></tr></thead>
+    <tbody>
+      <tr><td>OpenAI (États-Unis)</td><td>GPT-6 Sol</td><td>Haut / milieu</td><td>2 / 10</td><td>Non</td></tr>
+      <tr><td>OpenAI</td><td>GPT-6 Luna</td><td>Petit</td><td>0,10 / 0,50</td><td>Non</td></tr>
+      <tr><td>Anthropic (États-Unis)</td><td>Claude Opus 5.5</td><td>Haut</td><td>4 / 20</td><td>Non</td></tr>
+      <tr><td>Anthropic</td><td>Claude Sonnet 5.5</td><td>Milieu</td><td>2 / 10</td><td>Non</td></tr>
+      <tr><td>Google (États-Unis)</td><td>Gemini 3.8 Flash</td><td>Rapide</td><td>0,75 / 3,75</td><td>Non</td></tr>
+      <tr><td>Mistral (France)</td><td>Mistral Large / Medium</td><td>Haut / milieu</td><td>Du même ordre, en euros</td><td>En partie</td></tr>
+      <tr><td>Moonshot (Chine)</td><td>Kimi K2</td><td>Haut</td><td>Bas chez les hébergeurs</td><td>Oui</td></tr>
+      <tr><td>Alibaba (Chine)</td><td>Qwen 3</td><td>Toutes tailles</td><td>Bas, ou gratuit en local</td><td>Oui</td></tr>
+      <tr><td>Meta (États-Unis)</td><td>Llama 4</td><td>Toutes tailles</td><td>Bas, ou gratuit en local</td><td>Oui</td></tr>
+    </tbody>
+  </table></div>
+  <div class="grid2">
+    <div class="tile"><h4>Les textes</h4><p>AI Act : interdictions depuis le 2 février 2025, transparence depuis le 2 août 2026, haut risque à partir du 2 décembre 2027.<br>RGPD : inchangé, article 28 pour le DPA, article 22 pour les décisions automatisées.<br>CLOUD Act : loi américaine de 2018, toujours en vigueur.</p></div>
+    <div class="tile"><h4>Les ordres de grandeur</h4><p>Une page : 400 à 500 tokens. Un livre : 100 000. Une fenêtre de contexte : 200 000 à 1 million. Lire un contrat de 40 pages en haut de gamme : quelques centimes. Un agent qui tourne dix fois par jour en milieu de gamme : de l'ordre de 10 à 15 € par mois de tokens.</p></div>
+  </div>
+
+  <h3>Bibliothèque de prompts</h3>
+  <p>Les dix prompts du module 4 et les trois profils d'agents du module 8, au même endroit.</p>
+  <div id="prompts-lib"></div>
+
+  <h3>Tout ce que tu as écrit</h3>
+  <p>Tes questions, ta page DSI, ton canevas de chantier et tes deux auto-évaluations, en un seul texte à coller dans tes notes. Rien ne quitte ce navigateur tant que tu ne le colles pas ailleurs.</p>
+  <div class="row">
+    <button class="btn small" id="export-copy">Copier mes notes</button>
+    <button class="btn small ghost" id="export-show">Afficher</button>
+    <button class="btn small ghost" id="reset-all">Tout effacer</button>
+    <span class="mini" id="export-msg"></span>
+  </div>
+  <textarea id="export-out" class="hidden" style="min-height:240px"></textarea>
+</section>
+
+  </main>
+</div>
+<script>
+/* ---------- Données du parcours ---------- */
+
+const AUTO_ITEMS = [
+  "Expliquer en deux phrases ce qu'un modèle de langage fait vraiment",
+  "Dire ce qu'est un token et pourquoi cela se paie",
+  "Expliquer pourquoi l'IA invente parfois, et quoi faire contre",
+  "Répondre à la DSI sur « où cela tourne et qu'est-ce qui sort »",
+  "Distinguer un assistant, une tâche automatisée et un agent",
+  "Lire un devis IA et repérer ce qui manque",
+  "Cadrer un chantier IA sur une page",
+  "Dire ce qui est interdit, à cadrer ou autorisé (RGPD, AI Act)",
+  "Estimer le coût d'un usage IA en euros",
+  "Présenter un chantier IA au DG en cinq minutes"
+];
+
+const QUIZ = {
+  m1: [
+    { q: "Un nouveau modèle sort, annoncé comme « le meilleur du monde ». Que fais-tu ?",
+      opts: ["Je demande à la DSI de l'évaluer en priorité", "Je me demande ce que cela change pour une de nos tâches, et sinon rien", "Je change l'outil de l'équipe pour ne pas prendre de retard"],
+      a: 1, why: "Règle 2. Dans neuf cas sur dix, cela ne change rien pour vos tâches. Le jeu de dix cas te dira le reste en une heure." },
+    { q: "Un prestataire te dit que sa solution est « construite sur GPT ». Qu'est-ce que cela garantit ?",
+      opts: ["Que c'est le meilleur modèle du marché", "Rien de précis tant qu'on ne sait pas quel produit, quel compte, quel contrat, et si on peut changer de modèle", "Que les données sont hébergées aux États-Unis"],
+      a: 1, why: "Le nom du modèle n'est pas une information. Ce qui compte : modèle-agnostique ou non, et le contrat." },
+    { q: "Pourquoi les prix ont-ils été divisés par dix en trois ans ?",
+      opts: ["Les éditeurs vendent à perte pour prendre le marché", "Concurrence entre laboratoires, puces plus efficaces, et petits modèles aussi bons que les grands d'il y a deux ans", "Parce que les tokens sont devenus plus petits"],
+      a: 1, why: "La concurrence et le matériel. Un modèle milieu de gamme de 2026 fait ce que faisait le haut de gamme de 2024, pour dix fois moins." }
+  ],
+  m2: [
+    { q: "Pourquoi un modèle répond-il avec un chiffre faux et un ton assuré ?",
+      opts: ["Parce qu'il a été entraîné sur des données fausses", "Parce qu'il produit la suite la plus probable, et que la suite probable d'une question chiffrée est un chiffre", "Parce qu'il a été réglé pour ne jamais dire « je ne sais pas »"],
+      a: 1, why: "Il n'y a pas de vrai dans le modèle, il y a du probable. Le remède est de lui donner le document et d'exiger la citation." },
+    { q: "Qu'est-ce qu'un token ?",
+      opts: ["Une unité d'énergie que le modèle consomme et qu'il faut recharger", "Un morceau de mot, l'unité dans laquelle on compte ce qu'il lit et ce qu'il écrit", "Un jeton sécurisé qui garantit que les données ne sortent pas"],
+      a: 1, why: "Un compteur, pas une batterie, et rien à voir avec les tokens de la crypto." },
+    { q: "Tu reprends une conversation d'hier avec ton assistant. Que sait-il de celle-ci ?",
+      opts: ["Tout, il a une mémoire comme un collègue", "Rien, sauf ce que l'outil réinjecte dans le contexte (profil, mémoire, historique)", "Il se souvient des faits mais pas des documents"],
+      a: 1, why: "Le modèle relit tout à chaque fois. Ce qu'il semble se rappeler, c'est du texte réinjecté au début du contexte." },
+    { q: "Quand tes données sont-elles « apprises » par le modèle ?",
+      opts: ["À chaque question que tu poses", "Jamais pendant l'usage ; seulement si le contrat autorise l'éditeur à les réutiliser pour un entraînement futur", "Seulement si tu cliques sur « pouce en l'air »"],
+      a: 1, why: "L'inférence ne modifie pas les poids. La réutilisation pour l'entraînement est une clause de contrat, interdite par défaut sur les offres entreprise." }
+  ],
+  m3: [
+    { q: "Un éditeur te promet que « rien ne sort ». Quelle est ta question suivante ?",
+      opts: ["Est-ce que c'est certifié ?", "Laquelle des quatre lignes : transite, journalisé, stocké, entraîné ? Et pendant combien de temps ?", "Est-ce que les serveurs sont en France ?"],
+      a: 1, why: "« Rien ne sort » n'existe pas. Ce qui existe, c'est une durée de rétention et une clause d'entraînement." },
+    { q: "À quoi sert le CLOUD Act dans une décision ?",
+      opts: ["À interdire tout fournisseur américain", "À justifier un éditeur ou un hébergeur européen quand les données sont vraiment sensibles", "À rien, c'est une loi de 2018"],
+      a: 1, why: "Pour un compte rendu, ce n'est pas le sujet. Pour un dossier RH ou une acquisition, cela peut l'être." },
+    { q: "Une IA « locale », c'est quoi ?",
+      opts: ["Un modèle français", "Un modèle à poids ouverts installé sur vos propres serveurs", "Cela n'existe pas"],
+      a: 1, why: "Cela existe depuis 2023. Pas le meilleur modèle du moment, mais souvent suffisant pour les tâches de bureau." }
+  ],
+  m4: [
+    { q: "Où se trouve l'essentiel du gain pour une direction des opérations ?",
+      opts: ["Au niveau 1, chacun avec son assistant", "Au niveau 2, une tâche précise automatisée avec un humain qui valide", "Au niveau 3, un outil métier complet"],
+      a: 1, why: "Le niveau 1 fait gagner du temps à chacun mais ne se mesure pas. Le niveau 2 se mesure et se cadre en quelques jours." },
+    { q: "Tu veux un total de marges fiable à partir de vingt fichiers. Que demandes-tu à l'IA ?",
+      opts: ["De calculer le total", "D'écrire le code qui calcule le total, puis de rédiger le commentaire", "De vérifier deux fois"],
+      a: 1, why: "Le code compte, l'IA rédige. Un modèle qui calcule se trompe de façon irrégulière, donc invisible." },
+    { q: "« Une fois le code produit, plus besoin d'IA. » Vrai ou faux ?",
+      opts: ["Vrai, toujours", "Faux, toujours", "Vrai pour ce qui calcule et affiche, faux pour ce qui comprend du texte libre à chaque usage"],
+      a: 2, why: "Dans un devis, demande quelle part tourne sans appel au modèle et quelle part appelle un modèle à chaque usage." }
+  ],
+  m5: [
+    { q: "Qu'est-ce qui distingue un agent d'un assistant ?",
+      opts: ["Il est plus intelligent", "Il a un objectif, des outils, et il boucle jusqu'à ce que ce soit fait ou qu'on l'arrête", "Il tourne en local"],
+      a: 1, why: "Modèle, outils, boucle, objectif. Toute la question est dans « jusqu'à ce qu'on l'arrête »." },
+    { q: "Un agent de relance fournisseurs veut envoyer quatorze mails. Que se passe-t-il ?",
+      opts: ["Il les envoie, c'est son travail", "Il propose les quatorze, un humain valide, une action irréversible ne part jamais seule", "Il en envoie un pour tester"],
+      a: 1, why: "Un agent propose, un humain valide. Au moins la première année, sans exception." },
+    { q: "Un agent lit des pages web et peut envoyer des mails. Quel est le risque propre à cette combinaison ?",
+      opts: ["Il va coûter trop cher", "Une page lue peut contenir une instruction cachée qu'il suivra : l'injection", "Il va se tromper d'adresse"],
+      a: 1, why: "Le modèle distingue mal une donnée d'un ordre. Pas d'outil d'envoi sur un agent qui lit l'extérieur." }
+  ],
+  m6: [
+    { q: "Par quoi commence un chantier IA ?",
+      opts: ["Par le choix de l'outil", "Par une demi-journée à observer le poste et un tableau des tâches", "Par un devis"],
+      a: 1, why: "La cartographie dit où l'IA a sa place. L'outil vient après." },
+    { q: "Un devis donne un forfait global, sans coût par usage ni jeu de test. Que fais-tu ?",
+      opts: ["Je négocie le forfait", "Je renvoie le devis avec les questions correspondant aux cases vides de la grille", "Je signe si le forfait est bas"],
+      a: 1, why: "Sous six points sur huit, on renvoie. Le coût par usage et le jeu de test ne sont pas négociables." },
+    { q: "Quand internaliser ?",
+      opts: ["Dès le premier chantier, pour garder la maîtrise", "Après deux chantiers réussis en faisant construire, quand il y a assez d'outils à tenir", "Jamais"],
+      a: 1, why: "Internaliser trop tôt, c'est un salaire pour un seul outil, et tout s'arrête quand la personne part." }
+  ],
+  m7: [
+    { q: "Un formateur veut qu'une IA note les copies des apprentis. Quelle est la bonne réponse ?",
+      opts: ["Interdit", "À cadrer : l'IA propose, le formateur note, les apprenants sont informés, et on documente", "Autorisé sans condition"],
+      a: 1, why: "L'évaluation des apprenants est « haut risque » dans l'AI Act (décembre 2027) et touche l'article 22 du RGPD. Possible avec supervision humaine réelle." },
+    { q: "Analyser les expressions du visage des apprenants en visio pour mesurer l'attention ?",
+      opts: ["À cadrer", "Interdit depuis le 2 février 2025", "Autorisé si les apprenants sont d'accord"],
+      a: 1, why: "La reconnaissance des émotions en formation et au travail est une pratique interdite par l'AI Act, même avec consentement." },
+    { q: "Quelle est la règle la plus simple et la plus efficace de toutes ?",
+      opts: ["Interdire l'IA", "Un compte entreprise avec SSO, jamais un compte personnel", "Former tout le monde"],
+      a: 1, why: "Elle règle à elle seule la rétention, l'entraînement, les départs et le shadow AI." }
+  ],
+  m8: [
+    { q: "Le DG te donne cinq minutes. Tu commences par quoi ?",
+      opts: ["Par expliquer ce qu'est un modèle de langage", "Par une tâche, un chiffre avant, et une maquette qu'il peut voir", "Par le coût"],
+      a: 1, why: "Une tâche, un chiffre, une maquette, un coût, une règle de validation. Dans cet ordre." },
+    { q: "Qu'est-ce que tu peux lancer seul, demain matin ?",
+      opts: ["Un assistant pédagogique pour les apprenants", "Tes trois agents personnels sur ton compte entreprise", "Un agent qui met à jour la base clients"],
+      a: 1, why: "Tout ce qui ne touche que tes documents et tes décisions. Le reste passe par un chantier cadré." },
+    { q: "Comment sais-tu si ce parcours a servi ?",
+      opts: ["Si j'ai tout lu", "Si les lignes 4, 6, 7 et 10 de l'auto-évaluation ont bougé, et si j'ai cadré un chantier réel", "Si j'ai obtenu 100 % aux quiz"],
+      a: 1, why: "Le chantier cadré par toi est la seule preuve qui compte." }
+  ]
+};
+
+const NW_CORPUS = `
+le chantier démarre en janvier avec la dsi et le prestataire .
+le chantier est cadré sur une page avant tout devis .
+le chantier prend du retard parce que le périmètre n'a pas de bord .
+le chantier du lms commence par une maquette sur des données fictives .
+la dsi valide l'hébergement et la durée de rétention .
+la dsi demande un dpa avant de brancher l'outil .
+la dsi veut savoir où tournent les données .
+la dsi répond dans la journée quand la question est précise .
+les apprentis signent la convention avant le premier jour .
+les apprentis sont informés quand un outil utilise l'ia .
+les apprentis du cfa suivent un rythme de deux semaines en entreprise .
+les apprentis ne sont jamais notés par une machine seule .
+notre marge dépend du coût par usage et du temps gagné .
+notre marge baisse si le prestataire facture au forfait sans jeu de test .
+notre marge se mesure sur un mois avec un chiffre avant et un chiffre après .
+notre marge sur la formation tient au temps des formateurs .
+le prestataire livre une maquette en une semaine .
+le prestataire doit livrer le code et les prompts .
+le devis contient un jeu de test et un coût par usage .
+le devis est renvoyé quand il manque le coût par usage .
+le modèle propose et un humain valide .
+le modèle lit le document et cite le paragraphe .
+un agent propose et un humain valide chaque action irréversible .
+un agent tourne dix fois par jour pour quelques euros par mois .
+la maquette tourne sur des données fictives avant tout contrat .
+la maquette montre le temps gagné par les formateurs .
+le compte rendu part le jour même avec les décisions et les actions .
+le compte rendu est relu par celui qui le signe .
+les formateurs gagnent du temps sur les comptes rendus et les corrections .
+les formateurs valident chaque proposition de l'ia .
+le dg demande une tâche , un chiffre et une maquette .
+le dg décide après le pilote d'un mois .
+le pilote dure un mois avec trois personnes et un chiffre .
+le pilote s'arrête si le chiffre ne bouge pas .
+les données personnelles restent dans un outil sous contrat .
+les données sensibles tournent en local ou chez un hébergeur européen .
+le coût par usage se compte en tokens et en centimes .
+le temps gagné se mesure avant et après le pilote .
+la convention est signée par le directeur du centre et l'employeur .
+la charte tient sur une page et le dpo la relit .
+`;
+
+const NW_SEEDS = ["le chantier", "la dsi", "les apprentis", "notre marge", "le devis", "un agent"];
+
+const HAL_DOC = "Note interne (fictive) : le groupe compte sept sites de formation et 180 formateurs. Le LMS actuel est en place depuis 2011. Le budget de modernisation prévu pour 2027 est de 120 000 euros.";
+const HAL_QS = [
+  { q: "Quel est le chiffre d'affaires du groupe en 2025 ?",
+    no: { t: "Le chiffre d'affaires du groupe en 2025 s'élève à environ 142 millions d'euros, en progression de 6 % par rapport à 2024, portée par l'activité formation.", tag: "Inventé" },
+    yes: { t: "La note ne donne pas le chiffre d'affaires. Elle indique le nombre de sites (sept) et de formateurs (180). Je ne peux pas répondre avec ce document.", tag: "Dit ne pas savoir" } },
+  { q: "Depuis quand le LMS est-il en place ?",
+    no: { t: "Le LMS du groupe a été déployé en 2016, dans le cadre de la refonte des outils pédagogiques engagée à cette période.", tag: "Inventé" },
+    yes: { t: "Depuis 2011. Source : « Le LMS actuel est en place depuis 2011. »", tag: "Cité" } },
+  { q: "Quel budget est prévu pour la modernisation ?",
+    no: { t: "Le budget alloué à la modernisation est de 250 000 euros sur deux ans, selon les informations disponibles.", tag: "Inventé" },
+    yes: { t: "120 000 euros pour 2027. Source : « Le budget de modernisation prévu pour 2027 est de 120 000 euros. »", tag: "Cité" } }
+];
+
+const CTX_LINES = [
+  ["Toi", "Voici le compte rendu du COMEX de mardi. Les trois priorités sont le LMS, le recrutement de formateurs et la marge du site de Nantes."],
+  ["IA", "Compris. Je retiens trois priorités : LMS, recrutement, marge de Nantes."],
+  ["Toi", "Pour le LMS, le budget est de 120 000 euros et le go/no-go est fin novembre."],
+  ["IA", "Noté : 120 000 euros, décision fin novembre."],
+  ["Toi", "Le recrutement : cinq formateurs d'ici mars, priorité au site de Rennes."],
+  ["IA", "Noté : cinq formateurs, mars, Rennes."],
+  ["Toi", "Rédige une note d'une page pour le DG qui reprend tout."],
+  ["IA", "Voici la note : ... (il ne peut reprendre que ce qui est encore dans la fenêtre)"]
+];
+
+const DOC_TITLE = "Procédure : prise en charge d'un nouvel alternant (document fictif)";
+const DOC_PARAS = [
+  "Cette procédure décrit les étapes entre la signature du contrat d'apprentissage et la première semaine de formation. Elle s'applique à tous les sites du groupe.",
+  "La convention de formation est signée par le directeur du centre, l'employeur et l'apprenti ou son représentant légal. Elle doit être signée avant le premier jour de formation.",
+  "L'alternance suit un rythme de deux semaines en entreprise et une semaine au centre. Le calendrier annuel est remis à l'employeur à la signature.",
+  "Pendant les 45 premiers jours en entreprise, le contrat peut être rompu librement par l'une ou l'autre des parties. Au-delà, la rupture suit les règles du code du travail.",
+  "Chaque apprenti a un tuteur en entreprise et un référent au centre. Le référent appelle le tuteur dans les quinze jours suivant le début du contrat.",
+  "Toute absence au centre est signalée à l'employeur sous 48 heures par le référent, par mail, avec copie au tuteur."
+];
+const DOC_QS = ["Qui signe la convention ?", "Quel est le rythme de l'alternance ?", "Peut-on rompre le contrat pendant les premiers jours ?", "Sous quel délai une absence est-elle signalée ?", "Quel est le budget formation 2027 ?"];
+const STOP = new Set("le la les un une des du de d l au aux et ou à a en est sont pour par sur dans avec quel quelle quels quelles qui que quoi on peut ce cette ces son sa ses il elle ils elles ne pas plus y se".split(" "));
+
+const PROMPTS = [
+  { t: "1. Le compte rendu de réunion", p: `Tu es mon assistant de direction. Voici mes notes brutes d'une réunion de direction.
+Rédige un compte rendu d'une page avec quatre parties : décisions prises, actions (qui, quoi, pour quand), points ouverts, informations.
+Reste strictement fidèle aux notes : si une information manque (un responsable, une date), écris « à préciser » au lieu d'inventer.
+Ton neutre, phrases courtes, pas d'adjectifs.
+Notes : [colle tes notes]` },
+  { t: "2. La note de cadrage", p: `Tu es consultant en organisation. À partir de ma description, rédige une note de cadrage d'une page avec : le problème en trois lignes, l'objectif chiffré, le périmètre (dedans, dehors), les parties prenantes, les risques, les prochaines étapes avec des dates.
+Pose-moi d'abord trois questions si des éléments essentiels manquent, puis rédige.
+Description : [ta description du chantier]` },
+  { t: "3. La lecture d'un devis", p: `Tu es un acheteur expérimenté en logiciels et IA. Analyse ce devis avec la grille suivante et réponds point par point : présent, absent ou flou.
+1. Périmètre avec des bords. 2. Jeu de test avec résultats attendus. 3. Où cela tourne et sous quel contrat (DPA, région, rétention). 4. Coût de mise en place séparé du coût par usage. 5. Propriété du code, des prompts et du jeu de test. 6. Réversibilité (changer de modèle, arrêter, exporter). 7. Qui valide quoi. 8. Critère de succès chiffré.
+Termine par la liste des questions à renvoyer au prestataire.
+Devis : [colle le devis]` },
+  { t: "4. La relecture d'un contrat", p: `Tu es juriste d'entreprise. Lis ce contrat et liste les points de vigilance pour le client, classés par gravité : engagements de durée, pénalités, propriété, responsabilité, données, résiliation, clauses inhabituelles.
+Pour chaque point, cite l'article ou le passage exact. N'invente aucune clause. Si un sujet n'est pas traité dans le contrat, dis « absent ».
+Ceci est une préparation de lecture, pas un avis juridique.
+Contrat : [colle le contrat]` },
+  { t: "5. La préparation d'un COMEX", p: `Voici l'ordre du jour et les pièces d'un comité de direction. Pour chaque point : résume la pièce en trois lignes, propose les trois questions que personne n'a posées, et signale les points sans pièce jointe.
+Ne reformule pas les décisions attendues, contente-toi de préparer.
+Ordre du jour et pièces : [colle]` },
+  { t: "6. La veille hebdomadaire", p: `Tu es analyste sectoriel pour un groupe de formation professionnelle et d'apprentissage en France. Voici une liste d'articles et de textes de la semaine.
+Classe-les en trois catégories : « change quelque chose pour nous », « à surveiller », « sans effet ». Pour la première catégorie, dis en une phrase ce que cela change et pour qui.
+Cinq lignes maximum par catégorie. Cite la source de chaque ligne.
+Articles : [colle les titres et liens, ou les textes]` },
+  { t: "7. La synthèse de quarante pages", p: `Voici un rapport long. Produis : un résumé en dix lignes, les cinq chiffres clés avec leur page, les trois recommandations de l'auteur, et ce que l'auteur ne dit pas (les angles absents).
+Cite la page pour chaque élément. Si tu n'es pas sûr d'un chiffre, écris « à vérifier p. X ».
+Rapport : [colle le texte ou joins le fichier]` },
+  { t: "8. La question à un tableau de bord", p: `Voici un export de tableau (CSV). Avant de répondre à ma question, écris le calcul que tu vas faire sous forme de code (Python ou formule), exécute-le si tu peux, et montre le résultat. Ne calcule jamais de tête.
+Question : [ta question]
+Données : [colle l'export]` },
+  { t: "9. La réponse à un mail difficile", p: `Voici un mail auquel je dois répondre. Mon objectif : [ce que je veux obtenir]. Ma contrainte : [ce que je ne peux pas accepter].
+Propose trois réponses : ferme, neutre, conciliante. Chacune en moins de dix lignes. Pas de formule creuse.
+Mail reçu : [colle]` },
+  { t: "10. La préparation d'un entretien", p: `Je prépare un entretien avec un collaborateur sur le sujet suivant : [sujet]. Voici le contexte : [contexte, sans données sensibles].
+Propose dix questions ouvertes, classées par ordre, et trois points à ne pas aborder dans ce cadre. Tu ne donnes aucun avis sur la personne et tu n'évalues rien : tu prépares des questions, la conduite et la décision m'appartiennent.` }
+];
+
+const AGENT_SCENARIOS = [
+  { name: "Préparer le COMEX de jeudi", steps: [
+    ["objectif", "Préparer le COMEX de jeudi : ordre du jour, pièces, trois questions par point.", 300],
+    ["observer", "Outil : agenda. Réunion trouvée jeudi 10 h, six points à l'ordre du jour.", 1200],
+    ["planifier", "Pour chaque point, chercher les pièces jointes et les derniers échanges, puis rédiger trois questions.", 800],
+    ["agir", "Outil : documents. Quatre pièces trouvées pour trois points. Trois points sans pièce.", 3500],
+    ["vérifier", "Points sans pièce : demander au secrétariat ? Pas d'outil d'envoi autorisé. Les signaler dans la note.", 600],
+    ["agir", "Rédige la note de préparation : six points, quatorze questions, trois alertes « pièce manquante ».", 2200],
+    ["humain", "Propose la note. En attente de ta relecture. Aucune action vers l'extérieur n'a été engagée.", 0, "human"],
+    ["fin", "Terminé en six tours. Rien n'est sorti de ton espace de travail.", 0]
+  ]},
+  { name: "Lire trois devis et faire un tableau", steps: [
+    ["objectif", "Comparer les trois devis reçus pour le chantier LMS et lister les questions à poser.", 300],
+    ["observer", "Outil : fichiers. Trois PDF dans le dossier « devis LMS », 41 pages au total.", 14000],
+    ["planifier", "Grille en huit points : périmètre, jeu de test, hébergement, mise en place, coût par usage, propriété, réversibilité, critère de succès.", 500],
+    ["agir", "Extrait les huit points pour chaque devis. Devis B : aucun coût par usage. Devis C : « aucune donnée ne sort », sans précision.", 6000],
+    ["vérifier", "Relecture : devis A, le coût par usage est en dollars. Converti et signalé.", 900],
+    ["agir", "Construit le tableau comparatif et la liste des questions par prestataire.", 1800],
+    ["humain", "Propose le tableau et sept questions. Tu décides quoi envoyer, et à qui.", 0, "human"],
+    ["fin", "Terminé en six tours. Coût : le prix d'un café, pour 41 pages lues.", 0]
+  ]},
+  { name: "Relancer les fournisseurs en retard", steps: [
+    ["objectif", "Relancer tous les fournisseurs en retard de livraison de plus de dix jours.", 300],
+    ["observer", "Outil : tableau des commandes. Quatorze commandes en retard de plus de dix jours.", 2000],
+    ["planifier", "Rédiger une relance par fournisseur, ton ferme, délai de cinq jours, puis envoyer.", 400],
+    ["agir", "Rédige quatorze relances personnalisées.", 5000],
+    ["alerte", "Veut appeler l'outil « envoyer un mail » vers quatorze destinataires externes. Action irréversible. Bloquée par la règle : validation humaine.", 0, "alert"],
+    ["humain", "Tu relis. Le fournisseur n° 7 est en litige : la relance aurait aggravé le dossier. Tu valides treize envois, tu retires le septième.", 0, "human"],
+    ["agir", "Envoie les treize relances validées.", 300],
+    ["fin", "Sans la règle, quatorze mails partaient en vingt secondes, dont un qui coûtait cher.", 0]
+  ]}
+];
+
+const CC_PRESETS = [
+  { n: "Compte rendu quotidien", runs: 1, tin: 30000, tout: 2000, m: "2,10" },
+  { n: "Veille, 50 articles par jour", runs: 50, tin: 3000, tout: 300, m: "0.1,0.5" },
+  { n: "Lecture de devis, 10 par jour", runs: 10, tin: 20000, tout: 3000, m: "4,20" },
+  { n: "Assistant apprenants, 300 questions par jour", runs: 300, tin: 4000, tout: 400, m: "0.75,3.75" }
+];
+
+const DEVIS_ITEMS = [
+  "Un périmètre avec des bords : ce qui est dedans, ce qui est dehors",
+  "Un jeu de test de dix cas avec les résultats attendus",
+  "Où cela tourne et sous quel contrat : éditeur, région, DPA, rétention",
+  "Le coût de mise en place séparé du coût par usage",
+  "La propriété du code, des prompts et du jeu de test",
+  "La réversibilité : changer de modèle, arrêter, exporter",
+  "Qui valide quoi, et ce qui ne part jamais sans un humain",
+  "Un critère de succès chiffré, mesuré avant et après"
+];
+
+const SIT_LABELS = ["Autorisé", "À cadrer", "Interdit"];
+const SITUATIONS = [
+  ["Résumer un article de presse public avec un assistant grand public, sur un compte personnel.", 0, "Rien d'interne, rien de personnel. Le compte personnel n'est pas idéal, mais rien ne sort qui n'était pas déjà public."],
+  ["Coller le procès-verbal du CSE dans un assistant gratuit pour le résumer.", 2, "Données personnelles et sociales, dans un outil sans contrat, qui entraîne par défaut. Règles 1 et 2."],
+  ["Faire le compte rendu d'une réunion interne avec Copilot sur le compte entreprise.", 0, "Compte entreprise, contrat en place, relecture par celui qui diffuse. C'est l'usage cible."],
+  ["Laisser une IA noter les copies des apprentis de BTS.", 1, "Évaluation d'apprenants : haut risque AI Act (décembre 2027) et article 22 du RGPD. Possible si l'IA propose, le formateur note, les apprenants sont informés, et tout est documenté."],
+  ["Analyser les expressions du visage des apprenants en visio pour mesurer leur attention.", 2, "Reconnaissance des émotions en formation : pratique interdite par l'AI Act depuis le 2 février 2025, même avec consentement."],
+  ["Trier les CV reçus avec un outil qui classe les candidats.", 1, "Recrutement : haut risque. Possible si l'outil présélectionne sur des critères écrits, qu'un humain décide, que les candidats sont informés et que le fournisseur est contractualisé."],
+  ["Mettre sur le site un chatbot qui répond aux futurs apprenants sans dire que c'est une IA.", 2, "Obligation de transparence depuis le 2 août 2026. Avec la mention, cela devient « à cadrer »."],
+  ["Traduire une procédure interne non confidentielle avec Copilot entreprise.", 0, "Compte entreprise, pas de donnée personnelle. Relecture par un francophone et un anglophone, comme pour toute traduction."],
+  ["Un agent qui envoie seul les relances de factures aux clients.", 1, "Action irréversible vers l'extérieur. Possible avec validation humaine par lot, ou des règles strictes et un plafond, après un mois de pilote supervisé."],
+  ["Demander à l'IA de rédiger un avertissement disciplinaire à partir du dossier d'un salarié.", 1, "Données personnelles sensibles et décision sur une personne. Possible uniquement dans un outil sous DPA, avec le DPO, et le manager qui décide et signe. Le brouillon n'est pas la décision."],
+  ["Faire tourner un modèle en local sur un serveur du groupe pour analyser des rapports techniques.", 0, "Rien ne sort. Si les rapports contiennent des données personnelles, le RGPD s'applique quand même, mais le local lève la question du fournisseur."],
+  ["Coller les marges par client dans un outil IA grand public pour faire un graphique.", 2, "Données stratégiques dans un outil sans contrat. Le graphique se fait dans le tableur, ou dans un outil sous contrat."],
+  ["Faire préparer par l'IA les questions d'un entretien annuel, sans qu'elle évalue.", 0, "L'IA prépare, le manager conduit et évalue. Pas de données sensibles collées, pas de décision déléguée."],
+  ["Laisser l'IA décider seule qui obtient une promotion.", 2, "Décision automatisée sur une personne : article 22 du RGPD, haut risque AI Act. Un humain décide et peut expliquer pourquoi."],
+  ["Un assistant pédagogique dans le LMS qui répond aux questions des apprenants à toute heure.", 1, "Transparence (on dit que c'est une IA), données des apprenants (DPA, durées), réponses limitées aux contenus du cours avec citation, supervision par les formateurs. C'est un chantier, pas un réglage."]
+];
+
+const AGENT_PROFILES = [
+  { t: "Agent de veille", p: `Tu es mon analyste de veille. Chaque matin, tu lis les sources suivantes : [liste de sites, lettres, comptes]. Mon périmètre : formation professionnelle, apprentissage, réglementation des organismes de formation, IA appliquée à la formation, en France.
+Tu produis cinq lignes maximum, classées par « ce que cela change pour un groupe de formation », avec le lien. Tu ignores tout ce qui est promotionnel. Tu ne résumes jamais un article que tu n'as pas lu en entier. Si rien d'important : « rien à signaler ».
+Tu ne postes rien, tu n'envoies rien : tu déposes ta note dans [dossier].` },
+  { t: "Agent de préparation de réunion", p: `Tu prépares mes réunions. Quand je te donne un ordre du jour et des pièces, tu produis pour chaque point : un résumé en trois lignes, trois questions que personne n'a posées, et la mention « pièce manquante » si c'est le cas.
+Tu ne proposes jamais de décision. Tu ne contactes personne. Tu lis uniquement ce que je te donne, pas mes autres dossiers.
+Format : une page, titres en gras, phrases courtes.` },
+  { t: "Agent de lecture de devis", p: `Tu es acheteur en logiciels et IA. Quand je te donne un devis, tu l'analyses avec la grille en huit points : périmètre avec des bords, jeu de test, hébergement et contrat, coût de mise en place séparé du coût par usage, propriété du code et des prompts, réversibilité, qui valide quoi, critère de succès chiffré.
+Pour chaque point : présent, absent ou flou, avec la citation du devis. Puis la liste des questions à renvoyer.
+Tu ne recommandes pas de prestataire. Tu n'envoies rien.` }
+];
+
+const GLOSSARY = [
+  ["Agent", "Un modèle, des outils, une boucle et un objectif. Il agit et recommence jusqu'à ce que ce soit fait ou qu'on l'arrête."],
+  ["AI Act", "Règlement européen sur l'IA. Interdictions depuis février 2025, transparence depuis août 2026, obligations « haut risque » à partir de décembre 2027."],
+  ["API", "La prise par laquelle un logiciel appelle un modèle. On paie au token. C'est l'option 1 du module 3."],
+  ["Boucle", "Observer, planifier, agir, vérifier, recommencer. Ce qui fait qu'un agent agit au lieu de répondre."],
+  ["Charte d'usage", "Une page qui dit quels outils, quelles données, quelles règles. Le premier chantier qui ne coûte rien."],
+  ["CLOUD Act", "Loi américaine de 2018 qui permet à la justice américaine d'exiger des données d'un fournisseur américain, même hébergées en Europe."],
+  ["Contexte (fenêtre de)", "Tout ce que le modèle a sous les yeux pour répondre : la conversation, les documents, les instructions. Taille limitée. Rien ne reste entre deux conversations."],
+  ["Coût par usage", "Ce que coûte chaque exécution en tokens, par opposition au coût de mise en place. À exiger dans tout devis."],
+  ["DPA", "Accord de traitement des données, article 28 du RGPD. Sans DPA, aucune donnée personnelle ne passe."],
+  ["DPO", "Délégué à la protection des données. Il te dit ce qu'il faut écrire pour que cela passe."],
+  ["Entraînement", "La phase, une fois, où le modèle apprend sur des milliards de pages. Des mois, chez l'éditeur. Ensuite, il ne lit plus rien."],
+  ["Fine-tuning", "Ré-entraîner légèrement un modèle sur vos exemples. Rarement nécessaire : donner les bons documents dans le contexte suffit presque toujours."],
+  ["Hallucination", "Une réponse fausse dite avec assurance. Pas un bug : la conséquence de « prédire le probable ». Remède : le document et la citation."],
+  ["Haut risque", "Catégorie de l'AI Act : recrutement, évaluation des salariés, évaluation et admission des apprenants, entre autres. Obligations lourdes dès décembre 2027."],
+  ["Hébergeur", "Celui qui fait tourner le modèle pour vous, sous son contrat et dans sa région. Option 2 du module 3."],
+  ["Inférence", "Chaque réponse du modèle. Des secondes, des centimes. C'est ce que tu paies. Les poids ne changent pas."],
+  ["Injection de prompt", "Une instruction cachée dans un document ou une page que l'agent lit, et qu'il suit. Parade : pas d'outil d'envoi sur un agent qui lit l'extérieur."],
+  ["Jeu de test", "Dix cas réels avec la réponse attendue. Permet de juger un modèle ou un prestataire en une heure. Non négociable."],
+  ["LLM", "Large language model, grand modèle de langage. Le mot technique pour « modèle » dans ce parcours."],
+  ["Local", "Un modèle à poids ouverts installé sur vos serveurs. Rien ne sort. Pas le meilleur modèle du moment."],
+  ["Maquette", "Une version qui fonctionne sur des données fictives, en une semaine, avant tout contrat."],
+  ["MCP", "La prise standard par laquelle un agent parle à un logiciel (agenda, CRM, LMS). La question : quelles actions sont exposées, et à qui."],
+  ["Modèle", "Le moteur : un énorme tableau de nombres (les poids) qui prédit la suite d'un texte. GPT, Claude, Gemini, Kimi, Mistral."],
+  ["Modèle-agnostique", "Un outil construit pour changer de modèle en une ligne de configuration. Le mot à placer devant un prestataire."],
+  ["Multimodal", "Un modèle qui lit aussi des images, des sons, des documents scannés, pas seulement du texte."],
+  ["Niveau 1, 2, 3", "Assistant individuel, tâche automatisée, outil métier. Le gain mesurable est au niveau 2."],
+  ["Paramètres", "Le nombre de nombres dans le modèle. Des milliards. Un indicateur de taille, pas de qualité."],
+  ["Pilote", "Un mois, trois personnes, un chiffre avant et après. Arrêter un pilote est un résultat."],
+  ["Poids ouverts", "Un modèle dont les poids sont publiés et téléchargeables : Llama, Mistral, Qwen, Kimi, Gemma. Permet le local."],
+  ["Produit", "Ce qui est construit sur un modèle : ChatGPT, Copilot, Kimi. Le produit ajoute la mémoire, les outils, le contrat, la sécurité."],
+  ["Profil", "Du texte placé au début du contexte : qui est l'agent, ce qu'il fait, ce qu'il ne fait jamais. Un bon profil est court, avec des exemples."],
+  ["Prompt", "Ce que tu écris au modèle : rôle, contexte, tâche, format, interdits."],
+  ["Quota", "La limite commerciale d'un abonnement (« revenez dans trois heures »). Pas une batterie."],
+  ["RAG", "Chercher d'abord les passages pertinents dans vos documents, puis faire rédiger le modèle à partir d'eux, avec citations. L'usage le plus utile et le plus sûr."],
+  ["Rétention", "La durée pendant laquelle le fournisseur garde ce que tu envoies. « Zéro rétention » existe sur demande pour les comptes entreprise."],
+  ["RGPD", "Règlement sur les données personnelles. Dès qu'un nom apparaît, il s'applique. Article 28 : DPA. Article 22 : pas de décision automatisée seule."],
+  ["Shadow AI", "L'usage d'outils IA par les salariés sans que l'entreprise le sache. Le vrai risque du niveau 1."],
+  ["Sous-agent", "Un agent spécialisé auquel un agent chef confie une sous-tâche, avec son propre profil. Ce que tu fais déjà avec Kimi."],
+  ["SSO", "Connexion avec le compte d'entreprise. Un outil sans SSO, c'est un compte qui survit au départ de la personne."],
+  ["Supervision humaine", "Un humain relit, valide et peut expliquer la décision. Exigée par l'AI Act pour le haut risque, et par le bon sens pour tout le reste."],
+  ["Température", "Le réglage entre « toujours le plus probable » et « surprenant ». Basse pour un compte rendu, plus haute pour chercher des idées."],
+  ["Token", "Un morceau de mot, l'unité de compte. Trois à quatre lettres en français. Entrée et sortie se paient, la sortie plus cher."],
+  ["Transformer", "L'architecture de tous les modèles actuels, publiée en 2017. Tu n'as pas besoin d'en savoir plus."],
+  ["Zéro rétention", "Option contractuelle : le fournisseur ne conserve rien après la réponse. À demander pour les données sensibles."]
+];
+
+const PRICE_HISTORY = [
+  { lab: "2023", full: "GPT-4, mars 2023", pin: 30, pout: 60 },
+  { lab: "2024", full: "GPT-4o, mai 2024", pin: 5, pout: 15 },
+  { lab: "2025", full: "haut de gamme, 2025", pin: 3, pout: 15 },
+  { lab: "2026", full: "haut de gamme, octobre 2026", pin: 2, pout: 10 },
+  { lab: "2026 petit", full: "petit modèle, octobre 2026", pin: 0.1, pout: 0.5 }
+];
+const PRICE_TASKS = [
+  { tin: 20000, tout: 1500 },
+  { tin: 30000, tout: 1200 },
+  { tin: 1500, tout: 800 },
+  { tin: 50 * 1500 * 22, tout: 50 * 150 * 22 }
+];
+
+/* ---------- Outils ---------- */
+const $ = (s, r) => (r || document).querySelector(s);
+const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+function el(tag, attrs, children) {
+  const e = document.createElement(tag);
+  if (attrs) for (const k in attrs) {
+    if (k === "class") e.className = attrs[k];
+    else if (k === "text") e.textContent = attrs[k];
+    else if (k === "html") e.innerHTML = attrs[k];
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), attrs[k]);
+    else e.setAttribute(k, attrs[k]);
+  }
+  if (children) for (const c of [].concat(children)) if (c != null) e.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+  return e;
+}
+const fmtInt = n => Math.round(n).toLocaleString("fr-FR");
+function fmtEur(x) {
+  let d = x >= 1 ? 2 : x >= 0.01 ? 3 : x >= 0.001 ? 4 : 5;
+  return x.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }) + " €";
+}
+function setOn(container, btn) { Array.from(container.children).forEach(c => c.classList.toggle("on", c === btn)); }
+const fmt1 = x => x.toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
+/* ---------- État local ---------- */
+const KEY = "pilote-ia:v1";
+let S = { done: {}, auto: { before: [], after: [] }, quiz: {}, sit: {}, devis: {}, fields: {}, current: "m0" };
+try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(S, JSON.parse(raw)); } catch (e) {}
+let saveT = null;
+function save() {
+  clearTimeout(saveT);
+  saveT = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }, 150);
+}
+
+async function copyText(text, msgEl) {
+  let ok = false;
+  try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {
+    try {
+      const ta = el("textarea", { style: "position:fixed;opacity:0" }); ta.value = text; document.body.appendChild(ta); ta.select();
+      ok = document.execCommand("copy"); ta.remove();
+    } catch (e2) {}
+  }
+  if (msgEl) { msgEl.textContent = ok ? "Copié." : "Impossible de copier ici, sélectionne le texte à la main."; setTimeout(() => { msgEl.textContent = ""; }, 2500); }
+  return ok;
+}
+
+/* ---------- Modules, rail, progression ---------- */
+const sections = $$("section.module");
+const MODS = sections.map(s => ({ id: s.id, title: s.dataset.title, min: +s.dataset.min, tool: !!s.dataset.tool }));
+const COUNTED = MODS.filter(m => !m.tool).map(m => m.id);
+
+function renderRail() {
+  const rail = $("#rail");
+  $$("button", rail).forEach(b => b.remove());
+  MODS.forEach((m, i) => {
+    const b = el("button", { type: "button", onclick: () => go(m.id) }, [
+      el("span", { class: "n", text: m.tool ? "A" : String(i).padStart(2, "0") }),
+      el("span", { class: "t", text: m.title })
+    ]);
+    if (S.done[m.id]) b.classList.add("done");
+    if (S.current === m.id) b.classList.add("active");
+    rail.appendChild(b);
+  });
+  const a = $("button.active", rail);
+  if (a && window.innerWidth <= 920 && a.scrollIntoView) { try { a.scrollIntoView({ inline: "center", block: "nearest" }); } catch (e) {} }
+}
+function renderProgress() {
+  const n = COUNTED.filter(id => S.done[id]).length;
+  const pct = Math.round(100 * n / COUNTED.length);
+  $("#pbar").style.width = pct + "%";
+  $("#ppct").textContent = pct + " %";
+}
+function go(id, noScroll) {
+  if (!MODS.some(m => m.id === id)) id = "m0";
+  sections.forEach(s => s.classList.toggle("active", s.id === id));
+  S.current = id; save();
+  renderRail();
+  try { history.replaceState(null, "", "#/" + id); } catch (e) {}
+  if (!noScroll) window.scrollTo({ top: 0, behavior: "smooth" });
+}
+function markDone(id) { S.done[id] = true; save(); renderRail(); renderProgress(); }
+
+function renderModNav() {
+  MODS.forEach((m, i) => {
+    const sec = $("#" + m.id);
+    const nav = el("div", { class: "modnav" });
+    if (i > 0) nav.appendChild(el("button", { class: "btn ghost", type: "button", onclick: () => go(MODS[i - 1].id), text: "Module précédent" }));
+    else nav.appendChild(el("span"));
+    if (!m.tool) {
+      const next = MODS[i + 1];
+      const last = !next || next.tool;
+      nav.appendChild(el("button", { class: "btn", type: "button", text: last ? "Terminer le parcours" : "Module terminé, suivant",
+        onclick: () => { markDone(m.id); go(next ? next.id : m.id); } }));
+    } else {
+      nav.appendChild(el("button", { class: "btn ghost", type: "button", text: "Revenir au début", onclick: () => go("m0") }));
+    }
+    sec.appendChild(nav);
+  });
+}
+
+/* ---------- Champs sauvegardés ---------- */
+function bindFields() {
+  $$("[data-save]").forEach(f => {
+    const k = f.dataset.save;
+    if (S.fields[k] != null) f.value = S.fields[k];
+    f.addEventListener("input", () => { S.fields[k] = f.value; save(); });
+    f.addEventListener("change", () => { S.fields[k] = f.value; save(); });
+  });
+}
+
+/* ---------- Quiz ---------- */
+function renderQuizzes() {
+  $$(".quiz[data-quiz]").forEach(box => {
+    const key = box.dataset.quiz, qs = QUIZ[key]; if (!qs) return;
+    S.quiz[key] = S.quiz[key] || {};
+    box.appendChild(el("h3", { text: "Trois questions de contrôle" }));
+    const scoreEl = el("p", { class: "score" });
+    qs.forEach((q, qi) => {
+      const qe = el("div", { class: "q" }, [el("div", { class: "qt", text: q.q })]);
+      const opts = el("div", { class: "opts" });
+      q.opts.forEach((o, oi) => {
+        const b = el("button", { type: "button", text: o });
+        b.addEventListener("click", () => {
+          if (qe.classList.contains("answered")) return;
+          S.quiz[key][qi] = oi; save(); paint();
+        });
+        opts.appendChild(b);
+      });
+      qe.appendChild(opts);
+      qe.appendChild(el("div", { class: "why", text: q.why }));
+      box.appendChild(qe);
+      function paint() {
+        const ans = S.quiz[key][qi];
+        if (ans == null) return;
+        qe.classList.add("answered");
+        $$("button", opts).forEach((b, oi) => { b.classList.toggle("right", oi === q.a); b.classList.toggle("wrong", oi === ans && ans !== q.a); });
+        updateScore();
+      }
+      paint();
+    });
+    box.appendChild(scoreEl);
+    function updateScore() {
+      const answered = Object.keys(S.quiz[key]).length;
+      const right = qs.filter((q, i) => S.quiz[key][i] === q.a).length;
+      scoreEl.textContent = answered ? `${right} / ${qs.length} juste${right > 1 ? "s" : ""}` + (answered < qs.length ? ` (${answered} répondue${answered > 1 ? "s" : ""})` : "") : "";
+    }
+    updateScore();
+  });
+}
+
+/* ---------- Auto-évaluation ---------- */
+function renderAuto(id, which) {
+  const box = $("#" + id); if (!box) return;
+  const vals = S.auto[which];
+  AUTO_ITEMS.forEach((t, i) => {
+    if (vals[i] == null) vals[i] = 0;
+    const v = el("span", { class: "val num", text: String(vals[i]) });
+    const r = el("input", { type: "range", min: "0", max: "10", step: "1", value: String(vals[i]) });
+    r.addEventListener("input", () => { vals[i] = +r.value; v.textContent = r.value; save(); updateAutoStats(); });
+    box.appendChild(el("div", { class: "item" }, [el("span", { text: `${i + 1}. ${t}` }), r, v]));
+  });
+}
+const avg = a => a.length ? a.reduce((x, y) => x + (+y || 0), 0) / AUTO_ITEMS.length : 0;
+function updateAutoStats() {
+  const b = avg(S.auto.before), a = avg(S.auto.after);
+  const e1 = $("#auto-before-avg"); if (e1) e1.textContent = fmt1(b);
+  const e2 = $("#cmp-before-avg"); if (e2) e2.textContent = fmt1(b);
+  const e3 = $("#cmp-after-avg"); if (e3) e3.textContent = fmt1(a);
+  const rows = $("#cmp-rows"); if (!rows) return;
+  rows.innerHTML = "";
+  AUTO_ITEMS.forEach((t, i) => {
+    const bv = +S.auto.before[i] || 0, av = +S.auto.after[i] || 0;
+    rows.appendChild(el("div", { class: "r" }, [
+      el("span", { text: `${i + 1}. ${t}` }),
+      el("div", { class: "bb before", title: "Avant : " + bv }, [el("i", { style: `width:${bv * 10}%` })]),
+      el("div", { class: "bb after", title: "Après : " + av }, [el("i", { style: `width:${av * 10}%` })])
+    ]));
+  });
+}
+
+/* ---------- Module 1 : prix selon l'année ---------- */
+function renderPrices() {
+  const box = $("#price-bars"), sel = $("#price-task"); if (!box) return;
+  function paint() {
+    const t = PRICE_TASKS[+sel.value];
+    const costs = PRICE_HISTORY.map(p => (t.tin * p.pin + t.tout * p.pout) / 1e6);
+    const max = Math.max(...costs);
+    box.innerHTML = "";
+    PRICE_HISTORY.forEach((p, i) => {
+      box.appendChild(el("div", { class: "bar-row" + (i === 3 ? " hit" : ""), title: p.full }, [
+        el("span", { class: "lab", text: p.lab }),
+        el("div", { class: "b" }, [el("i", { style: `width:${Math.max(1.5, 100 * costs[i] / max)}%` })]),
+        el("span", { class: "v", text: fmtEur(costs[i]) })
+      ]));
+    });
+  }
+  sel.addEventListener("change", paint); paint();
+}
+
+/* ---------- Module 2 : mot suivant ---------- */
+const NW = (() => {
+  const bigram = {};
+  NW_CORPUS.trim().split("\n").forEach(line => {
+    const w = line.trim().split(/\s+/);
+    for (let i = 0; i < w.length - 1; i++) { (bigram[w[i]] = bigram[w[i]] || {})[w[i + 1]] = (bigram[w[i]][w[i + 1]] || 0) + 1; }
+  });
+  return bigram;
+})();
+let nwWords = [];
+function nwCandidates(T) {
+  const last = nwWords[nwWords.length - 1];
+  const m = NW[last] || { ".": 1 };
+  const entries = Object.entries(m);
+  const tot = entries.reduce((s, e) => s + e[1], 0);
+  let ps = entries.map(([w, c]) => [w, c / tot]);
+  if (T <= 0.01) { const mx = Math.max(...ps.map(p => p[1])); ps = ps.map(([w, p]) => [w, p === mx ? 1 : 0]); }
+  else { ps = ps.map(([w, p]) => [w, Math.pow(p, 1 / T)]); }
+  const z = ps.reduce((s, p) => s + p[1], 0) || 1;
+  return ps.map(([w, p]) => [w, p / z]).sort((a, b) => b[1] - a[1]);
+}
+function nwPaint(hit) {
+  const T = +$("#nw-temp").value;
+  $("#nw-text").textContent = nwWords.join(" ").replace(/ \./g, ".").replace(/ ,/g, ",");
+  const c = nwCandidates(T).slice(0, 6);
+  const box = $("#nw-bars"); box.innerHTML = "";
+  if (nwWords[nwWords.length - 1] === ".") { box.appendChild(el("p", { class: "mini", text: "Phrase terminée. Recommence ou change de début." })); return; }
+  c.forEach(([w, p]) => box.appendChild(el("div", { class: "bar-row" + (w === hit ? " hit" : "") }, [
+    el("span", { class: "lab", text: w }),
+    el("div", { class: "b" }, [el("i", { style: `width:${Math.max(1, p * 100)}%` })]),
+    el("span", { class: "v", text: Math.round(p * 100) + " %" })
+  ])));
+}
+function nwPick() {
+  if (nwWords[nwWords.length - 1] === ".") return null;
+  const c = nwCandidates(+$("#nw-temp").value);
+  let r = Math.random(), w = c[c.length - 1][0];
+  for (const [cw, p] of c) { if (r < p) { w = cw; break; } r -= p; }
+  nwWords.push(w); return w;
+}
+function renderNextWord() {
+  if (!$("#nw-seeds")) return;
+  const seeds = $("#nw-seeds");
+  NW_SEEDS.forEach(s => seeds.appendChild(el("button", { class: "chip", type: "button", text: s + " ...", onclick: e => { nwWords = s.split(" "); setOn(seeds, e.currentTarget); nwPaint(); } })));
+  seeds.firstChild.classList.add("on");
+  nwWords = NW_SEEDS[0].split(" ");
+  $("#nw-pick").addEventListener("click", () => { const w = nwPick(); nwPaint(); });
+  $("#nw-auto").addEventListener("click", () => {
+    let n = 0; (function step() { if (n++ > 30) return; const w = nwPick(); nwPaint(); if (w && w !== ".") setTimeout(step, 220); })();
+  });
+  $("#nw-reset").addEventListener("click", () => { nwWords = nwWords.slice(0, 2); nwPaint(); });
+  $("#nw-temp").addEventListener("input", () => { $("#nw-temp-v").textContent = (+$("#nw-temp").value).toLocaleString("fr-FR", { minimumFractionDigits: 1 }); nwPaint(); });
+  nwPaint();
+}
+
+/* ---------- Module 2 : tokens ---------- */
+function tokenize(text) {
+  const out = [];
+  const re = /(\s*)([A-Za-zÀ-ÿœŒ0-9]+|[^\sA-Za-zÀ-ÿœŒ0-9])/g;
+  let m;
+  while ((m = re.exec(text))) {
+    const sp = m[1] ? " " : "", w = m[2];
+    if (/^[A-Za-zÀ-ÿœŒ]+$/.test(w) && w.length > 6) {
+      const n = Math.max(2, Math.round(w.length / 4)), base = Math.floor(w.length / n), extra = w.length % n;
+      let i = 0;
+      for (let k = 0; k < n; k++) { const size = base + (k < extra ? 1 : 0); out.push((i === 0 ? sp : "") + w.slice(i, i + size)); i += size; }
+    } else if (/^[0-9]+$/.test(w) && w.length > 3) {
+      for (let i = 0; i < w.length; i += 3) out.push((i === 0 ? sp : "") + w.slice(i, i + 3));
+    } else out.push(sp + w);
+  }
+  return out;
+}
+function renderTokens() {
+  const ta = $("#tk-in"); if (!ta) return;
+  function paint() {
+    const toks = tokenize(ta.value);
+    const box = $("#tk-out"); box.innerHTML = "";
+    toks.slice(0, 400).forEach(t => box.appendChild(el("span", { class: "tok", text: t })));
+    if (toks.length > 400) box.appendChild(el("span", { class: "mini", text: ` ... et ${toks.length - 400} de plus` }));
+    const n = toks.length;
+    $("#tk-count").textContent = fmtInt(n);
+    $("#tk-cost-top").textContent = fmtEur(n * 3 / 1e6);
+    $("#tk-cost-mid").textContent = fmtEur(n * 1 / 1e6);
+    $("#tk-cost-small").textContent = fmtEur(n * 0.1 / 1e6);
+  }
+  ta.addEventListener("input", paint); paint();
+}
+
+/* ---------- Module 2 : fenêtre de contexte ---------- */
+function renderCtx() {
+  const box = $("#ctx-lines"), r = $("#ctx-size"); if (!box) return;
+  function paint() {
+    const n = +r.value; $("#ctx-size-v").textContent = n;
+    box.innerHTML = "";
+    CTX_LINES.forEach(([who, t], i) => box.appendChild(el("div", { class: "line" + (i < CTX_LINES.length - n ? " out" : "") }, [el("span", { class: "i", text: who }), el("span", { text: t })])));
+  }
+  r.addEventListener("input", paint); paint();
+}
+
+/* ---------- Module 2 : hallucination ---------- */
+function renderHal() {
+  const chips = $("#hal-qs"); if (!chips) return;
+  let cur = null;
+  function paint() {
+    const out = $("#hal-out"); out.classList.remove("ok", "bad");
+    if (cur == null) { out.textContent = "Choisis une question."; return; }
+    const withDoc = $("#hal-doc").checked, a = withDoc ? HAL_QS[cur].yes : HAL_QS[cur].no;
+    out.innerHTML = "";
+    if (withDoc) out.appendChild(el("p", { class: "mini", text: "Document fourni : " + HAL_DOC }));
+    out.appendChild(el("p", { text: a.t }));
+    out.appendChild(el("span", { class: "tag " + (a.tag === "Inventé" ? "bad" : "ok"), text: a.tag }));
+    out.classList.add(a.tag === "Inventé" ? "bad" : "ok");
+  }
+  HAL_QS.forEach((q, i) => chips.appendChild(el("button", { class: "chip", type: "button", text: q.q, onclick: e => { cur = i; setOn(chips, e.currentTarget); paint(); } })));
+  $("#hal-doc").addEventListener("change", paint);
+}
+
+/* ---------- Module 3 : arbre de décision, page RSSI ---------- */
+function renderDecision() {
+  const v = $("#dt-verdict"); if (!v) return;
+  const val = n => +($(`input[name="${n}"]:checked`) || { value: 0 }).value;
+  function paint() {
+    const perso = val("dt-perso"), strat = val("dt-strat"), best = val("dt-best"), vol = val("dt-vol");
+    let t;
+    if (perso === 2) {
+      t = "Données sensibles : en local (option 3) ou chez un hébergeur européen sous contrat (option 2). DPA obligatoire, DPO consulté avant, pas d'API américaine. Si la tâche touche à l'évaluation de personnes, c'est le module 7 avant tout le reste.";
+      if (best) t += " Tu dis avoir besoin du meilleur modèle : c'est le signe que le chantier est mal découpé. Sépare la partie sensible (anonymisée) de la partie qui demande le modèle.";
+    } else if (strat === 1) {
+      t = "Données stratégiques : API d'un éditeur en compte entreprise, DPA, région Europe, zéro rétention. Un éditeur ou un hébergeur européen si le CLOUD Act te gêne sur ce dossier. Jamais un compte gratuit, jamais un outil sans contrat.";
+      if (!best && vol >= 1) t += " À ce volume et sans besoin du haut de gamme, un modèle ouvert chez un hébergeur européen fait aussi l'affaire.";
+    } else if (perso === 1) {
+      t = "Données personnelles ordinaires : API d'un éditeur ou hébergeur, région Europe, DPA signé, information des personnes, compte entreprise. Rien d'exotique, mais rien sans le DPA.";
+      if (vol === 2) t += " À ce volume, compare avec un modèle ouvert chez un hébergeur européen : moins cher, même contrat.";
+    } else if (best) {
+      t = "Rien de sensible et besoin du meilleur modèle : API de l'éditeur, compte entreprise, contrat standard. Il n'y a rien de plus à cadrer que le jeu de test.";
+    } else if (vol === 2) {
+      t = "Volume massif sur des données banales : un petit modèle à l'API, ou un modèle ouvert en local si vous avez déjà le serveur. C'est le cas d'école du local.";
+    } else {
+      t = "Rien de sensible, qualité correcte suffisante, volume faible : n'importe quelle option en compte entreprise. Prends la moins chère qui passe ton jeu de test. Ne fais pas de réunion pour cela.";
+    }
+    v.textContent = t;
+  }
+  $$("input[name^='dt-']").forEach(i => i.addEventListener("change", paint)); paint();
+  const copy = $("#rssi-copy");
+  copy.addEventListener("click", () => {
+    const g = id => ($("#" + id).value || "(à compléter)").trim();
+    copyText(`Page DSI / RSSI\n\nCe qui entre : ${g("rssi-in")}\nCe qui sort : ${g("rssi-out")}\nOù cela tourne : ${g("rssi-where")}\nQui accède : ${g("rssi-who")}\nComment on arrête : ${g("rssi-stop")}\n`, $("#rssi-msg"));
+  });
+}
+
+/* ---------- Module 4 : recherche documentaire, prompts, bac à sable ---------- */
+const stem = w => { w = w.toLowerCase().replace(/[’']/g, " ").trim(); return w.length > 5 ? w.slice(0, 5) : w; };
+const words = t => t.toLowerCase().replace(/[’']/g, " ").split(/[^a-zà-ÿœ0-9]+/).filter(w => w && !STOP.has(w));
+function docSearch(q) {
+  const qs = words(q).map(stem);
+  if (!qs.length) return null;
+  let best = -1, bi = -1;
+  DOC_PARAS.forEach((p, i) => {
+    const ps = new Set(words(p).map(stem));
+    const sc = qs.filter(s => ps.has(s)).length;
+    if (sc > best) { best = sc; bi = i; }
+  });
+  if (best <= 0) return null;
+  const sentences = DOC_PARAS[bi].split(/(?<=\.)\s+/);
+  let bs = sentences[0], bsc = -1;
+  sentences.forEach(s => { const ss = new Set(words(s).map(stem)); const sc = qs.filter(x => ss.has(x)).length; if (sc > bsc) { bsc = sc; bs = s; } });
+  return { i: bi, s: bs };
+}
+function renderDoc() {
+  const body = $("#doc-body"); if (!body) return;
+  body.appendChild(el("p", { class: "mini", text: DOC_TITLE }));
+  DOC_PARAS.forEach((p, i) => body.appendChild(el("p", { id: "docp" + i, text: `§${i + 1}. ${p}` })));
+  const chips = $("#doc-qs");
+  DOC_QS.forEach(q => chips.appendChild(el("button", { class: "chip", type: "button", text: q, onclick: e => { $("#doc-q").value = q; setOn(chips, e.currentTarget); ask(); } })));
+  function ask() {
+    const q = $("#doc-q").value.trim(); const out = $("#doc-out"); out.classList.remove("ok", "bad");
+    $$("#doc-body p").forEach(p => p.style.background = "");
+    if (!q) { out.textContent = "Écris une question."; return; }
+    const r = docSearch(q);
+    out.innerHTML = "";
+    if (!r) { out.appendChild(el("p", { text: "Le document ne le dit pas. Je ne peux pas répondre à cette question avec ce document." })); out.appendChild(el("span", { class: "tag ok", text: "Dit ne pas savoir" })); out.classList.add("ok"); return; }
+    out.appendChild(el("p", { text: `D'après le paragraphe ${r.i + 1} : « ${r.s} »` }));
+    out.appendChild(el("span", { class: "tag ok", text: `Cité : §${r.i + 1}` }));
+    out.classList.add("ok");
+    const p = $("#docp" + r.i); if (p) { p.style.background = "var(--accent-soft)"; p.closest("details").open = true; }
+  }
+  $("#doc-ask").addEventListener("click", ask);
+  $("#doc-q").addEventListener("keydown", e => { if (e.key === "Enter") ask(); });
+}
+function promptBlock(p, withTry) {
+  const msg = el("span", { class: "mini" });
+  const row = el("div", { class: "row" }, [el("button", { class: "btn small ghost", type: "button", text: "Copier", onclick: () => copyText(p.p, msg) })]);
+  if (withTry) row.appendChild(el("button", { class: "btn small ghost try-prompt", type: "button", text: "Essayer dans le bac à sable", onclick: () => { $("#sb-in").value = p.p; $("#sandbox").scrollIntoView({ behavior: "smooth" }); } }));
+  row.appendChild(msg);
+  return el("div", { class: "prompt" }, [el("div", { class: "mini", html: `<b>${p.t}</b>` }), el("pre", { style: "white-space:pre-wrap;margin:0;font-family:inherit", text: p.p }), row]);
+}
+function renderPrompts() {
+  const box = $("#prompts"); if (box) PROMPTS.forEach(p => box.appendChild(promptBlock(p, true)));
+  const lib = $("#prompts-lib"); if (lib) { PROMPTS.forEach(p => lib.appendChild(promptBlock(p, false))); AGENT_PROFILES.forEach(p => lib.appendChild(promptBlock({ t: "Profil · " + p.t, p: p.p }, false))); }
+  const ag = $("#agents-profiles"); if (ag) AGENT_PROFILES.forEach(p => ag.appendChild(promptBlock(p, false)));
+  $$(".try-prompt").forEach(b => b.classList.add("hidden"));
+}
+async function initSandbox() {
+  const box = $("#sandbox"); if (!box) return;
+  if (!(window.claude && typeof window.claude.use === "function")) return;
+  let sample = null;
+  try { sample = await window.claude.use("sample"); } catch (e) { sample = null; }
+  if (!sample) return;
+  box.classList.remove("hidden");
+  $$(".try-prompt").forEach(b => b.classList.remove("hidden"));
+  const out = $("#sb-out"), note = $("#sb-note"), send = $("#sb-send"), stop = $("#sb-stop");
+  let ctl = null;
+  const COPY = {
+    rate_limited: "Trop de demandes pour le moment. Réessaie dans quelques minutes.",
+    session_expired: "Ta session a expiré, reconnecte-toi.",
+    refused: "La demande a été refusée. Change ce que tu demandes.",
+    empty_completion: "Pas de réponse. Simplifie la demande.",
+    upstream_error: "Interruption. Tu peux réessayer."
+  };
+  stop.addEventListener("click", () => { if (ctl) ctl.abort(); });
+  send.addEventListener("click", async () => {
+    const input = $("#sb-in").value.trim();
+    if (!input) { note.textContent = "Écris quelque chose d'abord."; return; }
+    ctl = new AbortController(); send.disabled = true; stop.disabled = false; note.textContent = ""; out.textContent = "Réflexion en cours...";
+    try {
+      const { text, truncated } = await sample(input, { signal: ctl.signal, cache: false, modelTier: "default", onText: ({ text }) => { out.textContent = text; } });
+      out.textContent = text;
+      if (truncated) note.textContent = "Réponse coupée : demande moins à la fois.";
+    } catch (e) {
+      out.textContent = e && e.text ? e.text : "";
+      const code = e && e.code;
+      if (code === "not_granted" || code === "sampling_disabled" || code === "not_declared" || code === "capability_disabled") { box.classList.add("hidden"); $$(".try-prompt").forEach(b => b.classList.add("hidden")); }
+      else if (code !== "cancelled") note.textContent = COPY[code] || COPY.upstream_error;
+    } finally { send.disabled = false; stop.disabled = true; ctl = null; }
+  });
+}
+
+/* ---------- Module 5 : simulateur, calculateur ---------- */
+function renderAgent() {
+  const chips = $("#ag-scen"); if (!chips) return;
+  let cur = 0, timer = null, idx = 0, tokens = 0;
+  const trace = $("#ag-trace");
+  function build() {
+    clearTimeout(timer); idx = 0; tokens = 0; paintTokens();
+    trace.innerHTML = "";
+    AGENT_SCENARIOS[cur].steps.forEach(([k, t, n, kind]) => trace.appendChild(el("div", { class: "step" + (kind ? " " + kind : "") }, [el("span", { class: "k", text: k }), el("span", { text: t })])));
+    $$("button", chips).forEach((b, i) => b.classList.toggle("on", i === cur));
+  }
+  function paintTokens() { $("#ag-tokens").textContent = fmtInt(tokens); $("#ag-cost").textContent = fmtEur(tokens * 3 / 1e6); }
+  function stepOnce() {
+    const steps = AGENT_SCENARIOS[cur].steps;
+    if (idx >= steps.length) { build(); }
+    const s = $$(".step", trace)[idx]; if (!s) return false;
+    s.classList.add("on"); tokens += steps[idx][2]; paintTokens(); idx++;
+    return idx < steps.length;
+  }
+  AGENT_SCENARIOS.forEach((sc, i) => chips.appendChild(el("button", { class: "chip", type: "button", text: sc.name, onclick: () => { cur = i; build(); } })));
+  $("#ag-run").addEventListener("click", () => { build(); (function loop() { if (stepOnce()) timer = setTimeout(loop, 750); })(); });
+  $("#ag-step").addEventListener("click", () => { clearTimeout(timer); stepOnce(); });
+  build();
+}
+function renderCost() {
+  const runs = $("#cc-runs"); if (!runs) return;
+  const tin = $("#cc-in"), tout = $("#cc-out"), model = $("#cc-model");
+  function paint() {
+    $("#cc-runs-v").textContent = fmtInt(+runs.value); $("#cc-in-v").textContent = fmtInt(+tin.value); $("#cc-out-v").textContent = fmtInt(+tout.value);
+    const [pin, pout] = model.value.split(",").map(Number);
+    const per = (+tin.value * pin + +tout.value * pout) / 1e6;
+    $("#cc-per").textContent = fmtEur(per);
+    $("#cc-month").textContent = fmtEur(per * +runs.value * 22);
+    $("#cc-year").textContent = fmtEur(per * +runs.value * 22 * 12);
+  }
+  [runs, tin, tout].forEach(r => r.addEventListener("input", paint)); model.addEventListener("change", paint);
+  const chips = $("#cc-presets");
+  CC_PRESETS.forEach(p => chips.appendChild(el("button", { class: "chip", type: "button", text: p.n, onclick: e => { runs.value = p.runs; tin.value = p.tin; tout.value = p.tout; model.value = p.m; setOn(chips, e.currentTarget); paint(); } })));
+  paint();
+}
+
+/* ---------- Module 6 : grille de devis, canevas ---------- */
+function renderDevis() {
+  const box = $("#devis-check"); if (!box) return;
+  function score() { $("#devis-score").textContent = DEVIS_ITEMS.filter((x, i) => S.devis[i]).length; }
+  DEVIS_ITEMS.forEach((t, i) => {
+    const c = el("input", { type: "checkbox" }); c.checked = !!S.devis[i];
+    c.addEventListener("change", () => { S.devis[i] = c.checked; save(); score(); });
+    box.appendChild(el("label", null, [c, el("span", { text: t })]));
+  });
+  score();
+  $("#cv-copy").addEventListener("click", () => {
+    const g = id => ($("#" + id).value || "(à compléter)").trim();
+    copyText(`Canevas de chantier IA\n\nNom : ${g("cv-name")}\nTâche visée : ${g("cv-task")}\nLe chiffre avant : ${g("cv-before")}\nDonnées en jeu : ${g("cv-data")}\nOù cela tourne : ${g("cv-where")}\nQui valide quoi : ${g("cv-valid")}\nCritère de succès : ${g("cv-success")}\nCoût de mise en place et coût par usage : ${g("cv-cost")}\n`, $("#cv-msg"));
+  });
+  $("#cv-clear").addEventListener("click", () => {
+    $$("#m6 [data-save]").forEach(f => { f.value = ""; delete S.fields[f.dataset.save]; }); save();
+  });
+}
+
+/* ---------- Module 7 : quinze situations ---------- */
+function renderSituations() {
+  const box = $("#sit-list"); if (!box) return;
+  function score() {
+    const n = Object.keys(S.sit).length, r = SITUATIONS.filter((s, i) => S.sit[i] === s[1]).length;
+    $("#sit-score").textContent = n ? `${r} / ${SITUATIONS.length} juste${r > 1 ? "s" : ""}` + (n < SITUATIONS.length ? ` (${n} répondue${n > 1 ? "s" : ""})` : "") : "";
+  }
+  SITUATIONS.forEach(([t, a, why], i) => {
+    const qe = el("div", { class: "q" }, [el("div", { class: "qt", text: `${i + 1}. ${t}` })]);
+    const opts = el("div", { class: "opts", style: "grid-template-columns:repeat(3,1fr)" });
+    SIT_LABELS.forEach((l, oi) => {
+      const b = el("button", { type: "button", text: l });
+      b.addEventListener("click", () => { if (qe.classList.contains("answered")) return; S.sit[i] = oi; save(); paint(); });
+      opts.appendChild(b);
+    });
+    qe.appendChild(opts); qe.appendChild(el("div", { class: "why", text: why })); box.appendChild(qe);
+    function paint() {
+      const ans = S.sit[i]; if (ans == null) return;
+      qe.classList.add("answered");
+      $$("button", opts).forEach((b, oi) => { b.classList.toggle("right", oi === a); b.classList.toggle("wrong", oi === ans && ans !== a); });
+      score();
+    }
+    paint();
+  });
+  score();
+}
+
+/* ---------- Module 9 : glossaire, export ---------- */
+function renderGlossary() {
+  const box = $("#gl-list"); if (!box) return;
+  const f = $("#gl-filter");
+  function paint() {
+    const q = f.value.trim().toLowerCase();
+    box.innerHTML = "";
+    GLOSSARY.filter(([t, d]) => !q || (t + " " + d).toLowerCase().includes(q)).forEach(([t, d]) => box.appendChild(el("div", { class: "term" }, [el("b", { text: t }), d])));
+    if (!box.children.length) box.appendChild(el("p", { class: "mini", text: "Rien pour ce mot. Il manque peut-être au glossaire : dis-le moi." }));
+  }
+  f.addEventListener("input", paint); paint();
+}
+function exportText() {
+  const g = k => (S.fields[k] || "(vide)").trim();
+  const lines = [];
+  lines.push("Pilote IA : mes notes", "");
+  lines.push("Mes questions :", g("questions"), "");
+  lines.push("Auto-évaluation (avant / après) :");
+  AUTO_ITEMS.forEach((t, i) => lines.push(`${i + 1}. ${t} : ${S.auto.before[i] ?? "-"} / ${S.auto.after[i] ?? "-"}`));
+  lines.push("", "Page DSI / RSSI :", `Ce qui entre : ${g("rssi.in")}`, `Ce qui sort : ${g("rssi.out")}`, `Où cela tourne : ${g("rssi.where")}`, `Qui accède : ${g("rssi.who")}`, `Comment on arrête : ${g("rssi.stop")}`, "");
+  lines.push("Canevas de chantier :", `Nom : ${g("cv.name")}`, `Tâche : ${g("cv.task")}`, `Chiffre avant : ${g("cv.before")}`, `Données : ${g("cv.data")}`, `Où cela tourne : ${g("cv.where")}`, `Qui valide : ${g("cv.valid")}`, `Succès : ${g("cv.success")}`, `Coût : ${g("cv.cost")}`, "");
+  lines.push("Grille de devis cochée : " + DEVIS_ITEMS.filter((x, i) => S.devis[i]).length + " / 8");
+  lines.push("Modules terminés : " + COUNTED.filter(id => S.done[id]).length + " / " + COUNTED.length);
+  return lines.join("\n");
+}
+function renderExport() {
+  const b = $("#export-copy"); if (!b) return;
+  b.addEventListener("click", () => copyText(exportText(), $("#export-msg")));
+  $("#export-show").addEventListener("click", () => { const ta = $("#export-out"); ta.value = exportText(); ta.classList.toggle("hidden"); });
+  $("#reset-all").addEventListener("click", () => {
+    if (!confirm("Effacer toute ta progression et tes notes sur cet appareil ?")) return;
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    location.hash = ""; location.reload();
+  });
+}
+
+/* ---------- Thème ---------- */
+function initTheme() {
+  const root = document.documentElement;
+  let t = null; try { t = localStorage.getItem("pilote-ia:theme"); } catch (e) {}
+  if (t) root.dataset.theme = t;
+  const b = el("button", { class: "btn ghost small", type: "button", text: "Thème", title: "Clair ou sombre", style: "margin-left:10px" });
+  b.addEventListener("click", () => {
+    const cur = root.dataset.theme || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+    const next = cur === "light" ? "dark" : "light";
+    root.dataset.theme = next; try { localStorage.setItem("pilote-ia:theme", next); } catch (e) {}
+  });
+  $(".top .progress").appendChild(b);
+}
+
+/* ---------- Démarrage ---------- */
+function init() {
+  renderModNav();
+  renderRail(); renderProgress();
+  bindFields();
+  renderQuizzes();
+  renderAuto("auto-before", "before"); renderAuto("auto-after", "after"); updateAutoStats();
+  renderPrices();
+  renderNextWord(); renderTokens(); renderCtx(); renderHal();
+  renderDecision();
+  renderDoc(); renderPrompts();
+  renderAgent(); renderCost();
+  renderDevis();
+  renderSituations();
+  renderGlossary(); renderExport();
+  initTheme();
+  const h = (location.hash || "").replace(/^#\/?/, "");
+  go(MODS.some(m => m.id === h) ? h : (S.current || "m0"), true);
+  window.addEventListener("hashchange", () => { const id = (location.hash || "").replace(/^#\/?/, ""); if (MODS.some(m => m.id === id) && id !== S.current) go(id); });
+  initSandbox();
+}
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
+
+</script>
+
+
+</body>
+</html>
