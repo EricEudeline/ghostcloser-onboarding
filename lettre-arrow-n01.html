@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>La Lettre ARROW n°01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --page:#F5F8FB; --card:#FFFFFF; --ink:#152338; --sea:#3C7896; --gray:#44556B;
+    --sky:#9CD0E3; --mist:#EBF2F6; --filet:#E3E8EF; --navy:#223651; --night:#101C2D;
+    --fog:#98ADC5; --wa:#428850;
+    --tool-bg:#DCE4EB; --tool-ink:#1E2A38; --tool-soft:#5B6878; --tool-line:#C5D0DA;
+    --anton: 'Anton', Impact, 'Arial Narrow', sans-serif;
+    --sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--tool-bg); color:var(--tool-ink); font-family:var(--sans); -webkit-font-smoothing:antialiased}
+
+  /* ---------- Barre d'outils ---------- */
+  body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top, 0px); z-index:11; background:#F3F6F9}
+  .tools{position:sticky; top:env(safe-area-inset-top, 0px); z-index:10; background:#F3F6F9; border-bottom:1px solid var(--tool-line);
+    padding-block:12px; padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); display:flex; flex-wrap:wrap; gap:10px 18px; align-items:center; justify-content:center}
+  .tools h1{font-size:14px; margin:0 8px 0 0; font-weight:700; letter-spacing:.2px}
+  .seg{display:inline-flex; border:1px solid var(--tool-line); border-radius:999px; overflow:hidden; background:#fff}
+  .seg button{font:inherit; font-size:13px; border:0; background:transparent; color:var(--tool-soft);
+    padding:7px 13px; cursor:pointer; min-height:34px}
+  .seg button[aria-pressed="true"]{background:var(--ink); color:#fff}
+  .seg button:focus-visible, .check input:focus-visible{outline:2px solid var(--sea); outline-offset:2px}
+  .check{font-size:13px; color:var(--tool-soft); display:inline-flex; gap:7px; align-items:center; cursor:pointer}
+  .stats{font-size:12.5px; color:var(--tool-soft); width:100%; text-align:center; margin-top:-2px}
+  .app.v-orig .only-prop{display:none !important}
+  .app.v-prop .only-orig{display:none !important}
+
+  .stage{padding-block:22px 60px; padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); display:flex; flex-direction:column; align-items:center; gap:18px}
+
+  /* ---------- Ligne de boîte de réception ---------- */
+  .inbox{width:600px; max-width:100%; background:#fff; border-radius:12px; border:1px solid var(--tool-line); overflow:hidden}
+  .app.m-phone .inbox{width:390px}
+  .inbox .cap{font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--tool-soft);
+    padding:9px 14px; border-bottom:1px solid #EEF2F5; background:#FAFBFC}
+  .inbox .row{display:flex; gap:12px; padding:12px 14px; align-items:flex-start}
+  .inbox .dot{flex:0 0 36px; height:36px; border-radius:50%; background:var(--ink); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px}
+  .inbox .txt{min-width:0; flex:1}
+  .inbox .from{font-weight:700; font-size:14px; display:flex; justify-content:space-between; gap:8px}
+  .inbox .from span{font-weight:400; color:var(--tool-soft); font-size:12px}
+  .inbox .subj{font-size:14px; font-weight:600; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .inbox .pre{font-size:13.5px; color:var(--tool-soft); margin-top:2px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+  .inbox .pre.unknown{font-style:italic}
+  .inbox .count{font-size:11.5px; color:var(--tool-soft); padding:0 14px 10px 62px}
+
+  /* ---------- Cadre téléphone ---------- */
+  .device{width:600px; max-width:100%}
+  .app.m-phone .device{width:390px; max-width:100%; border-radius:46px; background:#11161C; padding:12px;
+    box-shadow:0 20px 50px rgba(16,28,45,.25)}
+  .screen{background:var(--page)}
+  .app.m-phone .screen{height:780px; max-height:calc(100vh - 120px); min-height:560px; overflow-y:auto; border-radius:36px; position:relative}
+  .mailbar{display:none}
+  .app.m-phone .mailbar{display:block; position:sticky; top:0; z-index:3; background:#fff; border-bottom:1px solid #E8EDF2; padding:12px 18px 12px}
+  .mailbar .status{display:flex; justify-content:space-between; font-size:13px; font-weight:600; padding:2px 10px 10px}
+  .mailbar .back{color:#2F6FD6; font-size:14px; margin-bottom:10px}
+  .mailbar .subj{font-size:16px; font-weight:700; line-height:1.3; color:#111}
+  .mailbar .who{display:flex; gap:9px; align-items:center; margin-top:9px; font-size:12.5px; color:#666}
+  .mailbar .who b{color:#111; font-size:13.5px}
+  .mailbar .who .dot{width:28px; height:28px; border-radius:50%; background:var(--ink); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700}
+  .note-device{font-size:12px; color:var(--tool-soft); text-align:center; max-width:390px; line-height:1.45}
+  .app.m-desk .note-device{display:none}
+
+  /* ---------- L'e-mail ---------- */
+  .mail{padding:24px 0 30px}
+  .app.m-phone .mail{padding:10px 8px 24px}
+  .card{width:600px; max-width:100%; margin:0 auto; background:var(--card); border:1px solid var(--filet);
+    border-top:6px solid var(--sky); border-radius:16px; overflow:hidden; color:var(--ink)}
+  .em-head{display:flex; justify-content:space-between; align-items:center; gap:12px; margin:0 40px; padding:26px 0 20px; border-bottom:1px solid var(--filet)}
+  .logo{display:inline-flex; align-items:flex-end; font-family:var(--anton); font-size:24px; line-height:1; letter-spacing:.3px; color:var(--ink)}
+  .logo svg{width:8px; height:14px; margin-left:1px; margin-bottom:2px}
+  .issue{font-size:11.5px; font-weight:700; letter-spacing:3px; color:var(--gray); text-align:right}
+  .em-body{padding:30px 40px 34px; font-size:17px; line-height:28px}
+  .em-body p{margin:0 0 16px}
+  .eyebrow{font-size:13px !important; font-weight:700; letter-spacing:3.5px; color:var(--sea); margin:0 0 8px !important; line-height:20px}
+  .anton{font-family:var(--anton); font-weight:400; text-transform:uppercase; letter-spacing:.2px}
+  .h1{font-size:40px; line-height:1.02; margin:0 0 22px}
+  .acc{color:var(--sea)}
+  .author{display:flex; gap:14px; align-items:center; margin:0 0 26px; font-size:15px; line-height:21px}
+  .author .muted{color:var(--gray); font-size:14.5px}
+  .author .name b{font-weight:700}
+  .author .name span.f{color:var(--gray)}
+  .avatar{flex:0 0 40px; height:40px; border-radius:50%; background:var(--ink); color:#fff; font-weight:700; font-size:14px;
+    display:flex; align-items:center; justify-content:center}
+  .avatar.photo{background:radial-gradient(circle at 50% 38%, #8E949B 0 22%, transparent 23%),
+    radial-gradient(ellipse at 50% 100%, #8E949B 0 46%, transparent 47%), #D6D9DD; position:relative}
+  .app.ph-on .avatar.photo{outline:2px dashed var(--sea); outline-offset:2px}
+  .btn{display:inline-block; background:var(--sky); color:var(--night); font-weight:700; font-size:16px; line-height:20px;
+    padding:15px 28px; border-radius:999px; text-decoration:underline; text-underline-offset:3px; margin:4px 0 30px}
+  .btn.in-fin{margin:6px 0 0}
+  .words{background:var(--mist); border-radius:14px; padding:22px 16px; text-align:center; margin:4px 0 20px}
+  .words div{font-family:var(--anton); font-size:22px; line-height:32px; letter-spacing:.3px}
+  .words i{font-style:normal; color:var(--sky); padding:0 6px}
+  blockquote{margin:6px 0 24px; padding:2px 0 2px 24px; border-left:4px solid var(--sky); font-style:italic; font-size:22px; line-height:33px}
+  .lines{margin:0 0 22px}
+  .lines div{border-top:1px solid var(--filet); padding:12px 0; font-size:15.5px; line-height:24px}
+  .lines div:last-child{border-bottom:1px solid var(--filet)}
+  .lines b{color:var(--sea)}
+  .q{font-size:27px; line-height:1.1; text-align:center; margin:4px 0 24px}
+  .steps{list-style:none; padding:0; margin:6px 0 22px}
+  .steps li{display:flex; gap:18px; margin:0 0 16px}
+  .steps .n{font-family:var(--anton); font-size:33px; line-height:34px; color:var(--sky); flex:0 0 40px}
+  .steps b{display:block; font-size:17px; line-height:24px}
+  .steps span.t{display:block; color:var(--gray); font-size:15.5px; line-height:25px}
+  .fin{background:var(--mist); border-radius:16px; padding:26px 28px 28px; margin:10px 0 30px}
+  .badge{display:inline-block; background:var(--navy); color:#fff; font-size:11.5px; font-weight:700; letter-spacing:1.6px;
+    padding:6px 13px; border-radius:999px; margin-bottom:12px; line-height:16px}
+  .fin h3{font-size:30px; line-height:1.05; margin:0 0 12px}
+  .fin p{font-size:16.5px; line-height:27px}
+  .next .cols{display:flex; gap:22px; margin-top:6px}
+  .next .cols div{flex:1; font-size:15px; line-height:22px}
+  .next .cols b{display:block}
+  .next .cols span{color:var(--gray)}
+  .sign{margin:30px 0 12px; font-size:19px; line-height:26px}
+  .sign b{font-style:italic; font-size:26px; display:block; margin-top:8px}
+  .wa{font-size:15px !important; line-height:23px !important; color:var(--gray)}
+  .wa a{color:var(--wa); font-weight:700; text-decoration:underline; text-underline-offset:2px}
+  .foot{background:var(--night); color:var(--fog); padding:28px 40px 30px; font-size:13.5px; line-height:22px}
+  .foot .logo{color:#fff; font-size:21px; margin-bottom:12px}
+  .foot a{color:#D6E1EC; text-decoration:underline}
+
+  /* emplacements à remplir */
+  .ph-block{border:2px dashed var(--sea); background:#F6FAFC; border-radius:12px; padding:14px 16px; margin:0 0 22px;
+    font-size:15px; line-height:23px; color:var(--gray)}
+  .ph-block .lab, .ph .lab{font-style:normal; font-weight:700; font-size:11px; letter-spacing:1.5px; color:var(--sea); display:block; margin-bottom:4px}
+  .ph-block i{font-style:italic}
+  .ph{background:#fff; border:1.5px dashed var(--sea); border-radius:6px; padding:1px 6px; color:var(--gray); font-style:italic}
+  .chk{border-bottom:2px dotted var(--sea)}
+  .chip{display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:1px; color:#fff; background:var(--sea);
+    border-radius:4px; padding:0 5px; margin-left:4px; vertical-align:2px; line-height:16px; font-style:normal}
+  .app:not(.ph-on) .ph-only{display:none !important}
+  .app:not(.ph-on) .chk{border-bottom:0}
+
+  /* ---------- Version téléphone de l'e-mail (gabarit responsive) ---------- */
+  .app.m-phone .card{border-radius:14px}
+  .app.m-phone .em-head{margin:0 22px; padding:20px 0 16px}
+  .app.m-phone .logo{font-size:21px}
+  .app.m-phone .issue{font-size:9.5px; letter-spacing:2px}
+  .app.m-phone .em-body{padding:22px 22px 26px; font-size:16px; line-height:26px}
+  .app.m-phone .h1{font-size:31px; margin-bottom:18px}
+  .app.m-phone .author{margin-bottom:20px}
+  .app.m-phone .btn{font-size:15px; padding:14px 20px; margin-bottom:26px}
+  .app.m-phone .btn.in-fin{font-size:14.5px; padding:13px 18px; margin-bottom:0}
+  .app.m-phone .fin{padding-left:18px; padding-right:18px}
+  .app.m-phone .words div{font-size:17px; line-height:27px}
+  .app.m-phone .words i{padding:0 3px}
+  .app.m-phone blockquote{font-size:19px; line-height:29px; padding-left:18px}
+  .app.m-phone .q{font-size:23px}
+  .app.m-phone .steps li{gap:12px}
+  .app.m-phone .steps .n{font-size:28px; flex-basis:32px}
+  .app.m-phone .steps b{font-size:16px}
+  .app.m-phone .steps span.t{font-size:15px; line-height:23px}
+  .app.m-phone .fin{padding:22px 20px 24px}
+  .app.m-phone .fin h3{font-size:26px}
+  .app.m-phone .fin p{font-size:15.5px; line-height:25px}
+  .app.m-phone .next .cols{flex-direction:column; gap:12px}
+  .app.m-phone .foot{padding:24px 22px 26px; font-size:12.5px; line-height:20px}
+
+  @media (max-width:520px){
+    .tools{position:static}
+    .tools [data-group="m"], .note-device{display:none !important}
+    .app.m-phone .inbox{width:100%}
+    .app.m-phone .device{width:100%; padding:0; background:none; border-radius:0; box-shadow:none}
+    .app.m-phone .screen{height:auto; max-height:none; min-height:0; overflow:visible; border-radius:0; background:transparent}
+    .app.m-phone .mailbar{display:none}
+    .app.m-phone .mail{padding:0 0 8px}
+  }
+  @media (max-width:640px){
+    .tools h1{width:100%; text-align:center; margin:0}
+    .stage{padding-block:16px 40px}
+    .app.m-desk .em-head{margin:0 20px}
+    .app.m-desk .em-body{padding:22px 20px 26px}
+    .app.m-desk .foot{padding:24px 20px}
+    .app.m-desk .next .cols{flex-direction:column; gap:12px}
+    .app.m-desk .h1{font-size:31px}
+  }
+</style>
+</head>
+<body>
+<div class="app v-prop m-phone ph-on" id="app" data-obj="1" lang="fr">
+
+<div class="tools" role="toolbar" aria-label="Réglages de l'aperçu">
+  <h1>La Lettre ARROW n°01 · aperçu</h1>
+  <div class="seg" data-group="v">
+    <button aria-pressed="true" data-val="prop">Ma proposition</button>
+    <button aria-pressed="false" data-val="orig">Ta version actuelle</button>
+  </div>
+  <div class="seg" data-group="m">
+    <button aria-pressed="true" data-val="phone">Téléphone</button>
+    <button aria-pressed="false" data-val="desk">Ordinateur</button>
+  </div>
+  <div class="seg only-prop" data-group="obj">
+    <button aria-pressed="true" data-val="1">Objet 1</button>
+    <button aria-pressed="false" data-val="2">Objet 2</button>
+    <button aria-pressed="false" data-val="3">Objet 3</button>
+  </div>
+  <label class="check only-prop"><input type="checkbox" id="ph" checked> Montrer ce que tu dois remplir</label>
+  <div class="stats">
+    <span class="only-prop">Environ 463 mots du surtitre à la ligne WhatsApp, une fois ton passage écrit · 2 min de lecture</span>
+    <span class="only-orig">Ta version : 538 mots du surtitre à la ligne WhatsApp · 4 min de lecture annoncées</span>
+  </div>
+</div>
+
+<div class="stage">
+
+  <!-- Boîte de réception -->
+  <div class="inbox" aria-label="Aperçu dans la boîte de réception">
+    <div class="cap">Dans la boîte de réception</div>
+    <div class="row">
+      <div class="dot">A</div>
+      <div class="txt">
+        <div class="from">ARROW Conseil &amp; Formation <span>jeu.</span></div>
+        <div class="subj" id="inbox-subj">Dix semaines pour investir en vous</div>
+        <div class="pre" id="inbox-pre">Votre budget formation 2026 expire le 31 décembre. Ma première lettre, en deux minutes.</div>
+      </div>
+    </div>
+    <div class="count" id="inbox-count">Objet 34 caractères · préheader 87</div>
+  </div>
+
+  <div class="device">
+    <div class="screen" id="screen">
+      <div class="mailbar" aria-hidden="true">
+        <div class="status"><span>9:41</span><span>●●● ▮</span></div>
+        <div class="back">‹ Boîte de réception</div>
+        <div class="subj" id="bar-subj">Dix semaines pour investir en vous</div>
+        <div class="who"><span class="dot">A</span><div><b>ARROW Conseil &amp; Formation</b><br>à moi</div></div>
+      </div>
+
+      <div class="mail">
+
+<!-- ===================== PROPOSITION ===================== -->
+<article class="card only-prop" aria-label="Ma proposition">
+  <div class="em-head">
+    <span class="logo">ARROW<svg viewBox="0 0 8 14" aria-hidden="true"><path d="M0 0 L8 7 L0 14 L0 9.5 L3.2 7 L0 4.5 Z" fill="#9CD0E3"/></svg></span>
+    <span class="issue">LA LETTRE · N°01 · OCTOBRE 2026</span>
+  </div>
+  <div class="em-body">
+    <p class="eyebrow">LA RÉFLEXION DU MOIS</p>
+    <h2 class="anton h1">Il vous reste dix semaines pour investir <span class="acc">en&nbsp;vous.</span></h2>
+    <div class="author">
+      <span class="avatar photo" title="Ta photo, en noir et blanc" aria-label="Ta photo"></span>
+      <div class="name"><b>Vincent Prévot</b><span class="f">, fondateur</span><br><span class="muted">2 min de lecture</span><span class="chip ph-only">TA PHOTO</span></div>
+    </div>
+
+    <p>Au 31 décembre, la part non utilisée de votre budget formation 2026 est perdue. En quinze minutes, on vérifie ce qu'il vous reste et on monte le dossier.</p>
+    <a class="btn" href="#" onclick="return false">Audit gratuit de mon financement&nbsp;↗</a>
+
+    <p>Pourquoi en vous ? Parce que <b>derrière tout entrepreneur, il y a un individu.</b> Un individu avec ses :</p>
+    <div class="words">
+      <div>Valeurs<i>·</i>Peurs<i>·</i>Croyances<i>·</i>Envies</div>
+      <div>Ambitions<i>·</i>Projets<i>·</i>Motivations</div>
+    </div>
+    <p>Et surtout, <b>une histoire qui lui est propre.</b></p>
+    <p>Mes années dans le conseil, puis dans la formation, m'en ont convaincu : entreprendre, c'est aussi apprendre à se construire soi-même pour porter son activité dans la durée.</p>
+    <blockquote>Une entreprise peut évoluer très vite. Mais si celui ou celle qui la porte n'évolue pas avec elle, un décalage finit forcément par apparaître.</blockquote>
+    <div class="lines"><div>On peut avoir une entreprise qui fonctionne et pourtant se demander :</div></div>
+    <h3 class="anton q">« Est-ce vraiment la vie professionnelle <span class="acc">que j'ai envie de construire ? »</span></h3>
+
+    <div class="ph-block ph-only">
+      <span class="lab">TON PASSAGE, À ÉCRIRE</span>
+      <i>Deux ou trois phrases, avec tes mots, sur une personne croisée en formation ces derniers mois et qui s'est posé cette question. Sans nom. Ce qu'elle t'a dit ou ce que tu as vu, puis ce qui a bougé pour elle.</i>
+    </div>
+
+    <p>C'est pour cela que j'aime penser l'entrepreneuriat comme un chemin en six étapes :</p>
+    <ol class="steps">
+      <li><span class="n">01</span><div><b>Se connaître pour mieux entreprendre</b><span class="t">Comprendre ce qui nous motive et nous freine.</span></div></li>
+      <li><span class="n">02</span><div><b>Trouver sa place</b><span class="t">Assumer sa posture et devenir la personne capable de porter son projet.</span></div></li>
+      <li><span class="n">03</span><div><b>Donner une direction</b><span class="t">Transformer une envie en vision, puis en actions concrètes.</span></div></li>
+      <li><span class="n">04</span><div><b>Devenir visible</b><span class="t">Faire connaître son expertise avec une communication qui nous ressemble.</span></div></li>
+      <li><span class="n">05</span><div><b>Construire une réussite durable</b><span class="t">Parce que l'entrepreneur n'est pas une machine.</span></div></li>
+      <li><span class="n">06</span><div><b>Construire ce qui vient après</b><span class="t">Gérer ses finances pour que son activité serve aussi son projet de vie.</span></div></li>
+    </ol>
+    <p><b>C'est ce chemin que nous construisons dans nos formations, pour une activité qui vous ressemble et la vie qui va avec.</b></p>
+
+    <div class="fin">
+      <span class="badge">LE RÉFLEXE FINANCEMENT</span>
+      <h3 class="anton">Seul ou avec <span class="acc">une&nbsp;équipe.</span></h3>
+      <p>Vous êtes à votre compte, sans salarié : selon votre statut, l'AGEFICE, le FIF-PL ou le FAFCEA peut financer votre formation, <span class="chk" title="À garder seulement si au moins une de tes formations est éligible au CPF">et votre CPF peut compléter</span><span class="chip ph-only">À VÉRIFIER</span>.</p>
+      <p>Vous avez des salariés : leur formation passe par votre OPCO.</p>
+      <p>Dans les deux cas, c'est jusqu'à 100 % finançable, et on s'occupe du dossier. Dans l'immobilier, les modules éligibles comptent aussi pour vos heures ALUR.</p>
+      <p><b>Se former, c'est aussi investir dans la personne qui porte l'activité.</b></p>
+      <p class="ph-only">Prochaine session : <span class="ph">intitulé, dates, ville, date limite d'inscription</span>.</p>
+      <a class="btn in-fin" href="#" onclick="return false">Audit gratuit de mon financement&nbsp;↗</a>
+    </div>
+
+    <div class="next">
+      <p class="eyebrow">DANS LES PROCHAINES LETTRES</p>
+      <div class="cols">
+        <div><b>↗ Prendre la parole sans se sentir illégitime</b><span>n°02, novembre</span></div>
+        <div><b>↗ Votre cap 2027 sur une page</b><span>n°03, décembre</span></div>
+        <div><b>↗ Budget 2027 : pourquoi s'y prendre en janvier</b><span>n°04, janvier</span></div>
+      </div>
+    </div>
+
+    <div class="sign">À très vite,<b>Vincent</b></div>
+    <p class="wa">Une question ? Répondez simplement à cet e-mail, ou <a href="#" onclick="return false">écrivez-moi sur WhatsApp&nbsp;↗</a></p>
+  </div>
+  <div class="foot">
+    <div class="logo">ARROW<svg viewBox="0 0 8 14" aria-hidden="true"><path d="M0 0 L8 7 L0 14 L0 9.5 L3.2 7 L0 4.5 Z" fill="#9CD0E3"/></svg></div>
+    <div>ARROW Conseil &amp; Formation · 1 Place Delorme, 44000 Nantes · 06 13 06 56 08</div>
+    <div>Organisme certifié Qualiopi au titre des actions de formation.</div>
+    <div><a href="#" onclick="return false">LinkedIn</a> · <a href="#" onclick="return false">Instagram</a> · <a href="#" onclick="return false">Facebook</a> · <a href="#" onclick="return false">Version en ligne</a> · <a href="#" onclick="return false">Se désinscrire</a></div>
+  </div>
+</article>
+
+<!-- ===================== VERSION ACTUELLE ===================== -->
+<article class="card only-orig" aria-label="Ta version actuelle">
+  <div class="em-head">
+    <span class="logo">ARROW<svg viewBox="0 0 8 14" aria-hidden="true"><path d="M0 0 L8 7 L0 14 L0 9.5 L3.2 7 L0 4.5 Z" fill="#9CD0E3"/></svg></span>
+    <span class="issue">LA LETTRE · N°01 · OCTOBRE 2026</span>
+  </div>
+  <div class="em-body">
+    <p class="eyebrow">LA RÉFLEXION DU MOIS</p>
+    <h2 class="anton h1">Derrière tout entrepreneur, il y a <span class="acc">un&nbsp;individu.</span></h2>
+    <div class="author">
+      <span class="avatar">VP</span>
+      <div class="name"><b>Vincent Prévot</b><span class="f">, fondateur</span><br><span class="muted">4 min de lecture</span></div>
+    </div>
+    <p>On parle beaucoup de stratégie, de chiffre d'affaires, de développement commercial, de management, de communication ou encore d'IA.</p>
+    <p>Mais on oublie parfois l'essentiel.</p>
+    <p>Derrière tout entrepreneur, il y a un individu. Un individu avec ses :</p>
+    <div class="words">
+      <div>Valeurs<i>·</i>Peurs<i>·</i>Croyances<i>·</i>Envies</div>
+      <div>Ambitions<i>·</i>Projets<i>·</i>Motivations</div>
+    </div>
+    <p>Et surtout, <b>une histoire qui lui est propre.</b></p>
+    <p>C'est une conviction qui s'est imposée à moi au fil de mes années dans le conseil, puis dans la formation : entreprendre ne consiste pas seulement à développer une activité. C'est aussi apprendre à se construire soi-même pour être capable de porter cette activité dans la durée.</p>
+    <blockquote>Une entreprise peut évoluer très vite. Mais si celui ou celle qui la porte n'évolue pas avec elle, un décalage finit forcément par apparaître.</blockquote>
+    <div class="lines">
+      <div>On peut avoir une excellente stratégie <b>et manquer de clarté.</b></div>
+      <div>On peut avoir des objectifs ambitieux <b>et ne jamais trouver le temps de les atteindre.</b></div>
+      <div>On peut avoir beaucoup d'expertise <b>et ne pas oser prendre la parole.</b></div>
+      <div>On peut vouloir développer sa visibilité <b>et se sentir illégitime.</b></div>
+      <div>On peut avoir une entreprise qui fonctionne et pourtant se demander :</div>
+    </div>
+    <h3 class="anton q">« Est-ce vraiment la vie professionnelle <span class="acc">que j'ai envie de construire ? »</span></h3>
+    <p>C'est pour cela que j'aime penser l'entrepreneuriat comme un chemin qui dépasse largement le développement de l'activité. Un chemin en six étapes :</p>
+    <ol class="steps">
+      <li><span class="n">01</span><div><b>Se connaître pour mieux entreprendre</b><span class="t">Comprendre ce qui nous motive, ce qui nous freine, nos valeurs, notre rapport au risque, à la réussite, au regard des autres.</span></div></li>
+      <li><span class="n">02</span><div><b>Trouver sa place</b><span class="t">Assumer sa posture, développer son leadership, prendre la parole, faire des choix et accepter progressivement de devenir la personne capable de porter son projet.</span></div></li>
+      <li><span class="n">03</span><div><b>Donner une direction</b><span class="t">Transformer une envie en vision, puis une vision en stratégie, en objectifs et en actions concrètes.</span></div></li>
+      <li><span class="n">04</span><div><b>Devenir visible</b><span class="t">Faire connaître son expertise, développer sa présence digitale et construire une communication qui nous ressemble.</span></div></li>
+      <li><span class="n">05</span><div><b>Construire une réussite durable</b><span class="t">Parce que l'entrepreneur n'est pas une machine : son énergie, son équilibre, son organisation et sa vie personnelle font aussi partie de l'équation.</span></div></li>
+      <li><span class="n">06</span><div><b>Construire ce qui vient après</b><span class="t">Gérer ses finances, développer son patrimoine, anticiper l'avenir et faire en sorte que les fruits de son activité servent aussi le projet de vie de l'entrepreneur.</span></div></li>
+    </ol>
+    <p>C'est cette vision de l'entrepreneuriat que nous construisons progressivement à travers nos formations.</p>
+    <p style="color:var(--gray);margin-bottom:4px">Pas une recette miracle.</p>
+    <p style="color:var(--gray)">Pas une méthode unique.</p>
+    <p><b>Mais des outils, des réflexions et des expériences pour aider chaque entrepreneur à construire une activité qui lui ressemble — et une vie qui va avec.</b></p>
+
+    <div class="fin">
+      <span class="badge">LE RÉFLEXE FINANCEMENT</span>
+      <h3 class="anton">Il reste <span class="acc">trois&nbsp;mois.</span></h3>
+      <p>Dernier trimestre : c'est le bon moment pour regarder votre budget formation 2026. S'il vous reste un budget disponible, c'est maintenant qu'il faut choisir les formations à suivre — ou à proposer à vos équipes — avant la fin de l'année.</p>
+      <p>Et ne pensez pas uniquement « technique » : leadership, stratégie, management, communication digitale, IA, posture entrepreneuriale… <b>Se former, c'est aussi investir dans la personne qui porte l'activité.</b></p>
+      <a class="btn in-fin" href="#" onclick="return false">Audit gratuit de mon financement&nbsp;↗</a>
+    </div>
+
+    <div class="next">
+      <p class="eyebrow">DANS LES PROCHAINES LETTRES</p>
+      <div class="cols">
+        <div><b>↗ Une réflexion</b><span>sur l'entrepreneuriat</span></div>
+        <div><b>↗ Un outil concret</b><span>à mettre en pratique</span></div>
+        <div><b>↗ Un éclairage</b><span>sur le financement</span></div>
+      </div>
+    </div>
+
+    <div class="sign">À très vite,<b>Vincent</b></div>
+    <p class="wa">Une question ? Répondez simplement à cet e-mail, ou <a href="#" onclick="return false">écrivez-moi sur WhatsApp&nbsp;↗</a></p>
+  </div>
+  <div class="foot">
+    <div class="logo">ARROW<svg viewBox="0 0 8 14" aria-hidden="true"><path d="M0 0 L8 7 L0 14 L0 9.5 L3.2 7 L0 4.5 Z" fill="#9CD0E3"/></svg></div>
+    <div>ARROW Conseil &amp; Formation · 1 Place Delorme, 44000 Nantes · 06 13 06 56 08</div>
+    <div>Organisme certifié Qualiopi au titre des actions de formation.</div>
+    <div><a href="#" onclick="return false">LinkedIn</a> · <a href="#" onclick="return false">Instagram</a> · <a href="#" onclick="return false">Facebook</a> · <a href="#" onclick="return false">Version en ligne</a> · <a href="#" onclick="return false">Se désinscrire</a></div>
+  </div>
+</article>
+
+      </div>
+    </div>
+  </div>
+  <p class="note-device">Écran de téléphone indicatif : ce que tu vois avant de faire défiler correspond à peu près au premier écran dans l'app Mail d'un iPhone. Le nom d'expéditeur est un exemple, tu gardes celui réglé dans ton Brevo. Les boutons et les liens ne mènent nulle part dans cet aperçu.</p>
+</div>
+</div>
+
+<script>
+(function(){
+  var body = document.getElementById('app');
+  var OBJ = {
+    "1": ["Dix semaines pour investir en vous", "Votre budget formation 2026 expire le 31 décembre. Ma première lettre, en deux minutes."],
+    "2": ["Votre budget formation expire le 31/12", "En quinze minutes, on vérifie ce qu'il vous reste et on monte le dossier."],
+    "3": ["Il vous reste un budget formation 2026 ?", "Il expire le 31 décembre, et on peut monter le dossier à votre place."]
+  };
+  var ORIG = ["Est-ce la vie pro que vous voulez construire ?", "Ton préheader actuel n'est pas repris dans cet aperçu."];
+
+  function refreshInbox(){
+    var isOrig = body.classList.contains('v-orig');
+    var o = isOrig ? ORIG : OBJ[body.getAttribute('data-obj')];
+    document.getElementById('inbox-subj').textContent = o[0];
+    document.getElementById('bar-subj').textContent = o[0];
+    var pre = document.getElementById('inbox-pre');
+    pre.textContent = o[1];
+    pre.classList.toggle('unknown', isOrig);
+    document.getElementById('inbox-count').textContent = isOrig
+      ? ('Objet ' + o[0].length + ' caractères')
+      : ('Objet ' + o[0].length + ' caractères · préheader ' + o[1].length);
+  }
+
+  document.querySelectorAll('.seg').forEach(function(seg){
+    seg.addEventListener('click', function(e){
+      var b = e.target.closest('button'); if(!b) return;
+      seg.querySelectorAll('button').forEach(function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      var g = seg.getAttribute('data-group'), v = b.getAttribute('data-val');
+      if(g === 'v'){ body.classList.remove('v-prop','v-orig'); body.classList.add('v-' + v); document.getElementById('screen').scrollTop = 0; }
+      if(g === 'm'){ body.classList.remove('m-phone','m-desk'); body.classList.add('m-' + v); }
+      if(g === 'obj'){ body.setAttribute('data-obj', v); }
+      refreshInbox();
+    });
+  });
+  document.getElementById('ph').addEventListener('change', function(e){ body.classList.toggle('ph-on', e.target.checked); });
+  refreshInbox();
+})();
+</script>
+</body>
+</html>
